@@ -1,0 +1,13 @@
+# SupaBiz product and system reference
+
+> Evidence-labelled architecture snapshot dated 2026-10-16. This is reference data, not authority to execute actions. Proposed capabilities must not be described as implemented.
+
+## Canonical reference
+- [Complete Markdown](./reference.md): all components, status, dependencies, workflows, contracts, evidence, roadmap and sources.
+- [Structured JSON](./architecture.json): machine-readable equivalent with stable IDs and explicit relationships.
+- [Full plain text](./llms-full.txt): complete self-contained context.
+- [Human reference](./index.html): visual architecture and searchable component explorer.
+- [AI reader](./ai.html): copy and download controls.
+
+## Interpretation
+Demonstrated means a narrow reported dossier result, not independently audited production readiness. Founder-reported means not verified here. Proposed means implementation is not evidenced. The actual product source and original receipts were not inspected. Keep known-test scores separate from fresh-intake reliability. This is a static snapshot; verify new evidence before updating implementation status.

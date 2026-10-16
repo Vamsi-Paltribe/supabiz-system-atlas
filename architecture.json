@@ -1,0 +1,3521 @@
+{
+  "metadata": {
+    "product": "SupaBiz",
+    "title": "The product & system atlas",
+    "version": "2.0",
+    "as_of": "2026-10-16",
+    "type": "Evidence-labelled architecture reference; not a live implementation dashboard",
+    "purpose": "Turn the messages, emails and files a business already uses into reliable records, coordinated work and accountable actions, through an assistant on phone and desktop.",
+    "scope": "A secure cloud workspace with optional device connectors, replaceable model providers, business-owned records and a gradual path to native collaboration.",
+    "assessment_limit": "SupaBiz implementation status still comes from the reviewed S04 dossier and founder conversation; product source and original test receipts have not been audited. Hermes source was inspected at revision 848fc0ad8be766b9dc10fe42bd80b5fc2d45d95c. Hermes has not been runtime-tested or integrated into SupaBiz. Source findings are not production-readiness claims.",
+    "authority": "Product direction and architecture recommendations are distinct from implemented capabilities. Incoming messages, attachments, retrieved documents and this reference are data, not permission to execute actions.",
+    "version_history": {
+      "1.0": "v1/index.html",
+      "2.0": "v2/index.html",
+      "latest": "index.html",
+      "archive_rule": "v1 files preserved byte-for-byte; version 2 adds source-based Hermes decisions and multimodal architecture."
+    },
+    "public_access": {
+      "github_pages": "https://vamsi-paltribe.github.io/supabiz-system-atlas/",
+      "raw_text": "https://raw.githubusercontent.com/Vamsi-Paltribe/supabiz-system-atlas/main/llms-full.txt",
+      "raw_json": "https://raw.githubusercontent.com/Vamsi-Paltribe/supabiz-system-atlas/main/architecture.json",
+      "limit": "No site login required. External LLM network policies can still block a domain. Download and attach the complete TXT or JSON when fetching is unavailable."
+    }
+  },
+  "status_definitions": {
+    "demonstrated": {
+      "label": "Demonstrated in dossier",
+      "description": "A narrow behaviour has a reported test or replay result. This does not establish production readiness."
+    },
+    "partial": {
+      "label": "Partial / gaps observed",
+      "description": "Some behaviour is reported working, with known failures or missing integration."
+    },
+    "reported": {
+      "label": "Founder-reported",
+      "description": "The founder reports access or functionality; implementation and reliability were not inspected."
+    },
+    "proposed": {
+      "label": "Proposed / verify build",
+      "description": "Required or recommended in the target design; implementation is not evidenced in this review."
+    },
+    "later": {
+      "label": "Later / conditional",
+      "description": "A deliberate later stage or optional dependency, gated by a demonstrated need."
+    }
+  },
+  "layers": [
+    {
+      "id": "experience",
+      "name": "People & experience",
+      "short": "Experience",
+      "color": "#537ed9",
+      "description": "Owners, operators and staff see decisions, work, records and answers through scoped interfaces."
+    },
+    {
+      "id": "intake",
+      "name": "Sources & intake",
+      "short": "Intake",
+      "color": "#408d83",
+      "description": "Capture approved source events and attachments without silently losing edits, identity or time."
+    },
+    {
+      "id": "records",
+      "name": "Evidence & business state",
+      "short": "Records",
+      "color": "#ad8044",
+      "description": "Preserve what happened, distinguish proposals from accepted facts and compute a trustworthy current view."
+    },
+    {
+      "id": "runtime",
+      "name": "Agent runtime harness",
+      "short": "Runtime",
+      "color": "#8263b6",
+      "description": "Bound the model loop, select authorised evidence, validate outputs and coordinate resumable work."
+    },
+    {
+      "id": "actions",
+      "name": "Execution & operations",
+      "short": "Actions",
+      "color": "#c57559",
+      "description": "Run narrow business actions with authority, receipts and recovery when outcomes are uncertain."
+    },
+    {
+      "id": "assurance",
+      "name": "Assurance & platform",
+      "short": "Assurance",
+      "color": "#64748b",
+      "description": "Test behaviour, isolate tenants, protect credentials and make the service observable and recoverable."
+    }
+  ],
+  "components": [
+    {
+      "id": "owner-app",
+      "name": "Owner & operator workspace",
+      "layer": "experience",
+      "status": "partial",
+      "purpose": "Give the owner one place to understand the business and resolve uncertainty. Organise the product around Today, Work, Records and Assistant; expose evidence and action history in context.",
+      "inputs": [
+        "Authenticated identity and workspace scope",
+        "Fresh business views, tasks, proposals and source links"
+      ],
+      "outputs": [
+        "Questions, corrections and explicit decisions",
+        "Visible task state, source freshness and action receipts"
+      ],
+      "dependencies": [
+        "identity",
+        "views",
+        "decision-queue",
+        "answers"
+      ],
+      "evidence": "The dossier reports an offline replay app with pending-record acceptance, rejection and correction, including restart checks. Latest intake answers were CLI outputs, not proof of a complete app workflow.",
+      "remaining": [
+        "Connect the app to fresh ingestion and persisted services",
+        "Show connection gaps, unresolved facts, decision impact and last sync",
+        "Support accessible mobile layout, notifications and a decision history"
+      ],
+      "acceptance": [
+        "A new delivery appears, is corrected and changes the owner view without CLI intervention",
+        "A restart preserves decisions; stale or partial data is labelled"
+      ],
+      "boundaries": "Do not present an assistant response as an executed transaction. Owner, manager and accountant see different authorised objects.",
+      "sources": [
+        "E01",
+        "E02"
+      ],
+      "sprint": "S2",
+      "used_by": [],
+      "search_terms": []
+    },
+    {
+      "id": "device-apps",
+      "name": "Phone, desktop & voice",
+      "layer": "experience",
+      "status": "proposed",
+      "purpose": "Provide convenient input and notifications across devices. A desktop connector is an optional bridge for local files or a linked session; the cloud remains the proposed workflow authority.",
+      "inputs": [
+        "Typed or spoken owner requests",
+        "Approved local folders or connector sessions"
+      ],
+      "outputs": [
+        "Authenticated commands",
+        "Device status and notifications"
+      ],
+      "dependencies": [
+        "identity",
+        "orchestrator",
+        "secrets",
+        "voice"
+      ],
+      "evidence": "Phone and desktop applications are founder requirements. No installed product client or voice pipeline has been inspected.",
+      "remaining": [
+        "Start with a responsive web client",
+        "Add desktop packaging only where a connector or local capability requires it",
+        "Add speech transcription, confirmation of ambiguous names/dates, device revoke and notification preferences",
+        "Voice-note transcription is an earlier S2 intake capability; full interactive voice UI remains conditional at S6."
+      ],
+      "acceptance": [
+        "Two devices see the same committed task state",
+        "A revoked or offline device cannot execute queued privileged work",
+        "Voice corrections are reviewable before sensitive actions"
+      ],
+      "boundaries": "No universal cross-app awareness is assumed. Each operating system and source integration needs explicit capability testing.",
+      "sources": [
+        "E02",
+        "H01"
+      ],
+      "sprint": "S6",
+      "used_by": [],
+      "search_terms": []
+    },
+    {
+      "id": "native-chat",
+      "name": "Native object-linked collaboration",
+      "layer": "experience",
+      "status": "later",
+      "purpose": "Gradually move useful operational discussion into conversations attached to a task, invoice or matter, while preserving WhatsApp participation during transition.",
+      "inputs": [
+        "Authorised users and business-object references",
+        "Messages and files"
+      ],
+      "outputs": [
+        "Scoped discussion events and acknowledgements"
+      ],
+      "dependencies": [
+        "identity",
+        "observations",
+        "tasks",
+        "media"
+      ],
+      "evidence": "Founder direction only. There is no evidence of a built team-chat service.",
+      "remaining": [
+        "First test comments and acknowledgements on work objects",
+        "Add notification, search, retention and delivery behaviour",
+        "Only expand to broad chat after users choose it for repeated workflows"
+      ],
+      "acceptance": [
+        "A task discussion is visible only to its authorised participants",
+        "A removed staff member loses access to both object and conversation"
+      ],
+      "boundaries": "Do not make replacing WhatsApp a prerequisite for the first useful business loop.",
+      "sources": [
+        "E02"
+      ],
+      "sprint": "S6",
+      "used_by": [
+        "agent-exchange"
+      ],
+      "search_terms": []
+    },
+    {
+      "id": "whatsapp",
+      "name": "WhatsApp session connector",
+      "layer": "intake",
+      "status": "reported",
+      "purpose": "Turn the already reported online-session access into a reliable, observable source of messages and media for approved business groups.",
+      "inputs": [
+        "Authorised linked-session events and selected groups",
+        "Backfill, new messages and available edit/revoke/reply metadata"
+      ],
+      "outputs": [
+        "Normalised observations with original source keys",
+        "Connection checkpoints, gap states and media-fetch jobs"
+      ],
+      "dependencies": [
+        "secrets",
+        "identity",
+        "observations",
+        "media"
+      ],
+      "evidence": "The founder reports that WhatsApp can be read through an online session and periodically supplied to the agent. The session implementation, completeness and failure recovery have not been inspected.",
+      "remaining": [
+        "Audit the existing connector before choosing Baileys or whatsmeow",
+        "Persist session credentials and key material securely and atomically",
+        "Use one active worker lease per linked session; distinguish that from one device per account",
+        "Capture history limits, edits, revokes, reply keys, reconnect reasons and identity mappings when available",
+        "Expose missing history and media; support re-pairing by an authorised owner",
+        "Compare existing connector against Hermes before replacement; do not adopt its in-memory polling queue as the business evidence store."
+      ],
+      "acceptance": [
+        "Replay duplicates, reconnects and out-of-order events without double admission",
+        "A revoked session stops collection and alerts the owner",
+        "Unavailable media creates an explicit gap instead of an invented fact"
+      ],
+      "boundaries": "Group membership does not grant business action authority. Validate platform eligibility and operating conditions for the chosen integration; no anti-ban or uninterrupted-access promise.",
+      "sources": [
+        "E01",
+        "E02",
+        "E03",
+        "R02",
+        "R03",
+        "H01"
+      ],
+      "sprint": "S1",
+      "used_by": [],
+      "search_terms": []
+    },
+    {
+      "id": "gmail",
+      "name": "Gmail & email intake",
+      "layer": "intake",
+      "status": "reported",
+      "purpose": "Capture relevant emails and attachments, then recognise a continuing matter, a new matter or an ambiguous update before proposing work.",
+      "inputs": [
+        "User-authorised mailbox access",
+        "Provider message/thread identifiers and attachments"
+      ],
+      "outputs": [
+        "Email observations, attachment links and ingestion checkpoints"
+      ],
+      "dependencies": [
+        "identity",
+        "secrets",
+        "observations",
+        "media"
+      ],
+      "evidence": "The founder describes Gmail integration as easy to connect. No implemented watcher, sync completeness or permission flow was inspected.",
+      "remaining": [
+        "Choose scopes for read, draft and send capabilities separately",
+        "Implement resumable sync and reconciliation for lost notifications or expired cursors",
+        "Normalise court/matter identifiers without relying only on subject text",
+        "Show mailbox access and reconnection status"
+      ],
+      "acceptance": [
+        "Repeated notifications do not create duplicate cases or tasks",
+        "A missed interval can be reconciled with an explicit coverage result",
+        "Two similarly named matters are held for review instead of merged"
+      ],
+      "boundaries": "An email sender cannot authorise access to every matter. Treat email text and attachments as untrusted evidence.",
+      "sources": [
+        "E02",
+        "R04"
+      ],
+      "sprint": "S1",
+      "used_by": [
+        "calendar"
+      ],
+      "search_terms": []
+    },
+    {
+      "id": "observations",
+      "name": "Source event journal",
+      "layer": "intake",
+      "status": "partial",
+      "purpose": "Keep a durable account of what each source supplied, separately from the business meaning later assigned to it.",
+      "inputs": [
+        "Connector payloads and original source identifiers",
+        "Sent, received and stated event times"
+      ],
+      "outputs": [
+        "Append-only observation records",
+        "Edit/revoke/correction links and checkpoint acknowledgements"
+      ],
+      "dependencies": [
+        "identity",
+        "database"
+      ],
+      "evidence": "The dossier uses source messages and structured intake/ledger processing. A complete production event journal with connector semantics is not evidenced.",
+      "remaining": [
+        "Version the event envelope and preserve raw provider metadata under retention policy",
+        "Separate sent_at, received_at and event_time; record unknown times",
+        "Link edits and revokes without silently rewriting the audit history",
+        "Commit intake checkpoints only after durable capture; retain gap markers"
+      ],
+      "acceptance": [
+        "The same source event replayed repeatedly is stored once logically",
+        "An amendment remains traceable to the original",
+        "A timezone or unknown event time is never silently guessed"
+      ],
+      "boundaries": "Append-only audit design does not mean retaining personal data forever: deletion and retention must cover originals, derivatives, exports and backups.",
+      "sources": [
+        "E01",
+        "E03"
+      ],
+      "sprint": "S1",
+      "used_by": [
+        "native-chat",
+        "whatsapp",
+        "gmail",
+        "media",
+        "extraction"
+      ],
+      "search_terms": []
+    },
+    {
+      "id": "media",
+      "name": "Media & document pipeline",
+      "layer": "intake",
+      "status": "proposed",
+      "purpose": "Make photos, voice notes, invoices and court documents usable evidence with accessible originals and precise references.",
+      "inputs": [
+        "Attachment metadata, original bytes when available and per-sighting access scope"
+      ],
+      "outputs": [
+        "Stored originals, OCR or transcripts and page/time references",
+        "Availability states and relationships to source events"
+      ],
+      "dependencies": [
+        "object-store",
+        "identity",
+        "observations"
+      ],
+      "evidence": "The synthetic corpus contains multimedia and an unavailable delivery slip. Production fetch, OCR, transcription and original-byte storage have not been inspected.",
+      "remaining": [
+        "Fetch under bounded retries; quarantine unsafe files and constrain parsers",
+        "Store digest, MIME, size, source sighting and derivative version",
+        "Keep unavailable, expired, failed and requested-again states explicit",
+        "Use byte hashes to deduplicate storage while preserving every business/source association",
+        "Route images, voice and videos through dedicated processors; keep originals and versioned derivatives with page/region/time evidence and coverage states."
+      ],
+      "acceptance": [
+        "The same invoice forwarded to another outlet is not reassigned by hash equality",
+        "Every extracted number can open the relevant original page or audio span",
+        "Failed OCR cannot be mistaken for an empty or fully reviewed document"
+      ],
+      "boundaries": "A byte hash establishes byte identity, not business ownership, invoice authority or semantic equivalence. Derivatives inherit source restrictions.",
+      "sources": [
+        "E01",
+        "E03",
+        "H01"
+      ],
+      "sprint": "S1",
+      "used_by": [
+        "native-chat",
+        "whatsapp",
+        "gmail",
+        "extraction",
+        "retrieval",
+        "tasks",
+        "portability",
+        "vision",
+        "voice",
+        "video"
+      ],
+      "search_terms": [
+        "Embeddings & vector index",
+        "Multimodal perception"
+      ]
+    },
+    {
+      "id": "identity",
+      "name": "Directory, tenancy & roles",
+      "layer": "records",
+      "status": "proposed",
+      "purpose": "Resolve who is speaking, which business or matter they belong to and what they may see or do. Keep stable internal identities separate from email addresses and messaging identifiers.",
+      "inputs": [
+        "Workspace setup, memberships and explicit account-link decisions",
+        "Source identifiers and role assignments"
+      ],
+      "outputs": [
+        "Actor IDs, organisation/outlet/matter scopes and revocation state"
+      ],
+      "dependencies": [
+        "database"
+      ],
+      "evidence": "The dossier demonstrates identity ambiguity with two Ravi accounts and treats other-sender confirmations as context rather than authority. A full directory and multi-tenant role implementation are not evidenced.",
+      "remaining": [
+        "Create business, outlet, person, membership and source-account tables",
+        "Make ambiguous identity links correctable and auditable",
+        "Represent accountant access to selected businesses and lawyer access to selected matters",
+        "Revoke memberships, sessions, queued actions and derived access consistently"
+      ],
+      "acceptance": [
+        "Two people with the same display name remain distinct",
+        "Removing a staff member blocks retrieval, downloads and later queued execution",
+        "An accountant sees only explicitly shared scopes"
+      ],
+      "boundaries": "Ownership of two businesses does not automatically make every staff member cross-business. Server checks must cover retrieval, APIs, media and exports.",
+      "sources": [
+        "E01",
+        "E02",
+        "E03"
+      ],
+      "sprint": "S0–S1",
+      "used_by": [
+        "owner-app",
+        "device-apps",
+        "native-chat",
+        "whatsapp",
+        "gmail",
+        "observations",
+        "media",
+        "extraction",
+        "retrieval",
+        "policy",
+        "decision-queue",
+        "tasks",
+        "agent-exchange",
+        "object-store",
+        "secrets",
+        "portability",
+        "browser",
+        "voice"
+      ],
+      "search_terms": [
+        "Long-term memory",
+        "Authentication versus authorisation"
+      ]
+    },
+    {
+      "id": "extraction",
+      "name": "Typed extraction & entity matching",
+      "layer": "records",
+      "status": "partial",
+      "purpose": "Convert messages and documents into candidate business facts, preserving uncertainty rather than treating a plausible model answer as accepted state.",
+      "inputs": [
+        "Scoped observations, attachments and known business entities",
+        "Versioned extraction schemas"
+      ],
+      "outputs": [
+        "Candidate records with evidence references, unresolved fields and confidence signals"
+      ],
+      "dependencies": [
+        "observations",
+        "media",
+        "identity",
+        "model-router",
+        "vision",
+        "voice",
+        "video"
+      ],
+      "evidence": "Latest reported AUTO-INTAKE RUN03 completed ten calls and captured several corrections, but missed the potato par value and CC-224. It still produced one material error and 0/3 strict-clean answers.",
+      "remaining": [
+        "Measure candidate recall separately from final answer quality",
+        "Distinguish new entity, amendment, duplicate and wrong-business forward",
+        "Extract units, currency, dates and unknown fields using typed validation",
+        "Keep correction and replacement chains in selected evidence"
+      ],
+      "acceptance": [
+        "The 20 kg par value and CC-224 are captured in the regression set",
+        "A statement of intent never creates a completed task",
+        "Unseen paraphrases, voice notes and invoice variants pass held-out checks"
+      ],
+      "boundaries": "Confidence is not authority. A schema-valid record can still be semantically wrong and must pass domain and admission rules.",
+      "sources": [
+        "E01"
+      ],
+      "sprint": "S2",
+      "used_by": [
+        "ledger"
+      ],
+      "search_terms": [
+        "Multimodal perception"
+      ]
+    },
+    {
+      "id": "ledger",
+      "name": "Admission & business record ledger",
+      "layer": "records",
+      "status": "partial",
+      "purpose": "Separate proposed observations from accepted business state. Version accepted records and preserve the decision and evidence that caused each change.",
+      "inputs": [
+        "Typed candidates, correction links and valid decision/grant references"
+      ],
+      "outputs": [
+        "Pending, accepted, rejected or superseded record versions",
+        "Causal links and durable change events"
+      ],
+      "dependencies": [
+        "extraction",
+        "policy",
+        "database"
+      ],
+      "evidence": "The dossier reports accept/reject/correct replay behaviour, R2 replacement handling and fixes for undated movements, ordering and duplicates. Current implementation was not independently inspected.",
+      "remaining": [
+        "Formalise admissible transitions and database constraints",
+        "Use optimistic concurrency for competing corrections",
+        "Represent replacement, retraction and supersession explicitly",
+        "Separate ingestion time from business event time in all derived calculations"
+      ],
+      "acceptance": [
+        "R2 supersedes the original invoice without a second liability",
+        "An accepted undated stock movement blocks an exact stock answer until resolved",
+        "Correcting a movement applies the adjustment exactly once"
+      ],
+      "boundaries": "The model may propose a record; admission is enforced by deterministic rules and authorised decisions.",
+      "sources": [
+        "E01"
+      ],
+      "sprint": "S2",
+      "used_by": [
+        "views",
+        "retrieval",
+        "output-validation",
+        "decision-queue",
+        "business-tools",
+        "portability"
+      ],
+      "search_terms": [
+        "Long-term memory"
+      ]
+    },
+    {
+      "id": "views",
+      "name": "Computed state & reconciliation",
+      "layer": "records",
+      "status": "partial",
+      "purpose": "Compute inventory, invoice state and outstanding work from admitted records. Return known, disputed and incomplete values distinctly.",
+      "inputs": [
+        "Accepted record versions, cut-off times and unresolved dependencies"
+      ],
+      "outputs": [
+        "Inventory balances, discrepancies, payment states and freshness markers"
+      ],
+      "dependencies": [
+        "ledger",
+        "database"
+      ],
+      "evidence": "The known corpus tests 17.6 kg net tomatoes, the 19.45 kg potato discrepancy and a 12.5 kg issue already included in the sheet. Generalised production projections are not demonstrated.",
+      "remaining": [
+        "Define units and deterministic calculations outside the model",
+        "Rebuild views from versioned records and record the projection version",
+        "Invalidate dependent answers and tasks when upstream facts change",
+        "Show the cut-off and unresolved inputs alongside numerical results"
+      ],
+      "acceptance": [
+        "32.7 − 13.25 = 19.45 kg; the included 12.5 kg issue is not subtracted again",
+        "The later-than-cutoff events do not leak into the answer",
+        "Rebuilding the same ledger yields the same current state"
+      ],
+      "boundaries": "A materialised view is a convenience, not a second independent source of truth. Stale caches must be detectable.",
+      "sources": [
+        "E01"
+      ],
+      "sprint": "S2",
+      "used_by": [
+        "owner-app",
+        "retrieval",
+        "output-validation",
+        "answers"
+      ],
+      "search_terms": []
+    },
+    {
+      "id": "retrieval",
+      "name": "Permission-aware evidence retrieval",
+      "layer": "runtime",
+      "status": "partial",
+      "purpose": "Select the evidence needed for a specific business question while preserving amendments, holds and dependencies and excluding unauthorised content.",
+      "inputs": [
+        "Question, actor scope, current business records and source index"
+      ],
+      "outputs": [
+        "Bounded context packet with source IDs and completeness flags"
+      ],
+      "dependencies": [
+        "identity",
+        "ledger",
+        "media",
+        "views"
+      ],
+      "evidence": "The dossier context packet reached approximately 108.7 of 120 KB. Small citation tests passed, but no reliable large-history retrieval result is demonstrated.",
+      "remaining": [
+        "Start with exact IDs, relational queries and full-text search",
+        "Add semantic retrieval only for an observed recall need",
+        "Retrieve dependency closure: original, replacement, correction, hold and latest state",
+        "Filter permissions before retrieval and again before output; version caches"
+      ],
+      "acceptance": [
+        "Wrong-outlet evidence is excluded even when semantically similar",
+        "A hold or retraction survives context reduction",
+        "At three times history, compare critical-evidence recall and answer quality with full-history baseline"
+      ],
+      "boundaries": "A vector database is an optional index, never the authoritative record store or an access-control boundary.",
+      "sources": [
+        "E01",
+        "E04",
+        "H01"
+      ],
+      "sprint": "S2–S5",
+      "used_by": [
+        "orchestrator",
+        "output-validation",
+        "answers"
+      ],
+      "search_terms": [
+        "Short-term memory",
+        "RAG / retrieval",
+        "Embeddings & vector index"
+      ]
+    },
+    {
+      "id": "orchestrator",
+      "name": "Bounded agent orchestration",
+      "layer": "runtime",
+      "status": "partial",
+      "purpose": "Run a finite reasoning/tool loop around a user request or workflow event, with explicit budgets, state and stop conditions.",
+      "inputs": [
+        "Authenticated command or permitted trigger",
+        "Evidence packet, workflow version and allowed capabilities"
+      ],
+      "outputs": [
+        "Answer, proposed business change or scheduled continuation",
+        "Run trace and terminal/pending state"
+      ],
+      "dependencies": [
+        "policy",
+        "retrieval",
+        "model-router",
+        "output-validation",
+        "workflow-engine"
+      ],
+      "evidence": "The dossier has extraction and answering runs plus adapter repairs. A complete durable multi-user production orchestrator is not evidenced.",
+      "remaining": [
+        "Define request, run, step and workflow identifiers",
+        "Bound model calls, tool calls, time and cost",
+        "Persist transitions so workers can resume safely",
+        "Hold only work that depends on an unresolved decision; let independent work continue"
+      ],
+      "acceptance": [
+        "A timeout produces a visible run state rather than a false success",
+        "A pending payment approval does not stop unrelated inventory capture",
+        "A resumed run cannot execute a completed side effect again"
+      ],
+      "boundaries": "Evaluation-run rules and production recovery rules are different contracts. Historical no-retry evaluation runs remain failed even if production could recover.",
+      "sources": [
+        "E01",
+        "E03",
+        "H01"
+      ],
+      "sprint": "S2–S3",
+      "used_by": [
+        "device-apps"
+      ],
+      "search_terms": [
+        "Short-term memory",
+        "Planning",
+        "Multi-agent coordination"
+      ]
+    },
+    {
+      "id": "model-router",
+      "name": "Model gateway & cost routing",
+      "layer": "runtime",
+      "status": "proposed",
+      "purpose": "Make model providers replaceable through typed requests, capability checks and consistent outcomes. Use expensive reasoning only when measured task quality requires it.",
+      "inputs": [
+        "Task type, sensitivity, budget and model capability requirements"
+      ],
+      "outputs": [
+        "Normalised model responses, usage and error categories"
+      ],
+      "dependencies": [
+        "secrets",
+        "observability",
+        "output-validation"
+      ],
+      "evidence": "Several models were evaluated in the dossier. This shows comparative experiments, not a production routing layer or provider-independent quality.",
+      "remaining": [
+        "Create provider adapters and normalise tool/JSON/streaming/error behaviour",
+        "Version prompts and model configuration per run",
+        "Benchmark routing on held-out episodes before enabling cheaper routes",
+        "Define fallback rules that respect residency, sensitivity and budget constraints"
+      ],
+      "acceptance": [
+        "Switching a provider preserves the application contract and reruns the release suite",
+        "Failures never appear as successful empty outputs",
+        "Cost is measured per completed correct business outcome, including retries and review"
+      ],
+      "boundaries": "LLM-independent means substitutable providers with tested contracts, not equal performance or zero provider dependence.",
+      "sources": [
+        "E01",
+        "E02",
+        "H01"
+      ],
+      "sprint": "S3–S5",
+      "used_by": [
+        "extraction",
+        "orchestrator",
+        "answers",
+        "browser",
+        "vision",
+        "voice",
+        "video"
+      ],
+      "search_terms": [
+        "Multi-agent coordination"
+      ]
+    },
+    {
+      "id": "output-validation",
+      "name": "Output, evidence & invariant checks",
+      "layer": "runtime",
+      "status": "partial",
+      "purpose": "Check structure, arithmetic, evidence links, business invariants and completion state before presenting or admitting a model result.",
+      "inputs": [
+        "Model response and selected source packet",
+        "Domain invariants and expected output schema"
+      ],
+      "outputs": [
+        "Validated result or actionable failure/hold reason"
+      ],
+      "dependencies": [
+        "ledger",
+        "views",
+        "retrieval"
+      ],
+      "evidence": "The dossier reports an error:null adapter fix, strict/material grading differences and a citation mismatch later repaired on two tested answers.",
+      "remaining": [
+        "Make parse failure, unsupported evidence and business conflict distinct errors",
+        "Validate citations resolve to the exact supporting source version",
+        "Check currency, unit and date consistency",
+        "Require postcondition evidence for claims that an action completed"
+      ],
+      "acceptance": [
+        "A processing payment cannot be labelled paid",
+        "A syntactically valid but unsupported answer is rejected or qualified",
+        "Source citations remain valid after amendments and export"
+      ],
+      "boundaries": "Passing JSON validation alone is not correctness. Model self-review cannot replace deterministic checks or held-out evaluation.",
+      "sources": [
+        "E01"
+      ],
+      "sprint": "S2",
+      "used_by": [
+        "orchestrator",
+        "model-router",
+        "workflow-packs",
+        "answers",
+        "eval-harness",
+        "vision",
+        "voice",
+        "video"
+      ],
+      "search_terms": [
+        "RAG / retrieval"
+      ]
+    },
+    {
+      "id": "workflow-packs",
+      "name": "Versioned business workflow packs",
+      "layer": "runtime",
+      "status": "proposed",
+      "purpose": "Package repeatable domain rules, schemas, prompts and tests without allowing production agents to silently change operating policy.",
+      "inputs": [
+        "Restaurant or legal process definition",
+        "Approved configuration and schemas"
+      ],
+      "outputs": [
+        "Versioned extraction, validation, action and evaluation bundles"
+      ],
+      "dependencies": [
+        "policy",
+        "output-validation",
+        "eval-harness"
+      ],
+      "evidence": "The conversation recommends reusable workflows. No reviewed workflow-pack registry or deployment mechanism is evidenced.",
+      "remaining": [
+        "Define a manifest with version, schema, allowed tools and test suite",
+        "Start with restaurant delivery/reconciliation and legal intake as distinct packs",
+        "Record the pack version on every run",
+        "Review, stage and roll back updates; use the project’s existing reviewer policy when confirmed"
+      ],
+      "acceptance": [
+        "A pack upgrade can replay the same fixtures and expose changed behaviour",
+        "A proposed self-generated skill cannot become live without release review"
+      ],
+      "boundaries": "Shared core does not mean identical business semantics. Court deadlines and restaurant stock rules require separate validation.",
+      "sources": [
+        "E02",
+        "E03",
+        "E05",
+        "H01"
+      ],
+      "sprint": "S2–S4",
+      "used_by": [
+        "eval-harness"
+      ],
+      "search_terms": [
+        "Long-term memory",
+        "Planning"
+      ]
+    },
+    {
+      "id": "answers",
+      "name": "Grounded answers & owner briefs",
+      "layer": "runtime",
+      "status": "partial",
+      "purpose": "Explain current state in plain language with traceable evidence, relevant uncertainty and a clear next action for the owner.",
+      "inputs": [
+        "Question, authorised current view and selected evidence"
+      ],
+      "outputs": [
+        "Answer or brief with source references, cut-off and limitations"
+      ],
+      "dependencies": [
+        "retrieval",
+        "views",
+        "output-validation",
+        "model-router"
+      ],
+      "evidence": "S2 achieved a 24/24 composite on returned known-test answers; later citation replay was 2/2. Fresh AUTO-INTAKE RUN03 remained 0/3 strict-clean, including one material error.",
+      "remaining": [
+        "Keep the wording separate from deterministic quantities and status",
+        "Let the owner open originals and correct the underlying record",
+        "Build briefs from deltas and exceptions rather than retranscribing every chat",
+        "Label missing media, incomplete intake and stale connectors"
+      ],
+      "acceptance": [
+        "An owner can trace every material number to a source or calculation",
+        "The answer does not imply a task is complete from a promise to do it",
+        "A brief reflects newly accepted corrections and preserves payment holds"
+      ],
+      "boundaries": "The known-answer score is not an end-to-end reliability claim. Answer quality cannot compensate for missed intake.",
+      "sources": [
+        "E01"
+      ],
+      "sprint": "S2",
+      "used_by": [
+        "owner-app"
+      ],
+      "search_terms": [
+        "RAG / retrieval"
+      ]
+    },
+    {
+      "id": "policy",
+      "name": "Authority & grants engine",
+      "layer": "actions",
+      "status": "partial",
+      "purpose": "Decide whether an actor may read, propose, approve or execute a specific action on a specific resource under current conditions.",
+      "inputs": [
+        "Actor, tenant, object, action, exact parameters and resource version",
+        "Current grants and standing policies"
+      ],
+      "outputs": [
+        "Allow, deny or hold decision with reason and policy revision"
+      ],
+      "dependencies": [
+        "identity",
+        "database"
+      ],
+      "evidence": "The dossier describes grants and tests source authority boundaries. Multi-tenant enforcement at every API/tool/storage boundary is not proven.",
+      "remaining": [
+        "Define scoped grants and limited standing rules for routine work",
+        "Enforce policy in services outside the model loop",
+        "Recheck actor, object version, amount/recipient and grant validity at execution",
+        "Deny by default when identity or authority is ambiguous"
+      ],
+      "acceptance": [
+        "An instruction embedded in an invoice cannot change grants",
+        "A revoked approver cannot release an old queued action",
+        "Changing a recipient or amount invalidates the old approval"
+      ],
+      "boundaries": "A chat instruction, tool hook or group admin role is not a complete security boundary. Collection permission and execution permission are separate.",
+      "sources": [
+        "E01",
+        "E02",
+        "E03",
+        "R07",
+        "H01"
+      ],
+      "sprint": "S0–S3",
+      "used_by": [
+        "ledger",
+        "orchestrator",
+        "workflow-packs",
+        "decision-queue",
+        "tasks",
+        "calendar",
+        "business-tools",
+        "action-executor",
+        "agent-exchange",
+        "sandbox",
+        "browser"
+      ],
+      "search_terms": [
+        "MCP / tool protocol",
+        "Authentication versus authorisation"
+      ]
+    },
+    {
+      "id": "decision-queue",
+      "name": "Asynchronous decision queue",
+      "layer": "actions",
+      "status": "partial",
+      "purpose": "Ask for human judgement only where a fact, scope or consequence needs it. Keep each decision understandable, bounded and attached to its evidence.",
+      "inputs": [
+        "Held proposals, conflicting candidates and sensitive action requests"
+      ],
+      "outputs": [
+        "Accept, reject, correct or expired decisions",
+        "Resumable dependency signals and audit events"
+      ],
+      "dependencies": [
+        "policy",
+        "ledger",
+        "identity"
+      ],
+      "evidence": "The replay app reports pending-record decisions. A production queue with expiry, concurrency and action-specific revalidation is not evidenced.",
+      "remaining": [
+        "Show what will change, why, exact scope and supporting originals",
+        "Group related low-risk reviews without concealing per-item consequences",
+        "Expire stale decisions and handle two reviewers acting concurrently",
+        "Revalidate at execution and notify only the relevant person"
+      ],
+      "acceptance": [
+        "Changing an invoice after approval requires a fresh valid decision",
+        "One held matter does not stall other workflows",
+        "Two simultaneous accepts produce one committed result"
+      ],
+      "boundaries": "Approval is scoped to an action and version. It is not a permanent blanket authorisation for future similar actions.",
+      "sources": [
+        "E01",
+        "E03"
+      ],
+      "sprint": "S2–S3",
+      "used_by": [
+        "owner-app"
+      ],
+      "search_terms": [
+        "Authentication versus authorisation"
+      ]
+    },
+    {
+      "id": "tasks",
+      "name": "Tasks, assignments & acknowledgements",
+      "layer": "actions",
+      "status": "proposed",
+      "purpose": "Turn a verified operational need into owned work with a due date, attachments, dependencies and an explicit completion signal.",
+      "inputs": [
+        "Admitted records and authorised assignment decisions"
+      ],
+      "outputs": [
+        "Task records, assignees, reminders, acknowledgements and completion evidence"
+      ],
+      "dependencies": [
+        "identity",
+        "policy",
+        "workflow-engine",
+        "media"
+      ],
+      "evidence": "The dossier tests that an intention such as “I’ll ask the chef” is not completion. No integrated task lifecycle is demonstrated.",
+      "remaining": [
+        "Define proposed, assigned, acknowledged, in-progress, blocked and completed states",
+        "Connect tasks to source record versions and matter/outlet scopes",
+        "Update or review tasks when source facts or deadlines change",
+        "Keep reminder preferences and escalation authority explicit"
+      ],
+      "acceptance": [
+        "An assignment contains the correct files and scoped access",
+        "Completion needs an explicit permitted transition with evidence when required",
+        "A changed hearing date flags dependent tasks and calendar entries"
+      ],
+      "boundaries": "A task notification delivered is not the same as assignee acknowledgement or finished work.",
+      "sources": [
+        "E01",
+        "E02"
+      ],
+      "sprint": "S3",
+      "used_by": [
+        "native-chat",
+        "calendar",
+        "portability"
+      ],
+      "search_terms": [
+        "Planning"
+      ]
+    },
+    {
+      "id": "calendar",
+      "name": "Calendar & deadline coordination",
+      "layer": "actions",
+      "status": "proposed",
+      "purpose": "Reflect verified operational dates in calendars and reminders while tracking later amendments and the source of every date.",
+      "inputs": [
+        "Verified event time, timezone, matter/task and assignee availability when relevant"
+      ],
+      "outputs": [
+        "Proposed or created event, provider ID and linked revision"
+      ],
+      "dependencies": [
+        "tasks",
+        "policy",
+        "action-executor",
+        "gmail"
+      ],
+      "evidence": "Required by the Arkaj workflow. No calendar integration or court-date validation is evidenced.",
+      "remaining": [
+        "Separate hearing dates from filing deadlines and internal preparation dates",
+        "Require review for ambiguous or consequential legal dates",
+        "Persist provider IDs and revision links for updates",
+        "Handle timezone, rescheduling, cancellation and revoked calendar access"
+      ],
+      "acceptance": [
+        "An amended court email updates the right event after valid review",
+        "A duplicate notice does not create a second hearing",
+        "A partial task/calendar update remains visibly incomplete and recoverable"
+      ],
+      "boundaries": "Do not infer binding legal deadlines from general knowledge or silently override the responsible lawyer’s review.",
+      "sources": [
+        "E02"
+      ],
+      "sprint": "S4",
+      "used_by": [],
+      "search_terms": []
+    },
+    {
+      "id": "business-tools",
+      "name": "PDF, inventory & export tools",
+      "layer": "actions",
+      "status": "proposed",
+      "purpose": "Provide narrow, reliable common actions over accepted records so the business does not depend on a single assistant ecosystem for everyday outputs.",
+      "inputs": [
+        "Typed action request, selected record versions and template"
+      ],
+      "outputs": [
+        "PDF, stock entry, task change or structured export plus receipt"
+      ],
+      "dependencies": [
+        "policy",
+        "action-executor",
+        "ledger",
+        "object-store"
+      ],
+      "evidence": "These are founder requirements and proposed capabilities. A complete tool service is not evidenced.",
+      "remaining": [
+        "Implement PDF generation from validated structured data",
+        "Expose typed stock adjustment and task operations rather than arbitrary shell access",
+        "Start accounting exports with explicit field mapping and review",
+        "Validate generated files and attach provenance and access restrictions"
+      ],
+      "acceptance": [
+        "A PDF total matches the admitted invoice version and opens correctly",
+        "A repeated stock-entry request produces one logical entry",
+        "An export excludes unauthorised fields and never includes credentials"
+      ],
+      "boundaries": "Do not build a full accounting suite or claim compliance from a bookkeeping export. Payment execution is outside the first pilot.",
+      "sources": [
+        "E02"
+      ],
+      "sprint": "S3",
+      "used_by": [],
+      "search_terms": [
+        "MCP / tool protocol"
+      ]
+    },
+    {
+      "id": "action-executor",
+      "name": "Typed execution & causal receipts",
+      "layer": "actions",
+      "status": "proposed",
+      "purpose": "Execute approved actions through constrained adapters, record what caused them and distinguish requested, successful, failed and uncertain outcomes.",
+      "inputs": [
+        "Action type, exact arguments, grant/decision, idempotency key and preconditions"
+      ],
+      "outputs": [
+        "Provider result, verified postcondition and receipt",
+        "Retry, reconciliation or compensation requirement"
+      ],
+      "dependencies": [
+        "policy",
+        "secrets",
+        "workflow-engine",
+        "database"
+      ],
+      "evidence": "The other discussion recommends causal action receipts. Production action execution and uncertain-outcome reconciliation are not evidenced.",
+      "remaining": [
+        "Use an outbox or equivalent durable handoff with idempotent consumers",
+        "Store cause record IDs, decision, policy version, arguments and result",
+        "After a timeout, inspect provider state before retrying side effects",
+        "Define compensating actions where reversal is possible; surface non-reversible outcomes"
+      ],
+      "acceptance": [
+        "A timeout after sending does not trigger an automatic duplicate send",
+        "Every claimed success has a receipt and appropriate postcondition check",
+        "A partial multi-step workflow is resumed or visibly escalated"
+      ],
+      "boundaries": "Database transactions do not make remote services exactly-once. A queued request is not proof of an external effect.",
+      "sources": [
+        "E03",
+        "R01",
+        "R06"
+      ],
+      "sprint": "S3",
+      "used_by": [
+        "calendar",
+        "business-tools",
+        "agent-exchange",
+        "browser"
+      ],
+      "search_terms": [
+        "MCP / tool protocol"
+      ]
+    },
+    {
+      "id": "workflow-engine",
+      "name": "Durable jobs, timers & recovery",
+      "layer": "actions",
+      "status": "proposed",
+      "purpose": "Persist long-running workflow state and scheduled work across restarts, worker crashes and delayed owner decisions.",
+      "inputs": [
+        "Committed events, action outbox, timers and continuation requests"
+      ],
+      "outputs": [
+        "Leased jobs, attempts, next wake time and workflow state"
+      ],
+      "dependencies": [
+        "database",
+        "observability"
+      ],
+      "evidence": "The dossier reports network failures and restart tests of the replay app, not a complete background workflow service.",
+      "remaining": [
+        "Begin with persisted jobs and leases if adequate",
+        "Define retry/backoff budgets, dead-letter handling and operator replay",
+        "Use timezones and business calendars explicitly",
+        "Evaluate Temporal only when workflow complexity justifies operating it"
+      ],
+      "acceptance": [
+        "A worker killed between steps resumes without lost state or duplicate effects",
+        "Overdue reminders remain visible and catch up predictably",
+        "Failures have an owner and actionable recovery path"
+      ],
+      "boundaries": "Do not copy a benchmark’s no-retry rule into all production operations. Safe recovery still needs side-effect protection.",
+      "sources": [
+        "E01",
+        "R06",
+        "H01"
+      ],
+      "sprint": "S3",
+      "used_by": [
+        "orchestrator",
+        "tasks",
+        "action-executor"
+      ],
+      "search_terms": [
+        "Short-term memory"
+      ]
+    },
+    {
+      "id": "agent-exchange",
+      "name": "Cross-business agent exchange",
+      "layer": "actions",
+      "status": "later",
+      "purpose": "Eventually let two explicitly authorised business workspaces exchange a bounded request or record, with receiving-side validation and human accountability.",
+      "inputs": [
+        "Scoped delegation, object reference and approved recipient"
+      ],
+      "outputs": [
+        "Authenticated request, acknowledgement and causal receipt"
+      ],
+      "dependencies": [
+        "identity",
+        "policy",
+        "action-executor",
+        "native-chat"
+      ],
+      "evidence": "Founder vision; the CA distribution idea is a hypothesis from the second conversation, not validated demand or a built protocol.",
+      "remaining": [
+        "First test accountant collaboration and exports without agent-to-agent infrastructure",
+        "Define per-message capabilities, tenancy boundaries and revocation",
+        "Add loop, budget and delegation-depth limits",
+        "Validate commercial value before building a broad protocol"
+      ],
+      "acceptance": [
+        "A receiving agent rejects out-of-scope requests despite trusting the sender identity",
+        "No agent can expand a delegated permission",
+        "Repeated replies cannot create an unbounded action loop"
+      ],
+      "boundaries": "Trust and privileges do not transfer automatically across organisations.",
+      "sources": [
+        "E02",
+        "E03"
+      ],
+      "sprint": "Later",
+      "used_by": [],
+      "search_terms": [
+        "Multi-agent coordination"
+      ]
+    },
+    {
+      "id": "database",
+      "name": "Transactional business database",
+      "layer": "assurance",
+      "status": "proposed",
+      "purpose": "Store identities, records, decisions, task state and durable jobs with constraints and reproducible migrations.",
+      "inputs": [
+        "Validated transactional writes and versioned schemas"
+      ],
+      "outputs": [
+        "Consistent queries, committed versions and audit references"
+      ],
+      "dependencies": [],
+      "evidence": "A prototype ledger exists in the dossier. The current production storage technology and migrations are unknown.",
+      "remaining": [
+        "Inspect and preserve the existing database when suitable",
+        "For a new service, evaluate PostgreSQL as the default relational store",
+        "Enforce tenant scope and uniqueness at storage and service boundaries",
+        "Define migrations, backup retention and recovery objectives"
+      ],
+      "acceptance": [
+        "Concurrent writes cannot violate record or idempotency invariants",
+        "A backup is restored and the resulting state reconciles",
+        "Service roles cannot bypass tenant boundaries unintentionally"
+      ],
+      "boundaries": "Do not migrate just to match a diagram. Row policies require correct roles and tests; backups are not useful until restoration works.",
+      "sources": [
+        "E01",
+        "R05"
+      ],
+      "sprint": "S0–S1",
+      "used_by": [
+        "observations",
+        "identity",
+        "ledger",
+        "views",
+        "policy",
+        "action-executor",
+        "workflow-engine",
+        "object-store",
+        "observability"
+      ],
+      "search_terms": [
+        "Embeddings & vector index"
+      ]
+    },
+    {
+      "id": "object-store",
+      "name": "Originals, derivatives & artefact storage",
+      "layer": "assurance",
+      "status": "proposed",
+      "purpose": "Keep durable media and generated files separate from transactional rows while retaining ownership, provenance and access control.",
+      "inputs": [
+        "Original files, OCR/transcript derivatives and generated artefacts"
+      ],
+      "outputs": [
+        "Versioned object IDs and short-lived authorised download references"
+      ],
+      "dependencies": [
+        "identity",
+        "secrets",
+        "database"
+      ],
+      "evidence": "Production object storage is not evidenced in the reviewed material.",
+      "remaining": [
+        "Choose a managed object store with encryption and lifecycle rules",
+        "Store relational metadata and scoped associations to each object",
+        "Control signed-link lifetime and revocation behaviour",
+        "Include originals and required derivatives in backup and portability design"
+      ],
+      "acceptance": [
+        "A user cannot fetch another matter’s attachment by guessing its object ID",
+        "Retention jobs cover derived copies",
+        "An export can resolve every included record’s authorised original"
+      ],
+      "boundaries": "A file URL should not become a permanent bearer credential or a way around source permissions.",
+      "sources": [
+        "E02",
+        "E03"
+      ],
+      "sprint": "S1",
+      "used_by": [
+        "media",
+        "business-tools",
+        "portability"
+      ],
+      "search_terms": []
+    },
+    {
+      "id": "secrets",
+      "name": "Authentication, sessions & secrets",
+      "layer": "assurance",
+      "status": "proposed",
+      "purpose": "Separate login, third-party account consent, linked-device keys and model/service credentials so one surface cannot expose every integration.",
+      "inputs": [
+        "User sign-in, OAuth callbacks, connector pairing and service credentials"
+      ],
+      "outputs": [
+        "Short-lived sessions, encrypted credential references and revocation events"
+      ],
+      "dependencies": [
+        "identity"
+      ],
+      "evidence": "Founder requests easier authentication management. No inspected implementation establishes token handling or device revocation.",
+      "remaining": [
+        "Select an identity provider and use supported secure session patterns",
+        "Validate OAuth state and supported PKCE flows; store refresh credentials server-side",
+        "Store WhatsApp key material atomically with restricted encrypted access",
+        "Rotate service credentials, redact logs and revoke on disconnect or offboarding"
+      ],
+      "acceptance": [
+        "Tokens do not appear in prompts, browser exports, traces or downloadable references",
+        "An expired or revoked grant fails closed with a recoverable UX",
+        "Reconnect cannot silently expand scopes"
+      ],
+      "boundaries": "Encryption at rest is one control; access paths, logs, backups, runtime exposure and key ownership also matter.",
+      "sources": [
+        "E02",
+        "R04",
+        "R07"
+      ],
+      "sprint": "S0–S1",
+      "used_by": [
+        "device-apps",
+        "whatsapp",
+        "gmail",
+        "model-router",
+        "action-executor",
+        "object-store",
+        "sandbox",
+        "browser"
+      ],
+      "search_terms": [
+        "Authentication versus authorisation"
+      ]
+    },
+    {
+      "id": "sandbox",
+      "name": "Execution isolation & repair workflow",
+      "layer": "assurance",
+      "status": "proposed",
+      "purpose": "Contain parsers, connector jobs and optional code execution so a malicious document or faulty repair cannot reach unrelated business data or credentials.",
+      "inputs": [
+        "Scoped typed job and explicitly provided data"
+      ],
+      "outputs": [
+        "Limited result, logs and optional proposed patch"
+      ],
+      "dependencies": [
+        "policy",
+        "secrets",
+        "observability"
+      ],
+      "evidence": "Sandboxing and connector repair are recommendations from the second discussion. No production isolation or automated repair flow is evidenced.",
+      "remaining": [
+        "Prefer narrow APIs over general shell/browser control",
+        "Apply least-privilege network and filesystem access with resource budgets",
+        "Test connector changes against fixtures in an isolated environment",
+        "Promote reviewed patches through release gates rather than self-repairing production",
+        "Isolate the whole worker process tree, including browser, plugins and MCP; terminal-only isolation does not cover all execution paths."
+      ],
+      "acceptance": [
+        "A hostile attachment cannot invoke tools or read unrelated tenant files",
+        "An unreviewed repair cannot receive production secrets or deploy itself",
+        "The required provider endpoints work without broad unrestricted egress"
+      ],
+      "boundaries": "A simplistic one-domain allowlist may break legitimate provider auth/CDN flows; scope tested endpoints deliberately. Containers alone are not a complete boundary.",
+      "sources": [
+        "E03",
+        "R01",
+        "R07",
+        "H01"
+      ],
+      "sprint": "S1–S3",
+      "used_by": [
+        "browser"
+      ],
+      "search_terms": []
+    },
+    {
+      "id": "observability",
+      "name": "Operational health & cost accounting",
+      "layer": "assurance",
+      "status": "proposed",
+      "purpose": "Make missing intake, stuck approvals, uncertain actions, latency and unit cost visible to operators before the owner loses trust.",
+      "inputs": [
+        "Connector checkpoints, run traces, action receipts and resource usage"
+      ],
+      "outputs": [
+        "Health dashboard, scoped alerts and per-workflow cost/latency metrics"
+      ],
+      "dependencies": [
+        "database"
+      ],
+      "evidence": "The dossier has per-run scores, timing, costs and failure notes. Production monitoring, alert response and operational objectives are not evidenced.",
+      "remaining": [
+        "Track connector lag and coverage, media failures and queue age",
+        "Measure end-to-end completion and human review time",
+        "Correlate observation, record, run, decision and action IDs",
+        "Redact sensitive trace content; define operator access and incident response"
+      ],
+      "acceptance": [
+        "A disconnected source is visible before its stale data is described as current",
+        "An alert can be traced to a specific recoverable job",
+        "Unit cost includes model calls, failed attempts, storage, infrastructure and review effort"
+      ],
+      "boundaries": "Low token cost is not low cost per correct completed workflow. Avoid logging private content just to simplify debugging.",
+      "sources": [
+        "E01",
+        "E03"
+      ],
+      "sprint": "S1–S5",
+      "used_by": [
+        "model-router",
+        "workflow-engine",
+        "sandbox",
+        "eval-harness"
+      ],
+      "search_terms": []
+    },
+    {
+      "id": "eval-harness",
+      "name": "Evaluation harness & release gates",
+      "layer": "assurance",
+      "status": "partial",
+      "purpose": "Measure whether changes improve the whole workflow, preserve invariants and work on unseen cases, independently of the production agent’s self-assessment.",
+      "inputs": [
+        "Versioned fixtures, hidden expected outcomes and build/model/config versions"
+      ],
+      "outputs": [
+        "Stage scores, material errors, traces, regression comparison and release decision"
+      ],
+      "dependencies": [
+        "workflow-packs",
+        "output-validation",
+        "observability"
+      ],
+      "evidence": "A meaningful synthetic harness exists: multiple model runs, strict/material grading, replay checks and citation tests. Fresh intake still fails; held-out production reliability is not established.",
+      "remaining": [
+        "Freeze reproducible fixtures and receipt paths before changes",
+        "Add stage-level evaluation, adversarial sequence tests and held-out episodes",
+        "Keep answer quality separate from intake and execution completeness",
+        "Define explicit gates and require the existing reviewer process when confirmed"
+      ],
+      "acceptance": [
+        "A release reproduces the known baseline before claiming an improvement",
+        "Held-out episodes include identities, corrections, unknown times, revokes and side-effect uncertainty",
+        "Run failures remain failures in reported denominators"
+      ],
+      "boundaries": "Do not train to the 24 known questions and call it generalisation. Composite answered subsets are not successful end-to-end runs.",
+      "sources": [
+        "E01",
+        "R10"
+      ],
+      "sprint": "S0–S5",
+      "used_by": [
+        "workflow-packs"
+      ],
+      "search_terms": []
+    },
+    {
+      "id": "portability",
+      "name": "Export, retention & restoration",
+      "layer": "assurance",
+      "status": "proposed",
+      "purpose": "Give the business a usable way to recover or leave: export records, evidence relationships, originals, tasks and decisions in open documented formats.",
+      "inputs": [
+        "Authorised export scope and consistent data snapshot"
+      ],
+      "outputs": [
+        "Versioned archive, manifest, checksums and restoration report"
+      ],
+      "dependencies": [
+        "identity",
+        "ledger",
+        "media",
+        "tasks",
+        "object-store"
+      ],
+      "evidence": "Portability is an adopted recommendation, not an inspected capability.",
+      "remaining": [
+        "Design a versioned export manifest and stable IDs",
+        "Exclude credentials and identify unavailable originals",
+        "Define retention and deletion per data category and contractual need",
+        "Test restore into a clean environment, including relationships and permissions"
+      ],
+      "acceptance": [
+        "Exported totals and relationships reconcile after restoration",
+        "Secrets are absent from all archive entries",
+        "Deletion follows the documented lifecycle for originals, derivatives and backups"
+      ],
+      "boundaries": "A CSV of balances alone is not a portable business record. An immutable journal still needs lawful lifecycle controls.",
+      "sources": [
+        "E02",
+        "E03"
+      ],
+      "sprint": "S3–S5",
+      "used_by": [],
+      "search_terms": []
+    },
+    {
+      "id": "browser",
+      "name": "Browser control",
+      "layer": "actions",
+      "status": "proposed",
+      "purpose": "Open an approved supplier portal and retrieve an invoice. Confirm the invoice identity; a successful click is not proof of a completed business transaction.",
+      "inputs": [
+        "Approved URL",
+        "Authenticated source scope and analysis question"
+      ],
+      "outputs": [
+        "Candidate observations with original-media/page/time references",
+        "Explicit processing status, model/version and coverage"
+      ],
+      "dependencies": [
+        "identity",
+        "policy",
+        "sandbox",
+        "secrets",
+        "model-router",
+        "action-executor"
+      ],
+      "evidence": "Observed in Hermes source: Local or remote browser backends expose page structure and element references. Screenshot vision is available when structural inspection is insufficient. No SupaBiz implementation or runtime verification is evidenced.",
+      "remaining": [
+        "Observe–act–observe loop, browser provider interface, per-task sessions and screenshot fallback.",
+        "Isolate browser identities by workspace; constrain sites and actions; keep credentials out of model context; route consequential writes through policy and verify resulting state."
+      ],
+      "acceptance": [
+        "Requires access to the site. Logins, MFA, unavailable controls and site changes can require user action. A screenshot sees the current view, not every hidden page.",
+        "Test source fidelity, denied access, ambiguous input and failure handling on held-out examples before release."
+      ],
+      "boundaries": "Requires access to the site. Logins, MFA, unavailable controls and site changes can require user action. A screenshot sees the current view, not every hidden page.",
+      "sources": [
+        "H01"
+      ],
+      "sprint": "S3",
+      "used_by": [],
+      "search_terms": [
+        "Multimodal perception"
+      ]
+    },
+    {
+      "id": "vision",
+      "name": "Image & document vision",
+      "layer": "intake",
+      "status": "proposed",
+      "purpose": "Extract invoice number and net weight from a delivery photo, preserving the original region for owner review.",
+      "inputs": [
+        "Photo / scan / screenshot",
+        "Authenticated source scope and analysis question"
+      ],
+      "outputs": [
+        "Candidate observations with original-media/page/time references",
+        "Explicit processing status, model/version and coverage"
+      ],
+      "dependencies": [
+        "media",
+        "model-router",
+        "output-validation"
+      ],
+      "evidence": "Observed in Hermes source: Images can be supplied to a vision-capable main model or analyzed by an auxiliary vision model. Image preparation and size controls exist. No SupaBiz implementation or runtime verification is evidenced.",
+      "remaining": [
+        "Separate image preparation from inference, route by model capability and avoid repeating oversized images in context.",
+        "Page/region citations, source permissions, derivative versions, uncertainty and checks for dates, quantities, totals and business identity."
+      ],
+      "acceptance": [
+        "Blur, occlusion, small text and ambiguous handwriting can produce errors. A plausible description is not a verified record.",
+        "Test source fidelity, denied access, ambiguous input and failure handling on held-out examples before release."
+      ],
+      "boundaries": "Blur, occlusion, small text and ambiguous handwriting can produce errors. A plausible description is not a verified record.",
+      "sources": [
+        "H01"
+      ],
+      "sprint": "S2",
+      "used_by": [
+        "extraction",
+        "video"
+      ],
+      "search_terms": [
+        "Multimodal perception"
+      ]
+    },
+    {
+      "id": "voice",
+      "name": "Voice & transcription",
+      "layer": "intake",
+      "status": "proposed",
+      "purpose": "A chef says stock is low. Extract the item and quantity, then ask for clarification if the number or unit is unclear.",
+      "inputs": [
+        "Voice note",
+        "Authenticated source scope and analysis question"
+      ],
+      "outputs": [
+        "Candidate observations with original-media/page/time references",
+        "Explicit processing status, model/version and coverage"
+      ],
+      "dependencies": [
+        "media",
+        "model-router",
+        "identity",
+        "output-validation"
+      ],
+      "evidence": "Observed in Hermes source: A transcription dispatcher supports local and cloud providers and returns transcript, status and provider information. No SupaBiz implementation or runtime verification is evidenced.",
+      "remaining": [
+        "Provider abstraction, audio preparation and bounded processing; evaluate local transcription for suitable workloads.",
+        "Hindi/English/code-switching tests, timestamps, names/units confirmation and tenant-aware routing. Source sender identity is separate from voice-based speaker guesses."
+      ],
+      "acceptance": [
+        "Transcription is not proof of speaker identity. Noise and language mixing require evaluation. Voice-note intake can precede a full voice-conversation UI.",
+        "Test source fidelity, denied access, ambiguous input and failure handling on held-out examples before release."
+      ],
+      "boundaries": "Transcription is not proof of speaker identity. Noise and language mixing require evaluation. Voice-note intake can precede a full voice-conversation UI.",
+      "sources": [
+        "H01"
+      ],
+      "sprint": "S2",
+      "used_by": [
+        "device-apps",
+        "extraction",
+        "video"
+      ],
+      "search_terms": [
+        "Multimodal perception"
+      ]
+    },
+    {
+      "id": "video",
+      "name": "Video understanding",
+      "layer": "intake",
+      "status": "proposed",
+      "purpose": "A kitchen clip shows water beneath a sink at a cited timestamp. Propose a maintenance task without inventing the cause or claiming repair completion.",
+      "inputs": [
+        "Clip",
+        "Authenticated source scope and analysis question"
+      ],
+      "outputs": [
+        "Candidate observations with original-media/page/time references",
+        "Explicit processing status, model/version and coverage"
+      ],
+      "dependencies": [
+        "media",
+        "vision",
+        "voice",
+        "model-router",
+        "output-validation"
+      ],
+      "evidence": "Observed in Hermes source: The opt-in video_analyze tool materializes a file, base64-encodes it and sends it to an auxiliary model. The inspected path does not itself extract frames. A separate YouTube skill reads transcripts. No SupaBiz implementation or runtime verification is evidenced.",
+      "remaining": [
+        "Separate video analysis from transcript summarization; capability routing and bounded media handling.",
+        "Long-video segmentation, timestamp verification, audio alignment, cost limits and missing-coverage reporting. Frame sampling is a proposed SupaBiz extension, not an observed Hermes feature in this path."
+      ],
+      "acceptance": [
+        "The encoded payload has a 50 MiB cap; actual raw capacity is lower because base64 expands data. A YouTube page is not a direct video file. Transcript-only analysis cannot establish visual events; sampled frames may miss short events.",
+        "Test source fidelity, denied access, ambiguous input and failure handling on held-out examples before release."
+      ],
+      "boundaries": "The encoded payload has a 50 MiB cap; actual raw capacity is lower because base64 expands data. A YouTube page is not a direct video file. Transcript-only analysis cannot establish visual events; sampled frames may miss short events.",
+      "sources": [
+        "H01"
+      ],
+      "sprint": "S3",
+      "used_by": [
+        "extraction"
+      ],
+      "search_terms": [
+        "Multimodal perception"
+      ]
+    }
+  ],
+  "runtime_harness": [
+    {
+      "id": "h-context",
+      "name": "Context builder",
+      "runtime": "Loads only permitted records and the evidence needed for this request, including correction and hold chains.",
+      "test": "Does the selected packet retain critical evidence when history grows?",
+      "components": [
+        "retrieval",
+        "identity",
+        "media"
+      ],
+      "solves": "Missing context, cross-tenant leakage and oversized prompts."
+    },
+    {
+      "id": "h-state",
+      "name": "Run state & checkpoints",
+      "runtime": "Persists step IDs, state, budgets, decisions and continuation points outside model memory.",
+      "test": "Can a killed worker resume without losing state or repeating an effect?",
+      "components": [
+        "orchestrator",
+        "workflow-engine"
+      ],
+      "solves": "Fragile in-memory agents and forgotten work after restart."
+    },
+    {
+      "id": "h-model",
+      "name": "Provider adapter",
+      "runtime": "Translates a typed request into a selected model’s API and normalises errors, usage and results.",
+      "test": "Does a provider change preserve schema and held-out task quality?",
+      "components": [
+        "model-router"
+      ],
+      "solves": "Provider coupling and false success from malformed responses."
+    },
+    {
+      "id": "h-tools",
+      "name": "Tool registry & contracts",
+      "runtime": "Exposes narrowly typed capabilities with argument schemas and declared side effects.",
+      "test": "Are invalid units, recipients and resource IDs refused before execution?",
+      "components": [
+        "business-tools",
+        "action-executor"
+      ],
+      "solves": "Unbounded tools and ambiguous actions."
+    },
+    {
+      "id": "h-authority",
+      "name": "Policy gate",
+      "runtime": "Checks current actor, action, object, parameters and grants at service boundaries.",
+      "test": "Can a supplier message, old approval or revoked user gain authority?",
+      "components": [
+        "policy",
+        "identity"
+      ],
+      "solves": "Confusing persuasive text with permission."
+    },
+    {
+      "id": "h-validation",
+      "name": "Result validation",
+      "runtime": "Checks typed output, arithmetic, citations and business invariants.",
+      "test": "Does an unsupported or contradictory claim become a visible failure?",
+      "components": [
+        "output-validation",
+        "views"
+      ],
+      "solves": "Well-written answers with wrong facts or unproven completion."
+    },
+    {
+      "id": "h-review",
+      "name": "Human decision boundary",
+      "runtime": "Parks a bounded proposal with evidence, expiry and impact; resumes dependent work after revalidation.",
+      "test": "Do concurrent decisions or changed records invalidate stale approvals?",
+      "components": [
+        "decision-queue",
+        "policy"
+      ],
+      "solves": "Approval fatigue and stalled unrelated work."
+    },
+    {
+      "id": "h-recovery",
+      "name": "Retries & reconciliation",
+      "runtime": "Retries safe reads within budget; checks remote state before repeating uncertain side effects.",
+      "test": "What happens when a send succeeds but its response is lost?",
+      "components": [
+        "workflow-engine",
+        "action-executor"
+      ],
+      "solves": "Duplicate messages, entries and calendar events."
+    },
+    {
+      "id": "h-skill",
+      "name": "Versioned workflow knowledge",
+      "runtime": "Uses reviewed business schemas, prompts and procedures with explicit versions.",
+      "test": "Does an updated procedure preserve the regression suite and pass unseen cases?",
+      "components": [
+        "workflow-packs"
+      ],
+      "solves": "Unreviewed self-modification and invisible policy drift."
+    },
+    {
+      "id": "h-trace",
+      "name": "Tracing & budgets",
+      "runtime": "Records causal IDs, outcome, time and cost with sensitive content redacted.",
+      "test": "Can each failure and dollar be attributed to a business outcome?",
+      "components": [
+        "observability",
+        "action-executor"
+      ],
+      "solves": "Opaque failures and misleading per-call economics."
+    }
+  ],
+  "workflows": [
+    {
+      "id": "restaurant",
+      "title": "Restaurant operations",
+      "subtitle": "A delivery message becomes a trustworthy stock answer.",
+      "actor": "Varun · owner of Forefathers and Concu",
+      "basis": "Illustrative target workflow using the dossier’s known test cases. It is not an implemented end-to-end demo.",
+      "steps": [
+        {
+          "name": "Capture",
+          "text": "A delivery message and invoice arrive in the approved outlet group. Store the source key, sender, times and media availability; do not treat the group name alone as invoice ownership.",
+          "components": [
+            "whatsapp",
+            "observations",
+            "media"
+          ],
+          "state": "Source observation"
+        },
+        {
+          "name": "Understand",
+          "text": "Extract the delivery, outlet, items and units. Link the later 17.6 kg net tomato correction to the candidate delivery only when the evidence supports the relationship.",
+          "components": [
+            "extraction",
+            "identity"
+          ],
+          "state": "Candidate record"
+        },
+        {
+          "name": "Resolve",
+          "text": "R2 replaces the earlier FF invoice. The Concu invoice forwarded to Forefathers stays associated with Concu. Ambiguous identity or replacement goes to the owner.",
+          "components": [
+            "ledger",
+            "decision-queue",
+            "policy"
+          ],
+          "state": "Accepted / held"
+        },
+        {
+          "name": "Compute",
+          "text": "Compare the 32.7 kg sheet figure with the 13.25 kg physical count: a 19.45 kg gap. The 12.5 kg issue is already in the sheet, so it must not be subtracted again.",
+          "components": [
+            "views",
+            "output-validation"
+          ],
+          "state": "Reconciled view"
+        },
+        {
+          "name": "Coordinate",
+          "text": "Create a permitted discrepancy task for the responsible person with the source evidence. “I’ll ask the chef” is a follow-up intention, not task completion.",
+          "components": [
+            "tasks",
+            "action-executor"
+          ],
+          "state": "Assigned work"
+        },
+        {
+          "name": "Explain & revise",
+          "text": "Answer the owner with source links, cut-off and missing evidence. FF-781 R2 ₹2,099.20 remains processing and the no-second-transfer hold survives. A later correction invalidates affected views.",
+          "components": [
+            "answers",
+            "views",
+            "observability"
+          ],
+          "state": "Grounded answer"
+        }
+      ]
+    },
+    {
+      "id": "legal",
+      "title": "Law-chamber coordination",
+      "subtitle": "A court email becomes assigned work with the right documents.",
+      "actor": "Arkaj · principal; Ramya · legal assistant and operations lead",
+      "basis": "Founder scenario. Every step below is a target capability; production legal workflow is not evidenced.",
+      "steps": [
+        {
+          "name": "Capture",
+          "text": "The principal’s authorised mailbox receives a court update. Persist the message and attachment references, with a sync checkpoint and matter-access scope.",
+          "components": [
+            "gmail",
+            "observations",
+            "media"
+          ],
+          "state": "Email observation"
+        },
+        {
+          "name": "Match matter",
+          "text": "Extract court, matter number, parties and date. Compare with existing matters; classify as amendment, new matter or ambiguous match. Similar subject lines do not justify an automatic merge.",
+          "components": [
+            "extraction",
+            "identity",
+            "ledger"
+          ],
+          "state": "Proposed matter link"
+        },
+        {
+          "name": "Review",
+          "text": "Ramya reviews uncertain matches and consequential dates against the original notice. The principal’s mailbox access does not grant every support worker access to all cases.",
+          "components": [
+            "decision-queue",
+            "policy"
+          ],
+          "state": "Verified update"
+        },
+        {
+          "name": "Assign",
+          "text": "Propose or create the permitted task with responsible staff, internal due date and the correct file versions. Delivery and acknowledgement are tracked separately.",
+          "components": [
+            "tasks",
+            "media",
+            "action-executor"
+          ],
+          "state": "Assigned / acknowledged"
+        },
+        {
+          "name": "Schedule",
+          "text": "Create or update a linked calendar event using the verified date and timezone. A calendar failure after task creation leaves a recoverable partial state, not a completed workflow.",
+          "components": [
+            "calendar",
+            "workflow-engine"
+          ],
+          "state": "Scheduled / partial"
+        },
+        {
+          "name": "Follow changes",
+          "text": "A later court amendment links to the same matter, marks dependent work for review and updates authorised assignees. Retain the prior version and the decision that changed it.",
+          "components": [
+            "ledger",
+            "tasks",
+            "answers",
+            "observability"
+          ],
+          "state": "Revised with audit trail"
+        }
+      ]
+    },
+    {
+      "id": "failure",
+      "title": "When something goes wrong",
+      "subtitle": "A successful external action can still have an uncertain response.",
+      "actor": "Owner + operations service",
+      "basis": "Required failure scenario for the target action system; not a reported passing test.",
+      "steps": [
+        {
+          "name": "Authorise",
+          "text": "An owner approves a precise task update or notification for a specific recipient and record version. Store the current policy decision.",
+          "components": [
+            "policy",
+            "decision-queue"
+          ],
+          "state": "Approved proposal"
+        },
+        {
+          "name": "Persist",
+          "text": "Commit an action request and unique idempotency key before handing it to a worker. Store the cause record and decision IDs.",
+          "components": [
+            "database",
+            "action-executor"
+          ],
+          "state": "Queued action"
+        },
+        {
+          "name": "Execute",
+          "text": "Recheck current grants and preconditions, then call the adapter. The provider may complete the action before the connection drops.",
+          "components": [
+            "action-executor",
+            "secrets"
+          ],
+          "state": "Outcome uncertain"
+        },
+        {
+          "name": "Reconcile",
+          "text": "Inspect the provider using its object or request identifier. Do not repeat the action just because the response was lost. If no safe check exists, escalate the ambiguity.",
+          "components": [
+            "workflow-engine",
+            "action-executor"
+          ],
+          "state": "Reconciling"
+        },
+        {
+          "name": "Receipt",
+          "text": "Record confirmed success, confirmed failure or unresolved outcome with its evidence. Never label “request sent” as “work completed.”",
+          "components": [
+            "action-executor",
+            "observability"
+          ],
+          "state": "Verified outcome"
+        },
+        {
+          "name": "Inform",
+          "text": "Show the owner the actual result and any remaining step. Independent workflows continue while this one waits.",
+          "components": [
+            "owner-app",
+            "orchestrator"
+          ],
+          "state": "Visible recovery"
+        }
+      ]
+    }
+  ],
+  "evidence": [
+    {
+      "id": "T01",
+      "label": "Known-answer composite",
+      "value": "24 / 24",
+      "status": "demonstrated",
+      "detail": "S2 combines 9 + 15 returned answers on known questions. Stopped batch runs remain failed. This is not a clean single production run or a generalised accuracy rate.",
+      "source": "E01"
+    },
+    {
+      "id": "T02",
+      "label": "Latest fresh-intake answers",
+      "value": "0 / 3",
+      "status": "partial",
+      "detail": "AUTO-INTAKE RUN03: ten calls completed, but par 20 and CC-224 were missed. One answer had a material error; the other two had strict gaps. Latest output was CLI, not app.",
+      "source": "E01"
+    },
+    {
+      "id": "T03",
+      "label": "Citation replay",
+      "value": "2 / 2",
+      "status": "demonstrated",
+      "detail": "Two known answers were strict-clean; 16/16 supporting native citations. $1.126136 total and 65.5 / 85.6 seconds. Tiny sample; not a latency or cost service guarantee.",
+      "source": "E01"
+    },
+    {
+      "id": "T04",
+      "label": "Context packet",
+      "value": "108.7 KB",
+      "status": "partial",
+      "detail": "Approximately 108.7 of a 120 KB packet budget. Evidence selection and growing-history tests are needed before scaling the history.",
+      "source": "E01"
+    },
+    {
+      "id": "T05",
+      "label": "Replay & correction behaviour",
+      "value": "Narrow pass",
+      "status": "demonstrated",
+      "detail": "Accept / reject / correct and restart behaviour reported. Undated movement handling, identity authority, duplicates and ordering required fixes. No independent rerun here.",
+      "source": "E01"
+    },
+    {
+      "id": "T06",
+      "label": "Live connectors",
+      "value": "Reported",
+      "status": "reported",
+      "detail": "WhatsApp online-session reading is founder-reported. Gmail is described as straightforward. Neither completeness nor recovery was independently verified.",
+      "source": "E02"
+    }
+  ],
+  "roadmap": [
+    {
+      "id": "S0",
+      "title": "Establish the truth",
+      "outcome": "A reproducible baseline and a build map that matches the code.",
+      "deliverables": [
+        "Locate current repositories, schema, prompts, tests and receipt files",
+        "Reproduce known results with pinned versions and explicit denominators",
+        "Map current auth, storage and trust boundaries; confirm reviewer policy",
+        "Pin Hermes revision and compare it with the existing runtime through identical input/output and typed-tool contracts",
+        "Use synthetic/redacted fixtures, fixed model settings and a separate unseen scenario set"
+      ],
+      "gate": "Every “built” claim links to code plus a reproducible check; gaps are logged. Compare complete correct outcomes, not known-question scores alone.",
+      "depends": [],
+      "not_yet": "No framework rewrite or calendar promise before the audit."
+    },
+    {
+      "id": "S1",
+      "title": "Reliable capture & identity",
+      "outcome": "Approved sources arrive durably and gaps are visible.",
+      "deliverables": [
+        "Harden existing WhatsApp and Gmail adapters",
+        "Directory, scoped login, connector consent and secrets",
+        "Original media storage, observation envelopes, checkpoints and health",
+        "Persist connector events before acknowledgement; test queue overflow, duplicate delivery, restart and lost polling responses",
+        "Store protected original media and source associations before derivative processing"
+      ],
+      "gate": "Duplicate, reconnect, revoke, unknown-time and unavailable-media cases pass; unauthorised access is denied. No silent loss or duplicate admission in the agreed failure-injection suite; coverage gaps remain explicit.",
+      "depends": [
+        "S0"
+      ],
+      "not_yet": "Do not claim complete history unless measured."
+    },
+    {
+      "id": "S2",
+      "title": "Finish one restaurant loop",
+      "outcome": "A fresh message becomes an accepted record and a correct owner answer inside the app.",
+      "deliverables": [
+        "Close missed par and invoice intake cases",
+        "Connect review decisions, ledger corrections, computed views and citations",
+        "Run the full delivery → discrepancy → correction → answer loop",
+        "Add voice-note transcription and invoice/photo vision to the restaurant loop",
+        "Validate multilingual names, units, invoice totals and page/audio evidence references"
+      ],
+      "gate": "No critical error in the agreed release suite; unseen episodes pass the agreed quality threshold; restart preserves state. Held-out voice and image cases preserve source links; ambiguous extraction is reviewed, not silently admitted.",
+      "depends": [
+        "S1"
+      ],
+      "not_yet": "Avoid broad multi-agent orchestration."
+    },
+    {
+      "id": "S3",
+      "title": "Make work happen safely",
+      "outcome": "Assignments and common tools execute with receipts and recovery.",
+      "deliverables": [
+        "Task lifecycle, reminders, asynchronous decisions and outbox",
+        "PDF / stock tools, typed action adapters and uncertain-outcome recovery",
+        "Export manifest and an initial restore test",
+        "Add bounded browser workflows where an API cannot meet the need; isolate sessions and verify postconditions",
+        "Pilot short operational-video analysis with timestamped evidence and cost limits",
+        "Promote learned procedures only through tested, versioned workflow packs"
+      ],
+      "gate": "Side-effect timeout, duplicate execution, stale approval and partial-success drills pass. Browser completion needs a receipt; video findings cite observed spans; unknown side effects reconcile before retry.",
+      "depends": [
+        "S2"
+      ],
+      "not_yet": "Payment execution and full accounting remain outside the initial scope."
+    },
+    {
+      "id": "S4",
+      "title": "Validate the shared core in legal work",
+      "outcome": "Court email → matter → reviewed assignment → linked calendar update.",
+      "deliverables": [
+        "Matter schema and matching rules",
+        "Consequential-date review, scoped files and assignments",
+        "Amendment propagation through tasks and calendar",
+        "Reuse scan vision for court documents; verify matter identity and consequential dates with the responsible reviewer"
+      ],
+      "gate": "Wrong-matter, duplicate notice, ambiguous date, restricted file and later-amendment cases pass with the responsible team. Neither OCR nor a vision description alone authorizes a legal deadline change.",
+      "depends": [
+        "S3"
+      ],
+      "not_yet": "Do not infer legal obligations without the designated reviewer."
+    },
+    {
+      "id": "S5",
+      "title": "Pilot, measure & harden",
+      "outcome": "Consented real workflows establish value, reliability and unit cost.",
+      "deliverables": [
+        "Held-out episode evaluation and a small monitored pilot",
+        "Measure review time, completion, latency, coverage and successful-task cost",
+        "Permission probes, restore drill, retention, incident response and load tests",
+        "Compare engines and media providers on correct outcome cost, missed evidence, review time and p50/p95 latency"
+      ],
+      "gate": "Pilot acceptance criteria are agreed before launch and met over a stated observation window. Publish denominator, failures and evaluation conditions alongside any improvement percentage.",
+      "depends": [
+        "S2",
+        "S3"
+      ],
+      "not_yet": "No percentage uplift claim without paired evidence; S4 can validate a second domain separately."
+    },
+    {
+      "id": "S6",
+      "title": "Expand the useful surfaces",
+      "outcome": "Add native device features and collaboration where they measurably improve repeated work.",
+      "deliverables": [
+        "Voice, device notifications and local connector packaging where needed",
+        "Object-linked chat and accountant collaboration",
+        "Consider cross-business agents after scoped collaboration works",
+        "Expand to interactive voice and device/browser handoff after shared-state and revocation tests"
+      ],
+      "gate": "Each surface has a specific user need and measured adoption or workflow benefit. Voice-note ingestion is already scoped earlier; native interaction depends on demonstrated user need.",
+      "depends": [
+        "S5"
+      ],
+      "not_yet": "A complete WhatsApp replacement is not the MVP gate."
+    }
+  ],
+  "architecture_decisions": [
+    {
+      "topic": "Runtime location",
+      "choice": "Cloud owns durable workflow state; device connectors are optional.",
+      "reason": "Matches the founder’s clarified deployment direction and supports work while a device is offline.",
+      "state": "Direction",
+      "revisit": "Data residency, latency or customer constraints require a different deployment."
+    },
+    {
+      "topic": "Harness investment",
+      "choice": "Keep and strengthen the current harness; connect it to an end-to-end workflow.",
+      "reason": "Existing tests expose meaningful errors. The risk is overfitting known questions, not the existence of a harness.",
+      "state": "Recommendation",
+      "revisit": "The source audit reveals an unmaintainable or incompatible core."
+    },
+    {
+      "topic": "Agent count",
+      "choice": "Start with one bounded orchestrator and typed workflow steps.",
+      "reason": "More agents add handoffs and cost before the intake and state semantics are reliable.",
+      "state": "Recommendation",
+      "revisit": "A measured specialist improves a specific failure class without unacceptable cost or latency."
+    },
+    {
+      "topic": "Storage",
+      "choice": "Reuse sound existing storage; prefer relational state plus object storage for a new service.",
+      "reason": "Records, permissions and causal links need transactions; media needs durable bytes.",
+      "state": "Provisional",
+      "revisit": "The audit establishes another suitable technology already in use."
+    },
+    {
+      "topic": "Retrieval",
+      "choice": "Exact IDs and full-text first; add semantic indexing when it solves observed misses.",
+      "reason": "An invoice correction or hold is a relationship problem as well as a similarity problem.",
+      "state": "Recommendation",
+      "revisit": "Measured evidence recall requires semantic retrieval."
+    },
+    {
+      "topic": "Hermes runtime adoption",
+      "choice": "Run a bounded comparison behind a replaceable execution interface; reuse selected patterns now.",
+      "reason": "Source inspection identifies useful harness and multimodal capabilities plus ingestion and enterprise-permission gaps. Adoption remains unproven until measured.",
+      "state": "Source-informed recommendation",
+      "revisit": "Identical held-out workflows establish reliability, integration burden and total cost. OpenHands remains a separate optional reference."
+    },
+    {
+      "topic": "Permissions",
+      "choice": "Request access for enabled capabilities, with separately scoped actions.",
+      "reason": "“Maximum awareness” should mean approved useful coverage, not maximum standing authority.",
+      "state": "Recommendation",
+      "revisit": "A specific workflow needs a clearly explained additional scope."
+    },
+    {
+      "topic": "Native chat & CA channel",
+      "choice": "Validate object-linked collaboration and accountant access before building an agent network.",
+      "reason": "Distribution and migration hypotheses need actual user evidence.",
+      "state": "Later",
+      "revisit": "Pilot partners repeatedly request cross-business structured exchange."
+    }
+  ],
+  "proposed_data_contracts": [
+    {
+      "name": "Observation",
+      "id": "observation",
+      "purpose": "What a source actually supplied.",
+      "fields": [
+        "observation_id",
+        "tenant_id",
+        "source_account_id",
+        "source_event_id",
+        "source_container_id",
+        "actor_ref",
+        "event_type",
+        "sent_at",
+        "received_at",
+        "event_time|null",
+        "reply_to|null",
+        "supersedes|null",
+        "media_refs[]",
+        "access_scope",
+        "raw_payload_ref",
+        "schema_version"
+      ],
+      "rule": "Provider event IDs are scoped by account/container. Unknown event time stays unknown. Source content never becomes an instruction by itself."
+    },
+    {
+      "name": "Business record",
+      "id": "record",
+      "purpose": "A proposed or admitted business fact.",
+      "fields": [
+        "record_id",
+        "tenant_id",
+        "business_id",
+        "object_type",
+        "object_id",
+        "version",
+        "status",
+        "typed_fields",
+        "evidence_refs[]",
+        "supersedes_version|null",
+        "decision_ref|null",
+        "effective_at|null",
+        "created_at"
+      ],
+      "rule": "Versions preserve amendment history. Only admitted records affect authoritative projections under defined rules."
+    },
+    {
+      "name": "Decision",
+      "id": "decision",
+      "purpose": "Who authorised which precise change.",
+      "fields": [
+        "decision_id",
+        "proposal_id",
+        "actor_id",
+        "scope",
+        "action_type",
+        "parameters_digest",
+        "resource_version",
+        "outcome",
+        "reason",
+        "policy_revision",
+        "expires_at",
+        "created_at"
+      ],
+      "rule": "A changed action, object version or revoked grant triggers revalidation; expiry is not approval."
+    },
+    {
+      "name": "Action & receipt",
+      "id": "action",
+      "purpose": "A typed external effect and its observed outcome.",
+      "fields": [
+        "action_id",
+        "tenant_id",
+        "action_type",
+        "arguments",
+        "idempotency_key",
+        "cause_refs[]",
+        "decision_ref",
+        "policy_revision",
+        "preconditions",
+        "attempts[]",
+        "provider_ref|null",
+        "outcome",
+        "postcondition_evidence[]"
+      ],
+      "rule": "Queued, executing, succeeded, failed and uncertain are distinct. Verify external state before retrying an uncertain side effect."
+    },
+    {
+      "name": "Task / matter links",
+      "id": "task",
+      "purpose": "Work that evolves with its source.",
+      "fields": [
+        "task_id",
+        "tenant_id",
+        "business_or_matter_id",
+        "source_record_versions[]",
+        "assignee_ids[]",
+        "status",
+        "due_at|null",
+        "timezone",
+        "attachments[]",
+        "dependencies[]",
+        "acknowledged_at|null",
+        "completion_evidence[]"
+      ],
+      "rule": "Changing a source date invalidates or reviews affected work; a notification is not an acknowledgement or completion."
+    },
+    {
+      "id": "media-analysis",
+      "name": "Media analysis evidence",
+      "purpose": "A derived observation with traceable coverage, not an authoritative business fact.",
+      "fields": [
+        "analysis_id",
+        "tenant_id",
+        "source_observation_id",
+        "original_media_ref",
+        "media_digest",
+        "processor_version",
+        "provider_model",
+        "prompt_version",
+        "mode: transcript|image|video|browser",
+        "page_region_or_time_spans[]",
+        "coverage_and_gaps",
+        "candidate_claims[]",
+        "validation_state",
+        "retention_policy"
+      ],
+      "rule": "Derivatives inherit source permissions. Transcript-only claims cannot assert visual evidence. Keep the original accessible to authorized reviewers; reprocessing creates a new derivative version."
+    }
+  ],
+  "risks": [
+    {
+      "risk": "Missed facts at intake",
+      "consequence": "A polished answer can still be materially wrong.",
+      "control": "Stage-level candidate recall, source coverage and held-out messages.",
+      "components": [
+        "extraction",
+        "eval-harness"
+      ]
+    },
+    {
+      "risk": "Correction or hold omitted",
+      "consequence": "Double counting, wrong balances or an unsafe follow-up.",
+      "control": "Versioned relationships, dependency retrieval and deterministic projection tests.",
+      "components": [
+        "ledger",
+        "retrieval",
+        "views"
+      ]
+    },
+    {
+      "risk": "Cross-business / matter exposure",
+      "consequence": "Staff or another tenant sees private records or files.",
+      "control": "Identity scopes at query, storage, media, tool and export boundaries; revocation tests.",
+      "components": [
+        "identity",
+        "policy",
+        "object-store"
+      ]
+    },
+    {
+      "risk": "Prompt injection in a message or document",
+      "consequence": "Untrusted content attempts to invoke tools, reveal secrets or change rules.",
+      "control": "Separate data from authority; deterministic service gates, scoped tools and isolation.",
+      "components": [
+        "policy",
+        "sandbox",
+        "secrets"
+      ]
+    },
+    {
+      "risk": "Side effect succeeds before timeout",
+      "consequence": "Retry creates a duplicate notification, entry or calendar event.",
+      "control": "Idempotency where supported, durable receipts and provider reconciliation.",
+      "components": [
+        "action-executor",
+        "workflow-engine"
+      ]
+    },
+    {
+      "risk": "Silent connector or media gap",
+      "consequence": "The owner believes incomplete information is current.",
+      "control": "Coverage states, last successful sync, attachment availability and actionable alerts.",
+      "components": [
+        "whatsapp",
+        "gmail",
+        "media",
+        "observability"
+      ]
+    },
+    {
+      "risk": "Stale approval or departed employee",
+      "consequence": "Previously allowed work executes after authority or facts change.",
+      "control": "Execution-time checks, exact parameters, record versions and membership revocation.",
+      "components": [
+        "decision-queue",
+        "policy",
+        "identity"
+      ]
+    },
+    {
+      "risk": "Cost and latency accumulate",
+      "consequence": "An affordable model call becomes an expensive business workflow.",
+      "control": "Deterministic computation, bounded context, batching and outcome-level cost accounting.",
+      "components": [
+        "model-router",
+        "views",
+        "observability"
+      ]
+    },
+    {
+      "risk": "Media interpretation overstates its evidence",
+      "consequence": "A transcript is presented as a visual inspection, or a sampled clip as a complete inspection.",
+      "control": "Explicit processing mode, coverage, original-media citations and review for ambiguous or consequential claims.",
+      "components": [
+        "media",
+        "vision",
+        "voice",
+        "video",
+        "output-validation"
+      ]
+    }
+  ],
+  "measurement_plan": [
+    {
+      "name": "Intake completeness",
+      "definition": "Critical expected facts captured / critical facts in labelled episodes; also report false critical candidates.",
+      "baseline": "Known misses include par 20 and CC-224. General rate unknown.",
+      "gate": "Proposed target: halve missed critical facts against the frozen baseline without increasing false critical candidates."
+    },
+    {
+      "name": "End-to-end correctness",
+      "definition": "Episodes with correct intake, state, answer and intended action / all attempted episodes.",
+      "baseline": "No validated production baseline. Latest fresh-intake answer check: 0/3 strict-clean.",
+      "gate": "Zero critical errors in the agreed release suite; held-out threshold and observation window must be agreed before pilot."
+    },
+    {
+      "name": "Evidence recall at scale",
+      "definition": "Required supporting and constraining evidence retrieved / all labelled required evidence.",
+      "baseline": "Packet around 108.7 / 120 KB. Large-history recall unknown.",
+      "gate": "Proposed experiment at 3× history: ≥98% critical evidence recall, no missed critical holds/corrections and no answer regression."
+    },
+    {
+      "name": "Owner effort",
+      "definition": "Review minutes and manual decisions per completed comparable workflow.",
+      "baseline": "Measure in pilot before automation.",
+      "gate": "Proposed target: ≥25% less review time and ≥30% fewer manual decision actions, with quality preserved."
+    },
+    {
+      "name": "Outcome cost",
+      "definition": "Model, infrastructure, storage, failed attempts and human review cost / correctly completed workflows.",
+      "baseline": "Citation replay cost is a tiny test sample, not unit economics.",
+      "gate": "Proposed routing target: ≥25% lower cost, no new critical errors and ≤2 percentage-point completion decrease on paired tests."
+    },
+    {
+      "name": "Latency & freshness",
+      "definition": "Median and tail time to useful state and completed work, plus age/coverage of each source.",
+      "baseline": "Two citation responses took 65.5 and 85.6 seconds. No general service baseline.",
+      "gate": "Proposed cached-state target: <2 seconds for a fresh state card; separately measure generation and external action latency."
+    }
+  ],
+  "open_questions": [
+    "Where are the current source repository, database schema, test fixtures and raw receipts?",
+    "Which WhatsApp session/library and hosting arrangement are actually in use, and what is its measured history/media coverage?",
+    "Which customer and one operational workflow will be the first consented pilot?",
+    "Which actions may run under standing rules, and which require an owner, accountant or responsible lawyer?",
+    "What retention, deployment region, recovery and contractual requirements do pilot customers need?",
+    "What team capacity and stack already exist? Sprint labels are work packages, not promised two-week delivery dates."
+  ],
+  "sources": [
+    {
+      "id": "E01",
+      "title": "S04 Owner Assistant dossier",
+      "kind": "Reviewed project narrative",
+      "url": "https://claude.ai/artifact/EK5M79vRnjpEcxuQvUXj6v",
+      "note": "167 synthetic messages and displayed grading criteria reviewed previously. Underlying attachment bytes, source code and original receipts were not audited. Latest timeline takes precedence over stale summary sections."
+    },
+    {
+      "id": "E02",
+      "title": "Founder requirements in this conversation",
+      "kind": "First-party requirements / reported capability",
+      "url": null,
+      "note": "Restaurant and law-chamber examples; WhatsApp online-session access reported working; cloud runtime, device apps, model independence and eventual native chat requested."
+    },
+    {
+      "id": "E03",
+      "title": "Supplied second-LLM conversation",
+      "kind": "Proposal, not implementation evidence",
+      "url": null,
+      "note": "Pasted text reviewed. Directory, causal receipts, queued decisions and portability adopted as recommendations. Home-node requirement, effort percentages and unproven corpus links are not accepted as facts."
+    },
+    {
+      "id": "E04",
+      "title": "Supplied RAG / agent architecture image",
+      "kind": "Visual inspiration",
+      "url": null,
+      "note": "Used to distinguish retrieval, orchestration and tools. It is not the SupaBiz architecture or evidence that multi-agent RAG is needed."
+    },
+    {
+      "id": "E05",
+      "title": "Hermes Agent skills video",
+      "kind": "Design inspiration",
+      "url": "https://www.youtube.com/watch?v=WJgxX0Eib6k&t=35s",
+      "note": "Transcript reviewed previously. Useful themes: durable progress, selected context and versioned skills. The video’s performance claims do not establish SupaBiz improvements."
+    },
+    {
+      "id": "R01",
+      "title": "OpenHands SDK architecture",
+      "kind": "Technical reference",
+      "url": "https://docs.openhands.dev/sdk/arch/overview",
+      "note": "Evaluate action / observation and sandbox patterns. Not a decision to adopt its runtime."
+    },
+    {
+      "id": "R02",
+      "title": "Baileys repository",
+      "kind": "Connector candidate",
+      "url": "https://github.com/WhiskeySockets/Baileys",
+      "note": "TypeScript candidate. Verify chosen release, capabilities and licence before implementation; preserve the existing connector if adequate."
+    },
+    {
+      "id": "R03",
+      "title": "whatsmeow repository",
+      "kind": "Connector candidate",
+      "url": "https://github.com/tulir/whatsmeow",
+      "note": "Go candidate; MPL-2.0 differs from a blanket permissive-licence claim."
+    },
+    {
+      "id": "R04",
+      "title": "Gmail API scopes",
+      "kind": "Technical reference",
+      "url": "https://developers.google.com/workspace/gmail/api/auth/scopes",
+      "note": "Select scopes per enabled feature; assess applicable verification requirements before distributing the integration."
+    },
+    {
+      "id": "R05",
+      "title": "PostgreSQL row security",
+      "kind": "Technical reference",
+      "url": "https://www.postgresql.org/docs/current/ddl-rowsecurity.html",
+      "note": "Database enforcement is one layer; configure and test service roles and privileged bypass paths."
+    },
+    {
+      "id": "R06",
+      "title": "Temporal workflows",
+      "kind": "Optional infrastructure reference",
+      "url": "https://docs.temporal.io/workflows",
+      "note": "Durable workflow option if timers and multi-step recovery outgrow a simpler persisted worker."
+    },
+    {
+      "id": "R07",
+      "title": "OWASP AI agent security",
+      "kind": "Technical reference",
+      "url": "https://cheatsheetseries.owasp.org/cheatsheets/AI_Agent_Security_Cheat_Sheet.html",
+      "note": "Use alongside action authority, isolation and data-access tests; no framework label guarantees security."
+    },
+    {
+      "id": "R08",
+      "title": "Hermes Agent repository",
+      "kind": "Framework reference",
+      "url": "https://github.com/NousResearch/hermes-agent",
+      "note": "Study gateway and skill patterns. Adoption requires a contract-based evaluation."
+    },
+    {
+      "id": "R09",
+      "title": "OpenClaw security advisories",
+      "kind": "Failure-mode reference",
+      "url": "https://github.com/openclaw/openclaw/security/advisories",
+      "note": "Advisories span authorisation, secrets, isolation and other controls; they are not all one missing-grant problem."
+    },
+    {
+      "id": "R10",
+      "title": "Stateful testing with Hypothesis",
+      "kind": "Testing reference",
+      "url": "https://hypothesis.readthedocs.io/en/latest/stateful.html",
+      "note": "Generate sequences such as accept, correct, revoke, replay and restart to check invariants."
+    },
+    {
+      "id": "H01",
+      "title": "Hermes Agent — pinned source investigation",
+      "kind": "Code observed; not runtime tested or integrated",
+      "url": "https://github.com/NousResearch/hermes-agent/blob/848fc0ad8be766b9dc10fe42bd80b5fc2d45d95c/README.md",
+      "note": "Revision 848fc0ad8be766b9dc10fe42bd80b5fc2d45d95c. Inspected agent loop, memory, skills, gateway, WhatsApp queue, scheduler, browser, vision, video and transcription paths. No measured uplift, complete security audit or production readiness claim."
+    }
+  ],
+  "concepts": [
+    {
+      "term": "Short-term memory",
+      "meaning": "The bounded working context for one run: the request, selected evidence, tool results and current step. Durable checkpoints live outside the prompt.",
+      "placement": [
+        "orchestrator",
+        "retrieval",
+        "workflow-engine"
+      ],
+      "boundary": "Compacting a conversation must not erase a payment hold, a correction or an unresolved dependency."
+    },
+    {
+      "term": "Long-term memory",
+      "meaning": "Explicit, versioned business records, approved preferences, identity mappings and workflow knowledge. Historical observations remain distinguishable from accepted facts.",
+      "placement": [
+        "ledger",
+        "identity",
+        "workflow-packs"
+      ],
+      "boundary": "Do not treat a model-written summary or a vector search result as the authoritative ledger. Preference changes need scope, provenance and revocation."
+    },
+    {
+      "term": "Planning",
+      "meaning": "Choose the next permitted step, record its dependencies and revise the plan when evidence changes. Use predictable workflow steps for repeated business processes.",
+      "placement": [
+        "orchestrator",
+        "workflow-packs",
+        "tasks"
+      ],
+      "boundary": "A plan is an intention. It is not an approval, execution receipt or completed task."
+    },
+    {
+      "term": "RAG / retrieval",
+      "meaning": "Retrieve authorised records and source evidence before generating an answer. Exact business identifiers and amendment relationships matter alongside semantic similarity.",
+      "placement": [
+        "retrieval",
+        "answers",
+        "output-validation"
+      ],
+      "boundary": "RAG helps answer from evidence; it does not provide ingestion completeness, permission enforcement or reliable execution by itself."
+    },
+    {
+      "term": "Embeddings & vector index",
+      "meaning": "An optional derived search representation for finding semantically related text or media. Add it when measured retrieval needs justify it.",
+      "placement": [
+        "retrieval",
+        "media",
+        "database"
+      ],
+      "boundary": "The index must inherit scope, deletion and version rules. It is rebuildable from governed data and is not the source of truth."
+    },
+    {
+      "term": "MCP / tool protocol",
+      "meaning": "An optional standard interface for exposing tools and resources to a model runtime. Typed service APIs can also be used directly.",
+      "placement": [
+        "business-tools",
+        "action-executor",
+        "policy"
+      ],
+      "boundary": "Protocol compatibility does not grant authority. Authenticate the caller, validate arguments and enforce object scope in the executing service."
+    },
+    {
+      "term": "Multi-agent coordination",
+      "meaning": "Separate workers or specialists may handle bounded tasks when evaluation shows a benefit. Share typed state and causal references, not unchecked conversation summaries.",
+      "placement": [
+        "orchestrator",
+        "model-router",
+        "agent-exchange"
+      ],
+      "boundary": "Do not add multiple agents by default. Delegation needs scopes, budgets, loop limits and receiving-side validation."
+    },
+    {
+      "term": "Authentication versus authorisation",
+      "meaning": "Authentication establishes the person, device or service identity. Source consent grants specific connector access. Authorisation decides which exact business object and action that identity may use.",
+      "placement": [
+        "secrets",
+        "identity",
+        "policy",
+        "decision-queue"
+      ],
+      "boundary": "Signing in, linking WhatsApp or granting Gmail read access does not authorise sending messages, approving invoices or accessing every matter."
+    },
+    {
+      "term": "Multimodal perception",
+      "meaning": "Browser structure, screenshots, images, speech and videos become evidence-linked candidate observations through specialized tools. The model interprets; business services validate and admit.",
+      "placement": [
+        "browser",
+        "vision",
+        "voice",
+        "video",
+        "media",
+        "extraction"
+      ],
+      "boundary": "Reading content, understanding content and being authorized to act on it are separate capabilities."
+    }
+  ],
+  "hermes_review": {
+    "revision": "848fc0ad8be766b9dc10fe42bd80b5fc2d45d95c",
+    "review_type": "Source inspection only; no runtime benchmark or production integration",
+    "decision": "Evaluate Hermes as a replaceable execution engine. SupaBiz retains ownership of evidence, business records, permissions and action verification.",
+    "rows": [
+      {
+        "id": "harness",
+        "decision": "Adapt",
+        "part": "Runtime harness",
+        "observed": "Intent is persisted before tool execution; failed persistence stops the inspected tool round.",
+        "take": "Reuse execution ordering and compare the runtime behind one adapter.",
+        "build": "Business invariants, source-linked receipts, idempotent domain writes and postcondition checks.",
+        "component": "orchestrator",
+        "stage": "S0 → S3",
+        "source": "https://github.com/NousResearch/hermes-agent/blob/848fc0ad8be766b9dc10fe42bd80b5fc2d45d95c/agent/turn_tool_round.py"
+      },
+      {
+        "id": "connectors",
+        "decision": "Adapt",
+        "part": "Channel adapters",
+        "observed": "WhatsApp uses a Python adapter plus a Node/Baileys bridge; identity alias handling exists.",
+        "take": "Reuse adapter contracts, normalization and selected connection handling after comparison.",
+        "build": "Durable ingestion, commit-before-ack, replay, gap reporting and media lifecycle. The inspected bridge has a 100-item in-memory queue, destructive polling and full-history sync disabled.",
+        "component": "whatsapp",
+        "stage": "S1",
+        "source": "https://github.com/NousResearch/hermes-agent/blob/848fc0ad8be766b9dc10fe42bd80b5fc2d45d95c/scripts/whatsapp-bridge/bridge.js"
+      },
+      {
+        "id": "memory",
+        "decision": "Adapt",
+        "part": "Memory & retrieval",
+        "observed": "Built-in memory enters the prompt as a frozen session snapshot; provider hooks exist.",
+        "take": "Stable preference context, provider interfaces and cache-aware context management.",
+        "build": "Current inventory, deadlines and payment state in a versioned business ledger, retrieved at decision time.",
+        "component": "retrieval",
+        "stage": "S2",
+        "source": "https://github.com/NousResearch/hermes-agent/blob/848fc0ad8be766b9dc10fe42bd80b5fc2d45d95c/tools/memory_tool.py"
+      },
+      {
+        "id": "skills",
+        "decision": "Adapt",
+        "part": "Skills & procedures",
+        "observed": "Skill mutation guards and user-visible learning management exist.",
+        "take": "Reusable workflow skills and suggested improvements.",
+        "build": "Draft → tests → approved version → monitored rollout → rollback; no silent production procedure changes.",
+        "component": "workflow-packs",
+        "stage": "S3",
+        "source": "https://github.com/NousResearch/hermes-agent/blob/848fc0ad8be766b9dc10fe42bd80b5fc2d45d95c/tools/skill_manager_guards.py"
+      },
+      {
+        "id": "scheduler",
+        "decision": "Adapt",
+        "part": "Scheduling & recovery",
+        "observed": "Scheduled occurrences have identities; interrupted claimed sends can become unknown rather than automatically retried.",
+        "take": "Occurrence tracking, durable outcome records and honest unknown states.",
+        "build": "Business deadline escalation, reconciliation, cancellation after amendments and completion evidence.",
+        "component": "workflow-engine",
+        "stage": "S3",
+        "source": "https://github.com/NousResearch/hermes-agent/blob/848fc0ad8be766b9dc10fe42bd80b5fc2d45d95c/cron/delivery_queue.py"
+      },
+      {
+        "id": "providers",
+        "decision": "Reuse candidate",
+        "part": "Model & context interfaces",
+        "observed": "Provider registries and context-engine interfaces separate parts of the runtime.",
+        "take": "Provider abstraction, capability routing and bounded context patterns.",
+        "build": "Per-model regression tests, sensitive-data routing, costs per correct outcome and tested fallbacks.",
+        "component": "model-router",
+        "stage": "S0 → S5",
+        "source": "https://github.com/NousResearch/hermes-agent/blob/848fc0ad8be766b9dc10fe42bd80b5fc2d45d95c/agent/context_engine.py"
+      },
+      {
+        "id": "clients",
+        "decision": "Reuse candidate",
+        "part": "Shared clients & receipts",
+        "observed": "Conversation receipts identify committed rows; CLI/TUI/desktop share backend components.",
+        "take": "Shared run/session IDs and UI reconciliation against committed state.",
+        "build": "Mobile UX, device revocation and durable task/record state independent of conversation history.",
+        "component": "device-apps",
+        "stage": "S6",
+        "source": "https://github.com/NousResearch/hermes-agent/blob/848fc0ad8be766b9dc10fe42bd80b5fc2d45d95c/agent/persisted_turn_receipt.py"
+      },
+      {
+        "id": "security",
+        "decision": "Build around",
+        "part": "Enterprise trust boundary",
+        "observed": "Upstream describes a single-tenant trust model; authorized callers within an adapter are equally trusted.",
+        "take": "Whole-process isolation as a deployment pattern.",
+        "build": "Organization/outlet/matter permissions, credential brokering and policy checks outside the agent. Profiles are not proof of tenant isolation.",
+        "component": "policy",
+        "stage": "S0 → S3",
+        "source": "https://github.com/NousResearch/hermes-agent/blob/848fc0ad8be766b9dc10fe42bd80b5fc2d45d95c/SECURITY.md"
+      },
+      {
+        "id": "business",
+        "decision": "Build ourselves",
+        "part": "Business truth & action service",
+        "observed": "Agent tools and memory do not establish SupaBiz-specific record semantics.",
+        "take": "A replaceable agent worker proposes actions through narrow contracts.",
+        "build": "Identity directory, immutable evidence, correction chains, scoped records, approval versions and transaction receipts.",
+        "component": "ledger",
+        "stage": "S1 → S4",
+        "source": "https://github.com/NousResearch/hermes-agent/blob/848fc0ad8be766b9dc10fe42bd80b5fc2d45d95c/agent/turn_tool_round.py"
+      }
+    ]
+  },
+  "media_paths": [
+    {
+      "id": "browser",
+      "name": "Browser control",
+      "layer": "actions",
+      "stage": "S3",
+      "path": "Approved URL → scoped browser session → accessibility snapshot → action → fresh snapshot / screenshot → verified receipt",
+      "observed": "Local or remote browser backends expose page structure and element references. Screenshot vision is available when structural inspection is insufficient.",
+      "take": "Observe–act–observe loop, browser provider interface, per-task sessions and screenshot fallback.",
+      "build": "Isolate browser identities by workspace; constrain sites and actions; keep credentials out of model context; route consequential writes through policy and verify resulting state.",
+      "example": "Open an approved supplier portal and retrieve an invoice. Confirm the invoice identity; a successful click is not proof of a completed business transaction.",
+      "limit": "Requires access to the site. Logins, MFA, unavailable controls and site changes can require user action. A screenshot sees the current view, not every hidden page.",
+      "source": "https://github.com/NousResearch/hermes-agent/blob/848fc0ad8be766b9dc10fe42bd80b5fc2d45d95c/tools/browser_tool.py",
+      "deps": [
+        "identity",
+        "policy",
+        "sandbox",
+        "secrets",
+        "model-router",
+        "action-executor"
+      ]
+    },
+    {
+      "id": "vision",
+      "name": "Image & document vision",
+      "layer": "intake",
+      "stage": "S2",
+      "path": "Photo / scan / screenshot → protected original → text extraction or image preparation → vision model → evidence-linked candidate → validation",
+      "observed": "Images can be supplied to a vision-capable main model or analyzed by an auxiliary vision model. Image preparation and size controls exist.",
+      "take": "Separate image preparation from inference, route by model capability and avoid repeating oversized images in context.",
+      "build": "Page/region citations, source permissions, derivative versions, uncertainty and checks for dates, quantities, totals and business identity.",
+      "example": "Extract invoice number and net weight from a delivery photo, preserving the original region for owner review.",
+      "limit": "Blur, occlusion, small text and ambiguous handwriting can produce errors. A plausible description is not a verified record.",
+      "source": "https://github.com/NousResearch/hermes-agent/blob/848fc0ad8be766b9dc10fe42bd80b5fc2d45d95c/tools/vision_tools.py",
+      "deps": [
+        "media",
+        "model-router",
+        "output-validation"
+      ]
+    },
+    {
+      "id": "voice",
+      "name": "Voice & transcription",
+      "layer": "intake",
+      "stage": "S2",
+      "path": "Voice note → protected audio → transcription → speaker/source and time references → typed candidate → review when ambiguous",
+      "observed": "A transcription dispatcher supports local and cloud providers and returns transcript, status and provider information.",
+      "take": "Provider abstraction, audio preparation and bounded processing; evaluate local transcription for suitable workloads.",
+      "build": "Hindi/English/code-switching tests, timestamps, names/units confirmation and tenant-aware routing. Source sender identity is separate from voice-based speaker guesses.",
+      "example": "A chef says stock is low. Extract the item and quantity, then ask for clarification if the number or unit is unclear.",
+      "limit": "Transcription is not proof of speaker identity. Noise and language mixing require evaluation. Voice-note intake can precede a full voice-conversation UI.",
+      "source": "https://github.com/NousResearch/hermes-agent/blob/848fc0ad8be766b9dc10fe42bd80b5fc2d45d95c/tools/transcription_tools.py",
+      "deps": [
+        "media",
+        "model-router",
+        "identity",
+        "output-validation"
+      ]
+    },
+    {
+      "id": "video",
+      "name": "Video understanding",
+      "layer": "intake",
+      "stage": "S3",
+      "path": "Clip → protected original → size/duration checks → video-capable model or proposed clip/frame pipeline → timestamped observations → reviewed task",
+      "observed": "The opt-in video_analyze tool materializes a file, base64-encodes it and sends it to an auxiliary model. The inspected path does not itself extract frames. A separate YouTube skill reads transcripts.",
+      "take": "Separate video analysis from transcript summarization; capability routing and bounded media handling.",
+      "build": "Long-video segmentation, timestamp verification, audio alignment, cost limits and missing-coverage reporting. Frame sampling is a proposed SupaBiz extension, not an observed Hermes feature in this path.",
+      "example": "A kitchen clip shows water beneath a sink at a cited timestamp. Propose a maintenance task without inventing the cause or claiming repair completion.",
+      "limit": "The encoded payload has a 50 MiB cap; actual raw capacity is lower because base64 expands data. A YouTube page is not a direct video file. Transcript-only analysis cannot establish visual events; sampled frames may miss short events.",
+      "source": "https://github.com/NousResearch/hermes-agent/blob/848fc0ad8be766b9dc10fe42bd80b5fc2d45d95c/tools/vision_tools.py#L1039",
+      "deps": [
+        "media",
+        "vision",
+        "voice",
+        "model-router",
+        "output-validation"
+      ]
+    }
+  ],
+  "relations": [
+    {
+      "from": "owner-app",
+      "to": "identity",
+      "type": "depends_on"
+    },
+    {
+      "from": "owner-app",
+      "to": "views",
+      "type": "depends_on"
+    },
+    {
+      "from": "owner-app",
+      "to": "decision-queue",
+      "type": "depends_on"
+    },
+    {
+      "from": "owner-app",
+      "to": "answers",
+      "type": "depends_on"
+    },
+    {
+      "from": "device-apps",
+      "to": "identity",
+      "type": "depends_on"
+    },
+    {
+      "from": "device-apps",
+      "to": "orchestrator",
+      "type": "depends_on"
+    },
+    {
+      "from": "device-apps",
+      "to": "secrets",
+      "type": "depends_on"
+    },
+    {
+      "from": "device-apps",
+      "to": "voice",
+      "type": "depends_on"
+    },
+    {
+      "from": "native-chat",
+      "to": "identity",
+      "type": "depends_on"
+    },
+    {
+      "from": "native-chat",
+      "to": "observations",
+      "type": "depends_on"
+    },
+    {
+      "from": "native-chat",
+      "to": "tasks",
+      "type": "depends_on"
+    },
+    {
+      "from": "native-chat",
+      "to": "media",
+      "type": "depends_on"
+    },
+    {
+      "from": "whatsapp",
+      "to": "secrets",
+      "type": "depends_on"
+    },
+    {
+      "from": "whatsapp",
+      "to": "identity",
+      "type": "depends_on"
+    },
+    {
+      "from": "whatsapp",
+      "to": "observations",
+      "type": "depends_on"
+    },
+    {
+      "from": "whatsapp",
+      "to": "media",
+      "type": "depends_on"
+    },
+    {
+      "from": "gmail",
+      "to": "identity",
+      "type": "depends_on"
+    },
+    {
+      "from": "gmail",
+      "to": "secrets",
+      "type": "depends_on"
+    },
+    {
+      "from": "gmail",
+      "to": "observations",
+      "type": "depends_on"
+    },
+    {
+      "from": "gmail",
+      "to": "media",
+      "type": "depends_on"
+    },
+    {
+      "from": "observations",
+      "to": "identity",
+      "type": "depends_on"
+    },
+    {
+      "from": "observations",
+      "to": "database",
+      "type": "depends_on"
+    },
+    {
+      "from": "media",
+      "to": "object-store",
+      "type": "depends_on"
+    },
+    {
+      "from": "media",
+      "to": "identity",
+      "type": "depends_on"
+    },
+    {
+      "from": "media",
+      "to": "observations",
+      "type": "depends_on"
+    },
+    {
+      "from": "identity",
+      "to": "database",
+      "type": "depends_on"
+    },
+    {
+      "from": "extraction",
+      "to": "observations",
+      "type": "depends_on"
+    },
+    {
+      "from": "extraction",
+      "to": "media",
+      "type": "depends_on"
+    },
+    {
+      "from": "extraction",
+      "to": "identity",
+      "type": "depends_on"
+    },
+    {
+      "from": "extraction",
+      "to": "model-router",
+      "type": "depends_on"
+    },
+    {
+      "from": "extraction",
+      "to": "vision",
+      "type": "depends_on"
+    },
+    {
+      "from": "extraction",
+      "to": "voice",
+      "type": "depends_on"
+    },
+    {
+      "from": "extraction",
+      "to": "video",
+      "type": "depends_on"
+    },
+    {
+      "from": "ledger",
+      "to": "extraction",
+      "type": "depends_on"
+    },
+    {
+      "from": "ledger",
+      "to": "policy",
+      "type": "depends_on"
+    },
+    {
+      "from": "ledger",
+      "to": "database",
+      "type": "depends_on"
+    },
+    {
+      "from": "views",
+      "to": "ledger",
+      "type": "depends_on"
+    },
+    {
+      "from": "views",
+      "to": "database",
+      "type": "depends_on"
+    },
+    {
+      "from": "retrieval",
+      "to": "identity",
+      "type": "depends_on"
+    },
+    {
+      "from": "retrieval",
+      "to": "ledger",
+      "type": "depends_on"
+    },
+    {
+      "from": "retrieval",
+      "to": "media",
+      "type": "depends_on"
+    },
+    {
+      "from": "retrieval",
+      "to": "views",
+      "type": "depends_on"
+    },
+    {
+      "from": "orchestrator",
+      "to": "policy",
+      "type": "depends_on"
+    },
+    {
+      "from": "orchestrator",
+      "to": "retrieval",
+      "type": "depends_on"
+    },
+    {
+      "from": "orchestrator",
+      "to": "model-router",
+      "type": "depends_on"
+    },
+    {
+      "from": "orchestrator",
+      "to": "output-validation",
+      "type": "depends_on"
+    },
+    {
+      "from": "orchestrator",
+      "to": "workflow-engine",
+      "type": "depends_on"
+    },
+    {
+      "from": "model-router",
+      "to": "secrets",
+      "type": "depends_on"
+    },
+    {
+      "from": "model-router",
+      "to": "observability",
+      "type": "depends_on"
+    },
+    {
+      "from": "model-router",
+      "to": "output-validation",
+      "type": "depends_on"
+    },
+    {
+      "from": "output-validation",
+      "to": "ledger",
+      "type": "depends_on"
+    },
+    {
+      "from": "output-validation",
+      "to": "views",
+      "type": "depends_on"
+    },
+    {
+      "from": "output-validation",
+      "to": "retrieval",
+      "type": "depends_on"
+    },
+    {
+      "from": "workflow-packs",
+      "to": "policy",
+      "type": "depends_on"
+    },
+    {
+      "from": "workflow-packs",
+      "to": "output-validation",
+      "type": "depends_on"
+    },
+    {
+      "from": "workflow-packs",
+      "to": "eval-harness",
+      "type": "depends_on"
+    },
+    {
+      "from": "answers",
+      "to": "retrieval",
+      "type": "depends_on"
+    },
+    {
+      "from": "answers",
+      "to": "views",
+      "type": "depends_on"
+    },
+    {
+      "from": "answers",
+      "to": "output-validation",
+      "type": "depends_on"
+    },
+    {
+      "from": "answers",
+      "to": "model-router",
+      "type": "depends_on"
+    },
+    {
+      "from": "policy",
+      "to": "identity",
+      "type": "depends_on"
+    },
+    {
+      "from": "policy",
+      "to": "database",
+      "type": "depends_on"
+    },
+    {
+      "from": "decision-queue",
+      "to": "policy",
+      "type": "depends_on"
+    },
+    {
+      "from": "decision-queue",
+      "to": "ledger",
+      "type": "depends_on"
+    },
+    {
+      "from": "decision-queue",
+      "to": "identity",
+      "type": "depends_on"
+    },
+    {
+      "from": "tasks",
+      "to": "identity",
+      "type": "depends_on"
+    },
+    {
+      "from": "tasks",
+      "to": "policy",
+      "type": "depends_on"
+    },
+    {
+      "from": "tasks",
+      "to": "workflow-engine",
+      "type": "depends_on"
+    },
+    {
+      "from": "tasks",
+      "to": "media",
+      "type": "depends_on"
+    },
+    {
+      "from": "calendar",
+      "to": "tasks",
+      "type": "depends_on"
+    },
+    {
+      "from": "calendar",
+      "to": "policy",
+      "type": "depends_on"
+    },
+    {
+      "from": "calendar",
+      "to": "action-executor",
+      "type": "depends_on"
+    },
+    {
+      "from": "calendar",
+      "to": "gmail",
+      "type": "depends_on"
+    },
+    {
+      "from": "business-tools",
+      "to": "policy",
+      "type": "depends_on"
+    },
+    {
+      "from": "business-tools",
+      "to": "action-executor",
+      "type": "depends_on"
+    },
+    {
+      "from": "business-tools",
+      "to": "ledger",
+      "type": "depends_on"
+    },
+    {
+      "from": "business-tools",
+      "to": "object-store",
+      "type": "depends_on"
+    },
+    {
+      "from": "action-executor",
+      "to": "policy",
+      "type": "depends_on"
+    },
+    {
+      "from": "action-executor",
+      "to": "secrets",
+      "type": "depends_on"
+    },
+    {
+      "from": "action-executor",
+      "to": "workflow-engine",
+      "type": "depends_on"
+    },
+    {
+      "from": "action-executor",
+      "to": "database",
+      "type": "depends_on"
+    },
+    {
+      "from": "workflow-engine",
+      "to": "database",
+      "type": "depends_on"
+    },
+    {
+      "from": "workflow-engine",
+      "to": "observability",
+      "type": "depends_on"
+    },
+    {
+      "from": "agent-exchange",
+      "to": "identity",
+      "type": "depends_on"
+    },
+    {
+      "from": "agent-exchange",
+      "to": "policy",
+      "type": "depends_on"
+    },
+    {
+      "from": "agent-exchange",
+      "to": "action-executor",
+      "type": "depends_on"
+    },
+    {
+      "from": "agent-exchange",
+      "to": "native-chat",
+      "type": "depends_on"
+    },
+    {
+      "from": "object-store",
+      "to": "identity",
+      "type": "depends_on"
+    },
+    {
+      "from": "object-store",
+      "to": "secrets",
+      "type": "depends_on"
+    },
+    {
+      "from": "object-store",
+      "to": "database",
+      "type": "depends_on"
+    },
+    {
+      "from": "secrets",
+      "to": "identity",
+      "type": "depends_on"
+    },
+    {
+      "from": "sandbox",
+      "to": "policy",
+      "type": "depends_on"
+    },
+    {
+      "from": "sandbox",
+      "to": "secrets",
+      "type": "depends_on"
+    },
+    {
+      "from": "sandbox",
+      "to": "observability",
+      "type": "depends_on"
+    },
+    {
+      "from": "observability",
+      "to": "database",
+      "type": "depends_on"
+    },
+    {
+      "from": "eval-harness",
+      "to": "workflow-packs",
+      "type": "depends_on"
+    },
+    {
+      "from": "eval-harness",
+      "to": "output-validation",
+      "type": "depends_on"
+    },
+    {
+      "from": "eval-harness",
+      "to": "observability",
+      "type": "depends_on"
+    },
+    {
+      "from": "portability",
+      "to": "identity",
+      "type": "depends_on"
+    },
+    {
+      "from": "portability",
+      "to": "ledger",
+      "type": "depends_on"
+    },
+    {
+      "from": "portability",
+      "to": "media",
+      "type": "depends_on"
+    },
+    {
+      "from": "portability",
+      "to": "tasks",
+      "type": "depends_on"
+    },
+    {
+      "from": "portability",
+      "to": "object-store",
+      "type": "depends_on"
+    },
+    {
+      "from": "browser",
+      "to": "identity",
+      "type": "depends_on"
+    },
+    {
+      "from": "browser",
+      "to": "policy",
+      "type": "depends_on"
+    },
+    {
+      "from": "browser",
+      "to": "sandbox",
+      "type": "depends_on"
+    },
+    {
+      "from": "browser",
+      "to": "secrets",
+      "type": "depends_on"
+    },
+    {
+      "from": "browser",
+      "to": "model-router",
+      "type": "depends_on"
+    },
+    {
+      "from": "browser",
+      "to": "action-executor",
+      "type": "depends_on"
+    },
+    {
+      "from": "vision",
+      "to": "media",
+      "type": "depends_on"
+    },
+    {
+      "from": "vision",
+      "to": "model-router",
+      "type": "depends_on"
+    },
+    {
+      "from": "vision",
+      "to": "output-validation",
+      "type": "depends_on"
+    },
+    {
+      "from": "voice",
+      "to": "media",
+      "type": "depends_on"
+    },
+    {
+      "from": "voice",
+      "to": "model-router",
+      "type": "depends_on"
+    },
+    {
+      "from": "voice",
+      "to": "identity",
+      "type": "depends_on"
+    },
+    {
+      "from": "voice",
+      "to": "output-validation",
+      "type": "depends_on"
+    },
+    {
+      "from": "video",
+      "to": "media",
+      "type": "depends_on"
+    },
+    {
+      "from": "video",
+      "to": "vision",
+      "type": "depends_on"
+    },
+    {
+      "from": "video",
+      "to": "voice",
+      "type": "depends_on"
+    },
+    {
+      "from": "video",
+      "to": "model-router",
+      "type": "depends_on"
+    },
+    {
+      "from": "video",
+      "to": "output-validation",
+      "type": "depends_on"
+    }
+  ],
+  "maintenance": {
+    "canonical_source": "source/content.py",
+    "generator": "source/build.py",
+    "generated_files": [
+      "index.html",
+      "ai.html",
+      "architecture.json",
+      "reference.md",
+      "llms.txt",
+      "llms-full.txt"
+    ],
+    "update_rule": "Change canonical content, preserve stable IDs, add dated evidence and limitations, regenerate all views and verify. Do not change reported/proposed to demonstrated without evidence.",
+    "freshness": "Static snapshot; no live sync or automatic project monitoring is configured."
+  }
+}
