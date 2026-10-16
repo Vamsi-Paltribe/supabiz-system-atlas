@@ -1,0 +1,164 @@
+id:
+  P04-docling
+name:
+  Docling
+category:
+  Document parsing and conversion
+sections:
+  What it is:
+    Docling is a document-processing library. Its central operation converts an input document into a structured document result that can be exported or consumed by downstream applications. It handles document structure as well as text: page layout, reading order, tables and optional enrichments. Parsing a supplier invoice or a court document does not by itself establish the business meaning of a number or date. The output is a structured interpretation of the source, with processing status and errors.
+  Architecture:
+    DocumentConverter is the public entry point. Format-option classes associate formats with backends and pipelines. Its allowed_formats setting constrains accepted formats, and pipeline construction is cached using pipeline options. Backends supply format-specific access; pipelines build, assemble and optionally enrich a result. The standard PDF pipeline uses threaded stages and bounded queues around model-based processing. This separates decoding a source format from choosing OCR/layout/table models and from assembling a final document.
+  Main execution flow:
+    The converter accepts a source, identifies or checks its format, selects a configured backend and obtains the corresponding pipeline. BasePipeline.execute creates a ConversionResult, performs build, assemble and enrich phases, determines status and releases resources in a finally block. A particularly useful inspected rule changes SUCCESS to PARTIAL_SUCCESS whenever errors remain. The PDF pipeline has explicit processing success/failure counts and assembly through a reading-order model. Consumers must inspect status and errors instead of treating a nonempty text export as complete coverage.
+  State, models and output:
+    ConversionResult is per-document processing state; it is not a business database. Model artifacts can live in a configured artifacts directory and pipeline instances can be reused. The pipeline options expose OCR choices and table-processing choices. Optional image-description/API paths accept remote-service configuration; remote processing must be deliberately understood when selecting those options. The public library can be used locally, but local Python execution alone does not establish that every enabled model, download or optional service is offline.
+  Authentication and deployment:
+    The core converter is a Python library, not a multi-tenant identity service. A server wrapping it must control file access, URLs, input limits, job scheduling, authorization and output retention. Optional dependencies and model downloads affect installation and hardware requirements. The inspected configuration supports document timeouts and error reporting; large, malformed or hostile inputs still need bounded execution in any deployment. No OCR model, GPU pipeline, external API or server was run in this research.
+  Extension points and licensing:
+    Format options and backend/pipeline interfaces are the principal extension seams. An application can choose another OCR option, customize enrichment or add a format-specific backend without redesigning all downstream consumers. Root code is MIT-licensed, while model weights and dependencies retain their own terms. The repository and pyproject identify a broad ecosystem; this investigation did not verify all optional backends or the terms of every model artifact.
+  What remains to learn:
+    A useful runtime study would collect representative scanned, digital and mixed-layout documents, including rotated pages, multi-page tables, handwriting and deliberately unreadable regions. Compare extracted fields against human-labelled page regions, separately measuring reading order, table structure and missing coverage. Exercise a timeout and a failed page to verify partial-success propagation into exported formats. Measure CPU/GPU memory, model initialization and steady-state latency separately. No accuracy percentage follows from this source inspection.
+findings:
+  - id:
+      P04-docling:DO-01
+    project_id:
+      P04-docling
+    evidence_kind:
+      Code
+    claim:
+      Format options select backends and cached pipelines.
+    source:
+      repository_id:
+        P04-docling
+      repository:
+        docling-project/docling
+      revision:
+        0e54294231b69bc2cf7a39873235495788f76b57
+      path:
+        docling/document_converter.py
+      sha256:
+        50f0af029f7ae04f925f769e1ec4c004dae842f6032d24df70dc8c459b772977
+      url:
+        https://github.com/docling-project/docling/blob/0e54294231b69bc2cf7a39873235495788f76b57/docling/document_converter.py
+      local_snapshot_retained_not_published:
+        True
+    runtime_verified:
+      False
+  - id:
+      P04-docling:DO-02
+    project_id:
+      P04-docling
+    evidence_kind:
+      Code
+    claim:
+      Build/assemble/enrich phases set partial success when errors remain.
+    source:
+      repository_id:
+        P04-docling
+      repository:
+        docling-project/docling
+      revision:
+        0e54294231b69bc2cf7a39873235495788f76b57
+      path:
+        docling/pipeline/base_pipeline.py
+      sha256:
+        ac7db6844c9384f8c558ef2bb82ec2fec5b41ab98b2e6d1cce35baddbecf924e
+      url:
+        https://github.com/docling-project/docling/blob/0e54294231b69bc2cf7a39873235495788f76b57/docling/pipeline/base_pipeline.py
+      local_snapshot_retained_not_published:
+        True
+    runtime_verified:
+      False
+  - id:
+      P04-docling:DO-03
+    project_id:
+      P04-docling
+    evidence_kind:
+      Code
+    claim:
+      PDF pipeline contains threaded processing stages and reading-order assembly.
+    source:
+      repository_id:
+        P04-docling
+      repository:
+        docling-project/docling
+      revision:
+        0e54294231b69bc2cf7a39873235495788f76b57
+      path:
+        docling/pipeline/standard_pdf_pipeline.py
+      sha256:
+        eef33425f793815ca32629ea7e2068fa6f1f27ebd2bf4950cf933ec5812cfa16
+      url:
+        https://github.com/docling-project/docling/blob/0e54294231b69bc2cf7a39873235495788f76b57/docling/pipeline/standard_pdf_pipeline.py
+      local_snapshot_retained_not_published:
+        True
+    runtime_verified:
+      False
+  - id:
+      P04-docling:DO-04
+    project_id:
+      P04-docling
+    evidence_kind:
+      Code
+    claim:
+      OCR, table and optional remote enrichment options are explicit.
+    source:
+      repository_id:
+        P04-docling
+      repository:
+        docling-project/docling
+      revision:
+        0e54294231b69bc2cf7a39873235495788f76b57
+      path:
+        docling/datamodel/pipeline_options.py
+      sha256:
+        60b31cac740b72e2b872b46b5e981b701386016b41b773b8491820d3fb8fe8e8
+      url:
+        https://github.com/docling-project/docling/blob/0e54294231b69bc2cf7a39873235495788f76b57/docling/datamodel/pipeline_options.py
+      local_snapshot_retained_not_published:
+        True
+    runtime_verified:
+      False
+  - id:
+      P04-docling:DO-05
+    project_id:
+      P04-docling
+    evidence_kind:
+      License
+    claim:
+      Root source license is MIT; external model terms are separate.
+    source:
+      repository_id:
+        P04-docling
+      repository:
+        docling-project/docling
+      revision:
+        0e54294231b69bc2cf7a39873235495788f76b57
+      path:
+        LICENSE
+      sha256:
+        edb765d1e3e60d0c7a7d5fba5f2bb2c3c29f7465cecb5c22cf1185c884954e4c
+      url:
+        https://github.com/docling-project/docling/blob/0e54294231b69bc2cf7a39873235495788f76b57/LICENSE
+      local_snapshot_retained_not_published:
+        True
+    runtime_verified:
+      False
+unknowns:
+  - Document quality and language performance have not been measured.
+  - No complete coverage review of all format backends.
+  - No model weights were installed or executed.
+related_projects:
+  - P06-browser-use
+  - P01-hermes
+repository:
+  docling-project/docling
+revision:
+  0e54294231b69bc2cf7a39873235495788f76b57
+url:
+  https://github.com/docling-project/docling
+source_file_count:
+  7
+auxiliary_sources:
+

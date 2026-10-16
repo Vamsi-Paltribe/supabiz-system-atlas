@@ -1,9 +1,11 @@
-# SupaBiz — Product & System Atlas
+# SupaBiz — Product & System Atlas v3.0
 
-[Open the public atlas](https://vamsi-paltribe.github.io/supabiz-system-atlas/) · [Version history](https://vamsi-paltribe.github.io/supabiz-system-atlas/versions.html)
+[Open v3](https://vamsi-paltribe.github.io/supabiz-system-atlas/) · [Version history](https://vamsi-paltribe.github.io/supabiz-system-atlas/versions.html)
 
-Version 1.0 is preserved in v1/. Version 2.0 adds pinned-source Hermes findings, reuse/build decisions, browser/vision/voice/video paths, and roadmap gates. These are reference documents, not implementation claims.
+V3 maps 21 researched projects across 11 architecture/engineering layers, with reuse/build decisions, nine harness responsibilities, seven business workflows, ten refinements and delivery gates. These are proposed designs, not newly implemented product capabilities.
 
-For AI tools: read llms-full.txt for the complete context or architecture.json for structured data. These files require no login or JavaScript. An AI service may still block a domain; download and attach the files in that case.
+V1 and v2 are preserved byte-for-byte in v1/ and v2/. Root and v3/ contain the current version.
 
-This repository contains only published static reference files. No customer accounts, credentials, or raw conversations are included.
+For any LLM: read llms-full.txt or architecture.json. Per-project source-review dossiers are in research/. No login or JavaScript is needed to read the text/JSON. Source snapshots remain local; public dossiers link to pinned upstream source.
+
+This repository contains generated static reference files, not customer credentials, raw business conversations or an operational SupaBiz backend.

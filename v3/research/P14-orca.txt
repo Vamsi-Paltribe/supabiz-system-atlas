@@ -1,0 +1,163 @@
+id:
+  P14-orca
+name:
+  Orca
+category:
+  Multi-agent development workspace
+sections:
+  What it is:
+    Orca is a developer workspace for running coding agents, terminals, repository worktrees and reviews together. It can present different agent backends side by side and offers desktop, remote-host and companion-client concepts. The agent's reasoning engine is normally supplied by another tool. Orca coordinates execution contexts and user interaction; it should not be confused with a foundation model or a business workflow database.
+  Architecture and task flow:
+    The source separates Electron/main-process services, renderer-facing interfaces, agent connection adapters and execution-host routing. The inspected startup path resolves the selected repository and SSH connection, chooses a startup agent or linked draft, builds an agent-launch intent and calls a common executor. A workspace factory creates the managed worktree and returns worktree/terminal identifiers. The path distinguishes a workspace successfully created without a startup agent from a complete launch. A worktree's existence therefore does not prove the agent is running.
+  Workspace state and lifecycle:
+    Git worktrees provide separate checkouts for concurrent tasks. Metadata tracks creation provenance, workspace layout, push targets and ownership. Creation-preparation services and cleanup paths are separate from the UI. Removal checks reject a main repository, a filesystem root, a directory containing the repository, unresolved home authority and nested registered worktrees. These are observed guards around destructive cleanup. They do not make every agent process an OS-isolated tenant.
+  Agent and browser boundaries:
+    The ACP adapter handles an external agent connection, while other launch modes use terminals. Browser route/partition bindings have their own store. These explicit identities help keep a conversation, execution host and browser route associated, but they are not a complete end-to-end isolation proof. A remote host's filesystem, login state and local resources differ from the desktop's. Credentials used by installed coding agents, SSH and app integrations need separate assessment.
+  Deployment and extensibility:
+    The project is a TypeScript desktop application with multiple supporting surfaces. Integrations include agent adapters, worktree/terminal routing and remote-runtime behavior. The README describes mobile monitoring, design inspection and review workflows; these product surfaces were not runtime tested. Extending an adapter differs from embedding the whole desktop app. Native packaging, auto-updates, IPC, remote pairing and host lifecycle are larger investigations than the selected code paths here.
+  License and validation plan:
+    The root is MIT-licensed, with dependencies and remote service terms to assess separately. The next useful study is a disposable Git repository with two agents editing different worktrees: trace launch, terminal/session persistence, restart, follow-up, review and merge. Then disconnect a remote host and attempt cleanup of a nested or unregistered worktree. Verify retained state and actual Git contents rather than inferring success from a UI status. No productivity multiplier, OS isolation or remote recovery claim has been measured.
+findings:
+  - id:
+      P14-orca:OR-01
+    project_id:
+      P14-orca
+    evidence_kind:
+      Code
+    claim:
+      Startup worktree creation routes through an agent-launch executor with typed workspace results.
+    source:
+      repository_id:
+        P14-orca
+      repository:
+        stablyai/orca
+      revision:
+        e65e0bd1e6f2858d267c6fc682abaf69b2436bd6
+      path:
+        src/main/agent-launch/startup-agent-worktree-create.ts
+      sha256:
+        2673f22cdbf783b4041a0d8c42f899cc87d3d485ca5a56f61833c4dce1a71306
+      url:
+        https://github.com/stablyai/orca/blob/e65e0bd1e6f2858d267c6fc682abaf69b2436bd6/src/main/agent-launch/startup-agent-worktree-create.ts
+      local_snapshot_retained_not_published:
+        True
+    runtime_verified:
+      False
+  - id:
+      P14-orca:OR-02
+    project_id:
+      P14-orca
+    evidence_kind:
+      Code
+    claim:
+      Removal guards protect main/root/home/nested worktree paths.
+    source:
+      repository_id:
+        P14-orca
+      repository:
+        stablyai/orca
+      revision:
+        e65e0bd1e6f2858d267c6fc682abaf69b2436bd6
+      path:
+        src/main/worktree-removal-safety.ts
+      sha256:
+        811ac4a1a2a3f5a4c99f73f0f670ae1c966d363d8aa94c12d4de06728d7f97c1
+      url:
+        https://github.com/stablyai/orca/blob/e65e0bd1e6f2858d267c6fc682abaf69b2436bd6/src/main/worktree-removal-safety.ts
+      local_snapshot_retained_not_published:
+        True
+    runtime_verified:
+      False
+  - id:
+      P14-orca:OR-03
+    project_id:
+      P14-orca
+    evidence_kind:
+      Code
+    claim:
+      Worktree preparation is an explicit lifecycle service.
+    source:
+      repository_id:
+        P14-orca
+      repository:
+        stablyai/orca
+      revision:
+        e65e0bd1e6f2858d267c6fc682abaf69b2436bd6
+      path:
+        src/main/worktree-create-preparation.ts
+      sha256:
+        87916ca7d7e75902217edde50b9e2f0df5ffde3b087e86b8ef8896eb2753348e
+      url:
+        https://github.com/stablyai/orca/blob/e65e0bd1e6f2858d267c6fc682abaf69b2436bd6/src/main/worktree-create-preparation.ts
+      local_snapshot_retained_not_published:
+        True
+    runtime_verified:
+      False
+  - id:
+      P14-orca:OR-04
+    project_id:
+      P14-orca
+    evidence_kind:
+      Code
+    claim:
+      ACP connections and browser partition bindings are separate services.
+    source:
+      repository_id:
+        P14-orca
+      repository:
+        stablyai/orca
+      revision:
+        e65e0bd1e6f2858d267c6fc682abaf69b2436bd6
+      path:
+        src/main/acp/acp-agent-connection.ts
+      sha256:
+        cee5070ab0a7fec0f21494df88e65ebd01ee2de9cb9a6a0ed6d1db5f589b5f6e
+      url:
+        https://github.com/stablyai/orca/blob/e65e0bd1e6f2858d267c6fc682abaf69b2436bd6/src/main/acp/acp-agent-connection.ts
+      local_snapshot_retained_not_published:
+        True
+    runtime_verified:
+      False
+  - id:
+      P14-orca:OR-05
+    project_id:
+      P14-orca
+    evidence_kind:
+      Documentation
+    claim:
+      Worktree product behavior is described separately from implementation.
+    source:
+      repository_id:
+        P14-orca
+      repository:
+        stablyai/orca
+      revision:
+        e65e0bd1e6f2858d267c6fc682abaf69b2436bd6
+      path:
+        docs/site/content/docs/model/worktrees.mdx
+      sha256:
+        e62d90317c541c1f429fba9c2d403600b1246986ea935e1cdd1c59ffa3280f42
+      url:
+        https://github.com/stablyai/orca/blob/e65e0bd1e6f2858d267c6fc682abaf69b2436bd6/docs/site/content/docs/model/worktrees.mdx
+      local_snapshot_retained_not_published:
+        True
+    runtime_verified:
+      False
+unknowns:
+  - Only selected paths in a large repository were inspected.
+  - Mobile pairing, credential handling and Electron IPC are not fully audited.
+  - No agents or worktrees were launched using Orca.
+related_projects:
+  - P21-openhands
+  - P13-arena
+  - P15-rea
+repository:
+  stablyai/orca
+revision:
+  e65e0bd1e6f2858d267c6fc682abaf69b2436bd6
+url:
+  https://github.com/stablyai/orca
+source_file_count:
+  9
+auxiliary_sources:
+

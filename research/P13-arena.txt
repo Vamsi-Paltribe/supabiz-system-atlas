@@ -1,0 +1,138 @@
+id:
+  P13-arena
+name:
+  Arena Skill
+category:
+  Candidate generation and tournament evaluation
+sections:
+  What it is:
+    Arena turns one task into a tournament of alternative answers. A coordinating agent supplies a task brief, competitors receive different strategy cards, and pairwise attacks, defenses and judging reduce the field to one answer. The Python component is a bookkeeping state machine; it does not itself contain the model service or guarantee that the selected answer is correct.
+  Architecture and main flow:
+    The skill describes plan, init, next, prompts, check, collect, advance and winner commands. Initial competitors write solutions; each match then has two attacks, two defenses and one judge. The coordinator is instructed not to compete or judge. A separate final comparison can compare the champion with a prior baseline. Strategy combinations and a seed vary candidate approaches and pairings. A fixed seed makes that assignment reproducible, not the model's complete reasoning or output.
+  Persistent state:
+    A run lives under .arena with an arena.json state file and separate briefs, solutions, attacks and verdicts. LATEST points to the active run. State survives the coordinating agent losing conversational context. The next command derives the next phase from disk, while check can identify missing outputs. This is a useful distinction between orchestration progress and transient chat memory. Shared-file concurrency, atomicity and adversarial output handling still require focused validation.
+  Cost and evaluation:
+    The default is 100 competitors; quick mode uses 16. The source defines five model calls per match after the initial candidate generation, so a full 100-candidate elimination tournament entails 595 calls before an optional baseline judge. That is a plan count, not a measured token or currency cost. Rubric weights cover correctness, completeness, specificity, robustness and clarity. Pairwise judging may still reward convincing errors or share correlated blind spots. The winner is the winner of this procedure, not a proof of truth.
+  Execution environment and permissions:
+    The orchestrator's agent system actually launches workers and grants their tools. The Python CLI uses standard-library filesystem/JSON state. It is not an execution sandbox or credential broker. Task briefs must carry sufficient context because child agents do not automatically receive the entire parent conversation. No tournament, subagent work or model calls were launched while reviewing this repository.
+  License and next tests:
+    The root license is MIT. Tests exist for bracket mechanics and consistency with rubric weights; they were inspected as source, not run. A useful validation would start with known-answer tasks and compare a single attempt, a small diverse set and the full bracket at equal cost. Track judge errors, final factual accuracy, missing outputs and variation across seeds. Test resumption after every phase boundary independently of model quality.
+findings:
+  - id:
+      P13-arena:AR-01
+    project_id:
+      P13-arena
+    evidence_kind:
+      Documented procedure
+    claim:
+      The skill defines independent competitor, attacker, defender and judge roles.
+    source:
+      repository_id:
+        P13-arena
+      repository:
+        Jakeschincariol/arena-skill
+      revision:
+        df07b8e518e10cdecd8cd7712d9958b6f396250e
+      path:
+        skills/arena/SKILL.md
+      sha256:
+        c06f9828566485d5bd6507150f454d6f37d49c2b02e5308b8f744a4a046bdf39
+      url:
+        https://github.com/Jakeschincariol/arena-skill/blob/df07b8e518e10cdecd8cd7712d9958b6f396250e/skills/arena/SKILL.md
+      local_snapshot_retained_not_published:
+        True
+    runtime_verified:
+      False
+  - id:
+      P13-arena:AR-02
+    project_id:
+      P13-arena
+    evidence_kind:
+      Code
+    claim:
+      Python maintains disk-backed phases, strategy assignment and match bookkeeping.
+    source:
+      repository_id:
+        P13-arena
+      repository:
+        Jakeschincariol/arena-skill
+      revision:
+        df07b8e518e10cdecd8cd7712d9958b6f396250e
+      path:
+        skills/arena/bracket.py
+      sha256:
+        f56ba7de9746c1aed77b5d6aee58a3c2ca07bd239896dbe7dba88654694c1fa2
+      url:
+        https://github.com/Jakeschincariol/arena-skill/blob/df07b8e518e10cdecd8cd7712d9958b6f396250e/skills/arena/bracket.py
+      local_snapshot_retained_not_published:
+        True
+    runtime_verified:
+      False
+  - id:
+      P13-arena:AR-03
+    project_id:
+      P13-arena
+    evidence_kind:
+      Documented rubric
+    claim:
+      Judging weights are explicit.
+    source:
+      repository_id:
+        P13-arena
+      repository:
+        Jakeschincariol/arena-skill
+      revision:
+        df07b8e518e10cdecd8cd7712d9958b6f396250e
+      path:
+        skills/arena/rubric.md
+      sha256:
+        3296801e01035f3ad8dc2b57f0c47d84d296bbc716bf8b36bdb02b426c2735a5
+      url:
+        https://github.com/Jakeschincariol/arena-skill/blob/df07b8e518e10cdecd8cd7712d9958b6f396250e/skills/arena/rubric.md
+      local_snapshot_retained_not_published:
+        True
+    runtime_verified:
+      False
+  - id:
+      P13-arena:AR-04
+    project_id:
+      P13-arena
+    evidence_kind:
+      Test source
+    claim:
+      Bracket tests exist; no executed-test claim.
+    source:
+      repository_id:
+        P13-arena
+      repository:
+        Jakeschincariol/arena-skill
+      revision:
+        df07b8e518e10cdecd8cd7712d9958b6f396250e
+      path:
+        tests/test_bracket.py
+      sha256:
+        2d0ee99256d7b307fc26980284b4b7895c9bcdd15de65918c31803173ded5160
+      url:
+        https://github.com/Jakeschincariol/arena-skill/blob/df07b8e518e10cdecd8cd7712d9958b6f396250e/tests/test_bracket.py
+      local_snapshot_retained_not_published:
+        True
+    runtime_verified:
+      False
+unknowns:
+  - No answer-quality improvement has been measured.
+  - Model calls and costs were not incurred or benchmarked.
+  - No complete malicious-output or concurrent-write audit.
+related_projects:
+  - P07-langfuse
+  - P09-security-audit
+  - P14-orca
+repository:
+  Jakeschincariol/arena-skill
+revision:
+  df07b8e518e10cdecd8cd7712d9958b6f396250e
+url:
+  https://github.com/Jakeschincariol/arena-skill
+source_file_count:
+  6
+auxiliary_sources:
+

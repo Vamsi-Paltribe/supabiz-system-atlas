@@ -1,0 +1,138 @@
+id:
+  P16-magic
+name:
+  21st.dev / Magic MCP compatibility package
+category:
+  UI component service and MCP adapter
+sections:
+  Identity correction:
+    The relevant public repository is 21st-dev/magic-mcp, not 21st-dev/magic. Its current README says the former Magic server has been replaced by the unified 21st MCP service. The npm package remains as a compatibility proxy for older client configurations. The product's component catalogue and hosted generation service are not implemented in the small proxy file inspected here.
+  Architecture and message flow:
+    The proxy reads newline-delimited JSON-RPC messages from standard input, forwards them to an HTTP MCP endpoint and writes responses to standard output. Diagnostic output goes to standard error so it does not corrupt the protocol stream. The default endpoint is the hosted 21st service, with an environment override. An MCP session identifier returned during initialization is retained and sent on subsequent requests. The service, not this proxy, owns component search and generation behavior.
+  Authentication and state:
+    API key resolution accepts several historical argument forms and environment variables for compatibility. Authentication is resolved at process startup. A refused-authentication latch avoids repeatedly sending requests with a rejected key. A key change therefore needs a new process rather than assuming a running proxy rereads its environment. The public code demonstrates transport and credential-forwarding behavior; it does not establish the remote service's storage, retention or access-control implementation.
+  What an agent gets:
+    According to the current documentation, the service offers component discovery/retrieval and optional hosted generation. Account capabilities affect available tools and generation access. The actual live tools/list result is the authority for a connected account. The historical Magic aliases are described as server-side compatibility behavior. We did not authenticate, discover account-specific tools, generate components or inspect generated code.
+  Deployment, license and boundaries:
+    A client can connect directly to the HTTP MCP endpoint or use the stdio compatibility process when needed. The repository license is ISC. That license does not automatically cover every component, logo, template or hosted service output; those require their own attribution/usage review. An API wrapper being public source does not make the backend self-hostable. This is especially important when evaluating the difference between local generation and remotely supplied UI code.
+  Next validation:
+    Use a test account to inspect the current tool schema, retrieve one known component and trace every file/dependency it adds to a disposable project. Check behavior for expired credentials, session loss, unavailable generation capability and server errors. Validate accessibility, licensing and dependencies of the retrieved component separately from the success of the MCP transport. None of those runtime checks were performed in this pass.
+findings:
+  - id:
+      P16-magic:MA-01
+    project_id:
+      P16-magic
+    evidence_kind:
+      Documentation
+    claim:
+      Magic is now a compatibility package for unified 21st MCP.
+    source:
+      repository_id:
+        P16-magic
+      repository:
+        21st-dev/magic-mcp
+      revision:
+        6b5299e8a83ceffa73d4fc4e148905bb3eeeeb55
+      path:
+        README.md
+      sha256:
+        3525241fe094188862f3bea44471d1581813cbef2edccce4a1051c0fcf7bc76f
+      url:
+        https://github.com/21st-dev/magic-mcp/blob/6b5299e8a83ceffa73d4fc4e148905bb3eeeeb55/README.md
+      local_snapshot_retained_not_published:
+        True
+    runtime_verified:
+      False
+  - id:
+      P16-magic:MA-02
+    project_id:
+      P16-magic
+    evidence_kind:
+      Code
+    claim:
+      One source entry implements stdio/HTTP forwarding, API-key resolution and session handling.
+    source:
+      repository_id:
+        P16-magic
+      repository:
+        21st-dev/magic-mcp
+      revision:
+        6b5299e8a83ceffa73d4fc4e148905bb3eeeeb55
+      path:
+        src/index.ts
+      sha256:
+        710741258728da92b7f2d41cc26e255a4956a0329f25a6ea05786792efebd642
+      url:
+        https://github.com/21st-dev/magic-mcp/blob/6b5299e8a83ceffa73d4fc4e148905bb3eeeeb55/src/index.ts
+      local_snapshot_retained_not_published:
+        True
+    runtime_verified:
+      False
+  - id:
+      P16-magic:MA-03
+    project_id:
+      P16-magic
+    evidence_kind:
+      Package metadata
+    claim:
+      The package describes itself as a compatibility proxy.
+    source:
+      repository_id:
+        P16-magic
+      repository:
+        21st-dev/magic-mcp
+      revision:
+        6b5299e8a83ceffa73d4fc4e148905bb3eeeeb55
+      path:
+        package.json
+      sha256:
+        4fbab118a91c4acaa567488da02bea47bf5555be761914705dde9ed3a0c34091
+      url:
+        https://github.com/21st-dev/magic-mcp/blob/6b5299e8a83ceffa73d4fc4e148905bb3eeeeb55/package.json
+      local_snapshot_retained_not_published:
+        True
+    runtime_verified:
+      False
+  - id:
+      P16-magic:MA-04
+    project_id:
+      P16-magic
+    evidence_kind:
+      License
+    claim:
+      Proxy source is ISC-licensed.
+    source:
+      repository_id:
+        P16-magic
+      repository:
+        21st-dev/magic-mcp
+      revision:
+        6b5299e8a83ceffa73d4fc4e148905bb3eeeeb55
+      path:
+        LICENSE
+      sha256:
+        e9412a67f017b2651af15c086fa9af56f7fcb03849d220ad037dd626dc9729f2
+      url:
+        https://github.com/21st-dev/magic-mcp/blob/6b5299e8a83ceffa73d4fc4e148905bb3eeeeb55/LICENSE
+      local_snapshot_retained_not_published:
+        True
+    runtime_verified:
+      False
+unknowns:
+  - Hosted catalogue and generation internals are unavailable in the inspected repository.
+  - No live tools or output were tested.
+  - Asset/component licenses are not inferred from proxy license.
+related_projects:
+  - P10-skills
+  - P17-photocraft
+  - P18-compositor
+repository:
+  21st-dev/magic-mcp
+revision:
+  6b5299e8a83ceffa73d4fc4e148905bb3eeeeb55
+url:
+  https://github.com/21st-dev/magic-mcp
+source_file_count:
+  4
+auxiliary_sources:
+

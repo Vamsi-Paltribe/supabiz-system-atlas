@@ -1,0 +1,162 @@
+id:
+  P18-compositor
+name:
+  Compositor
+category:
+  Native image editor with file-based automation
+sections:
+  What it is:
+    Compositor is a native macOS image editor organized around layered compositing, adjustments and post-processing. The inspected project is Swift/Xcode based. Its agent integration is particularly concrete: another program can write the editor's document package, and the open app can observe those changes. That mechanism differs from an agent remotely clicking every GUI control and from a standalone hosted image-generation service.
+  Architecture and interaction flow:
+    EditorSession coordinates editing state and project interaction; document-history code manages undo/history. ProjectStore serializes and loads document packages. ProjectController's external-change path watches for changes, reloads suitable updates and handles conflict with unsaved user edits. Rendering modules are separate in the repository, although detailed GPU algorithms were not inspected here. An automated file write and a successful application reload are two events that need separate verification.
+  File contract and persistence:
+    A .comp package contains a JSON manifest plus referenced image data. Layer identifiers, ordering, transforms, blend modes, masks and document identity form the contract. The writer guide says to place image files first and then atomically replace the manifest; it also explains that reloading clears undo and that unsaved user work needs a choice rather than silent replacement. ProjectStore validates format/version, dimensions, layer structure and referenced images before accepting a document, and saves the package through coordinated atomic replacement.
+  Documentation versus current code:
+    The writer guide gives an 8-bit PNG-oriented external-writing contract. The selected ProjectStore code additionally accepts version-gated higher-depth/HDR cases, including 16-bit image handling and OpenEXR for newer format versions. Therefore the simple guide is not a complete specification of every current saved document. An external writer should choose and validate a supported subset rather than assuming the guide's examples cover all internal possibilities. The guide also documents a change-detection caveat for an image rewritten to exactly the same byte size without a manifest change.
+  Authority and deployment:
+    The automation boundary is local filesystem access to the selected project package. Any program allowed to write that package can affect its content; this is not a user/tenant authorization service. Package validation protects file interpretation but does not authenticate the identity of the writer. The README currently requires recent macOS/Xcode and Apple silicon. Those platform requirements are documented, not tested on this machine. Root code is MIT; bundled dependencies and release-signing infrastructure are separate.
+  Follow-up experiments:
+    Create a disposable document, change a layer through the package format, and verify the live reload while preserving the document ID. Test a missing image, invalid layer graph, same-size replacement, unsaved user edit, interrupted save and a stale writer overwriting a newer version. Compare exported pixels with the live canvas. Validate version handling for higher-depth images before adopting assumptions from the simplified guide. No application was installed or launched here.
+findings:
+  - id:
+      P18-compositor:CO-01
+    project_id:
+      P18-compositor
+    evidence_kind:
+      Code
+    claim:
+      EditorSession and history maintain interactive document state.
+    source:
+      repository_id:
+        P18-compositor
+      repository:
+        robbietilton/Compositor
+      revision:
+        365b5745eda537f984f3d5bed1e53c361dbc9c91
+      path:
+        Compositor/Document/EditorSession.swift
+      sha256:
+        8bf8a3ed657d4df0f745b31c55710bf7f1e701df507ebc432f389dedb56af5a7
+      url:
+        https://github.com/robbietilton/Compositor/blob/365b5745eda537f984f3d5bed1e53c361dbc9c91/Compositor/Document/EditorSession.swift
+      local_snapshot_retained_not_published:
+        True
+    runtime_verified:
+      False
+  - id:
+      P18-compositor:CO-02
+    project_id:
+      P18-compositor
+    evidence_kind:
+      Code
+    claim:
+      ProjectStore validates and atomically saves versioned packages.
+    source:
+      repository_id:
+        P18-compositor
+      repository:
+        robbietilton/Compositor
+      revision:
+        365b5745eda537f984f3d5bed1e53c361dbc9c91
+      path:
+        Compositor/IO/ProjectStore.swift
+      sha256:
+        8dbae5331fb3ffc188a7a7c630f05f3de86e64c9fc3854e1f4b368f7e8f6cc1a
+      url:
+        https://github.com/robbietilton/Compositor/blob/365b5745eda537f984f3d5bed1e53c361dbc9c91/Compositor/IO/ProjectStore.swift
+      local_snapshot_retained_not_published:
+        True
+    runtime_verified:
+      False
+  - id:
+      P18-compositor:CO-03
+    project_id:
+      P18-compositor
+    evidence_kind:
+      Code
+    claim:
+      External file changes are handled separately from user editing.
+    source:
+      repository_id:
+        P18-compositor
+      repository:
+        robbietilton/Compositor
+      revision:
+        365b5745eda537f984f3d5bed1e53c361dbc9c91
+      path:
+        Compositor/IO/ProjectController+ExternalChanges.swift
+      sha256:
+        a8b0ca6fe0ee5992e20be7fbf857587284b1dbdb3f2bb76380fb04f7d93e41b9
+      url:
+        https://github.com/robbietilton/Compositor/blob/365b5745eda537f984f3d5bed1e53c361dbc9c91/Compositor/IO/ProjectController+ExternalChanges.swift
+      local_snapshot_retained_not_published:
+        True
+    runtime_verified:
+      False
+  - id:
+      P18-compositor:CO-04
+    project_id:
+      P18-compositor
+    evidence_kind:
+      Documentation
+    claim:
+      External writers use images plus manifest, with reload/conflict caveats.
+    source:
+      repository_id:
+        P18-compositor
+      repository:
+        robbietilton/Compositor
+      revision:
+        365b5745eda537f984f3d5bed1e53c361dbc9c91
+      path:
+        docs/writing-comp-files.md
+      sha256:
+        423089b08e333895f992956526b91a83d49a1839a88a25582eafbed71db3ada5
+      url:
+        https://github.com/robbietilton/Compositor/blob/365b5745eda537f984f3d5bed1e53c361dbc9c91/docs/writing-comp-files.md
+      local_snapshot_retained_not_published:
+        True
+    runtime_verified:
+      False
+  - id:
+      P18-compositor:CO-05
+    project_id:
+      P18-compositor
+    evidence_kind:
+      Code
+    claim:
+      History is an explicit document subsystem.
+    source:
+      repository_id:
+        P18-compositor
+      repository:
+        robbietilton/Compositor
+      revision:
+        365b5745eda537f984f3d5bed1e53c361dbc9c91
+      path:
+        Compositor/Document/DocumentHistory.swift
+      sha256:
+        fdf9c93093afd567da7f31380205cd28ed089b0be205a4477befffb80005d36c
+      url:
+        https://github.com/robbietilton/Compositor/blob/365b5745eda537f984f3d5bed1e53c361dbc9c91/Compositor/Document/DocumentHistory.swift
+      local_snapshot_retained_not_published:
+        True
+    runtime_verified:
+      False
+unknowns:
+  - No live reload or image-fidelity test.
+  - The external writer guide is narrower than the current internal format.
+  - No audit of every file-decoding or rendering path.
+related_projects:
+  - P17-photocraft
+  - P16-magic
+repository:
+  robbietilton/Compositor
+revision:
+  365b5745eda537f984f3d5bed1e53c361dbc9c91
+url:
+  https://github.com/robbietilton/Compositor
+source_file_count:
+  8
+auxiliary_sources:
+

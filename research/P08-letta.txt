@@ -1,0 +1,195 @@
+id:
+  P08-letta
+name:
+  Letta / Letta Code
+category:
+  Stateful agent runtime
+sections:
+  Project identity and change:
+    The original letta-ai/letta repository now explicitly directs active development to letta-ai/letta-code and retains the former V1 API server on an archive branch. Both repository identities are pinned in this library. A description of the old Python server must not be presented as the current runtime. The inspected active package is a TypeScript agent harness with a terminal interface, App Server, channel support and local/cloud backend choices.
+  Architecture:
+    The runtime separates agent identity and conversation state from the computer on which tools execute. The README describes local operation and Letta Cloud, which retains agent memory, identity and conversations while execution can occur on different machines. Public package exports include App Server client/protocol, memory-confinement, MCP and channel surfaces. Memory, approvals and server transport are independent subsystems. The hosted Cloud backend is described by upstream documentation; its full production implementation was not inspected here.
+  Memory flow and persistence:
+    MemFS stores agent memory in filesystem structures with Git-backed history. The inspected memory-filesystem module resolves per-agent/scoped roots, creates directories, stamps memory-enabled tags on agent creation and materializes local memory checkouts. Memory-runtime resolves whether MemFS is enabled from persisted settings with an in-memory fallback. This makes memory an explicit artifact with lifecycle and history. It does not establish that a model-written memory statement is factually correct, that every Git conflict is automatically resolved, or that all changes have human approval.
+  Approval and execution flow:
+    Resume handling reads message history to reconstruct pending tool approvals and recognizes completed tool-call IDs. The batch execution code distinguishes allow/deny decisions, determines which tools can run in parallel, groups resource-sensitive operations and exposes hooks before tool execution and immediately after a result settles. Those hooks are intended seams for durable checkpoints. Inspecting their declarations does not prove all callers persist them correctly. Tool-call identity, approval state and actual side effects remain separate facts.
+  Server, authentication and channels:
+    The App Server CLI parses a WebSocket listener and capability-token or signed-bearer-token configuration, including issuer, audience and clock-skew options. Documentation distinguishes loopback use from non-loopback listeners. Channels connect external conversations to agent sessions; their availability does not establish equal identity or access-control semantics. The channel README and server entry were inspected, but provider-specific inbound authentication and tenant authorization were not audited.
+  Deployment, extension and license:
+    The current package can run interactively or serve remote clients. Skills, hooks, model connections, channels and mods are extension surfaces. Some cloud-oriented functionality requires a Letta account. Git-backed memory, runtime state, filesystem access and provider credentials each need a defined backup/security boundary. The active letta-code repository carries Apache-2.0; the original landing repository's identity and historical licensing remain separate. No Letta package was installed or agent launched in this research.
+  Outstanding tests:
+    Follow one local conversation from creation to tool approval, completion, restart and resume. Edit the same memory from two sessions and inspect conflict behavior. Test revocation of a server token while a tool approval is pending. Compare local versus cloud state location and export behavior, using current documentation rather than removed AgentFile assumptions. Measure whether memory improves a fixed longitudinal task rather than accepting learning as a guaranteed outcome.
+findings:
+  - id:
+      P08-letta:LE-01
+    project_id:
+      P08-letta
+    evidence_kind:
+      Documentation
+    claim:
+      Main repository redirects active development to letta-code and labels the old API server historical.
+    source:
+      repository_id:
+        P08-letta
+      repository:
+        letta-ai/letta
+      revision:
+        5bcdd177d70fa2b31a754cfcd801e77b2e1ab16a
+      path:
+        README.md
+      sha256:
+        1d624e8fd383c1198c8d42da87b055d591a5760e19607692eb46bbbfe2a58f03
+      url:
+        https://github.com/letta-ai/letta/blob/5bcdd177d70fa2b31a754cfcd801e77b2e1ab16a/README.md
+      local_snapshot_retained_not_published:
+        True
+    runtime_verified:
+      False
+  - id:
+      P08-letta:LE-02
+    project_id:
+      P08-letta
+    evidence_kind:
+      Code
+    claim:
+      Memory roots and local Git-backed checkout lifecycle are explicit.
+    source:
+      repository_id:
+        P08-letta-code
+      repository:
+        letta-ai/letta-code
+      revision:
+        fec88933a15e90a09e38d42315d8a9e5caf3f79c
+      path:
+        src/agent/memory-filesystem.ts
+      sha256:
+        a2884fd2e467af615a7a56584ccf9df520e470c6eef39930a98ec7dc10bfe628
+      url:
+        https://github.com/letta-ai/letta-code/blob/fec88933a15e90a09e38d42315d8a9e5caf3f79c/src/agent/memory-filesystem.ts
+      local_snapshot_retained_not_published:
+        True
+    runtime_verified:
+      False
+  - id:
+      P08-letta:LE-03
+    project_id:
+      P08-letta
+    evidence_kind:
+      Code
+    claim:
+      Resume logic reconstructs pending approvals from messages.
+    source:
+      repository_id:
+        P08-letta-code
+      repository:
+        letta-ai/letta-code
+      revision:
+        fec88933a15e90a09e38d42315d8a9e5caf3f79c
+      path:
+        src/agent/check-approval.ts
+      sha256:
+        89fb75c097b2a4aa637e9d1f279c1ea26dbc248b5428ab457cdf9aa6cef3d639
+      url:
+        https://github.com/letta-ai/letta-code/blob/fec88933a15e90a09e38d42315d8a9e5caf3f79c/src/agent/check-approval.ts
+      local_snapshot_retained_not_published:
+        True
+    runtime_verified:
+      False
+  - id:
+      P08-letta:LE-04
+    project_id:
+      P08-letta
+    evidence_kind:
+      Code
+    claim:
+      Approval execution exposes before-execution and post-result checkpoint hooks.
+    source:
+      repository_id:
+        P08-letta-code
+      repository:
+        letta-ai/letta-code
+      revision:
+        fec88933a15e90a09e38d42315d8a9e5caf3f79c
+      path:
+        src/agent/approval-execution.ts
+      sha256:
+        218d28112df05114f6ca4d75eee330883538072f695a2d778130e7e0976803b4
+      url:
+        https://github.com/letta-ai/letta-code/blob/fec88933a15e90a09e38d42315d8a9e5caf3f79c/src/agent/approval-execution.ts
+      local_snapshot_retained_not_published:
+        True
+    runtime_verified:
+      False
+  - id:
+      P08-letta:LE-05
+    project_id:
+      P08-letta
+    evidence_kind:
+      Code
+    claim:
+      App Server command accepts WebSocket authentication configuration.
+    source:
+      repository_id:
+        P08-letta-code
+      repository:
+        letta-ai/letta-code
+      revision:
+        fec88933a15e90a09e38d42315d8a9e5caf3f79c
+      path:
+        src/cli/subcommands/app-server.ts
+      sha256:
+        9909cdbb170578ca66ff56818a21d4f88d09e3bc8806e8bfc05a0bcc669a5b6a
+      url:
+        https://github.com/letta-ai/letta-code/blob/fec88933a15e90a09e38d42315d8a9e5caf3f79c/src/cli/subcommands/app-server.ts
+      local_snapshot_retained_not_published:
+        True
+    runtime_verified:
+      False
+  - id:
+      P08-letta:LE-06
+    project_id:
+      P08-letta
+    evidence_kind:
+      License
+    claim:
+      Active runtime source is Apache-2.0.
+    source:
+      repository_id:
+        P08-letta-code
+      repository:
+        letta-ai/letta-code
+      revision:
+        fec88933a15e90a09e38d42315d8a9e5caf3f79c
+      path:
+        LICENSE
+      sha256:
+        036e78b9d7dd33ae5b378fdda973b4aad7901c8d8371a0ae40fae1f6659a89d0
+      url:
+        https://github.com/letta-ai/letta-code/blob/fec88933a15e90a09e38d42315d8a9e5caf3f79c/LICENSE
+      local_snapshot_retained_not_published:
+        True
+    runtime_verified:
+      False
+unknowns:
+  - Cloud service internals are outside the inspected source.
+  - Memory correctness, merge recovery and approval durability are untested.
+  - The historical Python API was not substituted for the current runtime.
+related_projects:
+  - P01-hermes
+  - P21-openhands
+  - P10-skills
+repository:
+  letta-ai/letta
+revision:
+  5bcdd177d70fa2b31a754cfcd801e77b2e1ab16a
+url:
+  https://github.com/letta-ai/letta
+source_file_count:
+  3
+auxiliary_sources:
+  - repository:
+      letta-ai/letta-code
+    revision:
+      fec88933a15e90a09e38d42315d8a9e5caf3f79c
+    url:
+      https://github.com/letta-ai/letta-code

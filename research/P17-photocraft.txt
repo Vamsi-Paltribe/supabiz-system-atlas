@@ -1,0 +1,187 @@
+id:
+  P17-photocraft
+name:
+  PhotoCraft
+category:
+  Headless-capable image editor and rendering engine
+sections:
+  What it is:
+    PhotoCraft is a Rust image editor with a reusable engine, desktop/CLI/web frontends and automation surfaces. Its architecture is unusually explicit about separating the editor model, commands, image algorithms, rendering, file formats and interfaces. The architecture document distinguishes a current-state summary from an earlier plan; the plan must not be treated as an inventory of completed features. In particular, that current summary says the planned ML crate is not built.
+  Architecture:
+    The workspace divides document/raster/color geometry, algorithms, composition, GPU rendering, file I/O, engine and UI responsibilities into crates. Engine commands have stable identifiers and typed serializable parameters. The architecture describes a shared command path used by menu/UI, CLI, control channel and MCP. CPU rendering is documented as a reference for selected GPU operations. These claims are partly architectural documentation, corroborated here by the engine/document crate surfaces and automation module boundaries; the whole command catalogue and renderer were not audited.
+  Automation flow:
+    An automation client reaches a headless backend or a bridge to a running app. The automation crate exposes RPC, server, file handling, budgets, security and workspace modules. The server maps tool requests to engine operations. Filesystem access is mediated through AuthorizedWorkspace, which holds separate read and write directory capabilities. Missing authority fails closed. Request paths are treated as untrusted and resolved beneath directory handles. This is more specific than simply giving a model a path string and assuming it stays inside a folder.
+  State, files and security:
+    The native format is documented as a .pcraft document with a manifest and image/tile content. Snapshots and history support editing/undo, while file adapters translate external formats. The inspected automation security module bounds JSON request size, simultaneous TCP connections, batch length and I/O timeouts. It requires authentication as the first TCP request and imposes a separate authentication deadline. Tokens are generated from OS randomness and compared without an early mismatch exit. These are concrete local-control mechanisms, not a full security certification.
+  Deployment and extension:
+    The documented desktop uses egui/eframe with wgpu; browser builds use WebAssembly. Headless CLI and MCP avoid forcing every automation through screen coordinates. Extending a command, a format adapter or a renderer is different from changing the frontend. The Cargo workspace declares MIT OR Apache-2.0 and carries both license texts; optional libraries, model plans and brand assets need separate checks. We did not build Rust targets, launch the application or measure output parity.
+  Limitations and next tests:
+    Do not equate an extensive command list with Photoshop parity. Verify one command through UI, CLI and MCP using the same small image and compare output pixels, document state and undo behavior. Test denied paths, malformed control frames, authentication timeouts and interrupted saves in a controlled environment. Import/export fidelity, color management, large-file memory and GPU/CPU agreement each need independent fixtures. Planned AI/ML capabilities remain distinct from present deterministic editing tools.
+findings:
+  - id:
+      P17-photocraft:PC-01
+    project_id:
+      P17-photocraft
+    evidence_kind:
+      Documentation
+    claim:
+      Current architecture summary distinguishes implemented crates from an older plan.
+    source:
+      repository_id:
+        P17-photocraft
+      repository:
+        storytold/photocraft
+      revision:
+        2a952f164c0b4cf936b1c6497db10dd095341c00
+      path:
+        docs/architecture.md
+      sha256:
+        4df98c9d8ffe35b39019b897290d3a544be7a1696ec148bd8e1f2328bece6776
+      url:
+        https://github.com/storytold/photocraft/blob/2a952f164c0b4cf936b1c6497db10dd095341c00/docs/architecture.md
+      local_snapshot_retained_not_published:
+        True
+    runtime_verified:
+      False
+  - id:
+      P17-photocraft:PC-02
+    project_id:
+      P17-photocraft
+    evidence_kind:
+      Code
+    claim:
+      Automation exposes headless/bridge, server, file, workspace and security modules.
+    source:
+      repository_id:
+        P17-photocraft
+      repository:
+        storytold/photocraft
+      revision:
+        2a952f164c0b4cf936b1c6497db10dd095341c00
+      path:
+        crates/automation/src/lib.rs
+      sha256:
+        5ee25d1fa4585a7715b961beeb233638d3345e51e3d984d9438ea59e3f368219
+      url:
+        https://github.com/storytold/photocraft/blob/2a952f164c0b4cf936b1c6497db10dd095341c00/crates/automation/src/lib.rs
+      local_snapshot_retained_not_published:
+        True
+    runtime_verified:
+      False
+  - id:
+      P17-photocraft:PC-03
+    project_id:
+      P17-photocraft
+    evidence_kind:
+      Code
+    claim:
+      Local control transport has authentication and explicit resource limits.
+    source:
+      repository_id:
+        P17-photocraft
+      repository:
+        storytold/photocraft
+      revision:
+        2a952f164c0b4cf936b1c6497db10dd095341c00
+      path:
+        crates/automation/src/security.rs
+      sha256:
+        0b673135d4f87a1a56214f49c6ab42b2d0c3580bf05b1905cd301c8e6a4ec633
+      url:
+        https://github.com/storytold/photocraft/blob/2a952f164c0b4cf936b1c6497db10dd095341c00/crates/automation/src/security.rs
+      local_snapshot_retained_not_published:
+        True
+    runtime_verified:
+      False
+  - id:
+      P17-photocraft:PC-04
+    project_id:
+      P17-photocraft
+    evidence_kind:
+      Code
+    claim:
+      Filesystem operations use separate read/write directory capabilities.
+    source:
+      repository_id:
+        P17-photocraft
+      repository:
+        storytold/photocraft
+      revision:
+        2a952f164c0b4cf936b1c6497db10dd095341c00
+      path:
+        crates/automation/src/workspace.rs
+      sha256:
+        ec61be042eae08544232521363954f3c44e399cce59f3d69e2b73f1cebba904f
+      url:
+        https://github.com/storytold/photocraft/blob/2a952f164c0b4cf936b1c6497db10dd095341c00/crates/automation/src/workspace.rs
+      local_snapshot_retained_not_published:
+        True
+    runtime_verified:
+      False
+  - id:
+      P17-photocraft:PC-05
+    project_id:
+      P17-photocraft
+    evidence_kind:
+      Code
+    claim:
+      Engine is a separate crate from UI and automation.
+    source:
+      repository_id:
+        P17-photocraft
+      repository:
+        storytold/photocraft
+      revision:
+        2a952f164c0b4cf936b1c6497db10dd095341c00
+      path:
+        crates/engine/src/lib.rs
+      sha256:
+        3eadcfc60060f7bac3b9d1dac705f08c8cb2db89ada869a5db94e3cf241997d2
+      url:
+        https://github.com/storytold/photocraft/blob/2a952f164c0b4cf936b1c6497db10dd095341c00/crates/engine/src/lib.rs
+      local_snapshot_retained_not_published:
+        True
+    runtime_verified:
+      False
+  - id:
+      P17-photocraft:PC-06
+    project_id:
+      P17-photocraft
+    evidence_kind:
+      Package metadata
+    claim:
+      Workspace declares dual MIT OR Apache-2.0 licensing.
+    source:
+      repository_id:
+        P17-photocraft
+      repository:
+        storytold/photocraft
+      revision:
+        2a952f164c0b4cf936b1c6497db10dd095341c00
+      path:
+        Cargo.toml
+      sha256:
+        9178c498e34055ba91a855e9dc2190c6fe51f9ad8fdb1246c89bc1cf38d4b230
+      url:
+        https://github.com/storytold/photocraft/blob/2a952f164c0b4cf936b1c6497db10dd095341c00/Cargo.toml
+      local_snapshot_retained_not_published:
+        True
+    runtime_verified:
+      False
+unknowns:
+  - No editor or renderer execution, build or parity benchmark.
+  - Full command catalogue and format fidelity are not validated.
+  - Planned ML crate is not counted as an existing capability.
+related_projects:
+  - P18-compositor
+  - P16-magic
+repository:
+  storytold/photocraft
+revision:
+  2a952f164c0b4cf936b1c6497db10dd095341c00
+url:
+  https://github.com/storytold/photocraft
+source_file_count:
+  12
+auxiliary_sources:
+

@@ -1,0 +1,191 @@
+id:
+  P01-hermes
+name:
+  Hermes Agent
+category:
+  Personal agent runtime
+sections:
+  What it is:
+    Hermes combines a conversational agent loop, model access, tools, channel adapters, persistent memory, skills and scheduled work. It is a working personal-agent application rather than only an SDK or a collection of prompts. Its security documentation describes a single-tenant personal-agent trust model. A messaging adapter accepting more than one authorized person does not establish independent enterprise roles or isolated business tenants.
+  Runtime and tool flow:
+    A channel receives a message and resolves the authorized session. The agent composes its context, requests a model response and processes proposed tools. The selected turn-validation and turn-round modules validate tool calls and persist a tool-intent receipt before execution; failure to flush that receipt can stop execution. Tool results feed subsequent turns. These controls help reconstruct an interrupted turn, but they do not make every external operation transactional or exactly-once. A write to a remote application can succeed before its confirmation is safely recorded.
+  Memory and extension:
+    Built-in memory uses MEMORY.md and USER.md, with a session snapshot included in the prompt. Updating those files persists information without necessarily rebuilding the current session's frozen prompt. The context engine provides separate assembly and provider-extension mechanisms. Skills are reusable procedures; selected skill-manager guards require context for mutation and support review. A skill's instructions and a platform's enforced access policy are different things. A complete extension review needs the tool implementation, its schema, its credential access and its filesystem/network effects.
+  Browser, vision, voice and video:
+    The browser tool supports browser automation through agent-browser, accessible snapshots and element references, with local/remote browser connection options. Screenshots can be interpreted by a model rather than being treated as readable page text. The vision tool's video path materializes video bytes and sends encoded content to a compatible auxiliary model; the inspected path is opt-in and imposes an encoded size limit. It is not itself a universal local frame-analysis pipeline. Transcription dispatches to configured local or cloud backends. These modalities are separate tool/data paths, not proof that the main model directly perceives every file or video format.
+  Channel and scheduling persistence:
+    The inspected WhatsApp bridge uses Baileys and an in-memory queue capped at 100 entries. Overflow removes an older item, and the messages endpoint removes queued messages before the downstream Python consumer has demonstrated durable processing. Full-history sync is disabled in this path. These are potential loss windows established by code inspection, not measured loss rates. Scheduled work separately uses occurrence identifiers and a delivery queue; an interrupted claimed send can be classified as unknown instead of automatically resent. That distinction addresses uncertainty about an external send rather than pretending every restart is safe to retry.
+  Authority and operating environment:
+    Model-provider credentials, channel sessions, local files and tools are separate sources of authority. The security document treats authorized callers within the personal-agent deployment as trusted. A terminal sandbox alone does not constrain every other in-process tool; process/container permissions and network boundaries matter as well. Root code is MIT at this revision. Dependencies, model services and browser providers have their own operational requirements. No accounts were connected and no Hermes runtime or WhatsApp bridge was launched in this investigation.
+  Experiments needed next:
+    Exercise a tool-intent persistence failure, restart after an external side effect, bridge overflow and a consumer crash after dequeue. Check how memory changes become visible in the current versus next session. Test browser state loss, a video above the encoded limit, unsupported audio, and a scheduled send whose response is lost. Those experiments would establish behavior under failure; the source alone cannot supply latency, reliability or cost percentages.
+findings:
+  - id:
+      P01-hermes:HE-01
+    project_id:
+      P01-hermes
+    evidence_kind:
+      Code
+    claim:
+      Tool execution has a persisted-intent boundary.
+    source:
+      repository_id:
+        P01-hermes
+      repository:
+        NousResearch/hermes-agent
+      revision:
+        848fc0ad8be766b9dc10fe42bd80b5fc2d45d95c
+      path:
+        agent/turn_tool_round.py
+      sha256:
+        1ccd3574528597f5c3a5589729849f8a10e422f0d970af3bb03b1fbd277f1f29
+      url:
+        https://github.com/NousResearch/hermes-agent/blob/848fc0ad8be766b9dc10fe42bd80b5fc2d45d95c/agent/turn_tool_round.py
+      local_snapshot_retained_not_published:
+        True
+    runtime_verified:
+      False
+  - id:
+      P01-hermes:HE-02
+    project_id:
+      P01-hermes
+    evidence_kind:
+      Code
+    claim:
+      Context assembly is an explicit subsystem.
+    source:
+      repository_id:
+        P01-hermes
+      repository:
+        NousResearch/hermes-agent
+      revision:
+        848fc0ad8be766b9dc10fe42bd80b5fc2d45d95c
+      path:
+        agent/context_engine.py
+      sha256:
+        516a4961c59af4c1048dc523b83f135b1fd0089423775fbe3fc04ffdcdb45cbb
+      url:
+        https://github.com/NousResearch/hermes-agent/blob/848fc0ad8be766b9dc10fe42bd80b5fc2d45d95c/agent/context_engine.py
+      local_snapshot_retained_not_published:
+        True
+    runtime_verified:
+      False
+  - id:
+      P01-hermes:HE-03
+    project_id:
+      P01-hermes
+    evidence_kind:
+      Code
+    claim:
+      WhatsApp bridge has a bounded, destructive-read in-memory queue.
+    source:
+      repository_id:
+        P01-hermes
+      repository:
+        NousResearch/hermes-agent
+      revision:
+        848fc0ad8be766b9dc10fe42bd80b5fc2d45d95c
+      path:
+        scripts/whatsapp-bridge/bridge.js
+      sha256:
+        607a82525c938bd9c97f687239e32cd024d426ef65e0ffd1f8c46dcb382ace9f
+      url:
+        https://github.com/NousResearch/hermes-agent/blob/848fc0ad8be766b9dc10fe42bd80b5fc2d45d95c/scripts/whatsapp-bridge/bridge.js
+      local_snapshot_retained_not_published:
+        True
+    runtime_verified:
+      False
+  - id:
+      P01-hermes:HE-04
+    project_id:
+      P01-hermes
+    evidence_kind:
+      Code
+    claim:
+      Video analysis uses an auxiliary vision-tool path.
+    source:
+      repository_id:
+        P01-hermes
+      repository:
+        NousResearch/hermes-agent
+      revision:
+        848fc0ad8be766b9dc10fe42bd80b5fc2d45d95c
+      path:
+        tools/vision_tools.py
+      sha256:
+        3f12fda1e3b8d8154cb6e831299ac19a47431aca2c6bc43e84a3c2a078c78bc2
+      url:
+        https://github.com/NousResearch/hermes-agent/blob/848fc0ad8be766b9dc10fe42bd80b5fc2d45d95c/tools/vision_tools.py
+      local_snapshot_retained_not_published:
+        True
+    runtime_verified:
+      False
+  - id:
+      P01-hermes:HE-05
+    project_id:
+      P01-hermes
+    evidence_kind:
+      Documentation
+    claim:
+      Security scope is a single-tenant personal agent.
+    source:
+      repository_id:
+        P01-hermes
+      repository:
+        NousResearch/hermes-agent
+      revision:
+        848fc0ad8be766b9dc10fe42bd80b5fc2d45d95c
+      path:
+        SECURITY.md
+      sha256:
+        08b733d1f2c71f8cdd87200beb10c06185d0912a6eb19bbf69149dbb4e207a55
+      url:
+        https://github.com/NousResearch/hermes-agent/blob/848fc0ad8be766b9dc10fe42bd80b5fc2d45d95c/SECURITY.md
+      local_snapshot_retained_not_published:
+        True
+    runtime_verified:
+      False
+  - id:
+      P01-hermes:HE-06
+    project_id:
+      P01-hermes
+    evidence_kind:
+      Code
+    claim:
+      Delivery queue distinguishes uncertain interrupted sends.
+    source:
+      repository_id:
+        P01-hermes
+      repository:
+        NousResearch/hermes-agent
+      revision:
+        848fc0ad8be766b9dc10fe42bd80b5fc2d45d95c
+      path:
+        cron/delivery_queue.py
+      sha256:
+        6cf591b7cacff379de5d585fce85c4909bef892037b605ca9d2bbb6a3a86c5c7
+      url:
+        https://github.com/NousResearch/hermes-agent/blob/848fc0ad8be766b9dc10fe42bd80b5fc2d45d95c/cron/delivery_queue.py
+      local_snapshot_retained_not_published:
+        True
+    runtime_verified:
+      False
+unknowns:
+  - No runtime or throughput measurement.
+  - Selected files do not establish enterprise tenant isolation.
+  - Channel delivery and media support require controlled end-to-end tests.
+related_projects:
+  - P06-browser-use
+  - P08-letta
+  - P05-temporal
+  - P15-rea
+repository:
+  NousResearch/hermes-agent
+revision:
+  848fc0ad8be766b9dc10fe42bd80b5fc2d45d95c
+url:
+  https://github.com/NousResearch/hermes-agent
+source_file_count:
+  15
+auxiliary_sources:
+

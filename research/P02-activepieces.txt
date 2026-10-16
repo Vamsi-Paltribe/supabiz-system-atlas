@@ -1,0 +1,192 @@
+id:
+  P02-activepieces
+name:
+  Activepieces
+category:
+  Automation platform
+sections:
+  What it is:
+    Activepieces combines a visual workflow builder, a catalogue of integration packages called pieces, a server API, and workers that execute jobs. A piece supplies triggers, actions and configuration rather than being a complete workflow by itself. The builder connects these capabilities into a versioned flow. This distinction matters when reading the repository: a reusable connector, the workflow engine, and the hosted product are different units with different dependencies.
+  Architecture and boundaries:
+    The selected Compose file separates APP and WORKER containers and supplies PostgreSQL and Redis. The API-side job broker owns BullMQ workers and dispatches jobs to execution workers; the execution worker selects a handler from a job-type registry. That registry covers flows, polling, webhooks, token refresh, validation, property resolution and single actions. AI and agent handlers are lazy-loaded. This means ordinary flow execution need not eagerly load the AI dependency graph. The public README's broad product claims should be read separately from this directly inspected execution machinery.
+  Main execution flow:
+    A trigger or API request results in a typed job. The broker dequeues it, migrates and validates its schema, applies interceptors, and assigns it to an execution worker. It records ownership so a disconnected worker's in-flight jobs can be returned to the queue. Jobs have locks and attempt counts, and workers can extend their locks. The result is completed or failed through the broker. A separate run-metadata queue takes reported progress, checks the project/run identity, writes flow-run state, and coordinates relevant waitpoint/resume effects. Retrying a job is not in itself evidence that an external side effect occurs exactly once.
+  Data and persistence:
+    PostgreSQL is the durable application database in the inspected deployment; Redis backs queues and coordination. Run-metadata handling takes a distributed lock and uses project-scoped keys. It checks for deleted flows and mismatched project ownership before updating records. The connection service stores encrypted values together with platform/project associations and exposes versions that omit sensitive values. Cache directories are mounted into both container roles. Backups would need to account for database state and operational queue state; recovery consistency was not exercised here.
+  Authentication and trust:
+    Connection retrieval includes a project-membership condition, then decrypts and refreshes the credential as needed. The inspected return path removes refresh tokens and client secrets. The response-serialization ownership guard rejects a project mismatch on supported payload shapes. That guard is one layer, not a complete audit of every request, role, worker, or nested payload. Code actions and integration packages create executable trust boundaries that require separate sandbox analysis. The presence of encryption calls establishes a code path, not that deployment keys are correctly configured or protected.
+  Deployment and extension:
+    The repository is a TypeScript monorepo; integration pieces are separately packaged. Extending it normally means defining an action/trigger and its typed inputs/authentication, or changing platform API/worker behavior for a deeper feature. The selected deployment pins an application image and creates multiple workers, so independently scaling execution is an intended operational shape. A complete deployment review must still trace environment variables, worker authentication, sandbox mode, migrations, resource limits and webhook exposure. We did not start its containers or install packages.
+  Licensing and ownership:
+    The root license distinguishes MIT-covered code from specified enterprise directories and third-party components. The README also distinguishes Community Edition and commercial enterprise features. Do not apply a single license label to all code selected for reuse. The exact feature, file path, dependency and edition need checking at the pinned revision. Repository visibility does not imply that a hosted feature is included in a chosen self-hosted edition.
+  How to continue the investigation:
+    Follow one actual piece from its trigger definition through enqueue, worker execution, pause/resume and final run persistence. Read the sandbox implementation and worker authentication path. Then run a controlled workflow with a stub external service, crash between the remote effect and completion acknowledgement, and check the resulting retry behavior. Separate connector correctness, workflow recovery and business-side idempotency in the result. These are proposed experiments, not results from this pass.
+findings:
+  - id:
+      P02-activepieces:AP-01
+    project_id:
+      P02-activepieces
+    evidence_kind:
+      Code
+    claim:
+      APP/WORKER roles and PostgreSQL/Redis services are explicit in deployment.
+    source:
+      repository_id:
+        P02-activepieces
+      repository:
+        activepieces/activepieces
+      revision:
+        82300fe8029390e614f63eeac079ccc6db60eba6
+      path:
+        docker-compose.yml
+      sha256:
+        401fe3448ff16b2844e24ef0eebba7d8e5777c35e3e215ed0a7646b07807e0b2
+      url:
+        https://github.com/activepieces/activepieces/blob/82300fe8029390e614f63eeac079ccc6db60eba6/docker-compose.yml
+      local_snapshot_retained_not_published:
+        True
+    runtime_verified:
+      False
+  - id:
+      P02-activepieces:AP-02
+    project_id:
+      P02-activepieces
+    evidence_kind:
+      Code
+    claim:
+      Job dispatch includes schema validation, locks, retries and disconnected-worker reassignment.
+    source:
+      repository_id:
+        P02-activepieces
+      repository:
+        activepieces/activepieces
+      revision:
+        82300fe8029390e614f63eeac079ccc6db60eba6
+      path:
+        packages/server/api/src/app/workers/job-queue/job-broker.ts
+      sha256:
+        6c493942493fb269ccb9f6c8bced790fdcdf38f3de52fdfada46152340ab53f7
+      url:
+        https://github.com/activepieces/activepieces/blob/82300fe8029390e614f63eeac079ccc6db60eba6/packages/server/api/src/app/workers/job-queue/job-broker.ts
+      local_snapshot_retained_not_published:
+        True
+    runtime_verified:
+      False
+  - id:
+      P02-activepieces:AP-03
+    project_id:
+      P02-activepieces
+    evidence_kind:
+      Code
+    claim:
+      Run metadata checks project/run ownership and persists progress separately.
+    source:
+      repository_id:
+        P02-activepieces
+      repository:
+        activepieces/activepieces
+      revision:
+        82300fe8029390e614f63eeac079ccc6db60eba6
+      path:
+        packages/server/api/src/app/flows/flow-run/flow-runs-queue.ts
+      sha256:
+        0fe8f5b78dbf01f2c2d64df696baab87fffbb859e27b0c12243092fb6ac923a7
+      url:
+        https://github.com/activepieces/activepieces/blob/82300fe8029390e614f63eeac079ccc6db60eba6/packages/server/api/src/app/flows/flow-run/flow-runs-queue.ts
+      local_snapshot_retained_not_published:
+        True
+    runtime_verified:
+      False
+  - id:
+      P02-activepieces:AP-04
+    project_id:
+      P02-activepieces
+    evidence_kind:
+      Code
+    claim:
+      Connection values are encrypted; retrieval is scoped and can refresh credentials.
+    source:
+      repository_id:
+        P02-activepieces
+      repository:
+        activepieces/activepieces
+      revision:
+        82300fe8029390e614f63eeac079ccc6db60eba6
+      path:
+        packages/server/api/src/app/app-connection/app-connection-service/app-connection-service.ts
+      sha256:
+        5815523f64fa7f7ef488830fd63f0b28a1e2a3fe10dcbe9f65f6a95db7303b93
+      url:
+        https://github.com/activepieces/activepieces/blob/82300fe8029390e614f63eeac079ccc6db60eba6/packages/server/api/src/app/app-connection/app-connection-service/app-connection-service.ts
+      local_snapshot_retained_not_published:
+        True
+    runtime_verified:
+      False
+  - id:
+      P02-activepieces:AP-05
+    project_id:
+      P02-activepieces
+    evidence_kind:
+      Code
+    claim:
+      Worker registry separates eager flow handlers from lazy AI/agent handlers.
+    source:
+      repository_id:
+        P02-activepieces
+      repository:
+        activepieces/activepieces
+      revision:
+        82300fe8029390e614f63eeac079ccc6db60eba6
+      path:
+        packages/server/worker/src/lib/execute/job-registry.ts
+      sha256:
+        4ad660f0332b42034c0bae81771f74585c85a7c513441e8734c0d602e438829c
+      url:
+        https://github.com/activepieces/activepieces/blob/82300fe8029390e614f63eeac079ccc6db60eba6/packages/server/worker/src/lib/execute/job-registry.ts
+      local_snapshot_retained_not_published:
+        True
+    runtime_verified:
+      False
+  - id:
+      P02-activepieces:AP-06
+    project_id:
+      P02-activepieces
+    evidence_kind:
+      License
+    claim:
+      Root license contains enterprise-path and third-party exceptions.
+    source:
+      repository_id:
+        P02-activepieces
+      repository:
+        activepieces/activepieces
+      revision:
+        82300fe8029390e614f63eeac079ccc6db60eba6
+      path:
+        LICENSE
+      sha256:
+        d490fc48488c4f5a721d354f0a5cce0972c7e3de768ac3e0c5851c3de79f3c9b
+      url:
+        https://github.com/activepieces/activepieces/blob/82300fe8029390e614f63eeac079ccc6db60eba6/LICENSE
+      local_snapshot_retained_not_published:
+        True
+    runtime_verified:
+      False
+unknowns:
+  - End-to-end sandbox containment and credential exposure were not audited.
+  - Edition-specific access controls and their complete enforcement remain unverified.
+  - No workload, throughput, cost or recovery benchmark was run.
+related_projects:
+  - P03-nango
+  - P05-temporal
+  - P12-zapier-mcp
+repository:
+  activepieces/activepieces
+revision:
+  82300fe8029390e614f63eeac079ccc6db60eba6
+url:
+  https://github.com/activepieces/activepieces
+source_file_count:
+  10
+auxiliary_sources:
+

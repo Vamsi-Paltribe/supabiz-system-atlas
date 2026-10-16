@@ -1,0 +1,137 @@
+id:
+  P20-slopmonster
+name:
+  SlopMonster
+category:
+  Prose linting and optional model rewrite
+sections:
+  What it is:
+    SlopMonster is a text-quality toolkit with a deterministic prose linter and an optional rewrite workflow using an installed model CLI. Its central value is an explicit set of editorial patterns that can be inspected and rerun. It is not an AI-authorship detector, a fact checker or a proof that a piece of writing is good. A clean result means the configured rules did not flag the normalized input.
+  Input-to-report flow:
+    The deslop Python script accepts text and normalizes supported document forms before applying pattern checks. Its HTML path removes markup, including script/style content, without rendering a page or evaluating CSS. Its Markdown handling removes selected non-prose structures such as code and image syntax. It then checks vocabulary, phrases, punctuation, rhythm and conversion/social-proof patterns. The scoring logic starts from five and deducts for categories with findings, rather than interpreting each match as a calibrated probability.
+  Output and failure semantics:
+    The tool produces a report useful to a person or another coding assistant. Empty input is a failure case, and a score below the clean threshold can produce a failing exit status for automation. This makes a lint gate possible, but also creates false-positive and coverage questions. For example, domain terminology, quoted text and writing in another language may not fit the rules. Stripping markup can change what the analyzer sees relative to what a reader sees on a rendered page.
+  Optional rewrite path:
+    The cleanse shell script delegates rewriting to an available model CLI from a different family according to its routing rules. It includes timeout handling and distinct failures for unavailable clients. The expected response separates rewritten body from notes using a sentinel. If that sentinel is absent, the script can warn and retain broader output. This is an output-format convention dependent on another program and model, not a structured-response guarantee enforced by the Python linter.
+  State, authority and dependencies:
+    The linting path can operate over local text without an external model. Rewriting inherits the installed CLI's authentication, data handling, available permissions and potential usage costs. A read-only option in one client invocation does not establish a universal sandbox for all supported clients. There is no inspected durable workflow database or enterprise authorization service. Root material is MIT; model-provider access and CLI versions remain separate dependencies.
+  Extension and verification:
+    Rules can be extended in the Python implementation and checked against examples, while the rewrite prompt/routing can be changed separately. The repository includes a test file, but target tests were not executed in this investigation. A useful validation set would pair acceptable prose with intentionally flagged prose, include citations/code/HTML, and compare rewrite factual preservation sentence by sentence. A higher lint score must not be used as a substitute for that editorial review.
+findings:
+  - id:
+      P20-slopmonster:SL-01
+    project_id:
+      P20-slopmonster
+    evidence_kind:
+      Code
+    claim:
+      The linter normalizes input and scores explicit rule categories.
+    source:
+      repository_id:
+        P20-slopmonster
+      repository:
+        ItsssssJack/SlopMonster
+      revision:
+        3fc9787d9337b57c599a80afbefbbb3be5a8eb0b
+      path:
+        tools/deslop.py
+      sha256:
+        d31fd8c9b7013bd857c38afa53b59aa734a9cf96e5026ff69921e43537a9fd5a
+      url:
+        https://github.com/ItsssssJack/SlopMonster/blob/3fc9787d9337b57c599a80afbefbbb3be5a8eb0b/tools/deslop.py
+      local_snapshot_retained_not_published:
+        True
+    runtime_verified:
+      False
+  - id:
+      P20-slopmonster:SL-02
+    project_id:
+      P20-slopmonster
+    evidence_kind:
+      Code
+    claim:
+      Optional cleansing invokes installed model CLIs with timeout/output handling.
+    source:
+      repository_id:
+        P20-slopmonster
+      repository:
+        ItsssssJack/SlopMonster
+      revision:
+        3fc9787d9337b57c599a80afbefbbb3be5a8eb0b
+      path:
+        tools/cleanse.sh
+      sha256:
+        6d26e9d8f4d80af640dd0485b63efe83edd87e62815c001d5e0f5d36cf82fe37
+      url:
+        https://github.com/ItsssssJack/SlopMonster/blob/3fc9787d9337b57c599a80afbefbbb3be5a8eb0b/tools/cleanse.sh
+      local_snapshot_retained_not_published:
+        True
+    runtime_verified:
+      False
+  - id:
+      P20-slopmonster:SL-03
+    project_id:
+      P20-slopmonster
+    evidence_kind:
+      Code
+    claim:
+      A target test file exists; it was read, not executed.
+    source:
+      repository_id:
+        P20-slopmonster
+      repository:
+        ItsssssJack/SlopMonster
+      revision:
+        3fc9787d9337b57c599a80afbefbbb3be5a8eb0b
+      path:
+        tools/test_deslop.py
+      sha256:
+        b54be86a87ece908ea9b4ca9a79b15f034bcb083a2d2f4d775a25c855fd12733
+      url:
+        https://github.com/ItsssssJack/SlopMonster/blob/3fc9787d9337b57c599a80afbefbbb3be5a8eb0b/tools/test_deslop.py
+      local_snapshot_retained_not_published:
+        True
+    runtime_verified:
+      False
+  - id:
+      P20-slopmonster:SL-04
+    project_id:
+      P20-slopmonster
+    evidence_kind:
+      Documentation
+    claim:
+      The project positions its rules as prose cleanup.
+    source:
+      repository_id:
+        P20-slopmonster
+      repository:
+        ItsssssJack/SlopMonster
+      revision:
+        3fc9787d9337b57c599a80afbefbbb3be5a8eb0b
+      path:
+        README.md
+      sha256:
+        caf08e593e17dcad4ac7fc1a566940c1537c34c48d7b8bdc7216da8cf2fd3ec5
+      url:
+        https://github.com/ItsssssJack/SlopMonster/blob/3fc9787d9337b57c599a80afbefbbb3be5a8eb0b/README.md
+      local_snapshot_retained_not_published:
+        True
+    runtime_verified:
+      False
+unknowns:
+  - No rewrite was requested from a model.
+  - No measured false-positive rate or language coverage.
+  - A clean score does not establish factual accuracy or authorship.
+related_projects:
+  - P10-skills
+  - P13-arena
+repository:
+  ItsssssJack/SlopMonster
+revision:
+  3fc9787d9337b57c599a80afbefbbb3be5a8eb0b
+url:
+  https://github.com/ItsssssJack/SlopMonster
+source_file_count:
+  5
+auxiliary_sources:
+

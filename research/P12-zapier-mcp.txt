@@ -1,0 +1,170 @@
+id:
+  P12-zapier-mcp
+name:
+  Zapier MCP
+category:
+  Hosted integration gateway and client plugin
+sections:
+  What is actually public:
+    The public repository is a client-plugin distribution for connecting an agent to Zapier MCP. It is not the source of Zapier's hosted integration engine. The plugin manifest and onboarding material describe how a client discovers and connects to that service. Consequently this dossier combines inspected client-side files with explicitly attributed official service documentation. Server database schemas, worker implementations and internal retry behavior remain outside the available evidence.
+  Connection and execution flow:
+    Official connection documentation describes Streamable HTTP at the shared MCP connect endpoint. A client can use OAuth sign-in or a server token, then discover available tools and invoke actions against connected applications. OAuth refresh behavior belongs to the client/server authorization exchange; application credentials are managed through Zapier connections. A server token is authority to call the configured service, even if the underlying application's password is never shown to the language model. The public plugin configuration points the agent toward this remote boundary.
+  Tool selection and authorization:
+    Official tool documentation distinguishes agentic discovery from a managed set of tools. Discovery/setup capabilities can find actions and enable appropriate application tools; execution capabilities then perform the selected reads or writes. The documented auto-provisioning path uses the user's own connections and excludes connections merely shared by another user. This is an account/service rule described by Zapier, not something enforced in the small public plugin repository. Availability of additional workflow or custom-code capabilities may depend on account and rollout status.
+  State, cost and failure:
+    Connections and configured MCP access live in the hosted service. The client retains its own authentication/session material according to its implementation. The usage page reviewed for this dossier describes two tasks per successful external application call, with failed calls and discovery/setup excluded; plan limits can prevent additional calls. This is a dated service-policy observation, not a permanent pricing guarantee. The available source does not establish a durable side-effect receipt protocol, idempotency across application APIs or recovery after a response is lost.
+  Extension and licensing boundary:
+    A client can select/configure exposed tools and use supported app connections. That does not mean it can modify or independently deploy the underlying Zapier service. The repository's MIT license applies to the public plugin material; it is not a license to self-host the proprietary backend. For an engineering review, track the plugin revision separately from live service documentation and account-specific capability. Hosted behavior can change without a commit to this plugin repository.
+  What a later test should establish:
+    Use a disposable app connection to inspect discovery, managed-tool restrictions, token revocation, a refused action and an exhausted usage allowance. Check whether client logs expose tokens or returned business data, and what happens when a write succeeds but the MCP connection drops. Compare requests against the intended app account. No Zapier account was connected, no token was created, and no external action was executed for this dossier.
+findings:
+  - id:
+      P12-zapier-mcp:ZA-01
+    project_id:
+      P12-zapier-mcp
+    evidence_kind:
+      Documentation
+    claim:
+      The repository distributes client integration rather than the hosted engine.
+    source:
+      repository_id:
+        P12-zapier-mcp
+      repository:
+        zapier/zapier-mcp
+      revision:
+        5360f152b96735712e5f925ad728732cb86888df
+      path:
+        README.md
+      sha256:
+        c4d369332a53f9e0497fac5655e99dd40a2cb5415f20d60b1724d5d87898f2f8
+      url:
+        https://github.com/zapier/zapier-mcp/blob/5360f152b96735712e5f925ad728732cb86888df/README.md
+      local_snapshot_retained_not_published:
+        True
+    runtime_verified:
+      False
+  - id:
+      P12-zapier-mcp:ZA-02
+    project_id:
+      P12-zapier-mcp
+    evidence_kind:
+      Code
+    claim:
+      The plugin supplies remote MCP connection configuration.
+    source:
+      repository_id:
+        P12-zapier-mcp
+      repository:
+        zapier/zapier-mcp
+      revision:
+        5360f152b96735712e5f925ad728732cb86888df
+      path:
+        plugins/zapier/.mcp.json
+      sha256:
+        8b8c86a59594a732600b39cd14589c416159086c496ac81341ebbc170e8ad587
+      url:
+        https://github.com/zapier/zapier-mcp/blob/5360f152b96735712e5f925ad728732cb86888df/plugins/zapier/.mcp.json
+      local_snapshot_retained_not_published:
+        True
+    runtime_verified:
+      False
+  - id:
+      P12-zapier-mcp:ZA-03
+    project_id:
+      P12-zapier-mcp
+    evidence_kind:
+      Documentation
+    claim:
+      Plugin guidance describes onboarding and lifecycle behavior.
+    source:
+      repository_id:
+        P12-zapier-mcp
+      repository:
+        zapier/zapier-mcp
+      revision:
+        5360f152b96735712e5f925ad728732cb86888df
+      path:
+        plugins/zapier/README.md
+      sha256:
+        8947b4a7eed7232f953279830fc948f7d8dc30d9997c35de4a03da2ba2c9a236
+      url:
+        https://github.com/zapier/zapier-mcp/blob/5360f152b96735712e5f925ad728732cb86888df/plugins/zapier/README.md
+      local_snapshot_retained_not_published:
+        True
+    runtime_verified:
+      False
+  - id:
+      P12-zapier-mcp:ZA-04
+    project_id:
+      P12-zapier-mcp
+    evidence_kind:
+      Documentation
+    claim:
+      OAuth and server-token flows use Streamable HTTP.
+    source:
+      url:
+        https://docs.zapier.com/mcp/overview/how-connections-work
+      evidence_type:
+        live_official_documentation
+      reviewed_on:
+        2026-10-17
+      revision:
+        None
+    runtime_verified:
+      False
+  - id:
+      P12-zapier-mcp:ZA-05
+    project_id:
+      P12-zapier-mcp
+    evidence_kind:
+      Documentation
+    claim:
+      Tool discovery and managed configuration have distinct behavior.
+    source:
+      url:
+        https://docs.zapier.com/mcp/overview/how-tools-work
+      evidence_type:
+        live_official_documentation
+      reviewed_on:
+        2026-10-17
+      revision:
+        None
+    runtime_verified:
+      False
+  - id:
+      P12-zapier-mcp:ZA-06
+    project_id:
+      P12-zapier-mcp
+    evidence_kind:
+      Documentation
+    claim:
+      Hosted usage accounting is service policy, not plugin code.
+    source:
+      url:
+        https://docs.zapier.com/mcp/overview/usage
+      evidence_type:
+        live_official_documentation
+      reviewed_on:
+        2026-10-17
+      revision:
+        None
+    runtime_verified:
+      False
+unknowns:
+  - Hosted execution engine is not present in the repository.
+  - No account-specific capability or live action tested.
+  - Live documentation is not pinned like the Git source.
+related_projects:
+  - P02-activepieces
+  - P03-nango
+  - P16-magic
+repository:
+  zapier/zapier-mcp
+revision:
+  5360f152b96735712e5f925ad728732cb86888df
+url:
+  https://github.com/zapier/zapier-mcp
+source_file_count:
+  6
+auxiliary_sources:
+

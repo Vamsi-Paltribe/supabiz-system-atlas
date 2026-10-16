@@ -1,0 +1,140 @@
+id:
+  P09-security-audit
+name:
+  Cloudflare Security Audit Skill
+category:
+  Security research workflow
+sections:
+  What it is:
+    This repository packages a procedure for a coding agent to investigate a codebase and retain verified findings. Its main product is an audit workflow plus structured artifacts and validators. It is not an always-on firewall, an identity provider or a certificate that a target is secure. The discovery model, target source and execution environment remain external dependencies.
+  Architecture and flow:
+    The documented workflow starts by mapping architecture, trust boundaries and input surfaces into a coverage ledger. Hunting tasks investigate ledger units. Candidate findings then go to fresh verifiers who attempt to disprove them. Findings are recorded under confirmed, needs_validation or rejected verdicts. Another verification step checks final source claims before reports are generated from the structured records. Keeping a rejected candidate is useful: it retains why a suspicion failed instead of turning every deviation from a checklist into a vulnerability.
+  Artifacts and state:
+    The coverage ledger tracks investigated units and gaps; findings.json records stable fingerprints, traces, evidence, prerequisites and outcomes. The report schema requires explicit source files/lines and scopes for trace entries. A stable fingerprint is meant to survive a change in verdict. Reports are derived views of this retained state. Repeated audits can revisit changed source and unresolved gaps, but a ledger's existence is not proof every attack path has been covered.
+  Validator mechanics:
+    The inspected Node validator interprets the repository's supported schema keywords and adds finding-specific checks. It bounds input size, nesting, array items and error output, uses fatal UTF-8 decoding and sanitizes diagnostics. This validates structure and consistency of submitted records. It cannot decide whether an exploit actually occurred merely because an evidence paragraph is well-formed. Runtime evidence and independent source checking are separate requirements.
+  Execution and trust:
+    The workflow requires an agent with tool use and separate verifier contexts, plus an OS-enforced sandbox for target-controlled code. Documentation calls for controlled networking, resource limits, a sanitized environment and restricted writes; when these are absent, an unresolved lead remains needs_validation. Target code, tests and instructions can be adversarial inputs to the auditor. The investigation should preserve that distinction even when a repository contains its own audit instructions.
+  Extension, license and use boundaries:
+    Attack-class guides cover AI tools, auth, client-side behavior, cloud, supply chain, data isolation and desktop/mobile boundaries. The guides can be selected according to a target's actual surfaces. Root license is MIT. We read the workflow, report schema and validator as source material; we did not activate the skill, launch an audit fleet, run target code or claim a security assessment of any project in this library.
+  Next validation:
+    Test the validators with both valid and deliberately malformed records, then conduct a narrowly scoped audit against a known test fixture containing a confirmed flaw and a plausible false positive. Check that the verifier disproves the false positive and preserves the real evidence. Evaluate audit coverage and reproducibility separately from the number of findings. No discovery-rate or safety percentage has been established here.
+findings:
+  - id:
+      P09-security-audit:SA-01
+    project_id:
+      P09-security-audit
+    evidence_kind:
+      Documentation
+    claim:
+      Audit stages separate discovery, adversarial verification and reporting.
+    source:
+      repository_id:
+        P09-security-audit
+      repository:
+        cloudflare/security-audit-skill
+      revision:
+        c1c8a8c1471069fb0e188eeaff69b8e8db6564a8
+      path:
+        README.md
+      sha256:
+        55e793bbea3563f8246735997c07aaee360e043eeb626f0b56ea6161c8618ae7
+      url:
+        https://github.com/cloudflare/security-audit-skill/blob/c1c8a8c1471069fb0e188eeaff69b8e8db6564a8/README.md
+      local_snapshot_retained_not_published:
+        True
+    runtime_verified:
+      False
+  - id:
+      P09-security-audit:SA-02
+    project_id:
+      P09-security-audit
+    evidence_kind:
+      Schema
+    claim:
+      Verdict-specific records include source traces, evidence and conditions.
+    source:
+      repository_id:
+        P09-security-audit
+      repository:
+        cloudflare/security-audit-skill
+      revision:
+        c1c8a8c1471069fb0e188eeaff69b8e8db6564a8
+      path:
+        skills/security-audit/report-schema.json
+      sha256:
+        6575c9de4a62255699ea052ebf9a49ebfb373a32891bcd89af6f55cc84b35519
+      url:
+        https://github.com/cloudflare/security-audit-skill/blob/c1c8a8c1471069fb0e188eeaff69b8e8db6564a8/skills/security-audit/report-schema.json
+      local_snapshot_retained_not_published:
+        True
+    runtime_verified:
+      False
+  - id:
+      P09-security-audit:SA-03
+    project_id:
+      P09-security-audit
+    evidence_kind:
+      Code
+    claim:
+      Validator enforces bounded structured input and finding-specific checks.
+    source:
+      repository_id:
+        P09-security-audit
+      repository:
+        cloudflare/security-audit-skill
+      revision:
+        c1c8a8c1471069fb0e188eeaff69b8e8db6564a8
+      path:
+        skills/security-audit/validate-findings.cjs
+      sha256:
+        e85f232e36bfac0f866f244da50376692d6b45c690beadcb00608b0e6c8b5283
+      url:
+        https://github.com/cloudflare/security-audit-skill/blob/c1c8a8c1471069fb0e188eeaff69b8e8db6564a8/skills/security-audit/validate-findings.cjs
+      local_snapshot_retained_not_published:
+        True
+    runtime_verified:
+      False
+  - id:
+      P09-security-audit:SA-04
+    project_id:
+      P09-security-audit
+    evidence_kind:
+      Documentation
+    claim:
+      Final reporting is derived from verified records.
+    source:
+      repository_id:
+        P09-security-audit
+      repository:
+        cloudflare/security-audit-skill
+      revision:
+        c1c8a8c1471069fb0e188eeaff69b8e8db6564a8
+      path:
+        skills/security-audit/VALIDATION-AND-REPORTING.md
+      sha256:
+        b892470cb89bb31f33403e050d4bdfbe2cdaef940ade1496fa65e32b2e129449
+      url:
+        https://github.com/cloudflare/security-audit-skill/blob/c1c8a8c1471069fb0e188eeaff69b8e8db6564a8/skills/security-audit/VALIDATION-AND-REPORTING.md
+      local_snapshot_retained_not_published:
+        True
+    runtime_verified:
+      False
+unknowns:
+  - No actual target audit was performed.
+  - Validator success cannot substantiate the semantic truth of findings.
+  - Coverage completeness depends on investigation and target scope.
+related_projects:
+  - P07-langfuse
+  - P15-rea
+  - P13-arena
+repository:
+  cloudflare/security-audit-skill
+revision:
+  c1c8a8c1471069fb0e188eeaff69b8e8db6564a8
+url:
+  https://github.com/cloudflare/security-audit-skill
+source_file_count:
+  6
+auxiliary_sources:
+
