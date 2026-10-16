@@ -1,0 +1,193 @@
+id:
+  P21-openhands
+name:
+  OpenHands / Agent Canvas
+category:
+  Agent interface and separate execution SDK
+sections:
+  Project identity at this revision:
+    The pinned OpenHands main repository presents Agent Canvas: a React/TypeScript interface for conversations, files, terminals, browser views and automation. Older descriptions of OpenHands as a single Python coding-agent repository are insufficient for this revision. The execution machinery belongs to separate Agent Server/SDK components. This dossier therefore captures the main UI repository and selected files from OpenHands/software-agent-sdk as two independently pinned sources.
+  Architecture and interaction flow:
+    Canvas selects a backend, connects to its API, creates or attaches to a conversation and renders events and workspace views. The Agent Server owns execution and conversation lifecycle. In the selected conversation service, a request resolves agent settings and a launch source, scopes supplied secrets, registers tool definitions, optionally plans a worktree and constructs the launched agent/workspace. Client-defined JSON tool schemas are distinct from importing Python tool modules. Plugins are described as loading lazily when the conversation first runs. The automation service is another component; its complete implementation was not inspected.
+  State and persistence:
+    Canvas stores backend definitions in browser localStorage and keeps the active selection primarily tab-scoped in sessionStorage, with a local fallback. The backend object includes its API-key field, so browser-origin security is relevant to that storage design. ConversationService maintains conversation lifecycle and persisted event access separately from the UI. Its presence does not by itself prove that every external command can be resumed without duplication. Git worktrees separate checkout state, while execution isolation depends on how the server and runtime are actually launched.
+  Authentication and trust boundaries:
+    The inspected UI auth helper uses X-Session-API-Key for local backends and bearer authentication for applicable cloud configurations; cookie mode is handled separately. The SDK dependency checks session keys against configuration, and its selected check bypasses that requirement when no keys are configured. That observation is limited to this function, not a conclusion about every route or deployment. Backend address, allowed origins, browser storage, server credentials and runtime/container permissions form distinct boundaries.
+  Deployment and extension:
+    Self-hosting documentation describes local operation and alternative runtime configurations, including per-conversation Docker execution. Binding a server beyond loopback changes exposure, and containers do not automatically protect all host-side automation or shared workspace state. Extension points include tools, agent launch configuration, plugins/skills and backend integration. Main and SDK root licenses are MIT at the recorded revisions; deployment services and dependencies must be checked separately. No OpenHands containers, servers or agents were started here.
+  What the source establishes and leaves open:
+    The code establishes a separation between interface, server lifecycle and execution workspace, plus concrete client-side auth and persistence choices. It does not establish a fully audited multi-tenant system, safe arbitrary tool imports or universal recovery semantics. A controlled follow-up should create a conversation on a disposable backend, disconnect/reconnect the UI, interrupt execution, rotate a session key and compare worktree versus container boundaries. Verify host mounts and secret propagation before interpreting a Docker option as complete isolation.
+findings:
+  - id:
+      P21-openhands:OH-01
+    project_id:
+      P21-openhands
+    evidence_kind:
+      Documentation
+    claim:
+      The current main repository separates Canvas from execution services.
+    source:
+      repository_id:
+        P21-openhands
+      repository:
+        OpenHands/OpenHands
+      revision:
+        950ee95fda862dd8b12e741698e43ca4fc4fa6ac
+      path:
+        docs/architecture.md
+      sha256:
+        9f806944e4b13f4cc714da3f86f335b5f5bfcdeb49b9cf68ccaced2aaff3f84c
+      url:
+        https://github.com/OpenHands/OpenHands/blob/950ee95fda862dd8b12e741698e43ca4fc4fa6ac/docs/architecture.md
+      local_snapshot_retained_not_published:
+        True
+    runtime_verified:
+      False
+  - id:
+      P21-openhands:OH-02
+    project_id:
+      P21-openhands
+    evidence_kind:
+      Code
+    claim:
+      Backend auth selects local-key, bearer or cookie behavior.
+    source:
+      repository_id:
+        P21-openhands
+      repository:
+        OpenHands/OpenHands
+      revision:
+        950ee95fda862dd8b12e741698e43ca4fc4fa6ac
+      path:
+        src/api/backend-registry/auth.ts
+      sha256:
+        6c0febb4b68bfd3621e6f5d7b3580bcbd9f562ce76ce282bbf19f6fbcd079658
+      url:
+        https://github.com/OpenHands/OpenHands/blob/950ee95fda862dd8b12e741698e43ca4fc4fa6ac/src/api/backend-registry/auth.ts
+      local_snapshot_retained_not_published:
+        True
+    runtime_verified:
+      False
+  - id:
+      P21-openhands:OH-03
+    project_id:
+      P21-openhands
+    evidence_kind:
+      Code
+    claim:
+      Backend definitions and active selections use browser storage.
+    source:
+      repository_id:
+        P21-openhands
+      repository:
+        OpenHands/OpenHands
+      revision:
+        950ee95fda862dd8b12e741698e43ca4fc4fa6ac
+      path:
+        src/api/backend-registry/storage.ts
+      sha256:
+        18d9af687fba65b66a865045a93ba35db86e0ba8a60533a0d63a60180830b395
+      url:
+        https://github.com/OpenHands/OpenHands/blob/950ee95fda862dd8b12e741698e43ca4fc4fa6ac/src/api/backend-registry/storage.ts
+      local_snapshot_retained_not_published:
+        True
+    runtime_verified:
+      False
+  - id:
+      P21-openhands:OH-04
+    project_id:
+      P21-openhands
+    evidence_kind:
+      Code
+    claim:
+      Conversation creation resolves launch state, tools, secrets and workspaces.
+    source:
+      repository_id:
+        P21-openhands-sdk
+      repository:
+        OpenHands/software-agent-sdk
+      revision:
+        6530325e9dd0ea1b6b4f1994d7dab52764cfc3f1
+      path:
+        openhands-agent-server/openhands/agent_server/conversation_service.py
+      sha256:
+        100a7cfea87dc28730549581d23a08a27fb85e887f8781b79f6d5cf412d13c03
+      url:
+        https://github.com/OpenHands/software-agent-sdk/blob/6530325e9dd0ea1b6b4f1994d7dab52764cfc3f1/openhands-agent-server/openhands/agent_server/conversation_service.py
+      local_snapshot_retained_not_published:
+        True
+    runtime_verified:
+      False
+  - id:
+      P21-openhands:OH-05
+    project_id:
+      P21-openhands
+    evidence_kind:
+      Code
+    claim:
+      Configured session-key validation is a server dependency.
+    source:
+      repository_id:
+        P21-openhands-sdk
+      repository:
+        OpenHands/software-agent-sdk
+      revision:
+        6530325e9dd0ea1b6b4f1994d7dab52764cfc3f1
+      path:
+        openhands-agent-server/openhands/agent_server/dependencies.py
+      sha256:
+        2bf1483569a3837365c4a1f332de3cf707cf9afd21c46686d64c5f008ccace3f
+      url:
+        https://github.com/OpenHands/software-agent-sdk/blob/6530325e9dd0ea1b6b4f1994d7dab52764cfc3f1/openhands-agent-server/openhands/agent_server/dependencies.py
+      local_snapshot_retained_not_published:
+        True
+    runtime_verified:
+      False
+  - id:
+      P21-openhands:OH-06
+    project_id:
+      P21-openhands
+    evidence_kind:
+      Code
+    claim:
+      Docker provisioning is a separate runtime subsystem.
+    source:
+      repository_id:
+        P21-openhands-sdk
+      repository:
+        OpenHands/software-agent-sdk
+      revision:
+        6530325e9dd0ea1b6b4f1994d7dab52764cfc3f1
+      path:
+        openhands-agent-server/openhands/agent_server/docker_runtime/provisioning.py
+      sha256:
+        ace1d23164a846da5b0f59f16a7bd4cd5cb270404d418874ad12322c3ecdaae0
+      url:
+        https://github.com/OpenHands/software-agent-sdk/blob/6530325e9dd0ea1b6b4f1994d7dab52764cfc3f1/openhands-agent-server/openhands/agent_server/docker_runtime/provisioning.py
+      local_snapshot_retained_not_published:
+        True
+    runtime_verified:
+      False
+unknowns:
+  - No runtime, reconnect or container-boundary test.
+  - Automation service is not comprehensively inspected.
+  - Main repository and execution SDK evolve independently.
+related_projects:
+  - P01-hermes
+  - P14-orca
+  - P08-letta
+repository:
+  OpenHands/OpenHands
+revision:
+  950ee95fda862dd8b12e741698e43ca4fc4fa6ac
+url:
+  https://github.com/OpenHands/OpenHands
+source_file_count:
+  7
+auxiliary_sources:
+  - repository:
+      OpenHands/software-agent-sdk
+    revision:
+      6530325e9dd0ea1b6b4f1994d7dab52764cfc3f1
+    url:
+      https://github.com/OpenHands/software-agent-sdk

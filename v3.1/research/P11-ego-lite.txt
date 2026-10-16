@@ -1,0 +1,137 @@
+id:
+  P11-ego-lite
+name:
+  Ego Lite / ego-browser
+category:
+  Browser product and agent SDK
+sections:
+  What is public and what is not:
+    Ego Lite is presented as a browser where users and agents work in separate task spaces while retaining access to browser identity. The public repository is specifically the JavaScript SDK and agent skill. Its CONTRIBUTING document states that the browser application and native bindings are supplied separately by the installed app. This dossier therefore explains the public SDK contract and documented product behavior; it is not a reverse-engineering result for the native browser binary.
+  Architecture:
+    The installed CLI supplies native globalThis.ego bindings. The repository builds an SDK bundle plus a matching usage guide and skill files. JavaScript agent code calls Page/TaskSpace APIs, which use the SDK's native/CDP bridge. The runtime keeps pending CDP requests, browser/page event subscribers, target/session mappings and child-frame relationships. Native browser functionality remains behind that bridge. The ability to run the SDK's help interface outside the browser does not make browser actions available without the native environment.
+  Observe and act flow:
+    A snapshot request invokes the native snapshot operation, compacts the returned result and registers element references in a reference map. snapshotText requests full-page text with action marks and stable locator information by default. Screenshot capture is scoped to an explicit target session, with unique temporary filenames. Runtime code distinguishes lost sessions, disappearing frames, dialog-blocked requests and user-control errors. Those distinctions help callers choose recovery without blindly replaying a potentially completed input.
+  State and identity:
+    Browser logins, cookies and profile data belong to the installed browser. Task spaces provide documented separation of user and agent activity, while SDK reference maps and session IDs connect observations to actions. The public SDK does not prove the native implementation's isolation guarantees or cookie migration correctness. A shared authenticated browser is a strong capability even if the agent works in another visible space.
+  Deployment, extension and license:
+    Public development uses Node.js and the installed app for real-browser tests. The build emits a single-file SDK bundle alongside a matching guide; using mismatched versions can lead to incorrect tool assumptions. MIT licensing in this repository covers the public material, not an inferred license for the separately delivered browser. Platform support and performance statements in the README remain upstream claims; no native app was installed or measured here.
+  What needs artifact/runtime evidence:
+    To substantiate native isolation, inspect a specific signed app build and its resources, then run a declared local test with two task spaces and a dummy account. Check storage separation, user takeover, dialogs, downloads, stale element references and crashes after input dispatch. REA is appropriate for that packaged/native investigation if the actual artifact is selected. Public source alone cannot verify the claimed speed or token advantage over other browsers.
+findings:
+  - id:
+      P11-ego-lite:EG-01
+    project_id:
+      P11-ego-lite
+    evidence_kind:
+      Documentation
+    claim:
+      Public repository supplies SDK/skill; native browser and bindings are separate.
+    source:
+      repository_id:
+        P11-ego-lite
+      repository:
+        citrolabs/ego-lite
+      revision:
+        4cf79356509bccdead17863250b442f60a881c25
+      path:
+        CONTRIBUTING.md
+      sha256:
+        6fc896b64bab9abb31c5f77c4e9f5042b42d812ea67ac8b4cd617a6a3b1c23db
+      url:
+        https://github.com/citrolabs/ego-lite/blob/4cf79356509bccdead17863250b442f60a881c25/CONTRIBUTING.md
+      local_snapshot_retained_not_published:
+        True
+    runtime_verified:
+      False
+  - id:
+      P11-ego-lite:EG-02
+    project_id:
+      P11-ego-lite
+    evidence_kind:
+      Code
+    claim:
+      Runtime maps CDP sessions/targets and defines timeout, lifecycle and dialog errors.
+    source:
+      repository_id:
+        P11-ego-lite
+      repository:
+        citrolabs/ego-lite
+      revision:
+        4cf79356509bccdead17863250b442f60a881c25
+      path:
+        package/ego-browser/src/browser-runtime.ts
+      sha256:
+        7945f1f4639c865f1ab11a38d2cd9ec8ca31706ef6f2db24cacc4d5304129e44
+      url:
+        https://github.com/citrolabs/ego-lite/blob/4cf79356509bccdead17863250b442f60a881c25/package/ego-browser/src/browser-runtime.ts
+      local_snapshot_retained_not_published:
+        True
+    runtime_verified:
+      False
+  - id:
+      P11-ego-lite:EG-03
+    project_id:
+      P11-ego-lite
+    evidence_kind:
+      Code
+    claim:
+      Snapshots call native bindings and populate reference maps; screenshots can target explicit sessions.
+    source:
+      repository_id:
+        P11-ego-lite
+      repository:
+        citrolabs/ego-lite
+      revision:
+        4cf79356509bccdead17863250b442f60a881c25
+      path:
+        package/ego-browser/src/driver/observe.ts
+      sha256:
+        2596ffbd7a29de840bb661b071d37a091c04d43d33ebf30bc8fc2024a4e710e3
+      url:
+        https://github.com/citrolabs/ego-lite/blob/4cf79356509bccdead17863250b442f60a881c25/package/ego-browser/src/driver/observe.ts
+      local_snapshot_retained_not_published:
+        True
+    runtime_verified:
+      False
+  - id:
+      P11-ego-lite:EG-04
+    project_id:
+      P11-ego-lite
+    evidence_kind:
+      Code
+    claim:
+      CDP evaluation is a distinct SDK bridge.
+    source:
+      repository_id:
+        P11-ego-lite
+      repository:
+        citrolabs/ego-lite
+      revision:
+        4cf79356509bccdead17863250b442f60a881c25
+      path:
+        package/ego-browser/src/cdp-eval.ts
+      sha256:
+        f5a05864d404c665568b1dcab5aa81383671dff560d311b7d21aee7c34de9474
+      url:
+        https://github.com/citrolabs/ego-lite/blob/4cf79356509bccdead17863250b442f60a881c25/package/ego-browser/src/cdp-eval.ts
+      local_snapshot_retained_not_published:
+        True
+    runtime_verified:
+      False
+unknowns:
+  - Native browser source/artifact was not inspected.
+  - Space isolation, migration, platform support and performance are not independently validated.
+  - No live session or user account was connected.
+related_projects:
+  - P06-browser-use
+  - P15-rea
+repository:
+  citrolabs/ego-lite
+revision:
+  4cf79356509bccdead17863250b442f60a881c25
+url:
+  https://github.com/citrolabs/ego-lite
+source_file_count:
+  7
+auxiliary_sources:
+

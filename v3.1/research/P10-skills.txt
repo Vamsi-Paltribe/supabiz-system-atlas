@@ -1,0 +1,165 @@
+id:
+  P10-skills
+name:
+  Vercel Skills / Find Skills
+category:
+  Capability discovery and distribution
+sections:
+  What it is:
+    The skills CLI discovers and distributes reusable agent instruction packages. A skill typically combines a SKILL.md description with supporting scripts or reference files. Find Skills is the discovery capability within this ecosystem. Installing a skill makes material available to an agent client; it does not create an OS sandbox, grant application permissions, or prove that the instructions are useful or trustworthy.
+  Architecture and flow:
+    The CLI parses a source reference, locates candidate skill directories, reads skill metadata and installs selected packages for chosen agent environments. The find command sends a query to a search API, defaulting to skills.sh, and formats matching names, sources and popularity metadata. The source parser supports different repository/URL/local forms. Discovery parses frontmatter and searches bounded directory structures. Installation integrates with agent-specific locations and supports shared symlinks or copies.
+  State and metadata:
+    The implementation references local lock data when discovering and matching installed skills. The installed files, canonical source, selected skill and update state are the relevant persistent artifacts. Symlinks reduce duplicate copies but also mean multiple agent clients can see the same changed content. Copy installs have separate update drift. A pinned version or hash is necessary to distinguish what was reviewed from what a later update supplies.
+  Trust and authentication:
+    The inspected search and skill parsers sanitize displayed metadata and strip terminal control content. Safe-subpath checks help constrain discovery. The README describes using existing Git authentication for private sources. These address particular boundaries; they do not establish that downloaded instructions or scripts are safe to execute. A skill's prose is content supplied to an agent, and any executable helpers retain the agent's actual tool permissions. Search ranking and installation counts are discovery signals, not verification.
+  Deployment and extension:
+    The CLI runs in the development/agent environment and supports many clients through location mappings. A publisher can add a repository containing skills and metadata rather than host a new application service. Discovery via skills.sh introduces a network dependency, while local/repository installation can use a known source directly. Current add/use/find/update behavior should be checked at a pinned release; the package itself can change independently of a chosen skill repository.
+  License and investigation boundary:
+    The CLI root is MIT-licensed. Each skill repository and bundled asset has its own terms. We inspected the search, discovery, add orchestration and source parsing code. We did not install a third-party skill or run its scripts. Installer helpers, archive extraction, lock mutation and all path edge cases were not fully audited.
+  Next study:
+    Trace a small skill from a pinned local/repository source into two agent clients, then update and remove it while checking lock state and symlink targets. Test duplicate names, malformed metadata, unsafe relative paths and interrupted installation. Independently assess the instruction content and scripts. Keep package provenance distinct from the evaluation result of the capability it supplies.
+findings:
+  - id:
+      P10-skills:SK-01
+    project_id:
+      P10-skills
+    evidence_kind:
+      Code
+    claim:
+      Find Skills queries a configurable search API and sanitizes result metadata.
+    source:
+      repository_id:
+        P10-skills
+      repository:
+        vercel-labs/skills
+      revision:
+        13e4063a1cf913f5606d57d42ab83a86f5001e04
+      path:
+        src/find.ts
+      sha256:
+        aa845ea84c80cee4f34db1fdabfab653dd3a7927e9a809d522402fb80e9b6d14
+      url:
+        https://github.com/vercel-labs/skills/blob/13e4063a1cf913f5606d57d42ab83a86f5001e04/src/find.ts
+      local_snapshot_retained_not_published:
+        True
+    runtime_verified:
+      False
+  - id:
+      P10-skills:SK-02
+    project_id:
+      P10-skills
+    evidence_kind:
+      Code
+    claim:
+      Discovery parses SKILL.md metadata and references local lock state.
+    source:
+      repository_id:
+        P10-skills
+      repository:
+        vercel-labs/skills
+      revision:
+        13e4063a1cf913f5606d57d42ab83a86f5001e04
+      path:
+        src/skills.ts
+      sha256:
+        6ec366e2a4f48767b3532c3dfa09cfb31857c8bb7c94ab109d5dfff0855ab371
+      url:
+        https://github.com/vercel-labs/skills/blob/13e4063a1cf913f5606d57d42ab83a86f5001e04/src/skills.ts
+      local_snapshot_retained_not_published:
+        True
+    runtime_verified:
+      False
+  - id:
+      P10-skills:SK-03
+    project_id:
+      P10-skills
+    evidence_kind:
+      Code
+    claim:
+      Add orchestrates agent selection, installation results and warnings.
+    source:
+      repository_id:
+        P10-skills
+      repository:
+        vercel-labs/skills
+      revision:
+        13e4063a1cf913f5606d57d42ab83a86f5001e04
+      path:
+        src/add.ts
+      sha256:
+        192180cc9ba3d8622a7cdabb55c26b1a576d53598fa2e9aba7b2b53703ab8e6b
+      url:
+        https://github.com/vercel-labs/skills/blob/13e4063a1cf913f5606d57d42ab83a86f5001e04/src/add.ts
+      local_snapshot_retained_not_published:
+        True
+    runtime_verified:
+      False
+  - id:
+      P10-skills:SK-04
+    project_id:
+      P10-skills
+    evidence_kind:
+      Code
+    claim:
+      Source parsing distinguishes supported source forms.
+    source:
+      repository_id:
+        P10-skills
+      repository:
+        vercel-labs/skills
+      revision:
+        13e4063a1cf913f5606d57d42ab83a86f5001e04
+      path:
+        src/source-parser.ts
+      sha256:
+        d498dbe96231b85d6bab7412d3f16173d0f52f5756360a906fd6efdc4a906b75
+      url:
+        https://github.com/vercel-labs/skills/blob/13e4063a1cf913f5606d57d42ab83a86f5001e04/src/source-parser.ts
+      local_snapshot_retained_not_published:
+        True
+    runtime_verified:
+      False
+  - id:
+      P10-skills:SK-05
+    project_id:
+      P10-skills
+    evidence_kind:
+      License
+    claim:
+      CLI root is MIT; distributed skills are separate works.
+    source:
+      repository_id:
+        P10-skills
+      repository:
+        vercel-labs/skills
+      revision:
+        13e4063a1cf913f5606d57d42ab83a86f5001e04
+      path:
+        LICENSE
+      sha256:
+        661142e53c313d2bb5e1b055f5c0a39001450ff1b5e27b89dc4bc7de9a6352ca
+      url:
+        https://github.com/vercel-labs/skills/blob/13e4063a1cf913f5606d57d42ab83a86f5001e04/LICENSE
+      local_snapshot_retained_not_published:
+        True
+    runtime_verified:
+      False
+unknowns:
+  - No complete installer supply-chain audit.
+  - No third-party skill was installed or benchmarked.
+  - Search service internals are not in this inspected CLI scope.
+related_projects:
+  - P01-hermes
+  - P08-letta
+  - P19-universal-modder
+repository:
+  vercel-labs/skills
+revision:
+  13e4063a1cf913f5606d57d42ab83a86f5001e04
+url:
+  https://github.com/vercel-labs/skills
+source_file_count:
+  7
+auxiliary_sources:
+

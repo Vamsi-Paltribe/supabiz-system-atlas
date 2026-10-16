@@ -1,0 +1,164 @@
+id:
+  P05-temporal
+name:
+  Temporal
+category:
+  Durable workflow infrastructure
+sections:
+  What it is:
+    Temporal separates durable workflow coordination from the application workers that execute workflow and activity code. A workflow describes progression and waiting; activities perform work that can involve external systems. The server stores execution history and schedules tasks. This is an infrastructure service with SDKs, not a visual integration catalogue or a language-model agent. Durable recovery of orchestration does not make every external effect exactly-once.
+  Server architecture:
+    The inspected Go server exposes a frontend workflow API, history handlers and a matching engine. StartWorkflowExecution validates and prepares the request, resolves the namespace identifier, then delegates to the history service. The matching engine deals with task-queue partitions, sticky queues and worker polling. The persistence interfaces separately describe execution state, history events, transactions and conditional-write failures. Application worker code and SDK replay behavior are a separate side of the architecture; this pass inspected server paths and the official workflow documentation.
+  Execution flow:
+    A client requests a workflow start with identifiers, timeouts and retry-related configuration. Frontend validation passes the request into history handling. Workflow tasks and activity tasks are dispatched via matching to workers polling the relevant queues. Workers return completions, failures or cancellations; history handlers expose corresponding operations and activity heartbeats. A waiting workflow need not keep a request handler alive. Progress is represented by durable execution state and history rather than relying on an in-memory agent conversation.
+  Persistence and recovery:
+    The persistence contract distinguishes mutable execution state from history event batches and records transaction relationships. Task metadata includes namespace, workflow/run identifiers, scheduled event identity, expiry and version directives. Conditional failures and timeouts are represented explicitly. Official workflow documentation explains deterministic replay: workflow code reconstructs state from history. External I/O belongs in activities, whose retry and timeout semantics must be designed around the external service. Application-side idempotency or reconciliation is still needed when a remote effect succeeds but its acknowledgement is lost.
+  Authentication and deployment:
+    Namespaces organize execution, but a namespace name is not by itself an authorization boundary. The server's authentication/authorization configuration was not traced in this pass. Deployment includes the Temporal server, a supported persistence backend, appropriate visibility storage/configuration, and application workers running the chosen SDK. Hosted Temporal Cloud and self-hosted Temporal have different operational responsibilities. Server upgrades, workflow code changes, history growth, worker versioning and backup consistency are material areas for a deployment review.
+  Extension and licensing:
+    Applications extend the system through workflows, activities, worker task queues, signals/updates and SDK integrations rather than by forking the Go server. Root server code is MIT-licensed. Language SDKs and infrastructure dependencies must be inspected at their own pinned versions before asserting compatibility. A design discussion can use Temporal's concepts without deciding to operate a production cluster.
+  Follow-up study:
+    Trace one workflow through start, activity scheduling, failure, retry, signal, cancellation and completion using a pinned SDK. Restart workers while a timer is outstanding, then interrupt an activity after a stub service has recorded its side effect. Inspect history and the external service ledger independently. A code-change replay test is needed before assuming an in-flight workflow survives a changed implementation. Throughput, recovery time and operational cost remain unmeasured.
+findings:
+  - id:
+      P05-temporal:TE-01
+    project_id:
+      P05-temporal
+    evidence_kind:
+      Code
+    claim:
+      Frontend start validates, resolves namespace and calls history.
+    source:
+      repository_id:
+        P05-temporal
+      repository:
+        temporalio/temporal
+      revision:
+        acd40d635bb3ebd0fde29f59d8c6ff6ef0b33231
+      path:
+        service/frontend/workflow_handler.go
+      sha256:
+        2dc49e90d068042701f38388931772c3270eebd02a5a6c16ec5bf381c0726d71
+      url:
+        https://github.com/temporalio/temporal/blob/acd40d635bb3ebd0fde29f59d8c6ff6ef0b33231/service/frontend/workflow_handler.go
+      local_snapshot_retained_not_published:
+        True
+    runtime_verified:
+      False
+  - id:
+      P05-temporal:TE-02
+    project_id:
+      P05-temporal
+    evidence_kind:
+      Code
+    claim:
+      History API handles task completion/failure, heartbeat and cancellation.
+    source:
+      repository_id:
+        P05-temporal
+      repository:
+        temporalio/temporal
+      revision:
+        acd40d635bb3ebd0fde29f59d8c6ff6ef0b33231
+      path:
+        service/history/handler.go
+      sha256:
+        f6489761eb4f8a8885c9bb09e4ac0e5a9ccfc607acf6711076c4d0701ddc0ade
+      url:
+        https://github.com/temporalio/temporal/blob/acd40d635bb3ebd0fde29f59d8c6ff6ef0b33231/service/history/handler.go
+      local_snapshot_retained_not_published:
+        True
+    runtime_verified:
+      False
+  - id:
+      P05-temporal:TE-03
+    project_id:
+      P05-temporal
+    evidence_kind:
+      Code
+    claim:
+      Matching routes workflow/activity tasks through partitioned queues.
+    source:
+      repository_id:
+        P05-temporal
+      repository:
+        temporalio/temporal
+      revision:
+        acd40d635bb3ebd0fde29f59d8c6ff6ef0b33231
+      path:
+        service/matching/matching_engine.go
+      sha256:
+        c31c93f7b51d96388af58296c3336afe7b710840736f781769cc7059fcadac33
+      url:
+        https://github.com/temporalio/temporal/blob/acd40d635bb3ebd0fde29f59d8c6ff6ef0b33231/service/matching/matching_engine.go
+      local_snapshot_retained_not_published:
+        True
+    runtime_verified:
+      False
+  - id:
+      P05-temporal:TE-04
+    project_id:
+      P05-temporal
+    evidence_kind:
+      Code
+    claim:
+      Persistence contracts distinguish history, state, conditional errors and transaction identifiers.
+    source:
+      repository_id:
+        P05-temporal
+      repository:
+        temporalio/temporal
+      revision:
+        acd40d635bb3ebd0fde29f59d8c6ff6ef0b33231
+      path:
+        common/persistence/data_interfaces.go
+      sha256:
+        5f509c2a76bee6a5b749e7c9e55799b04c6f99d4324498bcb34be0c701d75234
+      url:
+        https://github.com/temporalio/temporal/blob/acd40d635bb3ebd0fde29f59d8c6ff6ef0b33231/common/persistence/data_interfaces.go
+      local_snapshot_retained_not_published:
+        True
+    runtime_verified:
+      False
+  - id:
+      P05-temporal:TE-05
+    project_id:
+      P05-temporal
+    evidence_kind:
+      License
+    claim:
+      Root server license is MIT.
+    source:
+      repository_id:
+        P05-temporal
+      repository:
+        temporalio/temporal
+      revision:
+        acd40d635bb3ebd0fde29f59d8c6ff6ef0b33231
+      path:
+        LICENSE
+      sha256:
+        6aab9afd99ceb1dcaf6a0d91386b46baef9bce17ae4006044e0f231e31430b69
+      url:
+        https://github.com/temporalio/temporal/blob/acd40d635bb3ebd0fde29f59d8c6ff6ef0b33231/LICENSE
+      local_snapshot_retained_not_published:
+        True
+    runtime_verified:
+      False
+unknowns:
+  - SDK replay internals are documented but were not independently executed.
+  - Server authorization, replication and backup recovery were not audited.
+  - No exactly-once external-effect or performance claim is established.
+related_projects:
+  - P02-activepieces
+  - P01-hermes
+repository:
+  temporalio/temporal
+revision:
+  acd40d635bb3ebd0fde29f59d8c6ff6ef0b33231
+url:
+  https://github.com/temporalio/temporal
+source_file_count:
+  6
+auxiliary_sources:
+

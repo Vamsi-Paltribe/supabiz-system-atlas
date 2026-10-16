@@ -1,0 +1,164 @@
+id:
+  P06-browser-use
+name:
+  Browser Use
+category:
+  Browser agent and automation library
+sections:
+  What it is:
+    Browser Use is a Python system that lets a model operate a browser through structured observations and registered actions. It includes an agent loop as well as browser/session machinery. The open-source library and the separately offered cloud browser/API are distinct surfaces. A browser task can read content, navigate forms, download files or submit changes, but completion of a model-generated plan is not independent proof that a remote business transaction succeeded.
+  Architecture and main flow:
+    Agent.step prepares browser context, clears stale step outputs, obtains the next model action, executes actions, post-processes results, and finalizes in all cases. Errors enter a central recovery path. BrowserSession manages the browser/CDP connection, targets, tabs and an event bus. The tools registry exposes navigation, element-index or coordinate clicks, input, uploads, extraction, scrolling, screenshots, PDF saving, file operations and completion. DOM services and screenshots provide different observation channels; the model does not have unrestricted knowledge of all site content.
+  State and observation:
+    The agent keeps a task history and per-step results. Browser state includes tabs, cookies and optionally persisted storage state. The session offers explicit storage-state export and browser-profile selection. Consequently browser identity is a valuable retained capability, not just a convenience file. A source snapshot and the later screenshot can disagree after navigation or page mutation; the loop must observe again. The inspected implementation clears prior results before an LLM call so a timed-out step does not accidentally retain the previous step's outputs.
+  Authentication and boundaries:
+    The API accepts sensitive-data mappings and domain restrictions. The agent warns when sensitive values are supplied without allowed domains, and checks whether domain-specific credential patterns are covered. Those checks are useful evidence of configuration awareness, not proof that every browser/network path is isolated. Session cookies, downloads, filesystem actions and arbitrary page evaluation create separate authority surfaces. Full prompt-injection resistance, redirect behavior, cross-origin policy and download confinement require targeted tests.
+  Deployment and extension:
+    A developer supplies a compatible model, browser profile/session and a task, or integrates the tools into another harness. Registered actions can be extended or excluded, and structured final outputs can be configured. Local browser execution and hosted browser operation require different credentials and operational assumptions. The Python package, browser binary and model provider must be versioned separately. No browser was launched by this investigation and no real authenticated account was connected.
+  Licensing and practical limits:
+    The root library license is MIT; this does not describe commercial cloud service terms or every browser/model dependency. Source includes recovery and timeout machinery, but success against changing websites, MFA, dynamic elements and inaccessible controls is unmeasured here. An action's success response can mean the browser interaction completed, while the site's application rejected the request afterward. Verification should inspect resulting page/application state.
+  Next experiments:
+    Use a controlled site containing delayed forms, reordered elements, redirects, downloads and a fake authenticated session. Compare DOM-only operation with screenshot fallback. Interrupt the browser connection mid-step and verify honest failure and reconnect behavior. Test that an unapproved destination cannot receive credential substitutions. Measure final-task correctness, interaction count and latency on fixed pages rather than relying on promotional speed comparisons.
+findings:
+  - id:
+      P06-browser-use:BU-01
+    project_id:
+      P06-browser-use
+    evidence_kind:
+      Code
+    claim:
+      Step ordering and error/finalization handling are explicit.
+    source:
+      repository_id:
+        P06-browser-use
+      repository:
+        browser-use/browser-use
+      revision:
+        ccd22fef47a1a36e0c4596fef5db73a5117b9d06
+      path:
+        browser_use/agent/service.py
+      sha256:
+        10f7c14458ed7089c49f34a06ad7b3ce12212a589d9d000c5cf4d9cc7ddd8479
+      url:
+        https://github.com/browser-use/browser-use/blob/ccd22fef47a1a36e0c4596fef5db73a5117b9d06/browser_use/agent/service.py
+      local_snapshot_retained_not_published:
+        True
+    runtime_verified:
+      False
+  - id:
+      P06-browser-use:BU-02
+    project_id:
+      P06-browser-use
+    evidence_kind:
+      Code
+    claim:
+      BrowserSession owns CDP/tab/cookie/storage-state behavior.
+    source:
+      repository_id:
+        P06-browser-use
+      repository:
+        browser-use/browser-use
+      revision:
+        ccd22fef47a1a36e0c4596fef5db73a5117b9d06
+      path:
+        browser_use/browser/session.py
+      sha256:
+        3b49b2089ee342581f6193ec349d3b91c55b6e6132df8688b8d7746eacb35ecd
+      url:
+        https://github.com/browser-use/browser-use/blob/ccd22fef47a1a36e0c4596fef5db73a5117b9d06/browser_use/browser/session.py
+      local_snapshot_retained_not_published:
+        True
+    runtime_verified:
+      False
+  - id:
+      P06-browser-use:BU-03
+    project_id:
+      P06-browser-use
+    evidence_kind:
+      Code
+    claim:
+      Tools include structured browser actions and extensible completion output.
+    source:
+      repository_id:
+        P06-browser-use
+      repository:
+        browser-use/browser-use
+      revision:
+        ccd22fef47a1a36e0c4596fef5db73a5117b9d06
+      path:
+        browser_use/tools/service.py
+      sha256:
+        25746ddfe719c0a800b2b4fcc399aea4fc8be20c48b04ab4118841fd5419eb73
+      url:
+        https://github.com/browser-use/browser-use/blob/ccd22fef47a1a36e0c4596fef5db73a5117b9d06/browser_use/tools/service.py
+      local_snapshot_retained_not_published:
+        True
+    runtime_verified:
+      False
+  - id:
+      P06-browser-use:BU-04
+    project_id:
+      P06-browser-use
+    evidence_kind:
+      Code
+    claim:
+      Browser configuration includes domain and storage settings.
+    source:
+      repository_id:
+        P06-browser-use
+      repository:
+        browser-use/browser-use
+      revision:
+        ccd22fef47a1a36e0c4596fef5db73a5117b9d06
+      path:
+        browser_use/browser/profile.py
+      sha256:
+        5b42a8285bab5116c08ec61cad643ed71b546cc9c82cfd77a7d7929330b40a47
+      url:
+        https://github.com/browser-use/browser-use/blob/ccd22fef47a1a36e0c4596fef5db73a5117b9d06/browser_use/browser/profile.py
+      local_snapshot_retained_not_published:
+        True
+    runtime_verified:
+      False
+  - id:
+      P06-browser-use:BU-05
+    project_id:
+      P06-browser-use
+    evidence_kind:
+      License
+    claim:
+      Root library license is MIT.
+    source:
+      repository_id:
+        P06-browser-use
+      repository:
+        browser-use/browser-use
+      revision:
+        ccd22fef47a1a36e0c4596fef5db73a5117b9d06
+      path:
+        LICENSE
+      sha256:
+        135c57671b0ee957669b05a0ca00cc06f645496d351e2e732832c6e276da9a5e
+      url:
+        https://github.com/browser-use/browser-use/blob/ccd22fef47a1a36e0c4596fef5db73a5117b9d06/LICENSE
+      local_snapshot_retained_not_published:
+        True
+    runtime_verified:
+      False
+unknowns:
+  - No live-site success, isolation or latency benchmark.
+  - Cloud implementation was not inspected.
+  - No comparison with Ego Lite has been run.
+related_projects:
+  - P11-ego-lite
+  - P01-hermes
+repository:
+  browser-use/browser-use
+revision:
+  ccd22fef47a1a36e0c4596fef5db73a5117b9d06
+url:
+  https://github.com/browser-use/browser-use
+source_file_count:
+  9
+auxiliary_sources:
+

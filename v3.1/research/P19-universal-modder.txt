@@ -1,0 +1,165 @@
+id:
+  P19-universal-modder
+name:
+  Universal Modder
+category:
+  Domain workflow skills and local CLI
+sections:
+  What it is:
+    Universal Modder packages game-modding procedures, a Python command-line toolbox and a growing knowledge base. It is designed for an existing coding assistant to operate, not a standalone autonomous model runtime. Engine-specific procedures describe different routes through inspection, asset work, code changes and verification. The word universal should not be read as proof that every game or engine is supported automatically.
+  Workflow and executable parts:
+    The documented sequence starts with knowledge lookup and reconnaissance, chooses a suitable engine route, makes a backup, performs a small change, verifies it in the game, and records or packages the result. The um CLI registers modules for scanning, assets, video, Windows integration, backups, publishing and knowledge. That is a concrete command surface beneath the natural-language skills. A skill explains when to call a tool; the Python implementation determines what actually happens. Publishing is an explicit capability and was not invoked here.
+  Knowledge retrieval and persistence:
+    The knowledge module prefers an explicit path or UM_KB setting, then a nearby repository knowledge directory, then a cached upstream copy. Its remote sync downloads Markdown/JSON knowledge files into a temporary directory and replaces the cache. A timestamp drives refresh eligibility. Search and note validation operate over structured notes rather than an inspected vector database. The remote path follows the configured branch, so the knowledge visible during a later run may differ from the knowledge captured in this dossier's pinned snapshot.
+  Backup and recovery behavior:
+    The selected backup implementation produces ZIP archives and file manifests containing sizes and SHA-1 digests. It uses exclusive archive creation, a size ceiling and cleanup of a partially created archive after a failure. Restore first snapshots current state; confirmation and optional cleanup behavior are explicit CLI choices. These mechanisms establish intended recovery steps, not that every application can be restored consistently while running. The archive parser, every path traversal edge case and cross-platform permissions were not comprehensively audited.
+  Credentials and external services:
+    The fal integration can call a hosted asset service. Its key lookup prefers an environment variable, then an explicitly named file when configured, then the desktop keyring, a fallback plaintext file and dotenv files. The file writer attempts owner-only POSIX permissions and explicitly notes that those mode bits do not enforce Windows ACLs. The knowledge service and asset-generation service are separate network dependencies. Local ComfyUI is another documented asset route. No credential store was opened or changed during this review.
+  Deployment and extension:
+    The documented toolchain uses Python, Git and media utilities, with additional programs such as Blender for particular work. Adding a route can mean writing a knowledge note or skill, implementing a CLI module, or supporting a new engine-specific extraction/repacking workflow. Root code is MIT; game content, generated assets and external services need their own rights and terms considered separately. Those are distinct from the repository's code license.
+  Unverified behavior:
+    A later controlled test should use an owned disposable sample: scan it, create a backup, make a reversible edit, restore it and compare files. Test stale knowledge, network failure during cache replacement, oversized archives, paths outside the intended workspace and a failed asset request. No game was installed or modified and no assets were generated. The inspected design supports a procedural domain toolkit; it does not establish unattended success across games.
+findings:
+  - id:
+      P19-universal-modder:UM-01
+    project_id:
+      P19-universal-modder
+    evidence_kind:
+      Code
+    claim:
+      CLI groups dispatch to domain tool modules.
+    source:
+      repository_id:
+        P19-universal-modder
+      repository:
+        rehan-remade/universal-modder
+      revision:
+        23902ef42e8ea9b077bfbbf6911eb8ea0348e55a
+      path:
+        um/cli.py
+      sha256:
+        4a2e6dd8d0f22a090e8b8302bb6a013af507baa69d0232fc3146b6de884fe35d
+      url:
+        https://github.com/rehan-remade/universal-modder/blob/23902ef42e8ea9b077bfbbf6911eb8ea0348e55a/um/cli.py
+      local_snapshot_retained_not_published:
+        True
+    runtime_verified:
+      False
+  - id:
+      P19-universal-modder:UM-02
+    project_id:
+      P19-universal-modder
+    evidence_kind:
+      Code
+    claim:
+      Knowledge resolves local/configured/cache roots and refreshes remote files.
+    source:
+      repository_id:
+        P19-universal-modder
+      repository:
+        rehan-remade/universal-modder
+      revision:
+        23902ef42e8ea9b077bfbbf6911eb8ea0348e55a
+      path:
+        um/kb.py
+      sha256:
+        32a5e4fc95dcd67805417e6657dc2671e15aadfcca59c848d114b16e4475531c
+      url:
+        https://github.com/rehan-remade/universal-modder/blob/23902ef42e8ea9b077bfbbf6911eb8ea0348e55a/um/kb.py
+      local_snapshot_retained_not_published:
+        True
+    runtime_verified:
+      False
+  - id:
+      P19-universal-modder:UM-03
+    project_id:
+      P19-universal-modder
+    evidence_kind:
+      Code
+    claim:
+      Backup and restore have explicit manifest and confirmation paths.
+    source:
+      repository_id:
+        P19-universal-modder
+      repository:
+        rehan-remade/universal-modder
+      revision:
+        23902ef42e8ea9b077bfbbf6911eb8ea0348e55a
+      path:
+        um/backup.py
+      sha256:
+        cf6840664d4de32a303973602e3072e44312baf7821e0e1c1c3bd8a2c3273ab5
+      url:
+        https://github.com/rehan-remade/universal-modder/blob/23902ef42e8ea9b077bfbbf6911eb8ea0348e55a/um/backup.py
+      local_snapshot_retained_not_published:
+        True
+    runtime_verified:
+      False
+  - id:
+      P19-universal-modder:UM-04
+    project_id:
+      P19-universal-modder
+    evidence_kind:
+      Code
+    claim:
+      Asset-service key lookup has explicit precedence and storage fallbacks.
+    source:
+      repository_id:
+        P19-universal-modder
+      repository:
+        rehan-remade/universal-modder
+      revision:
+        23902ef42e8ea9b077bfbbf6911eb8ea0348e55a
+      path:
+        um/fal.py
+      sha256:
+        99e970233f74ed9dfb10b01a9bec6fbed959f0e66dfeeee40cd2e5f9e4c3be09
+      url:
+        https://github.com/rehan-remade/universal-modder/blob/23902ef42e8ea9b077bfbbf6911eb8ea0348e55a/um/fal.py
+      local_snapshot_retained_not_published:
+        True
+    runtime_verified:
+      False
+  - id:
+      P19-universal-modder:UM-05
+    project_id:
+      P19-universal-modder
+    evidence_kind:
+      Documentation
+    claim:
+      Engine workflows coordinate knowledge, tools and verification.
+    source:
+      repository_id:
+        P19-universal-modder
+      repository:
+        rehan-remade/universal-modder
+      revision:
+        23902ef42e8ea9b077bfbbf6911eb8ea0348e55a
+      path:
+        README.md
+      sha256:
+        806936373af53c21373473cd7883a1ffaa0690fbaffceb7c0b15e773df6494b1
+      url:
+        https://github.com/rehan-remade/universal-modder/blob/23902ef42e8ea9b077bfbbf6911eb8ea0348e55a/README.md
+      local_snapshot_retained_not_published:
+        True
+    runtime_verified:
+      False
+unknowns:
+  - No game-modification or restore test.
+  - Knowledge downloaded at runtime can move beyond the pinned revision.
+  - Individual engine routes and archive safety need further review.
+related_projects:
+  - P10-skills
+  - P17-photocraft
+  - P15-rea
+repository:
+  rehan-remade/universal-modder
+revision:
+  23902ef42e8ea9b077bfbbf6911eb8ea0348e55a
+url:
+  https://github.com/rehan-remade/universal-modder
+source_file_count:
+  10
+auxiliary_sources:
+

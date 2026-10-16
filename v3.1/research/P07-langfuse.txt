@@ -1,0 +1,190 @@
+id:
+  P07-langfuse
+name:
+  Langfuse
+category:
+  Agent observability and evaluation platform
+sections:
+  What it is:
+    Langfuse records and analyzes LLM application activity: traces, observations, model calls, scores, datasets, experiments and prompts. It can help answer what a run did and how a version scored. An observability system records evidence supplied to it; it does not independently establish that a domain action was correct. An evaluator's score remains dependent on the evaluator, dataset and rubric.
+  Architecture:
+    The inspected deployment separates a web/API service and a worker and includes PostgreSQL, ClickHouse, Redis and S3-compatible object storage through MinIO. PostgreSQL schemas contain identities, organizations/projects, API keys, memberships, datasets, prompts and job configuration. ClickHouse is used in the ingestion service for observation/trace/score records. Redis and background workers support asynchronous processing; object storage supports ingestion/media paths. This is a multi-service data system, not just a browser charting library.
+  Trace-to-evaluation flow:
+    Instrumented application events reach ingestion. The inspected OpenTelemetry worker converts resource spans into event inputs, enriches event records, optionally processes media, and separately schedules observation evaluations and direct event-table writes. Evaluation configuration retrieval can fail without preventing every other processing step. IngestionService dispatches different event types and merges trace/observation updates before persistence. Its handling of stored and incoming records matters when events arrive out of order. A queued evaluation and a persisted event are related but independently failing operations.
+  Storage and governance:
+    Trace content can contain prompts, tool arguments, returned text and media references; it can therefore be as sensitive as the application being observed. Schema identity, trace IDs and project IDs must remain consistent through ingestion and UI reads. Dataset items and runs provide test organization, while prompt versions and scores provide change/evaluation metadata. Retention, deletion across stores, masking and large-field overflow are additional paths that were located but not exhaustively audited.
+  Authorization:
+    The inspected authorize function scopes policies to a tenant and resource, prefers an exact-resource match over a wildcard, and denies when there is no matching action grant or a matching deny. Wildcards are not accepted as concrete authorization targets. The schema also distinguishes organizations, projects, memberships and API keys. This establishes an explicit policy model; it does not prove all API/UI/export paths invoke it correctly.
+  Deployment, extensions and licensing:
+    Applications integrate through supported instrumentation/API paths; operators configure evaluators, prompt workflows and storage. Self-hosting requires managing multiple durable stores and background processing rather than just installing an SDK. The root license uses MIT for code outside designated enterprise directories and preserves separate third-party terms. The pinned deployment currently references version-4 images; older version-3 deployment assumptions should not be silently reused.
+  Follow-up work:
+    Trace a redacted test application through SDK batching, ingestion acknowledgement, worker processing and UI visibility. Force out-of-order events, duplicate uploads, a stopped worker and unavailable object storage. Test masking before data leaves the application and deletion across all retained stores. For evaluation, use human-labelled outcomes and report disagreement between model judges and ground truth. Neither instrumenting a run nor receiving a high score proves the original action happened correctly.
+findings:
+  - id:
+      P07-langfuse:LF-01
+    project_id:
+      P07-langfuse
+    evidence_kind:
+      Code/config
+    claim:
+      Web, worker, PostgreSQL, ClickHouse, Redis and object storage are separate deployment services.
+    source:
+      repository_id:
+        P07-langfuse
+      repository:
+        langfuse/langfuse
+      revision:
+        358f6237dded88571ce55cbd6db8836f433a4635
+      path:
+        docker-compose.yml
+      sha256:
+        cbadc35c66f78297aa758a9cfd7f2d1e36ba7146c60985c77bff448d023a29f2
+      url:
+        https://github.com/langfuse/langfuse/blob/358f6237dded88571ce55cbd6db8836f433a4635/docker-compose.yml
+      local_snapshot_retained_not_published:
+        True
+    runtime_verified:
+      False
+  - id:
+      P07-langfuse:LF-02
+    project_id:
+      P07-langfuse
+    evidence_kind:
+      Code
+    claim:
+      OTel event enrichment feeds evaluation scheduling and persistence separately.
+    source:
+      repository_id:
+        P07-langfuse
+      repository:
+        langfuse/langfuse
+      revision:
+        358f6237dded88571ce55cbd6db8836f433a4635
+      path:
+        worker/src/features/otel-ingestion/processOtelEvents.ts
+      sha256:
+        56a70e7a4404d01d70250ec5acab15223d1663ab96911b866ec201e8fb4b6a96
+      url:
+        https://github.com/langfuse/langfuse/blob/358f6237dded88571ce55cbd6db8836f433a4635/worker/src/features/otel-ingestion/processOtelEvents.ts
+      local_snapshot_retained_not_published:
+        True
+    runtime_verified:
+      False
+  - id:
+      P07-langfuse:LF-03
+    project_id:
+      P07-langfuse
+    evidence_kind:
+      Code
+    claim:
+      Ingestion merges multiple event types and stored records.
+    source:
+      repository_id:
+        P07-langfuse
+      repository:
+        langfuse/langfuse
+      revision:
+        358f6237dded88571ce55cbd6db8836f433a4635
+      path:
+        worker/src/services/IngestionService/index.ts
+      sha256:
+        1c36ecacd99a66ba76da062942119b8aae8146cc77ae94d014e7684943cf2c43
+      url:
+        https://github.com/langfuse/langfuse/blob/358f6237dded88571ce55cbd6db8836f433a4635/worker/src/services/IngestionService/index.ts
+      local_snapshot_retained_not_published:
+        True
+    runtime_verified:
+      False
+  - id:
+      P07-langfuse:LF-04
+    project_id:
+      P07-langfuse
+    evidence_kind:
+      Code
+    claim:
+      Authorization is tenant/resource/action based with deny handling.
+    source:
+      repository_id:
+        P07-langfuse
+      repository:
+        langfuse/langfuse
+      revision:
+        358f6237dded88571ce55cbd6db8836f433a4635
+      path:
+        web/src/features/rbac/authorize.ts
+      sha256:
+        6d8cd0467a1cb4a2068de1cc4d9a3aa56375fc2feb3c6785b057686d1dbf8ee5
+      url:
+        https://github.com/langfuse/langfuse/blob/358f6237dded88571ce55cbd6db8836f433a4635/web/src/features/rbac/authorize.ts
+      local_snapshot_retained_not_published:
+        True
+    runtime_verified:
+      False
+  - id:
+      P07-langfuse:LF-05
+    project_id:
+      P07-langfuse
+    evidence_kind:
+      Schema
+    claim:
+      Identity, dataset, prompt and job configuration models live in the relational schema.
+    source:
+      repository_id:
+        P07-langfuse
+      repository:
+        langfuse/langfuse
+      revision:
+        358f6237dded88571ce55cbd6db8836f433a4635
+      path:
+        packages/shared/prisma/schema.prisma
+      sha256:
+        0a854510c39da9a8875bae026a055d437ecdcc31944c03f8f09476555c0b74d8
+      url:
+        https://github.com/langfuse/langfuse/blob/358f6237dded88571ce55cbd6db8836f433a4635/packages/shared/prisma/schema.prisma
+      local_snapshot_retained_not_published:
+        True
+    runtime_verified:
+      False
+  - id:
+      P07-langfuse:LF-06
+    project_id:
+      P07-langfuse
+    evidence_kind:
+      License
+    claim:
+      Root license excludes designated enterprise paths from MIT coverage.
+    source:
+      repository_id:
+        P07-langfuse
+      repository:
+        langfuse/langfuse
+      revision:
+        358f6237dded88571ce55cbd6db8836f433a4635
+      path:
+        LICENSE
+      sha256:
+        fd09d42b5b16606ad2042cc1edf3a82da1c47743709f170c959c74758af229d6
+      url:
+        https://github.com/langfuse/langfuse/blob/358f6237dded88571ce55cbd6db8836f433a4635/LICENSE
+      local_snapshot_retained_not_published:
+        True
+    runtime_verified:
+      False
+unknowns:
+  - End-to-end ingestion and deletion have not been executed.
+  - All endpoint authorization paths were not audited.
+  - No evaluator-quality or operational-cost benchmark.
+related_projects:
+  - P09-security-audit
+  - P13-arena
+  - P05-temporal
+repository:
+  langfuse/langfuse
+revision:
+  358f6237dded88571ce55cbd6db8836f433a4635
+url:
+  https://github.com/langfuse/langfuse
+source_file_count:
+  10
+auxiliary_sources:
+

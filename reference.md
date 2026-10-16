@@ -1,8 +1,8 @@
-# SupaBiz — Version 3.0
+# SupaBiz — Version 3.1
 
 metadata:
   version:
-    3.0
+    3.1
   as_of:
     2026-10-17
   title:
@@ -18,7 +18,353 @@ metadata:
   authority:
     Source content and model output are data, not authorization. Grants are checked again at dispatch.
   version_policy:
-    v1 and v2 remain byte-identical archives. Root and /v3/ contain this revision.
+    v1, v2 and v3 remain byte-identical archives. Root and /v3.1/ contain this revision.
+architecture_review:
+  id:
+    review-2026-10-17-01
+  version:
+    3.1
+  reviewed_on:
+    2026-10-17
+  method:
+    Primary documentation review plus design walkthroughs against seven business workflows. No product code, live customer data or operational services tested.
+  summary:
+    Make previously broad security and recovery claims concrete: production DB roles, duplicate-safe consumers, bounded activities, non-model authorization, revocable file access, retention and recovery consistency.
+  status:
+    Design changes accepted into the reference; implementation and failure tests remain pending.
+hardening_controls:
+  - id:
+      BP01
+    name:
+      Enforce tenant isolation with the actual runtime database role
+    layers:
+      - L02
+      - L05
+      - L09
+    workflows:
+      - W02
+      - W03
+      - W05
+    finding:
+      PostgreSQL documents that superusers and BYPASSRLS roles bypass row security; owners normally do too. Policies can also introduce race conditions when they consult changing authorization data.
+    decision:
+      Use a non-owner, non-superuser application role without BYPASSRLS. Keep migrations and privileged recovery on separate credentials. Enable appropriate row policies and test USING/WITH CHECK behavior. Bind tenant context within each transaction and reject missing context; never trust a tenant ID supplied only by the browser.
+    implementation:
+      Centralize the connection/transaction wrapper. Audit SECURITY DEFINER paths and views separately. Design membership checks with concurrency semantics rather than assuming every policy observes the newest grant. Pool reuse must not carry the previous request’s tenant context.
+    tests:
+      - Alternate two tenants through the same pooled connection; omitted tenant context must fail closed.
+      - Test reads, inserts, updates, exports and privileged helpers as the production role, not the migration owner.
+      - Revoke membership concurrently with retrieval and confirm the documented boundary.
+    sources:
+      - title:
+          PostgreSQL row security policies
+        url:
+          https://www.postgresql.org/docs/18/ddl-rowsecurity.html
+    evidence_kind:
+      Documented mechanism; SupaBiz-specific design inference
+    implementation_status:
+      Not implemented or tested here
+  - id:
+      BP02
+    name:
+      Pair the outbox with an atomic consumer inbox
+    layers:
+      - L03
+      - L05
+      - L07
+    workflows:
+      - W01
+      - W02
+      - W03
+      - W04
+    finding:
+      AWS’s outbox guidance explicitly warns that a relay can deliver duplicate events and that ordering matters. A transactionally written outbox alone does not make downstream effects exactly once.
+    decision:
+      Give every event a stable identity and each business object a revision/sequence. A database consumer records its inbox dedupe entry and its local state transition in the same transaction. External writes continue through the action-intent/receipt protocol.
+    implementation:
+      Partition ordering by business object where required, not one global queue. Reject or park unexpected revisions; retry transient relay failures with bounded backoff. Poison events enter an inspectable failed queue with ownership and a replay plan. Do not acknowledge successful business processing merely because transport accepted a message.
+    tests:
+      - Crash after local state commit but before queue acknowledgement; replay must not apply the change twice.
+      - Deliver revisions out of order; no silent rollback of a newer accepted state.
+      - Replay a poison event after correction without dropping its original identity.
+    sources:
+      - title:
+          AWS transactional outbox pattern
+        url:
+          https://docs.aws.amazon.com/prescriptive-guidance/latest/cloud-design-patterns/transactional-outbox.html
+    evidence_kind:
+      Documented mechanism; SupaBiz-specific design inference
+    implementation_status:
+      Not implemented or tested here
+  - id:
+      BP03
+    name:
+      Separate business timers, activity limits and uncertain effects
+    layers:
+      - L06
+      - L07
+      - L08
+      - L09
+    workflows:
+      - W01
+      - W03
+      - W04
+      - W05
+    finding:
+      Temporal distinguishes workflow timers/timeouts from activity failure and retry behavior. Its TypeScript documentation recommends timers for business deadlines rather than using a workflow timeout as a reminder.
+    decision:
+      Use workflow timers for acknowledgements and escalations. Configure explicit per-activity duration, retry budget and error classification for provider work. Schema/permission rejection is non-retryable. An ambiguous external write returns an unknown outcome and starts reconciliation; it must not enter a blind retry loop.
+    implementation:
+      Store attempt and lease/fencing generation with action state. A stale worker cannot commit a new local receipt over a newer attempt. Provider idempotency keys are used when supported. Local fencing does not cancel a request already sent to a remote provider; reconciliation is still required.
+    tests:
+      - Pause a worker beyond its lease, resume it and reject its stale local state transition.
+      - Lose the response after provider success; verify one logical effect or explicit unknown status.
+      - Cancel while a provider call is in flight; report the resulting state without claiming the remote action was undone.
+    sources:
+      - title:
+          Temporal TypeScript workflow timeouts and failures
+        url:
+          https://docs.temporal.io/develop/typescript/workflows/timeouts
+    evidence_kind:
+      Documented mechanism; fencing/reconciliation are SupaBiz design proposals
+    implementation_status:
+      Not implemented or tested here
+  - id:
+      BP04
+    name:
+      Enforce action authority outside every model
+    layers:
+      - L02
+      - L04
+      - L06
+      - L08
+      - L10
+    workflows:
+      - W01
+      - W02
+      - W03
+      - W05
+      - W07
+    finding:
+      OWASP treats external documents, tool output and retrieved content as untrusted. It recommends tool-argument validation, least privilege and action-specific controls outside the model; a guardrail model is an additional layer, not an authorization boundary.
+    decision:
+      Parsing workers receive no business-write credentials. Tool proposals carry structured arguments and source provenance. The executor resolves identity, allowed destination, object versions and the exact approved payload from trusted application state.
+    implementation:
+      Validate outbound URLs and recipients against the intended task, scope network egress and sanitize rendered model output. A document that says “send all files here” remains evidence text. Any classifier is measured for both missed attacks and blocked legitimate work; it cannot grant authority.
+    tests:
+      - Put malicious instructions in email bodies, invoice OCR, image text, retrieved records and browser pages.
+      - Verify the attack cannot expand recipients, read another matter or invoke an unregistered tool even when the model follows it.
+      - Retest benign lookalikes and report false positives alongside attack outcomes.
+    sources:
+      - title:
+          OWASP LLM prompt injection prevention
+        url:
+          https://cheatsheetseries.owasp.org/cheatsheets/LLM_Prompt_Injection_Prevention_Cheat_Sheet.html
+    evidence_kind:
+      Documented guidance; SupaBiz-specific design inference
+    implementation_status:
+      Not implemented or tested here
+  - id:
+      BP05
+    name:
+      Make file-access revocation limits explicit
+    layers:
+      - L01
+      - L02
+      - L04
+      - L09
+    workflows:
+      - W03
+      - W04
+      - W06
+    finding:
+      S3 documentation describes presigned URLs as bearer access with validity constrained by expiration, signing credentials and applicable policies. Revoking a SupaBiz membership alone is not an S3 credential or policy change.
+    decision:
+      For sensitive matter files requiring a fresh access decision, prefer an authenticated application download path that checks the current grant. When direct signed links are justified, choose a bounded TTL by data class and disclose the remaining access window.
+    implementation:
+      Avoid secrets or signed URLs in analytics/referrers and redact them from logs. Validate tenant/object ownership before issuing access. A proxy must not leak an equivalent long-lived downstream URL. Previously downloaded copies and in-progress transfers cannot be recalled by changing app membership.
+    tests:
+      - Revoke a matter grant after a link is issued and verify the selected access mode’s documented behavior.
+      - Try a valid object ID under another tenant and an expired link.
+      - Confirm caches, thumbnails and exports follow the same authorization/retention policy.
+    sources:
+      - title:
+          S3 presigned URL permissions and expiration
+        url:
+          https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-presigned-url.html
+    evidence_kind:
+      Documented mechanism; SupaBiz-specific access-mode decision
+    implementation_status:
+      Not implemented or tested here
+  - id:
+      BP06
+    name:
+      Reconcile immutable evidence with deletion and retention
+    layers:
+      - L02
+      - L04
+      - L05
+      - L09
+      - L10
+    workflows:
+      - W03
+      - W04
+      - W06
+      - W07
+    finding:
+      Design review found that “immutable originals” did not describe retention expiry, deletion requests or copies in indexes and traces. This is a gap in our architecture, not a newly verified upstream defect.
+    decision:
+      Immutability means no silent edits during authorized retention, not indefinite storage. Separate the minimum audit metadata from sensitive payloads and implement a retention/deletion state machine by data class. Retention exceptions need a recorded business policy and responsible owner; this reference sets no legal retention period.
+    implementation:
+      Inventory originals, derivatives, embeddings, search/cache entries, exports, provider uploads and backups. A deletion/tombstone prevents normal reads and re-indexing immediately, while a tracked job removes eligible copies. Pending provider or backup expiry remains visible; do not claim physical deletion before verified completion.
+    tests:
+      - Delete a permitted test object and check every derivative/index path.
+      - Restore a backup containing a later-deleted object; replay deletion policy before exposing the tenant.
+      - Verify retained audit metadata does not preserve the sensitive content being removed.
+    sources:
+
+    evidence_kind:
+      SupaBiz design walkthrough; policy and implementation verification still required
+    implementation_status:
+      Not implemented or tested here
+  - id:
+      BP07
+    name:
+      Show freshness and constrain backlog cost per business
+    layers:
+      - L01
+      - L03
+      - L05
+      - L07
+      - L09
+      - L10
+    workflows:
+      - W01
+      - W02
+      - W04
+      - W05
+    finding:
+      Design review found no explicit read-model freshness contract or per-business workload admission policy. A sourced answer can still be stale, and one large media backlog can delay another business.
+    decision:
+      Attach source coverage, accepted-ledger revision, last projected event and as-of time to computed views. Separate pending/unknown data from zero. Apply per-tenant concurrency and cost budgets, fair queueing and an admission limit for expensive media processing.
+    implementation:
+      Prioritize safety/critical deadlines and user-visible decision work using declared policy, while keeping bulk backfill separately bounded. Queue age and budget exhaustion are product states. Degrade optional video/enrichment first; preserve capture, evidence and audit integrity. Never silently switch to a provider prohibited by the business data policy.
+    tests:
+      - Stop one connector and verify the owner summary is visibly incomplete.
+      - Flood one tenant with media and measure the other tenant’s queue delay.
+      - Exhaust a workflow budget; confirm a resumable blocked state and no hidden expensive retries.
+    sources:
+
+    evidence_kind:
+      SupaBiz operational design proposal; performance measurements pending
+    implementation_status:
+      Not implemented or tested here
+  - id:
+      BP08
+    name:
+      Restore a coherent business state before enabling writes
+    layers:
+      - L05
+      - L07
+      - L08
+      - L09
+    workflows:
+      - W01
+      - W02
+      - W03
+      - W04
+    finding:
+      Design review found that a database restore gate alone could miss mismatches with object versions, workflow progress and already completed provider actions.
+    decision:
+      Define a recovery manifest linking the database recovery point, retained object versions and workflow/action identities. Restore first into an isolated, write-disabled environment. Reconcile external effects and apply deletion/revocation records before enabling dispatch.
+    implementation:
+      Measure recovery time and data-loss exposure in drills before committing to RTO/RPO targets. A restored pending outbox must not automatically resend old customer messages or duplicate calendar entries. Test backup credentials and availability independently from the application credentials.
+    tests:
+      - Restore with a missing media object and expose an explicit evidence gap.
+      - Restore before an external action that already succeeded; reconcile its receipt before dispatch.
+      - Verify backup completeness, tenant boundaries and deletion tombstones before releasing access.
+    sources:
+
+    evidence_kind:
+      SupaBiz recovery design proposal; restore drills pending
+    implementation_status:
+      Not implemented or tested here
+research_backlog:
+  - id:
+      Q01
+    priority:
+      P0
+    question:
+      What does the actual SupaBiz implementation already enforce?
+    next:
+      Audit product code and reproduce intake/authorization failures; architecture edits cannot establish implementation status.
+    needed_evidence:
+      Repository, deployment configuration and reproducible receipts; not available in the current atlas workspace.
+  - id:
+      Q02
+    priority:
+      P0
+    question:
+      What delivery guarantees does the chosen WhatsApp session path expose?
+    next:
+      Trace acknowledgement/cursor/media behavior and define the visible gap policy.
+    needed_evidence:
+      Selected connector code and controlled disconnect/replay fixtures.
+  - id:
+      Q03
+    priority:
+      P0
+    question:
+      Which external writes support idempotency or reliable lookup?
+    next:
+      Build an adapter matrix for notifications, calendar and exports, including the unknown-result resolution method.
+    needed_evidence:
+      Official provider contracts and sandbox experiments.
+  - id:
+      Q04
+    priority:
+      P1
+    question:
+      What is the smallest operable pilot stack?
+    next:
+      Compare current job worker against Temporal and minimal tracing against Langfuse at pilot load.
+    needed_evidence:
+      Team operations capacity, hosting choices, representative load and cost measurements.
+  - id:
+      Q05
+    priority:
+      P1
+    question:
+      Which language/media errors most burden operators?
+    next:
+      Evaluate Hindi/English voice notes, poor invoice scans and phone photos with reviewed labels.
+    needed_evidence:
+      Consented or synthetic representative fixtures and operator correction times.
+  - id:
+      Q06
+    priority:
+      P1
+    question:
+      What retention and file-access modes does each business require?
+    next:
+      Map data classes and recipient needs to retention rules, proxy/signed access and provider processing policy.
+    needed_evidence:
+      Business-approved policies and deployment-specific constraints; no invented legal defaults.
+refinement_process:
+  selection:
+    Choose the highest-value unresolved question or changed upstream dependency; do not add tools merely to expand the diagram.
+  evidence:
+    Record primary source, reviewed date/revision, mechanism, inference and uncertainty.
+  decision:
+    Specify which layer/workflow changes, the tradeoff and an acceptance test.
+  verification:
+    Validate reference consistency and archives; product claims require actual product tests.
+  publication:
+    Preserve past versions and publish only substantive validated reference changes within current authorization. Recurring autonomous publication requires explicit schedule/scope approval.
+  stop_rule:
+    If no evidence supports a change, record the review without publishing cosmetic churn. If evidence is unavailable, retain a precise open question.
+  completion_standard:
+    Readiness is demonstrated per workflow against agreed gates; perfection is not claimed.
 default_stack:
   pilot_candidates:
     - Docling conversion worker
@@ -68,13 +414,16 @@ layers:
     boundary:
       Never make “model finished” look like “business action completed”. Show blocked, awaiting review, failed and uncertain outcomes separately.
     gate:
-      An operator can find a source, correct an extraction and distinguish a draft from an executed action without a developer.
+      An operator can find a source, correct an extraction and distinguish a draft from an executed action without a developer. Also validate BP05, BP07.
     components:
       - owner-app
       - device-apps
       - decision-queue
       - native-chat
       - answers
+    hardening_controls:
+      - BP05
+      - BP07
   - id:
       L02
     name:
@@ -94,15 +443,20 @@ layers:
     owns:
       Memberships, grants, policies and authorization decisions. Provider tokens stay outside model prompts.
     boundary:
-      Phone numbers, group membership and possession of an attachment are evidence about identity, not sufficient authority. One owner may have separate business permissions.
+      Phone numbers, group membership and possession of an attachment are evidence about identity, not sufficient authority. One owner may have separate business permissions. BP05 distinguishes immediately rechecked access from time-limited bearer links; downloaded copies cannot be recalled.
     gate:
-      Cross-business and cross-matter denial tests pass; revoking a grant prevents queued work from dispatching and prevents stale signed-link access beyond its expiry.
+      Cross-business and cross-matter denial tests pass; revoking a grant prevents queued work from dispatching and prevents stale signed-link access beyond its expiry. Also validate BP01, BP04, BP05, BP06.
     components:
       - identity
       - policy
       - secrets
       - sandbox
       - portability
+    hardening_controls:
+      - BP01
+      - BP04
+      - BP05
+      - BP06
   - id:
       L03
     name:
@@ -124,12 +478,15 @@ layers:
     boundary:
       Do not assume an official API can read the existing groups. Validate the selected WhatsApp route’s support, completeness and account conditions. No stealth or ban-avoidance assumptions.
     gate:
-      Disconnect, replay, expired cursor, edited/deleted message and crash-after-receipt scenarios preserve one source identity and report any irrecoverable gap.
+      Disconnect, replay, expired cursor, edited/deleted message and crash-after-receipt scenarios preserve one source identity and report any irrecoverable gap. Also validate BP02, BP07.
     components:
       - whatsapp
       - gmail
       - observations
       - device-apps
+    hardening_controls:
+      - BP02
+      - BP07
   - id:
       L04
     name:
@@ -147,11 +504,11 @@ layers:
     flow:
       Immutable original → sandboxed parser/STT/vision → derivative with tool/model version and coverage → typed candidate linked to exact evidence.
     owns:
-      Original/derivative relationships, provenance and media-processing status. Original files are never overwritten by enhancement.
+      Original/derivative relationships, provenance and media-processing status. Original files are never overwritten by enhancement. Immutability applies during authorized retention; BP06 governs removal and downstream copies.
     boundary:
       No downloaded content becomes a tool instruction. External model processing follows the business’s data policy. Sensitive originals are not copied into trace logs.
     gate:
-      Blurred invoices, rotated pages, Hindi/English mixed audio, missing attachments and partially sampled video produce usable citations or a visible review/failure state.
+      Blurred invoices, rotated pages, Hindi/English mixed audio, missing attachments and partially sampled video produce usable citations or a visible review/failure state. Also validate BP04, BP05, BP06.
     components:
       - media
       - extraction
@@ -159,6 +516,10 @@ layers:
       - voice
       - video
       - object-store
+    hardening_controls:
+      - BP04
+      - BP05
+      - BP06
   - id:
       L05
     name:
@@ -180,7 +541,7 @@ layers:
     boundary:
       No single timestamp or fuzzy duplicate match may silently collapse distinct events. Reuse of a phone number does not silently merge people. Unknown units/dates remain unresolved.
     gate:
-      Duplicate/correction/out-of-order fixtures yield the expected balance or matter state; denied objects are absent from both retrieved snippets and citations.
+      Duplicate/correction/out-of-order fixtures yield the expected balance or matter state; denied objects are absent from both retrieved snippets and citations. Also validate BP01, BP02, BP06, BP07, BP08.
     components:
       - ledger
       - views
@@ -188,6 +549,12 @@ layers:
       - database
       - observations
       - portability
+    hardening_controls:
+      - BP01
+      - BP02
+      - BP06
+      - BP07
+      - BP08
   - id:
       L06
     name:
@@ -209,13 +576,16 @@ layers:
     boundary:
       Tool intent persisted is not external success. Model confidence is not authority. Never let an unconstrained terminal bypass the typed action service.
     gate:
-      Swap two compatible models on the same frozen fixtures; malformed tools, injected source text, budget exhaustion and cancellation fail visibly without unauthorized writes.
+      Swap two compatible models on the same frozen fixtures; malformed tools, injected source text, budget exhaustion and cancellation fail visibly without unauthorized writes. Also validate BP03, BP04.
     components:
       - orchestrator
       - model-router
       - output-validation
       - workflow-packs
       - answers
+    hardening_controls:
+      - BP03
+      - BP04
   - id:
       L07
     name:
@@ -237,13 +607,18 @@ layers:
     boundary:
       Retries can repeat external calls. Prevent duplicate effects with action keys/provider keys and reconciliation; do not call this exactly-once end-to-end.
     gate:
-      Restart during approval wait, after provider success and during escalation; recover without losing work or blindly resending an uncertain effect.
+      Restart during approval wait, after provider success and during escalation; recover without losing work or blindly resending an uncertain effect. Also validate BP02, BP03, BP07, BP08.
     components:
       - workflow-engine
       - tasks
       - calendar
       - decision-queue
       - workflow-packs
+    hardening_controls:
+      - BP02
+      - BP03
+      - BP07
+      - BP08
   - id:
       L08
     name:
@@ -265,7 +640,7 @@ layers:
     boundary:
       Browser sessions are per business/account and short-lived where feasible. MFA/consent can require the user. No broad unrestricted MCP discovery in production workers.
     gate:
-      A timeout after successful calendar/task creation produces one object; browser click success alone never marks the operation verified.
+      A timeout after successful calendar/task creation produces one object; browser click success alone never marks the operation verified. Also validate BP03, BP04, BP08.
     components:
       - action-executor
       - business-tools
@@ -273,6 +648,10 @@ layers:
       - calendar
       - tasks
       - agent-exchange
+    hardening_controls:
+      - BP03
+      - BP04
+      - BP08
   - id:
       L09
     name:
@@ -294,7 +673,7 @@ layers:
     boundary:
       Git worktrees are not sandboxes; containers are not sufficient if host mounts/credentials remain broad. Avoid promising access to arbitrary phone apps beyond permitted OS/API surfaces.
     gate:
-      Restore a disposable tenant and verify evidence links; revoke an offline device, kill a worker and prove leases expire without cross-tenant access.
+      Restore a disposable tenant and verify evidence links; revoke an offline device, kill a worker and prove leases expire without cross-tenant access. Also validate BP01, BP03, BP05, BP06, BP07, BP08.
     components:
       - database
       - object-store
@@ -302,6 +681,13 @@ layers:
       - sandbox
       - device-apps
       - portability
+    hardening_controls:
+      - BP01
+      - BP03
+      - BP05
+      - BP06
+      - BP07
+      - BP08
   - id:
       L10
     name:
@@ -323,11 +709,15 @@ layers:
     boundary:
       A security checklist is not an audit result. Do not upload unrestricted customer evidence to observability or evaluation tools.
     gate:
-      Every critical scenario has a reproducible fixture and expected state; release reports show failures, sample counts, human review burden and cost without invented improvement percentages.
+      Every critical scenario has a reproducible fixture and expected state; release reports show failures, sample counts, human review burden and cost without invented improvement percentages. Also validate BP04, BP06, BP07.
     components:
       - observability
       - eval-harness
       - output-validation
+    hardening_controls:
+      - BP04
+      - BP06
+      - BP07
   - id:
       L11
     name:
@@ -354,6 +744,8 @@ layers:
       - eval-harness
       - workflow-packs
       - sandbox
+    hardening_controls:
+
 project_decisions:
   - id:
       P01-hermes
@@ -1083,8 +1475,11 @@ contracts:
       - coverage
       - access_policy
       - retention_class
+      - retention_until
+      - deletion_state
+      - access_delivery_mode
     rule:
-      Originals stay immutable. OCR, transcripts, sampled frames, thumbnails and redactions are derived objects with provenance. Signed access is short lived and scoped.
+      Originals stay immutable. OCR, transcripts, sampled frames, thumbnails and redactions are derived objects with provenance. Signed access is short lived and scoped. Apply BP05/BP06 to issued links and authorized removal; immutable does not mean stored forever.
   - id:
       C03
     name:
@@ -1159,6 +1554,9 @@ contracts:
       - provider_object_ref
       - verification_evidence
       - error_class
+      - lease_generation
+      - reconciliation_method
+      - retry_class
     rule:
       Use prepared → authorized → dispatched → verified/failed/unknown. Unknown is reconciled by provider state or human decision before retrying a potentially completed side effect.
   - id:
@@ -1197,8 +1595,10 @@ contracts:
       - lease_owner
       - lease_expires_at
       - attempt_count
+      - consumer_inbox_id
+      - object_sequence
     rule:
-      Commit business changes and their outbox entry in one database transaction. A relay starts/signals the workflow with stable IDs. The engine owns progression; the ledger owns accepted business facts.
+      Commit business changes and their outbox entry in one database transaction. A relay starts/signals the workflow with stable IDs. The engine owns progression; the ledger owns accepted business facts. BP02 requires atomic consumer dedupe with local state changes.
   - id:
       C09
     name:
@@ -1220,6 +1620,22 @@ contracts:
       - redaction_profile
     rule:
       Trace payloads are minimized and redacted. A release report distinguishes known tests, held-out tests, fault tests and real-pilot observations. Model scores are not authoritative business labels.
+  - id:
+      C10
+    name:
+      Projection freshness and coverage
+    fields:
+      - view_id
+      - tenant_id
+      - business_id
+      - accepted_ledger_revision
+      - last_projected_event
+      - source_checkpoints
+      - coverage_gaps
+      - computed_at
+      - policy_version
+    rule:
+      Answers disclose freshness/gaps; a missed source interval cannot be represented as a zero total. Rebuild derived views from accepted records under current grants.
 workflows:
   - id:
       W01
@@ -1751,6 +2167,7 @@ roadmap:
       - Audit actual SupaBiz code and replay prior known/fresh-intake failures.
       - Freeze source envelope, admission, grant and action contracts; inventory dependency licenses and versions.
       - Create reviewed fixtures for the seven workflows and permission boundaries.
+      - Turn BP01–BP08 into concrete implementation review items and fault fixtures; resolve the P0 evidence backlog.
     exit:
       A fresh event is traceable from source to candidate; each current failure is reproducible and assigned to a layer.
     avoid:
@@ -1765,6 +2182,7 @@ roadmap:
       - Durable WhatsApp/Gmail journal and checkpoints with visible gaps.
       - Tenant/matter identity, secrets, original media store and Docling/image/transcription spike.
       - Dedupe, edits, cursor expiry, outage and device revocation tests.
+      - Validate production DB-role isolation, pooled-connection context and file-access revocation semantics.
     exit:
       Replay/crash tests preserve source identities and expected evidence; unauthorized reads are denied.
     avoid:
@@ -1779,6 +2197,7 @@ roadmap:
       - W01 review, assignment, acknowledgement, escalation and closure UI.
       - Typed actions/receipts and a bounded Temporal-versus-current-worker recovery spike.
       - Minimal redacted traces and deterministic acceptance tests.
+      - Prove atomic consumer dedupe, stale-worker rejection and unknown-write reconciliation.
     exit:
       A fresh photo completes the full operational loop, including restart and uncertain-send recovery. Choose the workflow engine before pilot expansion.
     avoid:
@@ -1822,6 +2241,7 @@ roadmap:
       - Restore test, provider outage, cross-tenant isolation and revocation checks.
       - Scoped browser pilot only for a documented API gap; short-video trial only for a validated operational need.
       - Demand-led extensions: W06 shift/leave coverage and W07 customer feedback; reuse the core but add their distinct state and disclosure rules.
+      - Run retention/deletion, per-tenant backlog and coherent-restore drills before any corresponding readiness claim.
     exit:
       Publish sample counts, critical failures, unknown outcomes and cost; pilot owner signs off the measured acceptance criteria.
     avoid:

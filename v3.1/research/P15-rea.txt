@@ -1,0 +1,138 @@
+id:
+  P15-rea
+name:
+  REA — Reverse Engineer Anything
+category:
+  Artifact and runtime investigation tooling
+sections:
+  What it is:
+    REA exposes specialized inspection operations for packaged applications, binaries, JavaScript/Electron artifacts and recorded/runtime evidence. It coordinates analysis engines and evidence contracts; it is not a replacement for every upstream tool. Its own skill explicitly directs ordinary full-source architecture questions to normal repository inspection. That is the route used for the source dossiers in this library.
+  Versions and scope:
+    The project-local installed CLI is rea-agents 6.5.0, with an earlier synthetic JavaScript smoke test retained separately. This library also pins the current upstream source revision for analysis. Those identities are not interchangeable: an operation present in current source may not exist in the installed release. The old smoke test proves only that the installation analyzed that synthetic fixture; it does not validate any of the twenty other projects.
+  Architecture and analysis flow:
+    The JavaScript application service first validates input against a schema, inventories/reconstructs artifacts within a resource scope, validates resulting metadata and graph bindings, then creates a hashed Evidence record. Cancellation and errors are handled explicitly. Evidence includes graph limitations rather than presenting a graph as omniscient execution history. Provider registry machinery handles native-analysis backends separately from the built-in JavaScript path. A requested operation's requirements depend on its target and provider.
+  Evidence and persistence:
+    The evidence ledger is the organizing abstraction for retained observations, inferred relationships and unresolved questions. Bundle/export and inspection operations make results reusable across investigation steps. A target hash, tool/provider identity, source location and operation scope are as important as the prose finding. Static references suggest a possible flow; only declared runtime observation can demonstrate an executed one. An empty search under selected limits does not establish absence throughout an application.
+  Execution boundaries:
+    Offline artifact parsing, native disassembly and live browser/process interaction have different effects. Native workflows can need external engines; recorded capture analysis needs the relevant parsers; active runtime capture can launch or manipulate the selected target. This research did not install new native engines or run unrelated applications. The installed environment's prior notes say native providers were not configured, which remains distinct from a source-level capability list.
+  Extension, license and follow-up:
+    The repository separates application services, domain schemas, providers and evidence handling. Adding a new analysis surface requires preserving those contracts and honest limitations, rather than just emitting plausible descriptions. Root source is MIT; external engines retain their own installation and license requirements. A future artifact study should select a concrete package and exact version, inspect its inventory, trace a feature through retained evidence, and use a narrowly declared runtime scenario only for claims that static analysis cannot settle.
+findings:
+  - id:
+      P15-rea:RE-01
+    project_id:
+      P15-rea
+    evidence_kind:
+      Code
+    claim:
+      JavaScript analysis validates input, reconstructs graphs and creates Evidence with limitations.
+    source:
+      repository_id:
+        P15-rea
+      repository:
+        morluto/rea
+      revision:
+        5eaef92e5b3f9b15b23f2e4aea6a32a867b89dd0
+      path:
+        src/application/javascript/JavaScriptApplicationService.ts
+      sha256:
+        3490668c028812e55e4149460b55b7e81f320f32d31596f22ee9e63651d96941
+      url:
+        https://github.com/morluto/rea/blob/5eaef92e5b3f9b15b23f2e4aea6a32a867b89dd0/src/application/javascript/JavaScriptApplicationService.ts
+      local_snapshot_retained_not_published:
+        True
+    runtime_verified:
+      False
+  - id:
+      P15-rea:RE-02
+    project_id:
+      P15-rea
+    evidence_kind:
+      Code
+    claim:
+      JavaScript evidence is a separate output contract.
+    source:
+      repository_id:
+        P15-rea
+      repository:
+        morluto/rea
+      revision:
+        5eaef92e5b3f9b15b23f2e4aea6a32a867b89dd0
+      path:
+        src/application/javascript/JavaScriptApplicationEvidence.ts
+      sha256:
+        5927cc9f58c2d0cfcd1e3db472c0040ede6b68da1375c4ea7a230cdc0e8482cc
+      url:
+        https://github.com/morluto/rea/blob/5eaef92e5b3f9b15b23f2e4aea6a32a867b89dd0/src/application/javascript/JavaScriptApplicationEvidence.ts
+      local_snapshot_retained_not_published:
+        True
+    runtime_verified:
+      False
+  - id:
+      P15-rea:RE-03
+    project_id:
+      P15-rea
+    evidence_kind:
+      Code
+    claim:
+      Retained findings are managed through an evidence ledger.
+    source:
+      repository_id:
+        P15-rea
+      repository:
+        morluto/rea
+      revision:
+        5eaef92e5b3f9b15b23f2e4aea6a32a867b89dd0
+      path:
+        src/application/investigation/EvidenceLedger.ts
+      sha256:
+        e0b870721aee65397a93a3dd1ece6e9d1f1e66702cd067a9b4d5418f3b9ebf42
+      url:
+        https://github.com/morluto/rea/blob/5eaef92e5b3f9b15b23f2e4aea6a32a867b89dd0/src/application/investigation/EvidenceLedger.ts
+      local_snapshot_retained_not_published:
+        True
+    runtime_verified:
+      False
+  - id:
+      P15-rea:RE-04
+    project_id:
+      P15-rea
+    evidence_kind:
+      Code
+    claim:
+      Native provider selection is separate from JavaScript analysis.
+    source:
+      repository_id:
+        P15-rea
+      repository:
+        morluto/rea
+      revision:
+        5eaef92e5b3f9b15b23f2e4aea6a32a867b89dd0
+      path:
+        src/application/binary/AnalysisProviderRegistry.ts
+      sha256:
+        5f85f4ec085ab7a794936fb2e21d57314d85eb9a25e86f68ec239f52fe769fe1
+      url:
+        https://github.com/morluto/rea/blob/5eaef92e5b3f9b15b23f2e4aea6a32a867b89dd0/src/application/binary/AnalysisProviderRegistry.ts
+      local_snapshot_retained_not_published:
+        True
+    runtime_verified:
+      False
+unknowns:
+  - Installed release and current repository may expose different tools.
+  - No new native or live application investigation was performed.
+  - Synthetic installation evidence must not be attributed to target projects.
+related_projects:
+  - P09-security-audit
+  - P11-ego-lite
+  - P19-universal-modder
+repository:
+  morluto/rea
+revision:
+  5eaef92e5b3f9b15b23f2e4aea6a32a867b89dd0
+url:
+  https://github.com/morluto/rea
+source_file_count:
+  9
+auxiliary_sources:
+

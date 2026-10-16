@@ -1,0 +1,189 @@
+id:
+  P03-nango
+name:
+  Nango
+category:
+  Connection and integration infrastructure
+sections:
+  What it is:
+    Nango is a backend for connecting a product or agent to external APIs. Its abstractions include accounts, environments, integration configurations, end users, connections, connection sessions and execution jobs. It handles more than an OAuth login screen: the repository includes credential lifecycle, API access, sync execution, records and agent-facing MCP surfaces. A connection identifies an authorized relationship to a provider; it is not the same as an application user or an arbitrary permission to perform business actions.
+  Architecture and main flow:
+    A client obtains a connection session for selected integrations and an end user. The server validates referenced integrations and stores the session in a transaction. A completed provider authentication creates or updates a connection. Subsequent server operations resolve the environment and integration/connection identifiers before obtaining credentials or metadata. Scheduled or requested sync tasks enter a separate jobs path, start an integration script, carry heartbeat and execution limits, and finish through success/error handlers. The MCP agent-session server registers tools and delegates tool calls through a common execution wrapper. These are separate boundaries, not one prompt with every API credential attached.
+  Data and credentials:
+    The connection service contains transactional creation and update paths and tracks refresh success, failure, attempts and exhaustion. The encryption manager transforms credentials into an encrypted payload with IV and authentication tag when a key is configured. Crucially, its inspected shouldEncrypt check is conditional on a nonempty key; without one, encryptConnection returns the connection unchanged. This is a configuration boundary worth remembering, not evidence that the hosted service stores plaintext. The selected Compose file passes NANGO_ENCRYPTION_KEY and database settings explicitly and includes PostgreSQL and Redis.
+  Authorization:
+    The authorization middleware evaluates required scopes against a resolved principal and returns forbidden when none match. The public connection endpoint separately tests the read_credentials scope. Requesting refresh-token or forced-refresh operations without that capability is rejected, and the response can instead contain connection metadata without credentials. Environment scoping and credential access are therefore observable concepts in the source. Complete end-user isolation, all proxy destinations and every MCP grant remain outside this bounded inspection.
+  Deployment and extension:
+    The TypeScript monorepo separates server, shared services, jobs, runner SDK, records, persistence and other packages. Provider configuration and user-authored integration scripts are extension surfaces. A complete product deployment can involve more services than a minimal authentication-only setup. The Compose sample is a starting topology, not a hardened deployment proof; it contains example database credentials and exposed service ports. No sample secrets were connected to real systems here. Sync script isolation, outbound policy, migration and key-rotation behavior need their own traced tests.
+  Licensing and source boundary:
+    The collected root LICENSE is the controlling source document, with Elastic License 2.0 terms rather than a blanket MIT assumption. SDK/package terms should be checked individually. Publicly inspectable server code does not automatically imply unrestricted managed-service redistribution. This dossier records the license identity without making a legal determination about a proposed commercial use.
+  Questions and experiments:
+    The next source pass should follow one OAuth provider through state validation, callback, refresh lock, expiry, revocation and reconnect. A controlled provider stub should force simultaneous refresh requests, an expired refresh token, a lost webhook and a repeated sync page. Compare resulting connection and record state before making durability claims. The encryption configuration should be tested with valid, absent, rotated and incorrect keys. All of these remain experiments to perform, not observed outcomes.
+findings:
+  - id:
+      P03-nango:NA-01
+    project_id:
+      P03-nango
+    evidence_kind:
+      Code
+    claim:
+      Credential reads/refresh operations require an explicit scope in the inspected endpoint.
+    source:
+      repository_id:
+        P03-nango
+      repository:
+        NangoHQ/nango
+      revision:
+        244fac3eb035f0d423aa16b4cc8563de7066f941
+      path:
+        packages/server/lib/controllers/connection/connectionId/getConnection.ts
+      sha256:
+        32105cbe06941e78c7874bccd7fd04d64769ae697166370e2a5c343fa1d68608
+      url:
+        https://github.com/NangoHQ/nango/blob/244fac3eb035f0d423aa16b4cc8563de7066f941/packages/server/lib/controllers/connection/connectionId/getConnection.ts
+      local_snapshot_retained_not_published:
+        True
+    runtime_verified:
+      False
+  - id:
+      P03-nango:NA-02
+    project_id:
+      P03-nango
+    evidence_kind:
+      Code
+    claim:
+      Connection encryption is conditional on a configured key.
+    source:
+      repository_id:
+        P03-nango
+      repository:
+        NangoHQ/nango
+      revision:
+        244fac3eb035f0d423aa16b4cc8563de7066f941
+      path:
+        packages/shared/lib/utils/encryption.manager.ts
+      sha256:
+        15a7b5c5790958ef993fd8da5436d22cc02c1fbd9045c9eb958715322153e68c
+      url:
+        https://github.com/NangoHQ/nango/blob/244fac3eb035f0d423aa16b4cc8563de7066f941/packages/shared/lib/utils/encryption.manager.ts
+      local_snapshot_retained_not_published:
+        True
+    runtime_verified:
+      False
+  - id:
+      P03-nango:NA-03
+    project_id:
+      P03-nango
+    evidence_kind:
+      Code
+    claim:
+      Connect-session creation validates references and uses a transaction.
+    source:
+      repository_id:
+        P03-nango
+      repository:
+        NangoHQ/nango
+      revision:
+        244fac3eb035f0d423aa16b4cc8563de7066f941
+      path:
+        packages/server/lib/services/connectSession.service.ts
+      sha256:
+        7e29e7aabac62f027356942b4d0c5c456a7510c262c1081d667a0b8895cbda25
+      url:
+        https://github.com/NangoHQ/nango/blob/244fac3eb035f0d423aa16b4cc8563de7066f941/packages/server/lib/services/connectSession.service.ts
+      local_snapshot_retained_not_published:
+        True
+    runtime_verified:
+      False
+  - id:
+      P03-nango:NA-04
+    project_id:
+      P03-nango
+    evidence_kind:
+      Code
+    claim:
+      Sync execution has start, success, error and abort paths.
+    source:
+      repository_id:
+        P03-nango
+      repository:
+        NangoHQ/nango
+      revision:
+        244fac3eb035f0d423aa16b4cc8563de7066f941
+      path:
+        packages/jobs/lib/execution/sync.ts
+      sha256:
+        4824f32f878b0e5c5c76cfa74c035ab15cb1c4f671e97bf8c6a89cd1f8d20232
+      url:
+        https://github.com/NangoHQ/nango/blob/244fac3eb035f0d423aa16b4cc8563de7066f941/packages/jobs/lib/execution/sync.ts
+      local_snapshot_retained_not_published:
+        True
+    runtime_verified:
+      False
+  - id:
+      P03-nango:NA-05
+    project_id:
+      P03-nango
+    evidence_kind:
+      Code
+    claim:
+      Agent-session MCP tools are registered and wrapped centrally.
+    source:
+      repository_id:
+        P03-nango
+      repository:
+        NangoHQ/nango
+      revision:
+        244fac3eb035f0d423aa16b4cc8563de7066f941
+      path:
+        packages/server/lib/controllers/agent/mcp/sessionServer.ts
+      sha256:
+        f581e3c4b434b4d4e82b4b9f733baf89fdcbf1b6c1e1df3c6f60333d2528d31a
+      url:
+        https://github.com/NangoHQ/nango/blob/244fac3eb035f0d423aa16b4cc8563de7066f941/packages/server/lib/controllers/agent/mcp/sessionServer.ts
+      local_snapshot_retained_not_published:
+        True
+    runtime_verified:
+      False
+  - id:
+      P03-nango:NA-06
+    project_id:
+      P03-nango
+    evidence_kind:
+      License
+    claim:
+      Root source license is Elastic License 2.0.
+    source:
+      repository_id:
+        P03-nango
+      repository:
+        NangoHQ/nango
+      revision:
+        244fac3eb035f0d423aa16b4cc8563de7066f941
+      path:
+        LICENSE
+      sha256:
+        6dbe65007c1f2eb6c362834cc509bd958938a7be3fd15155f3a29c0c8d0a334a
+      url:
+        https://github.com/NangoHQ/nango/blob/244fac3eb035f0d423aa16b4cc8563de7066f941/LICENSE
+      local_snapshot_retained_not_published:
+        True
+    runtime_verified:
+      False
+unknowns:
+  - No authentication callback or proxy security audit was completed.
+  - Actual deployment encryption settings and hosted infrastructure are unknown.
+  - No integration has been connected or exercised.
+related_projects:
+  - P02-activepieces
+  - P12-zapier-mcp
+repository:
+  NangoHQ/nango
+revision:
+  244fac3eb035f0d423aa16b4cc8563de7066f941
+url:
+  https://github.com/NangoHQ/nango
+source_file_count:
+  14
+auxiliary_sources:
+
