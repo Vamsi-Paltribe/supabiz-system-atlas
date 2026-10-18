@@ -1,0 +1,8 @@
+# GoFathom 1.2
+
+[Complete evidence audit and sprint plan](llms-full.txt)
+[Canonical audit](audit.json)
+[Architecture baseline 1.1](../gofathom-1.1/llms-full.txt)
+[Other-Mac audit prompt](audit-prompt.txt)
+
+Public text needs no login or JavaScript. No raw private conversation or credentials are included.

@@ -1,0 +1,54 @@
+Audit our actual restaurant-assistant implementation on this MacBook against GoFathom architecture 1.1. Treat this as a source-code and execution-evidence audit, not another architecture discussion.
+
+Read these references:
+1. Architecture: https://vamsi-paltribe.github.io/supabiz-system-atlas/gofathom-1.1/llms-full.txt
+2. Structured blueprint: https://vamsi-paltribe.github.io/supabiz-system-atlas/gofathom-1.1/blueprint.json
+3. Audit template: https://vamsi-paltribe.github.io/supabiz-system-atlas/gofathom-1.1/code-audit-template.json
+4. Failure specifications: https://vamsi-paltribe.github.io/supabiz-system-atlas/gofathom-1.1/test-registry.json
+5. Evidence audit and proposed sprints: https://vamsi-paltribe.github.io/supabiz-system-atlas/gofathom-1.2/llms-full.txt
+
+The 1.2 audit was based on our shared implementation conversation through 16 October 2026. Its author could not inspect this MacBook's runtime. Reconcile it with the current source and later work. Do not assume either that all reported features work or that unverified features are absent. Ignore the older ai-agent-for-WA repository; it is not this implementation.
+
+Work in the existing restaurant-assistant checkout. Read its actual AGENTS.md, SPRINT-04.md, review rules and latest experiment/verification records. Preserve local changes. Identify the current branch, commit and dirty state; hash the relevant source and fixtures if the audited snapshot differs from HEAD. Check for active runners before starting anything; do not duplicate a running test or review.
+
+Audit all nine harness responsibilities H01-H09 and all 18 contracts C01-C18. For each, record:
+- Actual code path and symbol, or explicit absence.
+- API, app-chat, CLI and worker entrypoints, including divergent paths.
+- What exists, what is partial, what fails, and what remains unknown.
+- Exact test IDs, commands, execution results and retained evidence.
+- Revision/snapshot tested and limitations of the test.
+- Status: absent, partial, present-untested, tested-at-commit, or blocked by unavailable evidence. A module name or test-count total is not a passing implementation.
+
+Verify the complete path using synthetic inputs and provider stubs first:
+new chats/files -> candidate records -> owner accept/reject/correct -> accepted current state -> deterministic calculation -> actual app-chat answer -> tracked discrepancy -> evidence-reviewed closure.
+Distinguish real UI/API integration from a backend experiment runner. Reuse the existing TypeScript, PostgreSQL, worker, storage, calculation and review components.
+
+Inspect and reproduce these known failure classes before recommending fixes:
+1. The 20 kg operational rule being dropped because effective time was unclear.
+2. The valid Rs 1,152 invoice rejected for comma formatting or repeated evidence references.
+3. Invoice lines continuing to contribute after rejection of their parent.
+4. An answer asking approval for an already accepted receipt.
+5. Missing deterministic calculations while the model is told not to calculate.
+6. Wrong-outlet forwards, same-name people, ambiguous units and table-to-item mappings.
+7. Unknown event time, late corrections and distinct document/effective/approval dates.
+8. Gross invoice versus net payable versus reported/confirmed payment and supporting citations.
+Use contrasting cases; retain original failures. Identify whether the most recent proposed boundary repairs have actually been implemented since the shared-chat snapshot.
+
+Inspect the 1.1 controls explicitly: source coverage versus processing accounting, exclusions and zero-candidate assessments, field-authority/version binding, parser isolation, grant/revocation checks, instruction overrides/expiry, current-state invalidation, and effect intent/receipt/transmit-marker cancellation. Provider-call accounting does not prove business-action reconciliation. Audit task acknowledgement and closure separately from message sending. Identify which controls are required before the first pilot and which are deliberately deferred.
+
+Inspect test scripts before running them. Run appropriate offline checks in the project's existing isolated test environment. Preserve source fixtures and customer state. Report current failures, including previously recorded full-suite, formatting and security blockers. Do not infer they are fixed from a focused pass. Do not print secrets or environment values. No paid calls, live-source activation, deployment, new schedules, dependency upgrades or product-code changes are requested by this audit. If any required check is unsafe or unavailable, record the concrete limit and continue independent audit work.
+
+Keep reviewer evidence exact and bounded. Follow applicable repository review requirements; a reviewer must see the actual relevant source and competing explanations. Do not replace execution evidence with reviewer agreement or claim a test passed because an earlier chat said so.
+
+Evaluate this proposed first workflow: one Varun outlet, receiving/invoice evidence -> manager-reviewed discrepancy -> assigned follow-up -> evidence-reviewed resolution. Existing stock/accounting systems remain authoritative; no automatic purchasing, payment, supplier send or external ledger write. Challenge this choice if current code, access or demand supports a better one. Explain the alternative using evidence, not preference for a framework.
+
+Produce a local dated audit folder containing:
+1. AUDIT-REPORT.md: concise verdict, reusable code, ranked gaps/defects and unresolved questions.
+2. audit-matrix.json: all 27 H/C rows with paths, revision, status and test evidence.
+3. evidence-manifest.json: audited file hashes and exact test commands/results.
+4. sprint-plan.md: revised small sprints, dependencies, owners/roles, estimates and measurable exit gates, grounded in inspected code.
+5. handoff-summary.txt: what changed from the 1.2 evidence audit, what is now verified and what still blocks a pilot.
+
+Keep raw receipts private. If preparing a handoff bundle, include only necessary source, migrations, synthetic fixtures and sanitized reports; exclude credentials, .env files, session stores, customer conversations, databases and node_modules. Do not publish or upload the bundle automatically.
+
+Finish with an honest answer to: What works now? What is broken? What is missing? What can we reuse? Which exact next implementation task delivers the most useful verified progress? Do not declare the whole assistant complete or invent performance improvement percentages.

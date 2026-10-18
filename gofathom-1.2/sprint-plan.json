@@ -1,0 +1,103 @@
+[
+  {
+    "id": "S0",
+    "timebox": "2 working days",
+    "owner": "Engineering lead + QA/reviewer",
+    "goal": "Pin the actual baseline on the other Mac",
+    "tasks": [
+      "Read actual AGENTS.md and current sprint/review records; resolve latest uncommitted changes and commit/hash manifest.",
+      "Map all 27 H/C rows to code or explicit absence; identify app, CLI and worker paths.",
+      "Re-run offline focused tests and inspect current whole-suite failures/security alerts; do not label historical blockers fixed without evidence.",
+      "Recover exact fixture/output/usage receipts; no new paid tests or live-source activation required."
+    ],
+    "exit": [
+      "Reproducible test command and exact commit/snapshot recorded.",
+      "Every row has code evidence or an explicit limitation; existing blockers triaged and owners assigned."
+    ],
+    "dependencies": [
+      "Access on the implementation Mac or a sanitized source/test bundle."
+    ]
+  },
+  {
+    "id": "S1",
+    "timebox": "5 working days",
+    "owner": "Domain/backend engineer + Varun or named operations reviewer",
+    "goal": "Repair the intake and record boundaries",
+    "tasks": [
+      "Separate event time, document time, instruction effective time and approval time; preserve unknowns.",
+      "Normalize unambiguous currency/quantity formatting and duplicate source refs while retaining originals; ambiguous locale/unit stays unresolved.",
+      "Block invoice-line admission until parent dependency is valid; handle rejection and reinstatement without orphan effects.",
+      "Resolve table-to-outlet/item/unit mappings from evidence, never guessed names.",
+      "Keep operational rule proposals even when effective time needs clarification; separate one-entry acceptance from standing policy."
+    ],
+    "exit": [
+      "Saved RUN03 defects reproduced before repairs; protected regressions and contrasting unseen variants pass offline.",
+      "Unknown time never fabricated; valid ₹1,152 and equivalent supported forms retained; no cross-outlet or parentless acceptance."
+    ],
+    "dependencies": [
+      "S0 baseline"
+    ]
+  },
+  {
+    "id": "S2",
+    "timebox": "5 working days",
+    "owner": "Full-stack engineer + QA",
+    "goal": "Deliver one review-to-resolution loop through the actual app",
+    "tasks": [
+      "Assemble critical amounts/status/actions from accepted current record versions plus deterministic calculations.",
+      "Expose evidence, current state and calculations through small scoped read interfaces; full exploratory agent search remains optional.",
+      "Connect fresh intake, review, corrections, exception ownership and outcome evidence to the real Today/Chat/Manage path.",
+      "Implement only missing workflow pieces after the audit; preserve evidence-backed unknown and disputed states.",
+      "Exercise change invalidation, access revocation, retries and restart through APIs/UI, not test-runner-only shortcuts."
+    ],
+    "exit": [
+      "Fresh permitted files → pending records → owner review → discrepancy → assigned follow-up → evidence-reviewed closure works through app.",
+      "No repeated approval request for accepted record; source correction stales affected answer/check; closure needs evidence and reviewer."
+    ],
+    "dependencies": [
+      "S1 correct records"
+    ]
+  },
+  {
+    "id": "S3",
+    "timebox": "5 working days, paid calls separately bounded",
+    "owner": "QA/evaluation engineer + domain reviewer",
+    "goal": "Prove generalization and measure cost before adding infrastructure",
+    "tasks": [
+      "Freeze 24 independent episode specifications: ordinary deliveries, supported formatting, corrections/time, identity/scope, missing/contradictory evidence, instruction/parent dependency cases. Reserve 12 as hidden holdout; repeated questions are not independent episodes.",
+      "Run whole fresh-source path including required media; audit omissions as well as emitted candidates.",
+      "Compare raw-context and simple-summary controls against structured path using same sources, model, tasks and adjudication; count ingestion, model, reviewer and support cost.",
+      "Record exact mismatch, false alerts, unresolved cases, action outcomes, p50/p95 timings and known/unknown costs.",
+      "After correctness is stable, measure changed-evidence processing and selective retrieval at 1x/10x/100x fixture histories; preserve context/correction equivalence."
+    ],
+    "exit": [
+      "All declared must-not-fail invariants pass; any unsupported critical amount/status/action, scope leak or duplicate effect blocks expansion.",
+      "Missing inputs produce justified unknowns; clear in-scope facts cannot earn a pass by abstaining.",
+      "Results and limitations reported with counts and uncertainty; no promised efficiency gain."
+    ],
+    "dependencies": [
+      "S2 app path; explicit finite paid-call budget if real models used"
+    ]
+  },
+  {
+    "id": "S4",
+    "timebox": "10 business days observation, extend if event coverage insufficient",
+    "owner": "Pilot owner + engineering/support owner + Varun/designated reviewer",
+    "goal": "Bounded one-outlet shadow pilot",
+    "tasks": [
+      "Verify selected source identity, actual provider-visible scope, session health, credentials and media availability.",
+      "Use one restaurant receiving stream and existing source-of-truth records; retain manual process as authority.",
+      "Reconcile independent receiving/invoice register against intake daily; expose missing intervals and review backlog.",
+      "Human approves record acceptance and closure; supplier contact, purchasing, payments and external ledger writes stay manual.",
+      "Record C16 terms, C17 field bindings and C18 reliance scope, retention/deletion and escalation/fallback; price offer separate from claimed savings."
+    ],
+    "exit": [
+      "Owner can trace each pilot discrepancy to source and disposition; no silently lost eligible cases in the audited sample.",
+      "Review/support time, unresolved amounts and closure time compared with baseline; owner explicitly accepts next scope.",
+      "No automatic expansion based solely on calendar completion or an accuracy average."
+    ],
+    "dependencies": [
+      "S3 gates, release blockers closed for scope, customer consent and reliable source access"
+    ]
+  }
+]

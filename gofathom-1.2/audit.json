@@ -1,0 +1,689 @@
+{
+  "metadata": {
+    "title": "GoFathom 1.2 — Build readiness",
+    "date": "2026-10-18",
+    "status": "Evidence audit complete; current-runtime source audit pending",
+    "blueprint_commit": "e4c58703272afd4c1bcf5c84c20821e06b263dfe",
+    "blueprint_sha256": "a8220bae6ff0e4226635ca4d1ddda407da1f06bced32ce9fe9eb8568167b369d",
+    "shared_chat_sha256": "ee21b19dcbd3b1c755b43ab094a6224915e0d7481d890127d1b1752b5507ec9f",
+    "scope": "Reviewed published blueprint, local artifact checks, latest shared-chat outcomes and selected implementation milestones. Did not read or execute current remote source, original receipts, tests or its local browser app.",
+    "source_snapshot_limit": "Shared conversation ends with the design audit and October 16 automation removal; later work on the other Mac may not be reflected.",
+    "edition": "1.2",
+    "architecture_baseline": "1.1",
+    "publication_date": "2026-10-19",
+    "architecture_url": "../gofathom-1.1/",
+    "audit_scope": "Evidence review on 18 October; current-runtime source audit still pending. This is not a code implementation release."
+  },
+  "verified_here": {
+    "artifact_checks": "Both existing static checkers passed on 2026-10-18; 175 preserved files, 166 Foundation 1.1 links, 12 debated decisions, 18 contracts, 27 unfilled audit-template rows, 12 declarative scenarios. Wider checker: 2607 links, 13539 unchanged research files.",
+    "runtime_tests": "None for current restaurant-assistant. Historical test counts are reported, not independently rerun."
+  },
+  "evidence": [
+    {
+      "id": "E01",
+      "source": "Owner-supplied implementation conversation, retained privately; reviewed 18 October 2026",
+      "summary": "Local application, WhatsApp adapters, runtime and ontology foundation; staged integration limits."
+    },
+    {
+      "id": "E02",
+      "source": "Owner-supplied implementation conversation, retained privately; reviewed 18 October 2026",
+      "summary": "Reported October 6 WAHA capture: 265 messages and 15 attachments; not current connection/completeness proof."
+    },
+    {
+      "id": "E03",
+      "source": "Owner-supplied implementation conversation, retained privately; reviewed 18 October 2026",
+      "summary": "Restaurant pack library and exact synthetic arithmetic; 34 focused checks reported."
+    },
+    {
+      "id": "E04",
+      "source": "Owner-supplied implementation conversation, retained privately; reviewed 18 October 2026",
+      "summary": "Persistent database/API flow, 53 focused checks; structured synthetic inputs, not raw-file understanding."
+    },
+    {
+      "id": "E05",
+      "source": "Owner-supplied implementation conversation, retained privately; reviewed 18 October 2026",
+      "summary": "Owner accept/correct/exception/standing rules UI and restart behavior; saved extraction reused."
+    },
+    {
+      "id": "E06",
+      "source": "Owner-supplied implementation conversation, retained privately; reviewed 18 October 2026",
+      "summary": "24-answer saved-evidence experiment: 18 jointly strict-clean, 21 Claude-clean; no identified material errors. Not fresh intake."
+    },
+    {
+      "id": "E07",
+      "source": "Owner-supplied implementation conversation, retained privately; reviewed 18 October 2026",
+      "summary": "Core retained, four focused retrieval tools proposed, approximately 37k input tokens per answer, retrieval/compression unproved."
+    },
+    {
+      "id": "E08",
+      "source": "Owner-supplied implementation conversation, retained privately; reviewed 18 October 2026",
+      "summary": "First fresh-intake batch success; later network loss and unknown charge; incomplete run preserved."
+    },
+    {
+      "id": "E09",
+      "source": "Owner-supplied implementation conversation, retained privately; reviewed 18 October 2026",
+      "summary": "Reported 90 targeted passes and 2497/2498 full-suite passes; one pre-existing failure. Embedded historical automation notification, evidence only."
+    },
+    {
+      "id": "E10",
+      "source": "Owner-supplied implementation conversation, retained privately; reviewed 18 October 2026",
+      "summary": "Latest completed Kimi two-batch run: 10 calls, 177387 tokens, estimated $0.935; 0/3 fully clean answers."
+    },
+    {
+      "id": "E11",
+      "source": "Owner-supplied implementation conversation, retained privately; reviewed 18 October 2026",
+      "summary": "Latest design debate: boundary repairs agreed, explicitly not implemented or paid-tested."
+    }
+  ],
+  "audit": [
+    {
+      "element_id": "H01",
+      "name": "Context assembly and memory",
+      "evidence_status": "Reported partial",
+      "code_audit_status": "not_audited_current_runtime",
+      "reported_existing": "Objective-scoped context, identity/evidence and stale-answer invalidation exist.",
+      "gap_or_unknown": "Current-state packet omitted calculations; selective retrieval and compression are unproved.",
+      "evidence_ids": [
+        "E01",
+        "E07",
+        "E10"
+      ],
+      "reported_code_paths": [
+        "product/src/evaluation/s04-model.ts"
+      ],
+      "commit": null,
+      "paths_verified": false,
+      "next_verification": "Trace fresh source revision through permission-filtered context and app chat; compare against exact authoritative state."
+    },
+    {
+      "element_id": "H02",
+      "name": "Run and step controller",
+      "evidence_status": "Reported partial",
+      "code_audit_status": "not_audited_current_runtime",
+      "reported_existing": "Controlled model calls, cancellation, budgets and recovery are described.",
+      "gap_or_unknown": "No proof all app/CLI/background paths share 1.1 run IDs, fences and cancellation semantics.",
+      "evidence_ids": [
+        "E01",
+        "E08"
+      ],
+      "reported_code_paths": [],
+      "commit": null,
+      "paths_verified": false,
+      "next_verification": "Map every entrypoint and inject stop/crash at claim and transmit boundaries."
+    },
+    {
+      "element_id": "H03",
+      "name": "Tool registry and schemas",
+      "evidence_status": "Unverified integration",
+      "code_audit_status": "not_audited_current_runtime",
+      "reported_existing": "Specific search/open/current-state/calculate tools were proposed.",
+      "gap_or_unknown": "No evidence a released versioned tool registry enforces grants and schemas across the app.",
+      "evidence_ids": [
+        "E07"
+      ],
+      "reported_code_paths": [],
+      "commit": null,
+      "paths_verified": false,
+      "next_verification": "Locate registry and adapters; reject unknown tools, extra fields and cross-scope IDs."
+    },
+    {
+      "element_id": "H04",
+      "name": "Policy and decision boundary",
+      "evidence_status": "Reported partial",
+      "code_audit_status": "not_audited_current_runtime",
+      "reported_existing": "Owner decisions, exceptions, future rules and permission checks exist.",
+      "gap_or_unknown": "1.1 exact overrides, source revision binding and all external-effect approvals are not demonstrated.",
+      "evidence_ids": [
+        "E04",
+        "E05",
+        "E11"
+      ],
+      "reported_code_paths": [
+        "product/src/business-packs/owner-contracts.ts"
+      ],
+      "commit": null,
+      "paths_verified": false,
+      "next_verification": "Exercise one-entry acceptance versus policy change; revoke or change payload while approval is pending."
+    },
+    {
+      "element_id": "H05",
+      "name": "Model and modality gateway",
+      "evidence_status": "Reported partial",
+      "code_audit_status": "not_audited_current_runtime",
+      "reported_existing": "Kimi/OpenAI adapters, budgets, usage accounting; PDF/image/CSV interpretation exercised.",
+      "gap_or_unknown": "Fallback policy, voice/video, full model-backed app journey and production limits not established.",
+      "evidence_ids": [
+        "E01",
+        "E10"
+      ],
+      "reported_code_paths": [],
+      "commit": null,
+      "paths_verified": false,
+      "next_verification": "Inspect adapters without secrets; prove errors, unknown usage and capability limits via the actual app."
+    },
+    {
+      "element_id": "H06",
+      "name": "Evidence and result validators",
+      "evidence_status": "Reported partial; demonstrated defects",
+      "code_audit_status": "not_audited_current_runtime",
+      "reported_existing": "Exact calculations, revisions and citation mechanisms exist.",
+      "gap_or_unknown": "Fresh intake loses rule/bill, critical answers conflict with saved state; calculated values not supplied.",
+      "evidence_ids": [
+        "E03",
+        "E04",
+        "E10",
+        "E11"
+      ],
+      "reported_code_paths": [
+        "product/src/business-packs/store.ts",
+        "product/src/evaluation/s04-model.ts"
+      ],
+      "commit": null,
+      "paths_verified": false,
+      "next_verification": "Reject unsupported dates/statuses; normalize amounts; validate critical answer segments against current records."
+    },
+    {
+      "element_id": "H07",
+      "name": "Checkpoint and action reconciliation",
+      "evidence_status": "Reported partial",
+      "code_audit_status": "not_audited_current_runtime",
+      "reported_existing": "Replay, duplicate handling, saved decisions and uncertain model-call outcomes exist.",
+      "gap_or_unknown": "Provider billing recovery is not proof of safe external business-effect cancellation/reconciliation.",
+      "evidence_ids": [
+        "E04",
+        "E08",
+        "E10"
+      ],
+      "reported_code_paths": [
+        "product/src/business-packs/path-intake.ts"
+      ],
+      "commit": null,
+      "paths_verified": false,
+      "next_verification": "Crash after business-effect remote success; require readback/unknown, never automatic duplicate effect."
+    },
+    {
+      "element_id": "H08",
+      "name": "Skills and workflow-pack governance",
+      "evidence_status": "Reported partial",
+      "code_audit_status": "not_audited_current_runtime",
+      "reported_existing": "Restaurant pack and explicit owner-rule flow exist.",
+      "gap_or_unknown": "Full pack versioning, rollout/rollback and generalized correction scope not evidenced.",
+      "evidence_ids": [
+        "E03",
+        "E05",
+        "E07"
+      ],
+      "reported_code_paths": [
+        "product/migrations/025_restaurant_owner_rules.sql"
+      ],
+      "commit": null,
+      "paths_verified": false,
+      "next_verification": "Bind pack version; ensure one correction does not silently alter future policy."
+    },
+    {
+      "element_id": "H09",
+      "name": "Telemetry and independent evaluation",
+      "evidence_status": "Reported partial",
+      "code_audit_status": "not_audited_current_runtime",
+      "reported_existing": "Mechanism tests, bounded model experiments, usage and disagreeing reviews exist.",
+      "gap_or_unknown": "Raw receipts unavailable here; unseen coverage, outcome quality and baseline advantage remain unproved.",
+      "evidence_ids": [
+        "E06",
+        "E09",
+        "E10"
+      ],
+      "reported_code_paths": [
+        "product/src/evaluation/s04-model.ts"
+      ],
+      "commit": null,
+      "paths_verified": false,
+      "next_verification": "Re-run pinned fixtures locally, preserve failed runs and grade unseen input against protected oracle."
+    },
+    {
+      "element_id": "C01",
+      "name": "Source observation",
+      "evidence_status": "Reported partial",
+      "code_audit_status": "not_audited_current_runtime",
+      "reported_existing": "Selected-source ingestion, metadata and replay described.",
+      "gap_or_unknown": "Complete per-source-revision accounting and independent missing-event detection unverified.",
+      "evidence_ids": [
+        "E01",
+        "E02",
+        "E10"
+      ],
+      "reported_code_paths": [
+        "product/src/business-packs/path-source-store.ts"
+      ],
+      "commit": null,
+      "paths_verified": false,
+      "next_verification": "Reconcile source window, journal and processing, including excluded and zero-candidate events."
+    },
+    {
+      "element_id": "C02",
+      "name": "Evidence asset / derivative",
+      "evidence_status": "Reported partial",
+      "code_audit_status": "not_audited_current_runtime",
+      "reported_existing": "Scoped attachments, saved PDFs/images/CSV and citations exist.",
+      "gap_or_unknown": "Parser isolation, derivative ACL/retention and unavailable-media lifecycle need source verification.",
+      "evidence_ids": [
+        "E01",
+        "E04",
+        "E10"
+      ],
+      "reported_code_paths": [],
+      "commit": null,
+      "paths_verified": false,
+      "next_verification": "Inspect bytes/hash/version provenance and revoke source access to all derivatives."
+    },
+    {
+      "element_id": "C03",
+      "name": "Candidate and admission decision",
+      "evidence_status": "Reported partial; defects",
+      "code_audit_status": "not_audited_current_runtime",
+      "reported_existing": "Automatic candidate extraction and accept/reject/correct path exists.",
+      "gap_or_unknown": "Formatting rejects valid bill; parent rejection can leave dependent lines.",
+      "evidence_ids": [
+        "E05",
+        "E10",
+        "E11"
+      ],
+      "reported_code_paths": [
+        "product/src/business-packs/path-intake.ts"
+      ],
+      "commit": null,
+      "paths_verified": false,
+      "next_verification": "Normalize supported formats; block orphan children; capture exclusions and independent recall."
+    },
+    {
+      "element_id": "C04",
+      "name": "Business record revision",
+      "evidence_status": "Reported partial",
+      "code_audit_status": "not_audited_current_runtime",
+      "reported_existing": "Persistent revisions, corrected receipts and no duplicate replay described.",
+      "gap_or_unknown": "Full concurrency, cutover and current projection invariants not independently checked.",
+      "evidence_ids": [
+        "E04",
+        "E10"
+      ],
+      "reported_code_paths": [
+        "product/src/business-packs/store.ts",
+        "product/migrations/023_pack_monotonic_guards.sql"
+      ],
+      "commit": null,
+      "paths_verified": false,
+      "next_verification": "Replay corrections/rejections concurrently and after restart; exact state must agree."
+    },
+    {
+      "element_id": "C05",
+      "name": "Grant and delegation",
+      "evidence_status": "Reported partial",
+      "code_audit_status": "not_audited_current_runtime",
+      "reported_existing": "Workspace/source identities, roles and revoked-source checks reported.",
+      "gap_or_unknown": "Matter-level grants and 1.1 audience/cache revocation not established.",
+      "evidence_ids": [
+        "E01",
+        "E04"
+      ],
+      "reported_code_paths": [],
+      "commit": null,
+      "paths_verified": false,
+      "next_verification": "Cross-outlet/source tests, stale grants and shared-CA context-switch tests."
+    },
+    {
+      "element_id": "C06",
+      "name": "Action intent and receipt",
+      "evidence_status": "Not established for business effects",
+      "code_audit_status": "not_audited_current_runtime",
+      "reported_existing": "Model-call attempt/accounting controls exist.",
+      "gap_or_unknown": "No proof of 1.1 business-effect intent/receipt and before-send marker protocol.",
+      "evidence_ids": [
+        "E01",
+        "E08"
+      ],
+      "reported_code_paths": [],
+      "commit": null,
+      "paths_verified": false,
+      "next_verification": "Before external sends, inspect attempts, marker, epoch, provider key and readback."
+    },
+    {
+      "element_id": "C07",
+      "name": "Task / matter / schedule",
+      "evidence_status": "Reported partial; workflow gap",
+      "code_audit_status": "not_audited_current_runtime",
+      "reported_existing": "Objectives/issues and owner UI exist.",
+      "gap_or_unknown": "Complete acknowledged assignment, independent closure proof and legal matter/calendar lifecycle missing from demonstrated path.",
+      "evidence_ids": [
+        "E01",
+        "E06"
+      ],
+      "reported_code_paths": [],
+      "commit": null,
+      "paths_verified": false,
+      "next_verification": "Create one exception, assign, acknowledge and close against evidence; change/reopen it."
+    },
+    {
+      "element_id": "C08",
+      "name": "Workflow and outbox",
+      "evidence_status": "Reported partial",
+      "code_audit_status": "not_audited_current_runtime",
+      "reported_existing": "Workers, replay and duplicate/stale controls described.",
+      "gap_or_unknown": "1.1 bounded runner charter and durable domain outbox not established.",
+      "evidence_ids": [
+        "E01",
+        "E08"
+      ],
+      "reported_code_paths": [],
+      "commit": null,
+      "paths_verified": false,
+      "next_verification": "Identify runner owner and supported state/timer primitives; test crash and lease expiry."
+    },
+    {
+      "element_id": "C09",
+      "name": "Run / evaluation record",
+      "evidence_status": "Reported partial",
+      "code_audit_status": "not_audited_current_runtime",
+      "reported_existing": "Experiment outputs, usage and reviewer evidence were recorded.",
+      "gap_or_unknown": "Exact artifacts and code revisions need transfer from other Mac.",
+      "evidence_ids": [
+        "E06",
+        "E08",
+        "E10"
+      ],
+      "reported_code_paths": [
+        "product/src/evaluation/s04-model.ts"
+      ],
+      "commit": null,
+      "paths_verified": false,
+      "next_verification": "Pin commit, fixture hashes, model/version, calls and all known/unknown costs."
+    },
+    {
+      "element_id": "C10",
+      "name": "Projection freshness and coverage",
+      "evidence_status": "Reported partial; coverage gap",
+      "code_audit_status": "not_audited_current_runtime",
+      "reported_existing": "Stale results, source revocation and unknown stock handled in some tests.",
+      "gap_or_unknown": "Independent denominator, aged pending and live completeness not established.",
+      "evidence_ids": [
+        "E01",
+        "E02",
+        "E05",
+        "E10"
+      ],
+      "reported_code_paths": [],
+      "commit": null,
+      "paths_verified": false,
+      "next_verification": "Drop event before journal and before routing; detect or disclose the two different gaps."
+    },
+    {
+      "element_id": "C11",
+      "name": "Check and reviewed exception",
+      "evidence_status": "Reported partial",
+      "code_audit_status": "not_audited_current_runtime",
+      "reported_existing": "Inventory calculations and review screens exist.",
+      "gap_or_unknown": "Checks not consistently carried into answer packets; reviewed exception lifecycle incomplete.",
+      "evidence_ids": [
+        "E05",
+        "E10"
+      ],
+      "reported_code_paths": [],
+      "commit": null,
+      "paths_verified": false,
+      "next_verification": "PASS/FAIL/CANNOT_VERIFY predicates bound to known source versions and reviewer decisions."
+    },
+    {
+      "element_id": "C12",
+      "name": "Scoped correction and governed procedure",
+      "evidence_status": "Reported partial",
+      "code_audit_status": "not_audited_current_runtime",
+      "reported_existing": "One-off correction and future rule changes are separated.",
+      "gap_or_unknown": "Governed generalized learning, scoped promotion/rollback not demonstrated.",
+      "evidence_ids": [
+        "E05",
+        "E07"
+      ],
+      "reported_code_paths": [
+        "product/src/business-packs/owner-contracts.ts"
+      ],
+      "commit": null,
+      "paths_verified": false,
+      "next_verification": "Correct one fact, rerun dependents, confirm no unintended global rule."
+    },
+    {
+      "element_id": "C13",
+      "name": "Evaluation world and oracle",
+      "evidence_status": "Reported partial",
+      "code_audit_status": "not_audited_current_runtime",
+      "reported_existing": "Synthetic worlds, repeated answers and separate reviewers exist.",
+      "gap_or_unknown": "Reusable protected oracle and fresh source-to-answer comparison need artifact audit.",
+      "evidence_ids": [
+        "E06",
+        "E10"
+      ],
+      "reported_code_paths": [],
+      "commit": null,
+      "paths_verified": false,
+      "next_verification": "Separate fixtures from expected results; compare raw, summary and structured arms on identical information."
+    },
+    {
+      "element_id": "C14",
+      "name": "Relationship and delegated job",
+      "evidence_status": "Deferred / not established",
+      "code_audit_status": "not_audited_current_runtime",
+      "reported_existing": "Human role foundations described.",
+      "gap_or_unknown": "Cross-business delegated-job and agent-exchange protocol not demonstrated; not first-pilot prerequisite.",
+      "evidence_ids": [
+        "E01"
+      ],
+      "reported_code_paths": [],
+      "commit": null,
+      "paths_verified": false,
+      "next_verification": "Keep disabled; require explicit business/audience grants before later delegation."
+    },
+    {
+      "element_id": "C15",
+      "name": "Declared operational instruction",
+      "evidence_status": "Reported partial; semantic defect",
+      "code_audit_status": "not_audited_current_runtime",
+      "reported_existing": "Explicit owner rules implemented for a subset of restaurant policies.",
+      "gap_or_unknown": "Fresh extraction omitted 20kg rule; full effective-time/override/expiry semantics not built.",
+      "evidence_ids": [
+        "E05",
+        "E10",
+        "E11"
+      ],
+      "reported_code_paths": [
+        "product/src/business-packs/owner-contracts.ts",
+        "product/migrations/025_restaurant_owner_rules.sql"
+      ],
+      "commit": null,
+      "paths_verified": false,
+      "next_verification": "Preserve undated rule proposal; resolve effective date without dropping it or silently applying retroactively."
+    },
+    {
+      "element_id": "C16",
+      "name": "Pilot and reliance contract",
+      "evidence_status": "Experiment controls reported; pilot unverified",
+      "code_audit_status": "not_audited_current_runtime",
+      "reported_existing": "Finite batch budgets and stopping criteria exist.",
+      "gap_or_unknown": "Buyer workflow, human review budget, frozen pilot terms and reliance boundaries need confirmation.",
+      "evidence_ids": [
+        "E08",
+        "E10"
+      ],
+      "reported_code_paths": [],
+      "commit": null,
+      "paths_verified": false,
+      "next_verification": "Name reviewer/source authority, baseline work, permitted scope, metric denominators and stop conditions."
+    },
+    {
+      "element_id": "C17",
+      "name": "Field authority and cutover binding",
+      "evidence_status": "New requirement; implementation unverified",
+      "code_audit_status": "not_audited_current_runtime",
+      "reported_existing": "Some record corrections and stale-result controls predate 1.1.",
+      "gap_or_unknown": "Per-field external authority binding/readback/cutover not established.",
+      "evidence_ids": [
+        "E04",
+        "E11"
+      ],
+      "reported_code_paths": [],
+      "commit": null,
+      "paths_verified": false,
+      "next_verification": "Bind invoice, receipt and external stock authority separately; external edit invalidates pending check."
+    },
+    {
+      "element_id": "C18",
+      "name": "Authorized reliance decision",
+      "evidence_status": "New requirement; implementation unverified",
+      "code_audit_status": "not_audited_current_runtime",
+      "reported_existing": "Human approval mechanisms exist.",
+      "gap_or_unknown": "Explicit risk-slice reliance record with evidence versions/review expiry not established.",
+      "evidence_ids": [
+        "E05"
+      ],
+      "reported_code_paths": [],
+      "commit": null,
+      "paths_verified": false,
+      "next_verification": "Record authorized scope, evidence and residual risks before any reliance expansion."
+    }
+  ],
+  "recommendation": {
+    "workflow": "W-B: Varun receiving/invoice evidence → reviewed discrepancy → tracked resolution",
+    "reason": "Strongest overlap with demonstrated restaurant pack, PostgreSQL persistence, exact arithmetic, owner rules, replay and mixed-file intake; exercises current known failures without adding legal matter/date architecture.",
+    "scope": "One outlet, one receiving/invoice workflow, manager-confirmed quantities/identities and evidence-reviewed closure. GoFathom owns exception history only after explicit cutover; existing stock/accounting records remain authoritative.",
+    "example": "Invoice ₹2,240 versus accepted received value ₹2,137.60 → ₹102.40 unreconciled, subject to confirmed matching quantities/unit price and complete relevant evidence. This is a discrepancy, not automatically payable/refundable or proof of theft.",
+    "not_first": [
+      "Automatic payment, purchase or external inventory posting",
+      "Inferring missing invoice/receipt values",
+      "Ramya legal deadline or client-disclosure automation",
+      "Native phone/desktop capture and agent-to-agent chat"
+    ],
+    "alternative": "If restaurant source access or reviewer availability fails S0, compare Ramya read-only court-email triage or Varun issue closure using actual access and observed demand. Do not switch solely because another connector seems easy.",
+    "sequence": "Finish Varun review loop; validate restaurant issue closure or Ramya matter intake next according to evidence. General core remains reusable."
+  },
+  "sprints": [
+    {
+      "id": "S0",
+      "timebox": "2 working days",
+      "owner": "Engineering lead + QA/reviewer",
+      "goal": "Pin the actual baseline on the other Mac",
+      "tasks": [
+        "Read actual AGENTS.md and current sprint/review records; resolve latest uncommitted changes and commit/hash manifest.",
+        "Map all 27 H/C rows to code or explicit absence; identify app, CLI and worker paths.",
+        "Re-run offline focused tests and inspect current whole-suite failures/security alerts; do not label historical blockers fixed without evidence.",
+        "Recover exact fixture/output/usage receipts; no new paid tests or live-source activation required."
+      ],
+      "exit": [
+        "Reproducible test command and exact commit/snapshot recorded.",
+        "Every row has code evidence or an explicit limitation; existing blockers triaged and owners assigned."
+      ],
+      "dependencies": [
+        "Access on the implementation Mac or a sanitized source/test bundle."
+      ]
+    },
+    {
+      "id": "S1",
+      "timebox": "5 working days",
+      "owner": "Domain/backend engineer + Varun or named operations reviewer",
+      "goal": "Repair the intake and record boundaries",
+      "tasks": [
+        "Separate event time, document time, instruction effective time and approval time; preserve unknowns.",
+        "Normalize unambiguous currency/quantity formatting and duplicate source refs while retaining originals; ambiguous locale/unit stays unresolved.",
+        "Block invoice-line admission until parent dependency is valid; handle rejection and reinstatement without orphan effects.",
+        "Resolve table-to-outlet/item/unit mappings from evidence, never guessed names.",
+        "Keep operational rule proposals even when effective time needs clarification; separate one-entry acceptance from standing policy."
+      ],
+      "exit": [
+        "Saved RUN03 defects reproduced before repairs; protected regressions and contrasting unseen variants pass offline.",
+        "Unknown time never fabricated; valid ₹1,152 and equivalent supported forms retained; no cross-outlet or parentless acceptance."
+      ],
+      "dependencies": [
+        "S0 baseline"
+      ]
+    },
+    {
+      "id": "S2",
+      "timebox": "5 working days",
+      "owner": "Full-stack engineer + QA",
+      "goal": "Deliver one review-to-resolution loop through the actual app",
+      "tasks": [
+        "Assemble critical amounts/status/actions from accepted current record versions plus deterministic calculations.",
+        "Expose evidence, current state and calculations through small scoped read interfaces; full exploratory agent search remains optional.",
+        "Connect fresh intake, review, corrections, exception ownership and outcome evidence to the real Today/Chat/Manage path.",
+        "Implement only missing workflow pieces after the audit; preserve evidence-backed unknown and disputed states.",
+        "Exercise change invalidation, access revocation, retries and restart through APIs/UI, not test-runner-only shortcuts."
+      ],
+      "exit": [
+        "Fresh permitted files → pending records → owner review → discrepancy → assigned follow-up → evidence-reviewed closure works through app.",
+        "No repeated approval request for accepted record; source correction stales affected answer/check; closure needs evidence and reviewer."
+      ],
+      "dependencies": [
+        "S1 correct records"
+      ]
+    },
+    {
+      "id": "S3",
+      "timebox": "5 working days, paid calls separately bounded",
+      "owner": "QA/evaluation engineer + domain reviewer",
+      "goal": "Prove generalization and measure cost before adding infrastructure",
+      "tasks": [
+        "Freeze 24 independent episode specifications: ordinary deliveries, supported formatting, corrections/time, identity/scope, missing/contradictory evidence, instruction/parent dependency cases. Reserve 12 as hidden holdout; repeated questions are not independent episodes.",
+        "Run whole fresh-source path including required media; audit omissions as well as emitted candidates.",
+        "Compare raw-context and simple-summary controls against structured path using same sources, model, tasks and adjudication; count ingestion, model, reviewer and support cost.",
+        "Record exact mismatch, false alerts, unresolved cases, action outcomes, p50/p95 timings and known/unknown costs.",
+        "After correctness is stable, measure changed-evidence processing and selective retrieval at 1x/10x/100x fixture histories; preserve context/correction equivalence."
+      ],
+      "exit": [
+        "All declared must-not-fail invariants pass; any unsupported critical amount/status/action, scope leak or duplicate effect blocks expansion.",
+        "Missing inputs produce justified unknowns; clear in-scope facts cannot earn a pass by abstaining.",
+        "Results and limitations reported with counts and uncertainty; no promised efficiency gain."
+      ],
+      "dependencies": [
+        "S2 app path; explicit finite paid-call budget if real models used"
+      ]
+    },
+    {
+      "id": "S4",
+      "timebox": "10 business days observation, extend if event coverage insufficient",
+      "owner": "Pilot owner + engineering/support owner + Varun/designated reviewer",
+      "goal": "Bounded one-outlet shadow pilot",
+      "tasks": [
+        "Verify selected source identity, actual provider-visible scope, session health, credentials and media availability.",
+        "Use one restaurant receiving stream and existing source-of-truth records; retain manual process as authority.",
+        "Reconcile independent receiving/invoice register against intake daily; expose missing intervals and review backlog.",
+        "Human approves record acceptance and closure; supplier contact, purchasing, payments and external ledger writes stay manual.",
+        "Record C16 terms, C17 field bindings and C18 reliance scope, retention/deletion and escalation/fallback; price offer separate from claimed savings."
+      ],
+      "exit": [
+        "Owner can trace each pilot discrepancy to source and disposition; no silently lost eligible cases in the audited sample.",
+        "Review/support time, unresolved amounts and closure time compared with baseline; owner explicitly accepts next scope.",
+        "No automatic expansion based solely on calendar completion or an accuracy average."
+      ],
+      "dependencies": [
+        "S3 gates, release blockers closed for scope, customer consent and reliable source access"
+      ]
+    }
+  ],
+  "estimate": {
+    "total": "About 5–6 calendar weeks to a bounded shadow-pilot decision, not production launch",
+    "assumptions": "Experienced engineer available full time, part-time independent QA and prompt domain review; current core reusable; no major access/security blockers. S0 must revise estimates using real source.",
+    "no_new_framework": "Retain current TypeScript/PostgreSQL/worker foundation until source audit demonstrates a concrete gap; do not migrate to an agent framework to treat semantic boundary defects."
+  },
+  "metrics": [
+    "Source observation coverage with denominator provenance and unknown gaps",
+    "Eligible-case recall and false-positive exceptions, split by consequence and modality",
+    "Wrong outlet/identity/unit/date/status and unsupported amount claims",
+    "Review minutes per eligible episode including false alarms, unresolved cases and corrections",
+    "End-to-end acknowledged and evidence-closed exceptions; no completion credit for message send",
+    "Ingest-to-review freshness and p50/p95 answer latency on stated workload",
+    "Provider/infrastructure/support cost and customer labor separately; cost per verified resolution",
+    "Incremental processing/retrieval resources versus history size at equal correctness"
+  ],
+  "complexity": {
+    "status": "Analytical expectation only; not measured product behavior",
+    "current": "Chat reports large-history context (~37k input tokens per answer in one experiment) and excessive reprocessing; source complexity cannot be established here.",
+    "proposed": "For history bytes H and changed bytes Δ plus required context C, extraction should process Δ+C rather than H where dependencies allow. Corrections may require a larger affected dependency closure. Indexed lookup cost depends on query/index/selectivity; exact retrieval remains bounded by returned evidence bytes. Storage grows with source/derivative/revision retention; do not claim constant memory or guaranteed speedup."
+  },
+  "boundary": "Foundation 1.0 and 1.1 remain preserved. This edition publishes an evidence audit and proposed sprint plan, not product changes. Current runtime source, tests and receipts remain on another MacBook.",
+  "other_mac_audit_prompt": "Audit our actual restaurant-assistant implementation on this MacBook against GoFathom architecture 1.1. Treat this as a source-code and execution-evidence audit, not another architecture discussion.\n\nRead these references:\n1. Architecture: https://vamsi-paltribe.github.io/supabiz-system-atlas/gofathom-1.1/llms-full.txt\n2. Structured blueprint: https://vamsi-paltribe.github.io/supabiz-system-atlas/gofathom-1.1/blueprint.json\n3. Audit template: https://vamsi-paltribe.github.io/supabiz-system-atlas/gofathom-1.1/code-audit-template.json\n4. Failure specifications: https://vamsi-paltribe.github.io/supabiz-system-atlas/gofathom-1.1/test-registry.json\n5. Evidence audit and proposed sprints: https://vamsi-paltribe.github.io/supabiz-system-atlas/gofathom-1.2/llms-full.txt\n\nThe 1.2 audit was based on our shared implementation conversation through 16 October 2026. Its author could not inspect this MacBook's runtime. Reconcile it with the current source and later work. Do not assume either that all reported features work or that unverified features are absent. Ignore the older ai-agent-for-WA repository; it is not this implementation.\n\nWork in the existing restaurant-assistant checkout. Read its actual AGENTS.md, SPRINT-04.md, review rules and latest experiment/verification records. Preserve local changes. Identify the current branch, commit and dirty state; hash the relevant source and fixtures if the audited snapshot differs from HEAD. Check for active runners before starting anything; do not duplicate a running test or review.\n\nAudit all nine harness responsibilities H01-H09 and all 18 contracts C01-C18. For each, record:\n- Actual code path and symbol, or explicit absence.\n- API, app-chat, CLI and worker entrypoints, including divergent paths.\n- What exists, what is partial, what fails, and what remains unknown.\n- Exact test IDs, commands, execution results and retained evidence.\n- Revision/snapshot tested and limitations of the test.\n- Status: absent, partial, present-untested, tested-at-commit, or blocked by unavailable evidence. A module name or test-count total is not a passing implementation.\n\nVerify the complete path using synthetic inputs and provider stubs first:\nnew chats/files -> candidate records -> owner accept/reject/correct -> accepted current state -> deterministic calculation -> actual app-chat answer -> tracked discrepancy -> evidence-reviewed closure.\nDistinguish real UI/API integration from a backend experiment runner. Reuse the existing TypeScript, PostgreSQL, worker, storage, calculation and review components.\n\nInspect and reproduce these known failure classes before recommending fixes:\n1. The 20 kg operational rule being dropped because effective time was unclear.\n2. The valid Rs 1,152 invoice rejected for comma formatting or repeated evidence references.\n3. Invoice lines continuing to contribute after rejection of their parent.\n4. An answer asking approval for an already accepted receipt.\n5. Missing deterministic calculations while the model is told not to calculate.\n6. Wrong-outlet forwards, same-name people, ambiguous units and table-to-item mappings.\n7. Unknown event time, late corrections and distinct document/effective/approval dates.\n8. Gross invoice versus net payable versus reported/confirmed payment and supporting citations.\nUse contrasting cases; retain original failures. Identify whether the most recent proposed boundary repairs have actually been implemented since the shared-chat snapshot.\n\nInspect the 1.1 controls explicitly: source coverage versus processing accounting, exclusions and zero-candidate assessments, field-authority/version binding, parser isolation, grant/revocation checks, instruction overrides/expiry, current-state invalidation, and effect intent/receipt/transmit-marker cancellation. Provider-call accounting does not prove business-action reconciliation. Audit task acknowledgement and closure separately from message sending. Identify which controls are required before the first pilot and which are deliberately deferred.\n\nInspect test scripts before running them. Run appropriate offline checks in the project's existing isolated test environment. Preserve source fixtures and customer state. Report current failures, including previously recorded full-suite, formatting and security blockers. Do not infer they are fixed from a focused pass. Do not print secrets or environment values. No paid calls, live-source activation, deployment, new schedules, dependency upgrades or product-code changes are requested by this audit. If any required check is unsafe or unavailable, record the concrete limit and continue independent audit work.\n\nKeep reviewer evidence exact and bounded. Follow applicable repository review requirements; a reviewer must see the actual relevant source and competing explanations. Do not replace execution evidence with reviewer agreement or claim a test passed because an earlier chat said so.\n\nEvaluate this proposed first workflow: one Varun outlet, receiving/invoice evidence -> manager-reviewed discrepancy -> assigned follow-up -> evidence-reviewed resolution. Existing stock/accounting systems remain authoritative; no automatic purchasing, payment, supplier send or external ledger write. Challenge this choice if current code, access or demand supports a better one. Explain the alternative using evidence, not preference for a framework.\n\nProduce a local dated audit folder containing:\n1. AUDIT-REPORT.md: concise verdict, reusable code, ranked gaps/defects and unresolved questions.\n2. audit-matrix.json: all 27 H/C rows with paths, revision, status and test evidence.\n3. evidence-manifest.json: audited file hashes and exact test commands/results.\n4. sprint-plan.md: revised small sprints, dependencies, owners/roles, estimates and measurable exit gates, grounded in inspected code.\n5. handoff-summary.txt: what changed from the 1.2 evidence audit, what is now verified and what still blocks a pilot.\n\nKeep raw receipts private. If preparing a handoff bundle, include only necessary source, migrations, synthetic fixtures and sanitized reports; exclude credentials, .env files, session stores, customer conversations, databases and node_modules. Do not publish or upload the bundle automatically.\n\nFinish with an honest answer to: What works now? What is broken? What is missing? What can we reuse? Which exact next implementation task delivers the most useful verified progress? Do not declare the whole assistant complete or invent performance improvement percentages.\n"
+}

@@ -26,3 +26,9 @@ This additive foundation retains the 12-stage funnel and adds validation-led pro
 [Refined blueprint](https://vamsi-paltribe.github.io/supabiz-system-atlas/gofathom-1.1/) · [Decision debate](gofathom-1.1/debate.json) · [Full AI text](gofathom-1.1/llms-full.txt) · [Review pack](gofathom-1.1/review-pack.zip).
 
 A three-round Claude/Codex documentation review challenged all 12 decisions. This edition adds eight enforcement mechanisms, field-authority and authorized-reliance contracts, an unfilled pinned-code audit, declarative failure cases and separate vendor/customer/combined cost views. The 12-stage funnel and Foundation 1.0 remain intact. AI agreement does not establish runtime correctness or customer outcomes.
+
+## GoFathom 1.2 — Build readiness
+
+[Latest audit and sprint plan](https://vamsi-paltribe.github.io/supabiz-system-atlas/gofathom-1.2/) · [Full AI text](gofathom-1.2/llms-full.txt) · [27-row audit](gofathom-1.2/audit-matrix.json) · [Other-Mac audit prompt](gofathom-1.2/audit-prompt.txt).
+
+Published 19 October 2026. Separates reported implementation, known failures, missing capabilities and current-source verification gaps. Recommends Varun’s reviewed receiving/invoice discrepancy workflow with five gated sprints. Architecture 1.1 remains the baseline; 1.0, 1.1 and all earlier editions are preserved. Original private conversation and runtime files are not published. This is an evidence audit, not a verified code audit or runtime release.
