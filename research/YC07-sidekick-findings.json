@@ -1,0 +1,152 @@
+{
+  "id": "YC07-sidekick",
+  "date": "2026-10-17",
+  "findings": [
+    {
+      "id": "SK-01",
+      "title": "Keep the worker’s existing front door",
+      "observation": "The public product emphasizes familiar messaging.",
+      "source_ids": [
+        "SK-S01",
+        "SK-S02"
+      ],
+      "supabiz_proposal": "Let staff report through the authorized WhatsApp connection first. Add the SupaBiz app when it improves capture, offline queues or receipts. A low-friction interface still needs organization enrollment, current staff grants, business/outlet identity and revocation. A phone number or group membership alone is not sufficient authority for purchases, payroll or broad data access.",
+      "measure": "Report completion rate; time to first useful report; identity errors; onboarding effort."
+    },
+    {
+      "id": "SK-02",
+      "title": "Capture now; ask the smallest missing question",
+      "observation": "The recorded demo starts with a brief equipment report.",
+      "source_ids": [
+        "SK-S03"
+      ],
+      "supabiz_proposal": "Acknowledge receipt without claiming resolution. Resolve the likely outlet and asset from authorized context, then ask one focused question if needed. During service, do not force staff through a long form. Let them answer by voice, text or a quick choice. Persist incomplete reports with a visible owner and status so unanswered questions do not erase the issue.",
+      "measure": "Time to report; clarification turns; abandoned reports; unresolved ambiguity age."
+    },
+    {
+      "id": "SK-03",
+      "title": "Voice should preserve meaning across languages",
+      "observation": "Voice and multilingual input are advertised.",
+      "source_ids": [
+        "SK-S01"
+      ],
+      "supabiz_proposal": "Support the languages and code-switching actually used by Varun’s staff; test kitchen noise. Store original audio, time-aligned transcript and translation separately under retention policy. Confirm critical units, numbers, asset and negation, not every word. Offer short text acknowledgement and optional read-aloud; keep transcripts editable. Do not infer worker identity or emotion from voice.",
+      "measure": "Critical-field error rate; negation/unit errors; correction effort; language-specific task success."
+    },
+    {
+      "id": "SK-04",
+      "title": "Photos should anchor a report to visible evidence",
+      "observation": "Photo reporting is advertised.",
+      "source_ids": [
+        "SK-S01"
+      ],
+      "supabiz_proposal": "Link each observation to the original image and relevant crop or box. A spill, damaged seal or delivery label can support a report, but a photo cannot establish hidden temperature, food safety or repair success. Ask for a wider view, close-up or readable label only when needed. Distinguish observed, worker-reported and model-inferred facts.",
+      "measure": "Correct issue/location identification; unsupported visual claims; requests for retakes; evidence availability."
+    },
+    {
+      "id": "SK-05",
+      "title": "Use video for sequence and movement",
+      "observation": "Video input is advertised; its processing internals are unknown.",
+      "source_ids": [
+        "SK-S01",
+        "SK-S02"
+      ],
+      "supabiz_proposal": "Use short clips for recurring leaks, moving equipment or a chef’s demonstration. Analyze audio and time-linked visual segments together; retain timestamps. Begin with bounded sampling and request closer examination for uncertain moments. Never infer absence of a brief event from sparse frames. Separate live issue evidence from tutorial capture, and require review before a demonstrated procedure becomes a published SOP.",
+      "measure": "Temporal-event recall; unsupported conclusions; reviewer effort; cost per useful clip."
+    },
+    {
+      "id": "SK-06",
+      "title": "Resolve the outlet, area and asset explicitly",
+      "observation": "Public examples connect reports to equipment.",
+      "source_ids": [
+        "SK-S02",
+        "SK-S03"
+      ],
+      "supabiz_proposal": "Maintain Consu/ForeFathers → outlet → area → asset identifiers and scoped aliases. A QR label can prefill the asset in the SupaBiz app; it is a locator, not an access credential. Resolve fridge near the back using the current authorized outlet; ask when multiple assets match. Keep original worker wording and any inferred association.",
+      "measure": "Wrong-outlet routing; wrong-asset tasks; duplicate incidents; clarification frequency."
+    },
+    {
+      "id": "SK-07",
+      "title": "Return a work receipt and close the loop",
+      "observation": "Work-order routing appears in the public material.",
+      "source_ids": [
+        "SK-S01",
+        "SK-S03"
+      ],
+      "supabiz_proposal": "Reply with a short issue ID, confirmed location, what was understood, current owner and next status. Track received, needs clarification, assigned, accepted, in progress, blocked, submitted and verified closed. A sent notification is not an accepted assignment. A before/after photo supports review but must not automatically prove physical repair or sanitation.",
+      "measure": "Report-to-acceptance time; unowned issues; verified resolution; reopen rate."
+    },
+    {
+      "id": "SK-08",
+      "title": "Give managers an exception queue",
+      "observation": "The recorded demo shows filters for manager attention and unassigned work.",
+      "source_ids": [
+        "SK-S03"
+      ],
+      "supabiz_proposal": "Give the outlet manager Needs attention, Unassigned, Waiting, Due this shift and Needs verification views. Varun receives a cross-business summary with a clear outlet label on every item. Bundle routine updates; escalate urgent issues under approved policies. Shift handover carries open work, accepted owner, blocker and evidence rather than another long chat recap.",
+      "measure": "Manager interruptions; age of blockers; handover omissions; alert acknowledgement."
+    },
+    {
+      "id": "SK-09",
+      "title": "Answer from approved local procedures",
+      "observation": "Source-grounded workplace answers are advertised.",
+      "source_ids": [
+        "SK-S01",
+        "SK-S02"
+      ],
+      "supabiz_proposal": "Return a concise answer with the relevant approved SOP version and a link to the exact page or clip time. Use retrieval filters for outlet, asset model, role and validity dates. Do not mix a different business’s recipe, allergen procedure or maintenance instruction into a confident answer. Missing or contradictory guidance should go to the designated manager.",
+      "measure": "Evidence-backed answer rate; outdated-SOP answers; unsupported instructions; escalation precision."
+    },
+    {
+      "id": "SK-10",
+      "title": "Capture a verified fix as candidate knowledge",
+      "observation": "The product advertises memory of resolutions and manager answers.",
+      "source_ids": [
+        "SK-S02"
+      ],
+      "supabiz_proposal": "After a verified resolution, draft a knowledge entry with problem, asset, symptoms, evidence, authorized resolver and conditions. Ask whether it applies once, to this asset, this outlet or an approved organization-wide pattern. Do not learn a general rule from every message or repeat an unsafe workaround. Link to SB-AS-13 and generate a reviewed Hue-style regression case.",
+      "measure": "Repeat incident rate; unsafe generalization; knowledge freshness; regression coverage."
+    },
+    {
+      "id": "SK-11",
+      "title": "Version and retire procedures",
+      "observation": "The demo shows New Version and Deprecate controls.",
+      "source_ids": [
+        "SK-S03"
+      ],
+      "supabiz_proposal": "Let an authorized chef or manager record a short training walkthrough. Produce a draft checklist with timestamped steps and missing-information flags. A reviewer approves scope, translations and version before publishing. Staff acknowledgement and demonstrated competence are separate events; video viewed is not certification. Retire superseded instructions while retaining historical provenance.",
+      "measure": "Training completion with checks; outdated content retrieval; reviewer correction rate; ramp-up time."
+    },
+    {
+      "id": "SK-12",
+      "title": "Share knowledge between outlets deliberately",
+      "observation": "Cross-site knowledge reuse is marketed.",
+      "source_ids": [
+        "SK-S02"
+      ],
+      "supabiz_proposal": "Varun owning two businesses does not make all information interchangeable. Default to business/outlet scope. Offer an explicit approved template-sharing action with equipment/procedure applicability checks. Reuse generic issue categories or approved process templates while keeping customer, staff, supplier, financial and business-specific knowledge appropriately separated.",
+      "measure": "Cross-business leaks; wrong-equipment advice; useful approved reuse; template update propagation."
+    },
+    {
+      "id": "SK-13",
+      "title": "Treat sensor evidence separately from visual inference",
+      "observation": "Connected-machine monitoring is advertised.",
+      "source_ids": [
+        "SK-S01"
+      ],
+      "supabiz_proposal": "Later, ingest approved refrigerator/asset telemetry with device identity, calibrated units, timestamp and freshness. Distinguish measured temperature from a staff report and a photographed display. Missing sensor data is unknown, not normal. Do not copy predictive-maintenance claims without sufficient telemetry and validation. Start with issue reporting before buying hardware or promising prediction.",
+      "measure": "Sensor freshness; false alerts; missed events; measured downtime; review burden."
+    },
+    {
+      "id": "SK-14",
+      "title": "Make staff trust and operational value visible",
+      "observation": "Privacy describes employer access to some usage information.",
+      "source_ids": [
+        "SK-S05",
+        "SK-S07"
+      ],
+      "supabiz_proposal": "Tell staff what is recorded, who can see reports and how to correct them. Use targeted operational capture, not continuous surveillance or inferred worker scoring. Minimize bystander/customer media, restrict sensitive details, and propagate retention/deletion to transcripts, thumbnails and test copies. Measure correct completed work and staff effort before claiming productivity gains.",
+      "measure": "Staff adoption; privacy incidents; verified completion cost; correction time; report quality."
+    }
+  ]
+}

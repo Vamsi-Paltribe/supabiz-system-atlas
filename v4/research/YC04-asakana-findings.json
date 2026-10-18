@@ -1,0 +1,142 @@
+{
+  "id": "YC04-asakana",
+  "date": "2026-10-17",
+  "review_type": "public_product_and_recorded_demo_review",
+  "findings": [
+    {
+      "id": "AS-01",
+      "title": "Meet people in their current workflow",
+      "evidence_class": "public claim or recorded demonstration; backend unverified",
+      "observation": "Existing channels and systems remain the front door.",
+      "source_ids": [
+        "AS-S01",
+        "AS-S07"
+      ],
+      "supabiz_proposal": "Make WhatsApp/email intake useful before requiring an app migration. Use the SupaBiz app for unresolved decisions, evidence and control. A mobile-first confirmation can link to a specific task without moving an entire team into a new chat system. Distinguish watching approved sources from permission to act.",
+      "measure": "Activation-to-first-verified-workflow time; staff participation; weekly manual entries avoided."
+    },
+    {
+      "id": "AS-02",
+      "title": "Resolve business meaning, not only text",
+      "evidence_class": "public claim or recorded demonstration; backend unverified",
+      "observation": "The public tour separates habits, shorthand and rules.",
+      "source_ids": [
+        "AS-S01"
+      ],
+      "supabiz_proposal": "Build an entity-resolution layer over customer, product, unit, outlet, matter and person IDs. Store aliases with tenant/customer scope, owner, evidence, valid dates and precedence. Current explicit instructions beat historical defaults; contradictory evidence opens a question. Retrieval must filter authorization before returning candidates.",
+      "measure": "SKU/unit/customer accuracy; ambiguous cases caught; cross-business leakage; correction effort."
+    },
+    {
+      "id": "AS-03",
+      "title": "Make staff knowledge durable and inspectable",
+      "evidence_class": "public claim or recorded demonstration; backend unverified",
+      "observation": "The explainer emphasizes preserving customer knowledge through staff changes.",
+      "source_ids": [
+        "AS-S03"
+      ],
+      "supabiz_proposal": "Offer What SupaBiz knows about this customer or matter. Separate observed habit, approved preference, operational rule and one-off exception. Give each a source, last-confirmed date and authorized editor. Staff departure should revoke access while retaining business-owned records under policy, not retain private unrelated chat.",
+      "measure": "New-staff ramp-up; stale-rule errors; correction propagation; unauthorized memory retrieval."
+    },
+    {
+      "id": "AS-04",
+      "title": "Prior orders are references, not unconditional templates",
+      "evidence_class": "public claim or recorded demonstration; backend unverified",
+      "observation": "The tour demonstrates a request referring to a previous order.",
+      "source_ids": [
+        "AS-S01"
+      ],
+      "supabiz_proposal": "Resolve the reference to one source record and display the proposed diff. Revalidate price, pack size, availability, date, outlet and substitutions. Never reuse an old payment instruction or court deadline because it appeared in similar work. Missing or multiple matching records require a targeted question.",
+      "measure": "Reference resolution precision; stale price/unit errors; ambiguity recall."
+    },
+    {
+      "id": "AS-05",
+      "title": "Ambiguity needs a focused human decision",
+      "evidence_class": "public claim or recorded demonstration; backend unverified",
+      "observation": "YC material says unclear work goes to a person before entry.",
+      "source_ids": [
+        "AS-S02"
+      ],
+      "supabiz_proposal": "Show the uncertain field, its source and a small candidate set. Preserve resolved lines without implying the whole order is approved. Represent extraction certainty, entity ambiguity and action permission independently. Approval must bind the exact revision and destination; any meaningful edit invalidates it.",
+      "measure": "Unsafe auto-accept rate, human minutes/order, exception recall and stale-approval rejection."
+    },
+    {
+      "id": "AS-06",
+      "title": "Keep evidence beside the proposed business record",
+      "evidence_class": "public claim or recorded demonstration; backend unverified",
+      "observation": "The recorded demo pairs a note photo with a sales-order form.",
+      "source_ids": [
+        "AS-S04"
+      ],
+      "supabiz_proposal": "For each extracted field, retain message ID, attachment page/crop or audio time range. Let an operator compare original and interpreted quantity/unit/date without opening five apps. Never fabricate a crop or quote when extraction failed. Deleted, expired or inaccessible media needs an explicit evidence state.",
+      "measure": "Review time, evidence availability and field-level correction rate."
+    },
+    {
+      "id": "AS-07",
+      "title": "Draft, approval and completion are different states",
+      "evidence_class": "public claim or recorded demonstration; backend unverified",
+      "observation": "The public tour shows a draft; terms require verification before fulfillment.",
+      "source_ids": [
+        "AS-S01",
+        "AS-S06"
+      ],
+      "supabiz_proposal": "Use received → interpreted → needs review / ready → approved → posting → posted → verified, with failed, superseded and uncertain branches. A drafted purchase order must not increase stock on hand; receiving goods is a different event. A draft credit must not become an automatic refund. Verify destination ID, account and revision after writes.",
+      "measure": "Duplicate writes; false completion; unauthorized posting; reconciliation time."
+    },
+    {
+      "id": "AS-08",
+      "title": "Make completion notifications useful and quiet",
+      "evidence_class": "public claim or recorded demonstration; backend unverified",
+      "observation": "YC material describes one email notification per task.",
+      "source_ids": [
+        "AS-S02"
+      ],
+      "supabiz_proposal": "Send a compact receipt with outcome, destination record, unresolved items and evidence link. Batch routine successes where useful, but route urgent exceptions by deadline and accountable person. Use a durable notification outbox so a retry does not send repeated confirmations. Sending a receipt is not proof the recipient read it.",
+      "measure": "Notifications per completed task; actionable response time; duplicate sends; missed urgent exceptions."
+    },
+    {
+      "id": "AS-09",
+      "title": "Extend from a narrow workflow into related exceptions",
+      "evidence_class": "public claim or recorded demonstration; backend unverified",
+      "observation": "Advertised scope includes returns, credits, reminders and procurement.",
+      "source_ids": [
+        "AS-S02"
+      ],
+      "supabiz_proposal": "Start with one supported transaction type and destination. Expand using shared evidence/entity machinery but distinct domain schemas and action policies. Model order, shipment, goods receipt, stock adjustment, invoice, credit note and payment separately. A single generic task object cannot safely replace these lifecycles.",
+      "measure": "Verified outcomes by workflow; support burden; regression rate when adding a transaction type."
+    },
+    {
+      "id": "AS-10",
+      "title": "Integrate through explicit capability contracts",
+      "evidence_class": "public claim or recorded demonstration; backend unverified",
+      "observation": "The site advertises APIs where available and custom connections otherwise.",
+      "source_ids": [
+        "AS-S01"
+      ],
+      "supabiz_proposal": "Maintain a capability matrix per ERP/account: search, draft creation, update, post, cancel, idempotency support and read-back. Prefer typed APIs. Any browser fallback needs current observation, exclusive control and recovery. Begin with one destination; do not promise universal integration or assume a vendor logo proves coverage.",
+      "measure": "Connector conformance; recovery after timeout; drift failures; cost per supported destination."
+    },
+    {
+      "id": "AS-11",
+      "title": "Backtesting must include abstention and business outcomes",
+      "evidence_class": "public claim or recorded demonstration; backend unverified",
+      "observation": "The FAQ makes strong backtesting/accuracy claims; public datasets are absent.",
+      "source_ids": [
+        "AS-S01"
+      ],
+      "supabiz_proposal": "Build a consented, de-identified evaluation set split by customer and time to limit leakage. Include messy media, aliases, mixed language and malicious instructions. Measure both accepted-case accuracy and how much work is rejected. A system can look accurate by escalating everything; measure retained human effort as well.",
+      "measure": "Field precision, unsafe auto-accept, escalation fraction, human effort, latency and verified outcomes."
+    },
+    {
+      "id": "AS-12",
+      "title": "Make data-use and cost promises precise",
+      "evidence_class": "public claim or recorded demonstration; backend unverified",
+      "observation": "Policies distinguish data categories; numeric commercial rates are not public.",
+      "source_ids": [
+        "AS-S05",
+        "AS-S06"
+      ],
+      "supabiz_proposal": "Expose where evidence is stored, which model/tool receives it, retention, deletion and training use. Build least-privilege connection grants and scoped key storage. Price SupaBiz against verified workflow value and total service cost, including exceptions and support; evaluate predictable subscription plus usage rather than assuming transaction-value commission fits every business.",
+      "measure": "Revocation/deletion tests; total cost per verified workflow; pricing predictability; gross margin after support."
+    }
+  ]
+}

@@ -1,0 +1,222 @@
+[
+  {
+    "id": "HD-01",
+    "title": "Separate running work from open screens",
+    "decision": "Adapt architecture",
+    "evidence_refs": [
+      "RT01"
+    ],
+    "supabiz_proposal": "Phone and desktop reconnect to a durable run; cloud execution remains independent of their views.",
+    "measure": "Interrupted jobs; duplicate restart requests",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "HD-02",
+    "title": "Put actionable work in an attention inbox",
+    "decision": "High priority UX",
+    "evidence_refs": [
+      "HD-C04"
+    ],
+    "supabiz_proposal": "Show needs decision, waiting person, stale dependency and verified outcome; prioritize deadline and impact.",
+    "measure": "Time to identify and resolve blockers",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "HD-03",
+    "title": "Keep seen, approved and complete distinct",
+    "decision": "High priority UX",
+    "evidence_refs": [
+      "HD-C05"
+    ],
+    "supabiz_proposal": "Acknowledging a notification never approves an action or closes another person’s responsibility.",
+    "measure": "False closure; unread noise; approval mistakes",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "HD-04",
+    "title": "Separate agent activity from business outcome",
+    "decision": "Build",
+    "evidence_refs": [
+      "HD-S05"
+    ],
+    "supabiz_proposal": "Idle or done is an observation; verify the stock record, assignment or provider effect independently.",
+    "measure": "False completions; verified workflow rate",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "HD-05",
+    "title": "Use scoped stable identities",
+    "decision": "Build",
+    "evidence_refs": [
+      "HD-S04"
+    ],
+    "supabiz_proposal": "Persist business, record, run, attempt, effect and node IDs separately from pane names or device selection.",
+    "measure": "Cross-business mix-ups; duplicate identity",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "HD-06",
+    "title": "Keep unknown and stale states visible",
+    "decision": "Adapt UX",
+    "evidence_refs": [
+      "HD-C02"
+    ],
+    "supabiz_proposal": "Record signal provenance and freshness; disable writes from stale views until current authority and state are checked.",
+    "measure": "Stale writes; misclassified states",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "HD-07",
+    "title": "Prefer explicit adapters; contain heuristic fallback",
+    "decision": "Adapt implementation",
+    "evidence_refs": [
+      "HD-C06"
+    ],
+    "supabiz_proposal": "Accept typed lifecycle signals when possible; isolate screen matching to compatibility adapters and regression-test it.",
+    "measure": "Detection precision and recall by provider version",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "HD-08",
+    "title": "Preserve parent identity through child blockers",
+    "decision": "Adapt implementation",
+    "evidence_refs": [
+      "HD-C06"
+    ],
+    "supabiz_proposal": "A helper’s question routes to the owning workflow without replacing its identity or leaking another session.",
+    "measure": "Misrouted questions; lost parent context",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "HD-09",
+    "title": "Treat reconnect, restore and handoff separately",
+    "decision": "High priority architecture",
+    "evidence_refs": [
+      "RT02"
+    ],
+    "supabiz_proposal": "Explain what survives; a restored conversation is not a recovered external action.",
+    "measure": "Recovery correctness; user comprehension",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "HD-10",
+    "title": "Persist and reconcile business effects",
+    "decision": "Build",
+    "evidence_refs": [
+      "RT07"
+    ],
+    "supabiz_proposal": "Write intent before dispatch; preserve request identity and reconcile unknown outcomes before retry.",
+    "measure": "Duplicate effects; uncertain-outcome age",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "HD-11",
+    "title": "Supervise nodes independently",
+    "decision": "Adapt with additions",
+    "evidence_refs": [
+      "RT06"
+    ],
+    "supabiz_proposal": "Use heartbeat, generation checks, jitter and retry budgets; one offline node does not block healthy workers.",
+    "measure": "p95 recovery time; retry storms",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "HD-12",
+    "title": "Show where work runs and what it needs",
+    "decision": "Adapt UX",
+    "evidence_refs": [
+      "HD-S04"
+    ],
+    "supabiz_proposal": "Show cloud versus authorized device, capability dependencies, last online and permitted fallback.",
+    "measure": "Hidden dependencies; unexpected data movement",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "HD-13",
+    "title": "Separate viewing from controlling",
+    "decision": "Adapt with authorization",
+    "evidence_refs": [
+      "HS03"
+    ],
+    "supabiz_proposal": "Show controller, scope and explicit takeover; fence old writes and authorize every mutation path.",
+    "measure": "Conflicting edits; unauthorized alternate-path actions",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "HD-14",
+    "title": "Use mature transport with device enrollment",
+    "decision": "Reuse principle",
+    "evidence_refs": [
+      "HS05"
+    ],
+    "supabiz_proposal": "Private local IPC and trusted transport plus SupaBiz node identity, business grants and revocation.",
+    "measure": "Revoked-node access; wrong-host connections",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "HD-15",
+    "title": "Make plugin trust and capability grants explicit",
+    "decision": "Build isolation",
+    "evidence_refs": [
+      "HS07"
+    ],
+    "supabiz_proposal": "Review pinned packages; run extensions with minimal secrets, bounded resources and scoped tools.",
+    "measure": "Secret exposure; permission escalation",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "HD-16",
+    "title": "Keep code, config, secrets and state separate",
+    "decision": "Adapt lifecycle",
+    "evidence_refs": [
+      "HS08"
+    ],
+    "supabiz_proposal": "Immutable packages, scoped configuration, secret broker, durable state and independent retention.",
+    "measure": "Upgrade loss; secret copies; restore correctness",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "HD-17",
+    "title": "Recover UI state after event gaps",
+    "decision": "Adapt protocol",
+    "evidence_refs": [
+      "HS10"
+    ],
+    "supabiz_proposal": "Detect cursor gaps, refresh an authorized snapshot and keep business history in a durable ledger.",
+    "measure": "Silent missing updates; replay-induced duplicates",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "HD-18",
+    "title": "Send changes with version checks",
+    "decision": "Adapt performance",
+    "evidence_refs": [
+      "RT09"
+    ],
+    "supabiz_proposal": "Use revisioned patches and full snapshot fallback; enforce audience permissions on both.",
+    "measure": "Bandwidth; stale patch rejection; p95 render time",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "HD-19",
+    "title": "Bound and measure capacity",
+    "decision": "Build operations",
+    "evidence_refs": [
+      "RT08"
+    ],
+    "supabiz_proposal": "Set per-tenant concurrency, budgets, queue/output limits and deadlines; measure full worker and model costs.",
+    "measure": "Noisy-neighbor impact; cost per verified result",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "HD-20",
+    "title": "Start with an operator console; defer terminal complexity",
+    "decision": "Adoption decision",
+    "evidence_refs": [
+      "RT03"
+    ],
+    "supabiz_proposal": "Evaluate herdr for engineering supervision; build a business UI and workflow durability before custom PTY migration.",
+    "measure": "Engineering overhead; business task completion",
+    "status": "Design candidate; not implemented"
+  }
+]

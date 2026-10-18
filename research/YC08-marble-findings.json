@@ -1,0 +1,191 @@
+{
+  "id": "YC08-marble",
+  "date": "2026-10-17",
+  "findings": [
+    {
+      "id": "MB-01",
+      "title": "Connect the business objects before automating the work",
+      "observation": "Public material connects capture, planning and actions.",
+      "source_ids": [
+        "MB-S01"
+      ],
+      "supabiz_proposal": "Build a restaurant workflow pack on the shared SupaBiz platform. Link business, outlet, storage location, ingredient, supplier item, unit conversion, recipe version, purchase order, receipt, invoice and settlement. Keep typed records as the operational authority; chat and embeddings help find and interpret evidence. A supplier invoice is not a receipt, a receipt is not a payment, and a count is not a purchase.",
+      "measure": "Missing links; wrong-entity writes; manual reconciliation time.",
+      "evidence_class": "Public claim or supplemental reference; SupaBiz application is our proposal"
+    },
+    {
+      "id": "MB-02",
+      "title": "Onboard by showing what the system understood",
+      "observation": "Onboarding explicitly maps operational relationships.",
+      "source_ids": [
+        "MB-S02",
+        "MB-S03"
+      ],
+      "supabiz_proposal": "Import authorized menus, representative invoices, supplier lists, recipes and POS history into a reviewable draft. Show aliases, pack sizes, unresolved items and affected outlets. Ask Varun or the manager to approve mappings in small batches. Require a physical opening count and agreed cutover before calling balances reliable. Do not silently infer that every supplier uses the same crate size.",
+      "measure": "Time to verified first workflow; unresolved mappings; correction rate after onboarding.",
+      "evidence_class": "Public claim or supplemental reference; SupaBiz application is our proposal"
+    },
+    {
+      "id": "MB-03",
+      "title": "Make counting a guided staff task",
+      "observation": "Voice/vision counts are advertised and visually illustrated.",
+      "source_ids": [
+        "MB-S02",
+        "MB-S04"
+      ],
+      "supabiz_proposal": "Offer Count stock, Receive delivery and Report waste as distinct intents, with plain-language routing from WhatsApp. Walk staff through storage areas; show counted, skipped, uncertain and explicitly zero items. Preserve language, units, source media and count time. Read back critical quantities. Hidden stock, partially filled containers and duplicate views need measurement or confirmation, not visual certainty.",
+      "measure": "Time per accepted count; unit error rate; uncounted lines; noisy voice and occlusion accuracy.",
+      "evidence_class": "Public claim or supplemental reference; SupaBiz application is our proposal"
+    },
+    {
+      "id": "MB-04",
+      "title": "Keep observations separate from stock movements",
+      "observation": "Marble does not disclose its ledger implementation; ERP patterns provide a reference.",
+      "source_ids": [
+        "MB-S08",
+        "MB-S10"
+      ],
+      "supabiz_proposal": "Maintain an append-only movement history and a current balance projection. Receipts, consumption, waste, returns and transfers have distinct event types. A stocktake proposes an adjustment relative to the balance at the count cutoff; subsequent movements must not be overwritten. Record event time, receipt time and posting time. Give stale estimates an as-of timestamp and coverage label.",
+      "measure": "Balance reconciliation; duplicate movements; late-event correctness; time to repair an incorrect posting.",
+      "evidence_class": "Public claim or supplemental reference; SupaBiz application is our proposal"
+    },
+    {
+      "id": "MB-05",
+      "title": "Connect recipes and sales without pretending usage is measured",
+      "observation": "Recipe costing and demand-informed prep appear in public material.",
+      "source_ids": [
+        "MB-S02"
+      ],
+      "supabiz_proposal": "Version recipes, portions, yields and substitutions. Derive theoretical ingredient consumption from sold menu items; keep it distinct from observed stock depletion. Account for modifiers, voids, staff meals, prep batches and recorded waste. Do not deduct ingredients twice when prep consumes raw stock and sales consume prepared stock. Investigate unexplained variance rather than labeling it theft.",
+      "measure": "Theoretical-versus-observed usage; unmapped menu items; double-consumption incidents; prep waste.",
+      "evidence_class": "Public claim or supplemental reference; SupaBiz application is our proposal"
+    },
+    {
+      "id": "MB-06",
+      "title": "Make forecasts accountable to a baseline",
+      "observation": "The published case study claims high forecasting accuracy without defining the metric.",
+      "source_ids": [
+        "MB-S03"
+      ],
+      "supabiz_proposal": "Start with manager par levels and seasonal-naive demand baselines. Evaluate future periods using rolling-origin backtests, never random train/test leakage. Track bias, MAE/WAPE where defined, interval coverage, stockouts and waste by outlet/item. Zero sales may mean unavailable stock. Weather, reservations and event adjustments need provenance, ablations and manager overrides; an LLM explanation is not calibrated forecasting.",
+      "measure": "Error against baseline by horizon; service levels; waste; performance on low-volume and stockout days.",
+      "evidence_class": "Public claim or supplemental reference; SupaBiz application is our proposal"
+    },
+    {
+      "id": "MB-07",
+      "title": "Explain an order using stock, demand and constraints",
+      "observation": "The homepage illustrates supplier comparison and a draft requiring approval.",
+      "source_ids": [
+        "MB-S02"
+      ],
+      "supabiz_proposal": "Calculate projected need from usable stock, expected demand and confirmed inbound arriving in time. Exclude quarantine, expired/unusable stock and uncertain deliveries. Show pack rounding, minimum order, lead time, cutoff, budget, storage capacity and shelf-life constraints. Compare landed cost and equivalent approved quality, not price alone. Keep a visible reason for each recommendation and rejected alternative.",
+      "measure": "Overbuying; missed cutoffs; constraint violations; manager override reasons; stockout incidence.",
+      "evidence_class": "Public claim or supplemental reference; SupaBiz application is our proposal"
+    },
+    {
+      "id": "MB-08",
+      "title": "Treat supplier communication as an order lifecycle",
+      "observation": "Policy lists email, portals, API and opted-in SMS.",
+      "source_ids": [
+        "MB-S05"
+      ],
+      "supabiz_proposal": "Keep one purchase-order ID/version across authorized channels. Separate approved, sending, send-unknown, sent, supplier-confirmed, partially fulfilled and cancelled states. A transport receipt is not supplier acceptance. Freeze the exact approved recipient, lines, amount and version; material changes require renewed approval. Use an outbox, idempotency and reconciliation before retrying ambiguous sends. Suppliers can reply in familiar channels without becoming app users.",
+      "measure": "Duplicate supplier orders; unconfirmed-order age; recovery from send timeout; approval mismatch rate.",
+      "evidence_class": "Public claim or supplemental reference; SupaBiz application is our proposal"
+    },
+    {
+      "id": "MB-09",
+      "title": "Make delivery receiving the first valuable workflow",
+      "observation": "Deliveries/invoices are part of Marble capture; receipt details come from the supplemental reference.",
+      "source_ids": [
+        "MB-S01",
+        "MB-S08"
+      ],
+      "supabiz_proposal": "Match a delivery to an order when possible, but support explicit emergency/no-PO receiving. Record actual arrived, accepted, rejected/quarantined and missing quantities with lot/expiry when relevant. Multiple deliveries may fulfill one order. Only accepted usable quantity increases available stock; rejected goods retained on site need a separate disposition record. A signature or invoice photo alone is insufficient.",
+      "measure": "Receiving completion time; unrecorded rejects; stock overstatement; disputed quantity recovery.",
+      "evidence_class": "Public claim or supplemental reference; SupaBiz application is our proposal"
+    },
+    {
+      "id": "MB-10",
+      "title": "Reconcile the order, accepted receipt and invoice",
+      "observation": "Invoice reconciliation is advertised; detailed matching behavior is not public.",
+      "source_ids": [
+        "MB-S01",
+        "MB-S09"
+      ],
+      "supabiz_proposal": "Compare line-level authorized order terms, cumulative accepted receipts net of returns and supplier bill allocations. Normalize supplier aliases and units before matching. Preserve quantity, price, tax, freight, discount and rounding differences separately. Use configured tolerances with visible rationale; never auto-tolerate an unknown item or wrong legal entity. Support split receipts/invoices and avoid allocating the same receipt twice.",
+      "measure": "False matches; exception review time; duplicate bills; unallocated receipts; match rate with denominators.",
+      "evidence_class": "Public claim or supplemental reference; SupaBiz application is our proposal"
+    },
+    {
+      "id": "MB-11",
+      "title": "Expose price changes on a comparable basis",
+      "observation": "The homepage illustrates a price-driven recommendation.",
+      "source_ids": [
+        "MB-S02"
+      ],
+      "supabiz_proposal": "Compare the same ingredient specification, pack size, base unit, currency and cost basis. Separate quoted price, ordered price and invoiced price with validity dates. A cheaper pack may contain less product or produce less usable yield. Show the specific changed lines and affected recipe costs; manager approval is needed for substitutions that affect the dish.",
+      "measure": "Normalized price variance; misleading price alerts; verified savings after credits and freight.",
+      "evidence_class": "Public claim or supplemental reference; SupaBiz application is our proposal"
+    },
+    {
+      "id": "MB-12",
+      "title": "Give the accountant an evidence bundle and verified sync",
+      "observation": "Accounting sync is advertised; the supplemental reference distinguishes posting and settlement.",
+      "source_ids": [
+        "MB-S02",
+        "MB-S09"
+      ],
+      "supabiz_proposal": "Prepare supplier identity, original invoice, PO, receipt, adjustments, approvals, entity/outlet, account mapping and exception history. Label captured, reviewed, exported, remote-accepted, posted and reconciled separately. Record external voucher ID and verify read-back. Let the CA configure ledger/tax/valuation treatment and period controls. Begin with a reviewed export to the accountant’s existing system; do not claim Tally, Zoho or Indian GST support is already established.",
+      "measure": "Accountant touches per bill; rejected exports; duplicate vouchers; reconciliation completeness.",
+      "evidence_class": "Public claim or supplemental reference; SupaBiz application is our proposal"
+    },
+    {
+      "id": "MB-13",
+      "title": "Keep disputes, credits and payments visible until resolved",
+      "observation": "Public material does not establish the detailed credit or payment workflow.",
+      "source_ids": [
+        "MB-S06",
+        "MB-S09"
+      ],
+      "supabiz_proposal": "Track disputed quantities and credit requests through supplier acknowledgment, received adjustment and allocation. A requested credit is not money recovered. An approved bill is not paid; partial payments and one payment covering multiple bills require allocations. Bank-detail changes require separate authorized verification. Preserve accounting history through approved adjustments rather than overwriting posted documents.",
+      "measure": "Unresolved dispute age; credits actually allocated; wrong/duplicate payment exposure; closed-period exceptions.",
+      "evidence_class": "Public claim or supplemental reference; SupaBiz application is our proposal"
+    },
+    {
+      "id": "MB-14",
+      "title": "Give each role a different view of the same evidence",
+      "observation": "Marble emphasizes manager approvals and financial insight.",
+      "source_ids": [
+        "MB-S02",
+        "MB-S04"
+      ],
+      "supabiz_proposal": "Staff receive short capture receipts; managers get receiving and purchase exceptions; Varun sees outlet-labeled shortages, spend commitments and recurring variance; the CA sees reconciliation and close status. Show source freshness and missing costs next to margin estimates. Operational estimates, accounting profit and cash are different views. A price explanation should link to evidence and offer a draft action, not assert a causal diagnosis without support.",
+      "measure": "Time to decision; unnecessary alerts; unresolved owner assignments; stale or misleading financial summaries.",
+      "evidence_class": "Public claim or supplemental reference; SupaBiz application is our proposal"
+    },
+    {
+      "id": "MB-15",
+      "title": "Learn typed business rules with explicit scope",
+      "observation": "Closed-loop learning is claimed; policy excludes generalized-model training.",
+      "source_ids": [
+        "MB-S01",
+        "MB-S05"
+      ],
+      "supabiz_proposal": "Classify a correction as extraction, alias mapping, unit conversion, recipe, supplier constraint, forecast override or workflow policy. Apply the change only at its approved scope and effective date. Measure its effect on replay tests before promotion. Preserve a rollback/version and invalidate stale derived views. Historical records keep the rules used at the time. Do not train on an unverified invoice or a manager’s accidental approval as unquestioned truth.",
+      "measure": "Repeat errors; harmful scope propagation; regression pass rate; correction reversibility.",
+      "evidence_class": "Public claim or supplemental reference; SupaBiz application is our proposal"
+    },
+    {
+      "id": "MB-16",
+      "title": "Separate outlet access, business ownership and personal identity",
+      "observation": "Privacy policy distinguishes account deletion from retained restaurant records.",
+      "source_ids": [
+        "MB-S05"
+      ],
+      "supabiz_proposal": "Keep Consu and ForeFathers legal entities and outlets explicit; common ownership does not grant all staff cross-business access. Enforce supplier, amount, action and period grants server-side. Employee departure revokes access without erasing required business history. Apply separate retention to source media, personal identifiers, operational records and test copies. Obtain actual vendor terms before adopting cloud processing; a written no-training statement is not implementation verification.",
+      "measure": "Cross-entity leakage; revoked-user access; retention coverage; stale credential and connector isolation tests.",
+      "evidence_class": "Public claim or supplemental reference; SupaBiz application is our proposal"
+    }
+  ]
+}

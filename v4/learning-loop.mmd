@@ -1,0 +1,11 @@
+flowchart TD
+  A[Human correction with original evidence] --> B[Classify error and scope]
+  B --> C{One-off or reusable?}
+  C -->|One-off| D[Correct record with history]
+  C -->|Reusable| E[Draft rule memory prompt or tool change]
+  E --> F[Owner reviews scope and effective date]
+  F --> G[Regression plus held-out scenarios]
+  G --> H{Quality and cost gates met?}
+  H -->|No| E
+  H -->|Yes| I[Versioned release and canary]
+  I --> J[Monitor real outcomes and rollback]

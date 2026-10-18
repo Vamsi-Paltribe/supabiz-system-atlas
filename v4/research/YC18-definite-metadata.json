@@ -1,0 +1,52 @@
+{
+  "id": "YC18-definite",
+  "name": "Definite / UseDefinite",
+  "date": "2026-10-18",
+  "method": "REA-guided attribution, public product/docs/illustrative UI and public registry checks; no finance-platform code audit",
+  "evidence": "docs-evidence.json",
+  "artifact_attribution": "artifact-attribution.json",
+  "source_snapshots": [
+    {
+      "file": "typescript.html",
+      "sha256": "99058abe5b09b7a6261ab406d75bf69d1e505ec1a0e3e63d3b1095686026f062",
+      "bytes": 186416
+    },
+    {
+      "file": "python.html",
+      "sha256": "b33aa9eb8c6d09039f4bfce1f3b01f954dffcafb02beca33f02e86f66ded6069",
+      "bytes": 184021
+    },
+    {
+      "file": "cryptography-and-tokens.html",
+      "sha256": "7a1a875687bcf78688603499436ed2d3abd0a9ebe04a25dac2a055d21ca357ae",
+      "bytes": 166181
+    },
+    {
+      "file": "request-lifecycle.html",
+      "sha256": "d71b76731ca31b55f01eee5179674d833de96a2d286d77b4afa4946af1661755",
+      "bytes": 154744
+    },
+    {
+      "file": "definite-ts-1.0.0.tgz",
+      "sha256": "9b3f2653c7c1e477e93f18dcde9ec6084a011739215812ecb8975e6f9f5171c5",
+      "bytes": 37759
+    },
+    {
+      "file": "npm-metadata.json",
+      "sha256": "1e20d4a37daa6cccc43fefd042f3e166a106e601feef7454edf8ac9ce724cb18",
+      "bytes": 2743
+    }
+  ],
+  "findings": 20,
+  "proposed_scenarios": 40,
+  "vendor_runtime_tests": 0,
+  "prior_learnings": 278,
+  "limits": [
+    "No authenticated console or backend source",
+    "No verified reusable finance SDK",
+    "No benchmark reproduction or vendor pricing",
+    "No production integration, purchases, signup or contact",
+    "No claim SupaBiz proposals are implemented"
+  ],
+  "license": "No finance-platform source license established; unrelated insurance package ISC license is not applicable."
+}

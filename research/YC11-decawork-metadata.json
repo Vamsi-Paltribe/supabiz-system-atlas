@@ -1,0 +1,82 @@
+{
+  "id": "YC11-decawork",
+  "name": "Decawork",
+  "date": "2026-10-17",
+  "review_type": "Public product, interactive illustrative UI and launch captions; no source or backend audit",
+  "sources": [
+    {
+      "id": "DW-S01",
+      "url": "https://www.ycombinator.com/companies/decawork",
+      "kind": "Official YC company profile",
+      "observation": "Current policy-model positioning; no independently verified model training or performance."
+    },
+    {
+      "id": "DW-S02",
+      "url": "https://decawork.ai/",
+      "kind": "Official product page and interactive example",
+      "observation": "Inspected registry, live-approval replay and policy tabs. Example marked illustrative; no actual protected tool execution tested."
+    },
+    {
+      "id": "DW-S03",
+      "url": "https://decawork.ai/security",
+      "kind": "Vendor security description",
+      "observation": "Describes task-scoped identity, API/MCP gateway and pre-execution decisions; backend enforcement unverified."
+    },
+    {
+      "id": "DW-S04",
+      "url": "https://www.youtube.com/watch?v=SanpHIyFcV4",
+      "kind": "Official launch video linked by YC; auto-generated captions",
+      "observation": "Earlier deployment/governance/lifecycle positioning. Captions reviewed through 1:13; no frame-by-frame audit. "
+    },
+    {
+      "id": "DW-S05",
+      "url": "https://trust.inc/decawork",
+      "kind": "Public trust center",
+      "observation": "Reports SOC 2 Type 1 compliant; Type 2 and ISO 27001 in progress. No audit report inspected; public listing counts do not establish subprocessors or controls."
+    },
+    {
+      "id": "DW-S06",
+      "url": "https://decawork.ai/privacy",
+      "kind": "Website privacy policy, effective July 12 2026",
+      "observation": "Customer deployment data governed by separate engagement terms; not proof of production training/retention/residency."
+    },
+    {
+      "id": "DW-S07",
+      "url": "https://decawork.ai/terms",
+      "kind": "Website terms, effective July 12 2026",
+      "observation": "Website statements may describe pilots/planned features; customer service terms separate."
+    },
+    {
+      "id": "DW-S08",
+      "url": "https://www.producthunt.com/products/decawork?launch=decawork",
+      "kind": "Founder-authored launch description in search result",
+      "observation": "Corroborates earlier identity, deployment, owner and lifecycle emphasis. Secondary coverage, not implementation proof."
+    }
+  ],
+  "source_search": {
+    "queries": [
+      "Decawork github SDK documentation policy approvals",
+      "\"Decawork\" site:github.com",
+      "\"Decawork\" documentation API security privacy"
+    ],
+    "result": "No official public backend, SDK, model artifact or API specification established. Bounded search, not a proof that none exists."
+  },
+  "rea": {
+    "status": "Not run: no suitable official artifact established",
+    "vendor_component_checks": 0
+  },
+  "observations": [
+    "Example requested assigned profile: shown allowed",
+    "Example unrelated profile: shown blocked before tool call",
+    "Example privileged group: shown awaiting IT review, tool not called",
+    "Policy tab inspected after pausing replay"
+  ],
+  "limits": [
+    "No account or private deployment",
+    "No live permissions, credential, tenant isolation or revocation tests",
+    "No model training inspection",
+    "No independently measured vendor or SupaBiz performance",
+    "No report obtained from trust center",
+    "No claim that source absence implies unsafe implementation"
+  ]
+}

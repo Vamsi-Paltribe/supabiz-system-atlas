@@ -1,0 +1,595 @@
+{
+  "id": "YC02-agent37",
+  "date": "2026-10-17",
+  "scope": "Selected source and API-contract review; private service not audited",
+  "findings": [
+    {
+      "id": "AG37-01",
+      "title": "Reusable product shell; proprietary hosting boundary",
+      "evidence_class": "source + official documentation",
+      "observation": "The MIT starter contains Next.js UI, server adapters and Supabase membership/mirror tables. The actual provisioning, isolation, wake, metering and instance API implementation is not in that repository.",
+      "supabiz_decision": "Use public patterns and consider the hosted service behind a replaceable runtime adapter. A source fork does not self-host the Agent37 cloud.",
+      "evidence": [
+        {
+          "repository": "source",
+          "path": "src/lib/agent37.ts",
+          "lines": [
+            1,
+            119
+          ],
+          "url": "https://github.com/agent37-platform/starter-kit/blob/e6caed10767a0c7aafc77d76b0a54c9050169e8b/src/lib/agent37.ts#L1-L119"
+        },
+        {
+          "repository": "source",
+          "path": "LICENSE",
+          "lines": [
+            1,
+            21
+          ],
+          "url": "https://github.com/agent37-platform/starter-kit/blob/e6caed10767a0c7aafc77d76b0a54c9050169e8b/LICENSE#L1-L21"
+        }
+      ],
+      "documentation": [
+        "https://www.agent37.com/docs/agents-api/white-label"
+      ]
+    },
+    {
+      "id": "AG37-02",
+      "title": "Work survives navigation and can reattach",
+      "evidence_class": "source",
+      "observation": "LiveRun state is per session; switching the visible thread does not cancel background work. Reload recovery reads active_response_id and reconnects to its stream.",
+      "supabiz_decision": "Adopt continuity across phone and desktop. Keep durable business work IDs separate from vendor conversation IDs; closing a screen is not cancelling a task.",
+      "evidence": [
+        {
+          "repository": "source",
+          "path": "src/components/chat/useChat.ts",
+          "lines": [
+            88,
+            169
+          ],
+          "url": "https://github.com/agent37-platform/starter-kit/blob/e6caed10767a0c7aafc77d76b0a54c9050169e8b/src/components/chat/useChat.ts#L88-L169"
+        },
+        {
+          "repository": "source",
+          "path": "src/components/chat/useChat.ts",
+          "lines": [
+            306,
+            348
+          ],
+          "url": "https://github.com/agent37-platform/starter-kit/blob/e6caed10767a0c7aafc77d76b0a54c9050169e8b/src/components/chat/useChat.ts#L306-L348"
+        },
+        {
+          "repository": "source",
+          "path": "src/components/chat/useChat.ts",
+          "lines": [
+            401,
+            435
+          ],
+          "url": "https://github.com/agent37-platform/starter-kit/blob/e6caed10767a0c7aafc77d76b0a54c9050169e8b/src/components/chat/useChat.ts#L401-L435"
+        }
+      ],
+      "documentation": []
+    },
+    {
+      "id": "AG37-03",
+      "title": "Progress needs truthful terminal states",
+      "evidence_class": "source + isolated component checks",
+      "observation": "Unfinished tool chips become completed in finally, even after interruption. closeTool matches the latest running tool by name. Synthetic checks reproduced same-name misattribution and malformed JSON becoming an empty object.",
+      "supabiz_decision": "Use invocation IDs and explicit running, cancelling, cancelled, failed, unknown and verified states. A closed stream or green tool chip cannot certify an inventory or calendar change.",
+      "evidence": [
+        {
+          "repository": "source",
+          "path": "src/components/chat/useChat.ts",
+          "lines": [
+            25,
+            85
+          ],
+          "url": "https://github.com/agent37-platform/starter-kit/blob/e6caed10767a0c7aafc77d76b0a54c9050169e8b/src/components/chat/useChat.ts#L25-L85"
+        },
+        {
+          "repository": "source",
+          "path": "src/components/chat/useChat.ts",
+          "lines": [
+            235,
+            289
+          ],
+          "url": "https://github.com/agent37-platform/starter-kit/blob/e6caed10767a0c7aafc77d76b0a54c9050169e8b/src/components/chat/useChat.ts#L235-L289"
+        }
+      ],
+      "documentation": []
+    },
+    {
+      "id": "AG37-04",
+      "title": "Reconnect is useful but not a durable audit",
+      "evidence_class": "official API contract",
+      "observation": "Streaming supports replay and history recovery, but replay buffers and records have finite retention. The documented cancelled stream can still finish with response.completed.",
+      "supabiz_decision": "Store durable action outcomes ourselves; validate run status separately from SSE event names. Recover before retrying an uncertain external write.",
+      "evidence": [],
+      "documentation": [
+        "https://www.agent37.com/docs/agents-api/streaming"
+      ]
+    },
+    {
+      "id": "AG37-05",
+      "title": "Make responsibilities visible and editable",
+      "evidence_class": "selected example source",
+      "observation": "The Dots example exposes In progress, Scheduled and Completed; marks schedules set by the person versus the agent; callbacks create proactive messages. The example stores users and history in a local JSON file.",
+      "supabiz_decision": "Adopt the visible responsibility list. Build typed responsibilities, assignee, business/matter, deadline, evidence, next check and completion criteria in a database. Replace the demo cookie/store.",
+      "evidence": [
+        {
+          "repository": "examples",
+          "path": "dots/server.js",
+          "lines": [
+            60,
+            97
+          ],
+          "url": "https://github.com/agent37-platform/examples/blob/46a981523e6b2b7c7839cd9f54687ebfcb95d498/dots/server.js#L60-L97"
+        },
+        {
+          "repository": "examples",
+          "path": "dots/server.js",
+          "lines": [
+            348,
+            379
+          ],
+          "url": "https://github.com/agent37-platform/examples/blob/46a981523e6b2b7c7839cd9f54687ebfcb95d498/dots/server.js#L348-L379"
+        },
+        {
+          "repository": "examples",
+          "path": "dots/server.js",
+          "lines": [
+            663,
+            744
+          ],
+          "url": "https://github.com/agent37-platform/examples/blob/46a981523e6b2b7c7839cd9f54687ebfcb95d498/dots/server.js#L663-L744"
+        }
+      ],
+      "documentation": []
+    },
+    {
+      "id": "AG37-06",
+      "title": "Proactive scheduling belongs outside sleeping workers",
+      "evidence_class": "official API contract + source",
+      "observation": "Platform crons wake sleeping instances. Missed firings are not backfilled; overlapping firings start separate sessions. Triggered records a start, not a successful outcome. The example infers one-off reminders from date fields and a Yearly name convention.",
+      "supabiz_decision": "Use a durable SupaBiz scheduler with typed one-shot/recurring tasks, timezone, run uniqueness, overlap policy, retry, catch-up and outcome verification. Adapt the UX, not the name-based reminder lifecycle.",
+      "evidence": [
+        {
+          "repository": "examples",
+          "path": "dots/server.js",
+          "lines": [
+            663,
+            726
+          ],
+          "url": "https://github.com/agent37-platform/examples/blob/46a981523e6b2b7c7839cd9f54687ebfcb95d498/dots/server.js#L663-L726"
+        }
+      ],
+      "documentation": [
+        "https://www.agent37.com/docs/agents-api/crons"
+      ]
+    },
+    {
+      "id": "AG37-07",
+      "title": "Watch, take over, then resume the same browser",
+      "evidence_class": "selected example source",
+      "observation": "The desktop recipe attaches Hermes to visible Chromium through local CDP, streams its display through x11vnc/websockify/noVNC, and persists its browser profile. Dots exposes control ownership and reinspection context.",
+      "supabiz_decision": "Adopt assisted sign-in and exception handoff. Implement a server-owned exclusive control lease and acknowledged cancellation before enabling input; include scheduled runs, not just foreground chat.",
+      "evidence": [
+        {
+          "repository": "examples",
+          "path": "custom-images/hermes-vnc-desktop/Dockerfile",
+          "lines": [
+            1,
+            24
+          ],
+          "url": "https://github.com/agent37-platform/examples/blob/46a981523e6b2b7c7839cd9f54687ebfcb95d498/custom-images/hermes-vnc-desktop/Dockerfile#L1-L24"
+        },
+        {
+          "repository": "examples",
+          "path": "custom-images/hermes-vnc-desktop/desktop-entrypoint.sh",
+          "lines": [
+            1,
+            57
+          ],
+          "url": "https://github.com/agent37-platform/examples/blob/46a981523e6b2b7c7839cd9f54687ebfcb95d498/custom-images/hermes-vnc-desktop/desktop-entrypoint.sh#L1-L57"
+        },
+        {
+          "repository": "examples",
+          "path": "dots/public/app.js",
+          "lines": [
+            812,
+            890
+          ],
+          "url": "https://github.com/agent37-platform/examples/blob/46a981523e6b2b7c7839cd9f54687ebfcb95d498/dots/public/app.js#L812-L890"
+        },
+        {
+          "repository": "examples",
+          "path": "dots/server.js",
+          "lines": [
+            594,
+            618
+          ],
+          "url": "https://github.com/agent37-platform/examples/blob/46a981523e6b2b7c7839cd9f54687ebfcb95d498/dots/server.js#L594-L618"
+        }
+      ],
+      "documentation": []
+    },
+    {
+      "id": "AG37-08",
+      "title": "View-only UI is not read-only authorization",
+      "evidence_class": "source + official API contract",
+      "observation": "The noVNC example grants full-control tokens and changes viewOnly locally. setControl requests cancellation without awaiting it. Signed tokens cannot be revoked according to the docs; an existing socket outlives token expiry.",
+      "supabiz_decision": "Do not expose this token to ordinary observers. Require real view/control authorization and revoke active connections when grants change; validate a provider capability or mediate access.",
+      "evidence": [
+        {
+          "repository": "examples",
+          "path": "dots/server.js",
+          "lines": [
+            813,
+            831
+          ],
+          "url": "https://github.com/agent37-platform/examples/blob/46a981523e6b2b7c7839cd9f54687ebfcb95d498/dots/server.js#L813-L831"
+        },
+        {
+          "repository": "examples",
+          "path": "dots/public/app.js",
+          "lines": [
+            874,
+            886
+          ],
+          "url": "https://github.com/agent37-platform/examples/blob/46a981523e6b2b7c7839cd9f54687ebfcb95d498/dots/public/app.js#L874-L886"
+        }
+      ],
+      "documentation": [
+        "https://www.agent37.com/docs/agents-api/desktop",
+        "https://www.agent37.com/docs/agents-api/urls"
+      ]
+    },
+    {
+      "id": "AG37-09",
+      "title": "Transparent memory with conflict-safe edits",
+      "evidence_class": "selected example source",
+      "observation": "Memory endpoints expose two known files and forward the original modified value for optimistic concurrency. The app can surface concurrent changes instead of overwriting them.",
+      "supabiz_decision": "Adapt to What SupaBiz knows: facts with business/matter scope, evidence, freshness, owner corrections and change history. Keep preferences distinct from approved records and from executable instructions.",
+      "evidence": [
+        {
+          "repository": "examples",
+          "path": "dots/server.js",
+          "lines": [
+            882,
+            913
+          ],
+          "url": "https://github.com/agent37-platform/examples/blob/46a981523e6b2b7c7839cd9f54687ebfcb95d498/dots/server.js#L882-L913"
+        }
+      ],
+      "documentation": []
+    },
+    {
+      "id": "AG37-10",
+      "title": "Outputs are a product surface",
+      "evidence_class": "selected example source",
+      "observation": "The Dots app exposes a dedicated outputs folder and streams downloads as attachments with nosniff and response sandbox. This is a more constrained surface than the starter full filesystem.",
+      "supabiz_decision": "Adopt an Outputs panel for reports, PDFs, reconciliations and task sheets, with evidence and version links. Use object storage and document IDs; agent paths are implementation details.",
+      "evidence": [
+        {
+          "repository": "examples",
+          "path": "dots/server.js",
+          "lines": [
+            834,
+            880
+          ],
+          "url": "https://github.com/agent37-platform/examples/blob/46a981523e6b2b7c7839cd9f54687ebfcb95d498/dots/server.js#L834-L880"
+        }
+      ],
+      "documentation": []
+    },
+    {
+      "id": "AG37-11",
+      "title": "Good attachment and file navigation mechanics",
+      "evidence_class": "source",
+      "observation": "Chat attachments show individual progress/errors/retry; thread switches clear staged files. Folder upload uses four workers and file listing discards stale responses. Chat multi-file starts are not similarly bounded; uploads are server-buffered.",
+      "supabiz_decision": "Reuse the UX and bounded pool pattern. Add resumable object uploads, global quotas, media IDs and retention. A text display truncation after full download is not a transfer or memory limit.",
+      "evidence": [
+        {
+          "repository": "source",
+          "path": "src/components/chat/useChatAttachments.ts",
+          "lines": [
+            30,
+            95
+          ],
+          "url": "https://github.com/agent37-platform/starter-kit/blob/e6caed10767a0c7aafc77d76b0a54c9050169e8b/src/components/chat/useChatAttachments.ts#L30-L95"
+        },
+        {
+          "repository": "source",
+          "path": "src/components/files/useFileBrowser.ts",
+          "lines": [
+            9,
+            67
+          ],
+          "url": "https://github.com/agent37-platform/starter-kit/blob/e6caed10767a0c7aafc77d76b0a54c9050169e8b/src/components/files/useFileBrowser.ts#L9-L67"
+        },
+        {
+          "repository": "source",
+          "path": "src/components/files/useFileBrowser.ts",
+          "lines": [
+            109,
+            157
+          ],
+          "url": "https://github.com/agent37-platform/starter-kit/blob/e6caed10767a0c7aafc77d76b0a54c9050169e8b/src/components/files/useFileBrowser.ts#L109-L157"
+        },
+        {
+          "repository": "source",
+          "path": "src/lib/agent37.ts",
+          "lines": [
+            102,
+            118
+          ],
+          "url": "https://github.com/agent37-platform/starter-kit/blob/e6caed10767a0c7aafc77d76b0a54c9050169e8b/src/lib/agent37.ts#L102-L118"
+        }
+      ],
+      "documentation": []
+    },
+    {
+      "id": "AG37-12",
+      "title": "WhatsApp QR flow is clear; group ingestion is not shown",
+      "evidence_class": "source + official API contract",
+      "observation": "Pairing has preparing, waiting, linking, connected and expiry states. The inspected bridge starts self-chat and allows the linked owner. WhatsApp needs an open connection, so documented setup disables auto-sleep.",
+      "supabiz_decision": "Copy staged setup feedback. Build selected-group intake, cursors/backfill, dedupe, edits/deletes, media fetch, reconnect and source health. Keep that intake available when compute sleeps.",
+      "evidence": [
+        {
+          "repository": "source",
+          "path": "src/components/channels/WhatsAppConnect.tsx",
+          "lines": [
+            35,
+            167
+          ],
+          "url": "https://github.com/agent37-platform/starter-kit/blob/e6caed10767a0c7aafc77d76b0a54c9050169e8b/src/components/channels/WhatsAppConnect.tsx#L35-L167"
+        },
+        {
+          "repository": "source",
+          "path": "src/lib/hermes-messaging.ts",
+          "lines": [
+            95,
+            108
+          ],
+          "url": "https://github.com/agent37-platform/starter-kit/blob/e6caed10767a0c7aafc77d76b0a54c9050169e8b/src/lib/hermes-messaging.ts#L95-L108"
+        }
+      ],
+      "documentation": [
+        "https://www.agent37.com/docs/agents-api/messaging"
+      ]
+    },
+    {
+      "id": "AG37-13",
+      "title": "Schema-driven connections reduce bespoke UI",
+      "evidence_class": "source",
+      "observation": "Channel metadata drives required/advanced/secret fields. The server filters submitted field names. Telegram setup verifies the token but identifies the first inbox sender without a pairing nonce; an empty allowlist fallback is offered.",
+      "supabiz_decision": "Reuse capability forms and progressive disclosure. Add explicit business/account, exact scopes, test-read receipt, last sync and revoke controls. Prove account ownership with a nonce-backed flow.",
+      "evidence": [
+        {
+          "repository": "source",
+          "path": "src/components/channels/ChannelCredentialsForm.tsx",
+          "lines": [
+            13,
+            85
+          ],
+          "url": "https://github.com/agent37-platform/starter-kit/blob/e6caed10767a0c7aafc77d76b0a54c9050169e8b/src/components/channels/ChannelCredentialsForm.tsx#L13-L85"
+        },
+        {
+          "repository": "source",
+          "path": "src/app/api/agents/[id]/channels/[channel]/route.ts",
+          "lines": [
+            33,
+            57
+          ],
+          "url": "https://github.com/agent37-platform/starter-kit/blob/e6caed10767a0c7aafc77d76b0a54c9050169e8b/src/app/api/agents/[id]/channels/[channel]/route.ts#L33-L57"
+        },
+        {
+          "repository": "source",
+          "path": "src/lib/telegram.ts",
+          "lines": [
+            81,
+            89
+          ],
+          "url": "https://github.com/agent37-platform/starter-kit/blob/e6caed10767a0c7aafc77d76b0a54c9050169e8b/src/lib/telegram.ts#L81-L89"
+        }
+      ],
+      "documentation": []
+    },
+    {
+      "id": "AG37-14",
+      "title": "Connector configuration is harness-specific",
+      "evidence_class": "source",
+      "observation": "Hermes messaging setup executes curl inside the instance and extracts an internal dashboard session token. This is a version-sensitive adapter to Hermes rather than a uniform channel API across all harnesses.",
+      "supabiz_decision": "Pin versions and contract-test adapters. Prefer supported typed APIs and secret references. Do not infer Gmail/group sync coverage from an integration logo or a successful OAuth callback.",
+      "evidence": [
+        {
+          "repository": "source",
+          "path": "src/lib/hermes-messaging.ts",
+          "lines": [
+            17,
+            47
+          ],
+          "url": "https://github.com/agent37-platform/starter-kit/blob/e6caed10767a0c7aafc77d76b0a54c9050169e8b/src/lib/hermes-messaging.ts#L17-L47"
+        },
+        {
+          "repository": "source",
+          "path": "src/components/IntegrationsTab.tsx",
+          "lines": [
+            103,
+            172
+          ],
+          "url": "https://github.com/agent37-platform/starter-kit/blob/e6caed10767a0c7aafc77d76b0a54c9050169e8b/src/components/IntegrationsTab.tsx#L103-L172"
+        }
+      ],
+      "documentation": []
+    },
+    {
+      "id": "AG37-15",
+      "title": "Persistent files and disposable compute need readiness gates",
+      "evidence_class": "official API contract",
+      "observation": "Stop/restart and image update have different persistence boundaries. Image update preserves home while replacing the OS layer; boot hooks can still be executing when the chat endpoint is already available. Auto-sleep can resume a checkpoint or fall back to a fresh boot.",
+      "supabiz_decision": "Pin template digests, keep dependencies in images and add schema/skill migration readiness. Persist business state outside RAM and treat running, healthy and ready-for-work as different checks.",
+      "evidence": [],
+      "documentation": [
+        "https://www.agent37.com/docs/agents-api/instance-lifecycle",
+        "https://www.agent37.com/docs/agents-api/instance-auto-sleep"
+      ]
+    },
+    {
+      "id": "AG37-16",
+      "title": "Resource billing and model/tool caps are separate",
+      "evidence_class": "official pricing + API contract",
+      "observation": "Published resource rates depend on awake hours and retained disk. Managed-service budgets cover specified model/tool usage; compute/storage and BYOK spending require separate accounting.",
+      "supabiz_decision": "Show measured and projected total spend by business; cap provisioning, retained disk and BYOK as well as managed calls. Never label a $5 managed-service allowance an all-in $5 plan.",
+      "evidence": [],
+      "documentation": [
+        "https://www.agent37.com/cloud",
+        "https://www.agent37.com/docs/agents-api/budgets"
+      ]
+    },
+    {
+      "id": "AG37-17",
+      "title": "Workspace checks are a foundation, not enterprise grants",
+      "evidence_class": "source",
+      "observation": "requireAgentAccess verifies the session and local workspace membership before privileged server calls. The starter role type and table constraints only support admin. The migration asserts browser grants are absent but supplies no REVOKE.",
+      "supabiz_decision": "Build outlet/matter grants, staff/manager/owner roles and privileged database access tests. Actual deployed RPC exposure depends on database ACLs; no live exploit was tested.",
+      "evidence": [
+        {
+          "repository": "source",
+          "path": "src/lib/auth.ts",
+          "lines": [
+            13,
+            64
+          ],
+          "url": "https://github.com/agent37-platform/starter-kit/blob/e6caed10767a0c7aafc77d76b0a54c9050169e8b/src/lib/auth.ts#L13-L64"
+        },
+        {
+          "repository": "source",
+          "path": "supabase/migrations/0001_init.sql",
+          "lines": [
+            1,
+            27
+          ],
+          "url": "https://github.com/agent37-platform/starter-kit/blob/e6caed10767a0c7aafc77d76b0a54c9050169e8b/supabase/migrations/0001_init.sql#L1-L27"
+        },
+        {
+          "repository": "source",
+          "path": "supabase/migrations/0001_init.sql",
+          "lines": [
+            90,
+            145
+          ],
+          "url": "https://github.com/agent37-platform/starter-kit/blob/e6caed10767a0c7aafc77d76b0a54c9050169e8b/supabase/migrations/0001_init.sql#L90-L145"
+        },
+        {
+          "repository": "source",
+          "path": "supabase/migrations/0001_init.sql",
+          "lines": [
+            216,
+            228
+          ],
+          "url": "https://github.com/agent37-platform/starter-kit/blob/e6caed10767a0c7aafc77d76b0a54c9050169e8b/supabase/migrations/0001_init.sql#L216-L228"
+        }
+      ],
+      "documentation": [
+        "https://www.postgresql.org/docs/current/sql-createfunction.html#SQL-CREATEFUNCTION-SECURITY"
+      ]
+    },
+    {
+      "id": "AG37-18",
+      "title": "Provision and delete need durable reconciliation",
+      "evidence_class": "source",
+      "observation": "Creation entitlement is a commented seam. Remote creation precedes mirror insertion and rollback is best effort. Workspace deletion swallows remote failures before deleting ownership rows, potentially leaving paid remote agents untracked.",
+      "supabiz_decision": "Build creation reservations, idempotent operation IDs, durable teardown jobs, tombstones, retry and provider reconciliation. Authorization to create must also satisfy plan and concurrency quotas.",
+      "evidence": [
+        {
+          "repository": "source",
+          "path": "src/app/api/agents/route.ts",
+          "lines": [
+            105,
+            153
+          ],
+          "url": "https://github.com/agent37-platform/starter-kit/blob/e6caed10767a0c7aafc77d76b0a54c9050169e8b/src/app/api/agents/route.ts#L105-L153"
+        },
+        {
+          "repository": "source",
+          "path": "src/app/api/workspaces/[id]/route.ts",
+          "lines": [
+            32,
+            54
+          ],
+          "url": "https://github.com/agent37-platform/starter-kit/blob/e6caed10767a0c7aafc77d76b0a54c9050169e8b/src/app/api/workspaces/[id]/route.ts#L32-L54"
+        }
+      ],
+      "documentation": []
+    },
+    {
+      "id": "AG37-19",
+      "title": "Active content needs a server-side boundary",
+      "evidence_class": "source; conditional risk",
+      "observation": "Starter previews sandbox HTML/SVG in an iframe, but the file endpoint forwards upstream inline MIME/disposition without a response sandbox. Direct authenticated navigation may bypass the preview boundary unless deployment or upstream headers independently protect it.",
+      "supabiz_decision": "Use a separate untrusted-content origin or enforced download/sandbox headers. Compare the more constrained example outputs route. No browser exploit was performed.",
+      "evidence": [
+        {
+          "repository": "source",
+          "path": "src/app/api/agents/[id]/files/content/route.ts",
+          "lines": [
+            14,
+            40
+          ],
+          "url": "https://github.com/agent37-platform/starter-kit/blob/e6caed10767a0c7aafc77d76b0a54c9050169e8b/src/app/api/agents/[id]/files/content/route.ts#L14-L40"
+        },
+        {
+          "repository": "source",
+          "path": "src/components/files/FilePreview.tsx",
+          "lines": [
+            50,
+            81
+          ],
+          "url": "https://github.com/agent37-platform/starter-kit/blob/e6caed10767a0c7aafc77d76b0a54c9050169e8b/src/components/files/FilePreview.tsx#L50-L81"
+        },
+        {
+          "repository": "examples",
+          "path": "dots/server.js",
+          "lines": [
+            834,
+            880
+          ],
+          "url": "https://github.com/agent37-platform/examples/blob/46a981523e6b2b7c7839cd9f54687ebfcb95d498/dots/server.js#L834-L880"
+        }
+      ],
+      "documentation": []
+    },
+    {
+      "id": "AG37-20",
+      "title": "Model independence requires contracts beyond a model picker",
+      "evidence_class": "source + documentation; proposal",
+      "observation": "Hosted templates expose common API surfaces while channels, profiles, tool details and model capabilities vary. The public client still depends on Agent37 domains and API contracts.",
+      "supabiz_decision": "Keep runtime, model and integration gateways separate. Select one authority for credentials, approval and metering; do not blindly stack Executor, Composio and custom connectors for the same operation.",
+      "evidence": [
+        {
+          "repository": "source",
+          "path": "src/lib/agent37.ts",
+          "lines": [
+            19,
+            25
+          ],
+          "url": "https://github.com/agent37-platform/starter-kit/blob/e6caed10767a0c7aafc77d76b0a54c9050169e8b/src/lib/agent37.ts#L19-L25"
+        },
+        {
+          "repository": "source",
+          "path": "src/lib/hermes-messaging.ts",
+          "lines": [
+            17,
+            47
+          ],
+          "url": "https://github.com/agent37-platform/starter-kit/blob/e6caed10767a0c7aafc77d76b0a54c9050169e8b/src/lib/hermes-messaging.ts#L17-L47"
+        }
+      ],
+      "documentation": [
+        "https://www.agent37.com/docs/agents-api/crons",
+        "https://www.agent37.com/docs/agents-api/white-label"
+      ]
+    }
+  ]
+}

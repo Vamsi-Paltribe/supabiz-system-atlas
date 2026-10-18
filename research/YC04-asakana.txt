@@ -1,0 +1,192 @@
+ASAKANA → SUPABIZ / YC04
+2026-10-17 / Public-product review; no application source audit
+
+DECISION AND EVIDENCE BOUNDARY
+
+Asakana is a useful product-strategy and workflow reference for SupaBiz, especially conversation-to-record processing. It provides less public implementation evidence than Executor or screenpipe. No public application repository or backend API specification was established through the official links and focused source search used here. No authenticated account, private API, production transaction or security test was exercised. The public website tour was inspected, an official explainer transcript was read, and selected frames of a separate official order-entry demo were viewed. This is a public-product review, not source-level reverse engineering.
+
+The REA workflow is used to keep observations, inference and unknowns separate. There is no basis to invent its model provider, agent framework, database, queue, ERP integration implementation or production metrics. Old search excerpts differed from the current directly opened homepage and privacy policy; current direct material governs this report. A personal contributor résumé described an earlier prototype stack, but that is not proof of the current platform and was excluded from architecture conclusions.
+
+Previously saved screenpipe learnings are preserved. This report adds design proposals for SupaBiz; it does not implement them or change the published atlas.
+
+THE ARCHITECTURE WE SHOULD BUILD — OUR PROPOSAL
+
+Use a durable workflow service around typed business objects. Intake workers persist the source envelope, tenant, channel account, sender identity, received time, source event ID, revision and media references. A durable queue schedules bounded parsing. The language model may extract candidate fields and propose matches; application code enforces schema, units, amounts, permissions and state transitions. A hosted agent environment can run tools, but business truth remains outside the agent conversation.
+
+A proposed observation record holds raw text/media references and provenance. A proposed transaction draft holds destination account, customer/vendor, outlet, lines, quantities, units, requested dates and supporting source spans. A resolution record holds candidate entity IDs, ranking evidence, unresolved contradictions and the rule/history revisions consulted. An operation record holds action ID, draft revision, actor/grant, approval receipt, destination response and read-back verification. This separation makes reprocessing possible without repeating external effects.
+
+Resolve exact native identifiers first. Next use tenant- and customer-scoped aliases and normalized units. Only then use fuzzy or semantic retrieval to generate a bounded candidate set. Do not let a model's confidence number substitute for calibrated accuracy or action permission. Tax, arithmetic, quantity conversion and status transitions should be deterministic where their inputs are known. If a carton has no verified pack size, retain the original unit and ask rather than inventing a conversion.
+
+Keep a strict precedent hierarchy: current authorized instruction, approved current business rule, valid customer preference, then historical pattern. A pattern can suggest; it cannot override an explicit exception. Preserve the referenced historical record and show what was carried forward versus recalculated. Store learned changes with a scope and version so correcting one customer's alias cannot alter all customers.
+
+An adapter creates a draft or executes an approved action using a stable operation ID. A remote timeout after a write means outcome unknown. Search/reconcile with the destination before retrying; persist its external ID and observed status. Application-level uniqueness and remote idempotency, where supported, work together. On notification failure, retry the notification independently of the business write.
+
+VARUN: FROM A MESSAGE TO THE CORRECT OPERATIONAL RECORD
+
+Proposed pilot: purchase-request intake for one outlet and one supplier catalog. A staff message requests two cartons of a product for tomorrow. SupaBiz identifies the outlet and product candidates, but blocks the draft if carton size is unknown. It shows the original message next to quantity, unit, supplier, delivery date and destination. An authorized manager confirms the ambiguity. A later edit creates a new draft revision and invalidates the old approval.
+
+The outcome is a purchase-order draft or approved order according to configured policy. It is not an inventory receipt. When goods arrive, a separate delivery note/photo and counted quantity support a goods receipt. Short deliveries, damaged goods and substitutions create explicit exceptions. A credit-note proposal references the original invoice and affected lines; it does not trigger a payment or refund simply because someone wrote that items were missing.
+
+Do not mix Consu and ForeFathers just because Varun owns both or a supplier appears in both groups. Every candidate lookup, destination write, memory preference and notification needs the appropriate business/outlet scope. Mixed groups require attribution or clarification. For an order repeated through email and WhatsApp, correlate using strong identifiers and evidence; identical wording alone may represent a valid repeat order.
+
+The owner should see a concise outcome: draft prepared, three lines resolved, one unit requires confirmation. The review view should highlight only consequential uncertainty while preserving the complete draft and original evidence. The useful metric is human effort per correctly completed transaction, including corrections and follow-ups—not how many messages were summarized.
+
+RAMYA: TRANSFER THE PATTERN, PRESERVE LEGAL WORKFLOW DIFFERENCES
+
+The reusable idea is source-to-structured-work with ambiguity resolution. Use court/email identifiers and approved matter records instead of product catalogs. An incoming hearing update should resolve matter ID, court, parties, source date, hearing date/time and attachment version. A task draft identifies the responsible person, requested work and supporting documents. Multiple plausible matters or unclear timezone/date formats require a focused review.
+
+An assignee suggestion based on past work is a suggestion, not a permanent authorization. A court notice changes a scheduled hearing only through a reviewed domain transition; snoozing a reminder never changes the hearing date. Conflicting updates need provenance and precedence rules, not last-message-wins. SupaBiz should keep court dates, internal preparation deadlines and personal reminders separate.
+
+After approval, calendar/task adapters execute bounded changes and verify their resulting records. Documents are delivered through access-controlled references with current matter grants. The person taking over a matter sees approved history and decisions, not every private conversation of their predecessor. India-specific court integrations, document access and practice requirements remain separate build and validation work. This review is not legal guidance or evidence that Asakana handles legal matters.
+
+UX AND ONBOARDING WE SHOULD IMPLEMENT
+
+Start onboarding with a workflow and accountable owner: which outlet or team, which source, which destination and which outcome. Ask for the minimum connection scopes needed for that workflow. Import a small approved catalog or matter list, expose unresolved identity mappings, and run a historical preview before enabling writes. The public quote form is only a sales-intake form; its later steps were not inspected and should not be mistaken for verified product onboarding.
+
+Build four views: Needs a decision, Work in progress, Completed with receipts, and What SupaBiz knows. A review card shows the business and destination prominently, a before/after diff, source evidence and one actionable question. Offer correction without starting a new chat. Distinguish Save draft, Approve and execute, and Ask for information. For multi-person review, reject stale versions and show who changed what.
+
+The knowledge view separates aliases, preferences, rules and inferred habits. Editors can approve, narrow, expire or revoke a rule and inspect the transactions it influenced. Do not let a single correction quietly become global policy. For multilingual input, preserve original text alongside the normalized field values and clarify units/dates in the operator's preferred language. Language coverage needs local evaluation; public demonstrations do not establish Hindi or Hinglish performance.
+
+Keep outbound communication controlled. An extracted phone number or a message saying send this does not grant permission to contact someone. Confirm destination identity and use the approved notification policy. Prefer compact task receipts and urgent exception alerts over a message for every internal processing step. Staff can continue using existing channels while owners use the app for oversight.
+
+COMPLEXITY, PERFORMANCE AND SCALING — PROPOSED, NOT ASAKANA INTERNALS
+
+Let N be daily source events, L average line items, C catalog entities, K retrieved candidates per line, B input bytes and H relevant history records. Parsing and schema traversal are approximately O(B + NL), excluding variable model inference cost. Naive candidate matching scans O(NLC); tenant-scoped indexes and exact aliases can reduce lookup work, followed by reranking O(NLK). Database index lookup and full-text/vector search costs depend on selectivity, index type and query plan; do not claim every lookup is logarithmic or every vector query constant-time.
+
+Store source evidence in object storage and transactional records in a database. Metadata is roughly O(NL) plus audit history; media storage is driven by total retained bytes, replicas and backups. Bound media size, pages, audio duration, decompression and model context. Send only relevant catalog candidates and source spans to models rather than repeatedly sending the entire customer history. Cache using tenant, permissions, catalog and rule revisions; invalidation errors can cost more than token savings.
+
+Scale intake independently from extraction and writes. Partition work by tenant and the entity needing ordering; apply fairness and per-tenant quotas so a burst from one customer cannot starve others. Avoid one global serial queue. Bound each connector's concurrency by its rate limits, and serialize conflicting revisions of the same transaction. Increase workers based on queue age and measured service time, not message count alone. Preserve backpressure, dead-letter review and controlled replay.
+
+No Asakana price, throughput, accuracy or time-saving percentage is validated here. A transparent hypothetical model: 100 orders/day at five manual minutes each is 500 minutes/day. If routine review takes 0.5 minutes for every order, 20% need four extra exception minutes, and daily reconciliation needs 20 minutes, the assisted workload is 150 minutes/day. That is a calculated 70% reduction under assumptions, not an observed result. If 60% need seven exception minutes, assisted work becomes 490 minutes/day: only 2% less. Exception economics dominate.
+
+With illustrative human cost of INR 300/hour, the first scenario saves INR 1,750/day before software, inference, integration, support, device and error costs; the second saves INR 50/day. No vendor or labor-market quote is implied. Cost per verified workflow equals all included operating costs divided by verified completions, not attempts. A transaction-volume commission may fit some distributors but can be a poor fit for internal legal/restaurant operations; test subscription plus bounded usage against value and support cost.
+
+For a pilot, compare baseline and assisted processing on matched, permissioned cases and include failed/abstained cases. Measure wrong entity/unit/date, duplicate posting, missed updates, p50/p95 end-to-end latency, human touch time, exception fraction, recovery cost and verified outcomes. Split evaluation by customer and time; replaying the same training examples thousands of times does not establish generalization. Report sample count and uncertainty, with separate results for routine and difficult cases.
+
+BUILD SEQUENCE AND DECISION GATES
+
+First, choose one business, one input source and one supported destination. Define catalog/matter IDs, source provenance, unit/date rules and exactly what counts as a verified outcome. Establish a manual baseline and create labeled edge cases. The initial pilot should not require a full desktop observer or an agent-to-agent network.
+
+Second, run shadow drafts without external writes. Show operators what the system would create; collect corrections with source and scope. Advance only after the evaluation set demonstrates acceptable field accuracy and ambiguity detection for that particular workflow. There is no universal confidence threshold that makes every transaction safe.
+
+Third, enable reviewed draft creation, stale-version rejection and destination read-back. Test timeouts after remote success, repeated source events, changed approvals and destination outages. Keep risky domain transitions explicit. Advance only when retry/reconciliation tests show no duplicate or wrong-account writes in the defined test set.
+
+Fourth, selectively automate low-risk cases under a narrow policy and observe exception load, support cost and drift. Expand workflow types only when their schemas and completion tests exist. Maintain a rollback path and a visible uncertain state. Calendar dates, purchase orders, stock receipts and accounting entries must keep their own invariants.
+
+Asakana contributes the workflow focus to our comparison. Executor contributes integration/policy patterns; Agent37 contributes runtime continuity; screenpipe contributes evidence and correction UX. SupaBiz still needs a durable domain layer connecting those capabilities. Praxis is the next queued public review; it has not been started here.
+
+LIMITS AND QUESTIONS FOR A FUTURE VENDOR EVALUATION
+
+Unknowns include group/history access semantics, edits/deletes, supported ERP operations and versions, review enforcement, catalog synchronization, tenant isolation, authorization, encryption implementation, data residency options, model providers, exact rates, uptime, recovery and measured accuracy. Public source search found no usable application repository; it does not prove none exists.
+
+The published privacy policy and terms are statements of policy and commercial conditions, not proof of technical enforcement. The current privacy policy differs from older cached excerpts. We did not accept terms, create an account, submit the quote form or contact the company. Any licensed product evaluation would need its own authorized scope; this report uses public material and independently proposed architecture.
+
+Saved scenario cases are an evaluation design, not tests run against Asakana. The only executed checks in this task validate our research artifacts, arithmetic and preservation of earlier learnings. A recorded demo and attractive public walkthrough do not establish that every advertised integration works in a customer account.
+
+FINDINGS AND DESIGN PROPOSALS
+
+AS-01 — Meet people in their current workflow
+Observed claim/demo: Existing channels and systems remain the front door.
+Sources: AS-S01, AS-S07
+Our proposal: Make WhatsApp/email intake useful before requiring an app migration. Use the SupaBiz app for unresolved decisions, evidence and control. A mobile-first confirmation can link to a specific task without moving an entire team into a new chat system. Distinguish watching approved sources from permission to act.
+Measure: Activation-to-first-verified-workflow time; staff participation; weekly manual entries avoided.
+
+AS-02 — Resolve business meaning, not only text
+Observed claim/demo: The public tour separates habits, shorthand and rules.
+Sources: AS-S01
+Our proposal: Build an entity-resolution layer over customer, product, unit, outlet, matter and person IDs. Store aliases with tenant/customer scope, owner, evidence, valid dates and precedence. Current explicit instructions beat historical defaults; contradictory evidence opens a question. Retrieval must filter authorization before returning candidates.
+Measure: SKU/unit/customer accuracy; ambiguous cases caught; cross-business leakage; correction effort.
+
+AS-03 — Make staff knowledge durable and inspectable
+Observed claim/demo: The explainer emphasizes preserving customer knowledge through staff changes.
+Sources: AS-S03
+Our proposal: Offer What SupaBiz knows about this customer or matter. Separate observed habit, approved preference, operational rule and one-off exception. Give each a source, last-confirmed date and authorized editor. Staff departure should revoke access while retaining business-owned records under policy, not retain private unrelated chat.
+Measure: New-staff ramp-up; stale-rule errors; correction propagation; unauthorized memory retrieval.
+
+AS-04 — Prior orders are references, not unconditional templates
+Observed claim/demo: The tour demonstrates a request referring to a previous order.
+Sources: AS-S01
+Our proposal: Resolve the reference to one source record and display the proposed diff. Revalidate price, pack size, availability, date, outlet and substitutions. Never reuse an old payment instruction or court deadline because it appeared in similar work. Missing or multiple matching records require a targeted question.
+Measure: Reference resolution precision; stale price/unit errors; ambiguity recall.
+
+AS-05 — Ambiguity needs a focused human decision
+Observed claim/demo: YC material says unclear work goes to a person before entry.
+Sources: AS-S02
+Our proposal: Show the uncertain field, its source and a small candidate set. Preserve resolved lines without implying the whole order is approved. Represent extraction certainty, entity ambiguity and action permission independently. Approval must bind the exact revision and destination; any meaningful edit invalidates it.
+Measure: Unsafe auto-accept rate, human minutes/order, exception recall and stale-approval rejection.
+
+AS-06 — Keep evidence beside the proposed business record
+Observed claim/demo: The recorded demo pairs a note photo with a sales-order form.
+Sources: AS-S04
+Our proposal: For each extracted field, retain message ID, attachment page/crop or audio time range. Let an operator compare original and interpreted quantity/unit/date without opening five apps. Never fabricate a crop or quote when extraction failed. Deleted, expired or inaccessible media needs an explicit evidence state.
+Measure: Review time, evidence availability and field-level correction rate.
+
+AS-07 — Draft, approval and completion are different states
+Observed claim/demo: The public tour shows a draft; terms require verification before fulfillment.
+Sources: AS-S01, AS-S06
+Our proposal: Use received → interpreted → needs review / ready → approved → posting → posted → verified, with failed, superseded and uncertain branches. A drafted purchase order must not increase stock on hand; receiving goods is a different event. A draft credit must not become an automatic refund. Verify destination ID, account and revision after writes.
+Measure: Duplicate writes; false completion; unauthorized posting; reconciliation time.
+
+AS-08 — Make completion notifications useful and quiet
+Observed claim/demo: YC material describes one email notification per task.
+Sources: AS-S02
+Our proposal: Send a compact receipt with outcome, destination record, unresolved items and evidence link. Batch routine successes where useful, but route urgent exceptions by deadline and accountable person. Use a durable notification outbox so a retry does not send repeated confirmations. Sending a receipt is not proof the recipient read it.
+Measure: Notifications per completed task; actionable response time; duplicate sends; missed urgent exceptions.
+
+AS-09 — Extend from a narrow workflow into related exceptions
+Observed claim/demo: Advertised scope includes returns, credits, reminders and procurement.
+Sources: AS-S02
+Our proposal: Start with one supported transaction type and destination. Expand using shared evidence/entity machinery but distinct domain schemas and action policies. Model order, shipment, goods receipt, stock adjustment, invoice, credit note and payment separately. A single generic task object cannot safely replace these lifecycles.
+Measure: Verified outcomes by workflow; support burden; regression rate when adding a transaction type.
+
+AS-10 — Integrate through explicit capability contracts
+Observed claim/demo: The site advertises APIs where available and custom connections otherwise.
+Sources: AS-S01
+Our proposal: Maintain a capability matrix per ERP/account: search, draft creation, update, post, cancel, idempotency support and read-back. Prefer typed APIs. Any browser fallback needs current observation, exclusive control and recovery. Begin with one destination; do not promise universal integration or assume a vendor logo proves coverage.
+Measure: Connector conformance; recovery after timeout; drift failures; cost per supported destination.
+
+AS-11 — Backtesting must include abstention and business outcomes
+Observed claim/demo: The FAQ makes strong backtesting/accuracy claims; public datasets are absent.
+Sources: AS-S01
+Our proposal: Build a consented, de-identified evaluation set split by customer and time to limit leakage. Include messy media, aliases, mixed language and malicious instructions. Measure both accepted-case accuracy and how much work is rejected. A system can look accurate by escalating everything; measure retained human effort as well.
+Measure: Field precision, unsafe auto-accept, escalation fraction, human effort, latency and verified outcomes.
+
+AS-12 — Make data-use and cost promises precise
+Observed claim/demo: Policies distinguish data categories; numeric commercial rates are not public.
+Sources: AS-S05, AS-S06
+Our proposal: Expose where evidence is stored, which model/tool receives it, retention, deletion and training use. Build least-privilege connection grants and scoped key storage. Price SupaBiz against verified workflow value and total service cost, including exceptions and support; evaluate predictable subscription plus usage rather than assuming transaction-value commission fits every business.
+Measure: Revocation/deletion tests; total cost per verified workflow; pricing predictability; gross margin after support.
+
+SOURCE REGISTER
+
+AS-S01 https://www.asakana.co/
+current official public product page + browser walkthrough
+Public tour: input paperwork, customer-specific context, then an ERP draft. API or custom integration is advertised; no implementation exposed. Current direct page differs from older search excerpts.
+
+AS-S02 https://www.ycombinator.com/companies/asakana
+company-authored YC profile and launch material
+Claims deployed food-distributor automation, ambiguous work routed to a person and a task-level email receipt. Claimed 40%+ order-desk time benefit is unverified here.
+
+AS-S03 https://www.youtube.com/watch?v=XONUcUsuxSY
+official explainer; auto-generated English transcript read
+0:26–1:05 illustrates omitted units and customer habits; 1:10–1:27 emphasizes knowledge surviving a staff transition. Auto-captions contain apparent recognition errors; not used as exact order ground truth.
+
+AS-S04 https://www.youtube.com/watch?v=e5evYIy3oXo
+official recorded demo; selected video frames inspected
+At 0:20 prior sales orders; 0:40 photographed handwritten input beside an ERP sales-order form; 1:00 communication/ERP diagram; 1:15 connection checklist. No transcript available. Recorded demo is not independent live execution proof.
+
+AS-S05 https://www.asakana.co/privacy-policy.html
+published policy; not verified controls
+Names integration credential encryption, disconnect deletion and US storage; permits specified de-identified platform-data uses with different treatment of connected-system data. Notes analytics/session recordings. These are policy statements, not an implementation audit.
+
+AS-S06 https://www.asakana.co/terms-of-service.html
+published terms; not legal advice or acceptance
+Requires supplier verification before fulfillment; disclaims guaranteed AI accuracy/results. Describes transaction-volume commission subject to agreement, with no published numeric rate. Proprietary service; no reusable application source established.
+
+AS-S07 https://www.asakana.co/about
+official company narrative
+Describes observing distributor work and building around existing channels. This is company narrative, not independent customer validation.
+
+AS-S08 https://www.asakana.co/get-quote
+public form inspected read-only
+First step requests name/company/work email, followed by work and team stages. No form submitted; later steps not traversed.

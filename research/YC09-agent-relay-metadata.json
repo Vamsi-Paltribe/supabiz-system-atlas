@@ -1,0 +1,194 @@
+{
+  "id": "YC09-agent-relay",
+  "name": "Agent Relay / Relaycast",
+  "date": "2026-10-17",
+  "scope": "Selected source, documentation and 21 isolated source-derived component checks; not a full application audit",
+  "repositories": [
+    {
+      "name": "agent-relay",
+      "url": "https://github.com/AgentWorkforce/relay",
+      "commit": "c1ffabbc4a933585ca2ddda729b22a34e3b2a3f2",
+      "license": "Apache-2.0 at inspected root"
+    },
+    {
+      "name": "relaycast",
+      "url": "https://github.com/AgentWorkforce/relaycast",
+      "commit": "262519998f4107a9ee7879a891151bfa9ed135e9",
+      "license": "Apache-2.0 at inspected root"
+    }
+  ],
+  "compatibility": "Relay SDK package reports 14.0.0 and depends on @relaycast/sdk ^8.0.7; separately cloned engine HEAD is not a verified matching deployment pair.",
+  "sources": [
+    {
+      "id": "AR-S01",
+      "repository": "https://github.com/AgentWorkforce/relay",
+      "commit": "c1ffabbc4a933585ca2ddda729b22a34e3b2a3f2",
+      "path": "README.md",
+      "url": "https://github.com/AgentWorkforce/relay/blob/c1ffabbc4a933585ca2ddda729b22a34e3b2a3f2/README.md",
+      "sha256": "ba6dfc6fe5e4c398a4974806d29f4351dd3847610f6b672d0816b79fe33c1d5d",
+      "observation": "Model-neutral coding-agent toolkit, messaging, sessions and integration surfaces.",
+      "limit": "README features are not production verification; separate Relayfile/Flows implementations not audited."
+    },
+    {
+      "id": "AR-S02",
+      "repository": "https://github.com/AgentWorkforce/relay",
+      "commit": "c1ffabbc4a933585ca2ddda729b22a34e3b2a3f2",
+      "path": "packages/sdk/src/delivery/runner.ts",
+      "url": "https://github.com/AgentWorkforce/relay/blob/c1ffabbc4a933585ca2ddda729b22a34e3b2a3f2/packages/sdk/src/delivery/runner.ts",
+      "sha256": "25e2c785de7bb336ae73c046933d189d27a02f8b6dd4cfea6ab034f96bf60d3b",
+      "observation": "Adapter outcomes map to ack, defer or failure; exceptions request retry; requires server delivery state.",
+      "limit": "Isolated synthetic adapters only; no delivery server executed."
+    },
+    {
+      "id": "AR-S03",
+      "repository": "https://github.com/AgentWorkforce/relay",
+      "commit": "c1ffabbc4a933585ca2ddda729b22a34e3b2a3f2",
+      "path": "packages/sdk/src/actions/registry.ts",
+      "url": "https://github.com/AgentWorkforce/relay/blob/c1ffabbc4a933585ca2ddda729b22a34e3b2a3f2/packages/sdk/src/actions/registry.ts",
+      "sha256": "a1ce4a2adc2e5ca7a30e666a9ea7d17b0701706d3bda0e93fa72bb462e6414ff",
+      "observation": "Typed inputs and outputs, action events and optional policy hook.",
+      "limit": "Validation is not authorization; output validation happens after handler side effects."
+    },
+    {
+      "id": "AR-S04",
+      "repository": "https://github.com/AgentWorkforce/relay",
+      "commit": "c1ffabbc4a933585ca2ddda729b22a34e3b2a3f2",
+      "path": "packages/sdk/src/messaging/event-fanin.ts",
+      "url": "https://github.com/AgentWorkforce/relay/blob/c1ffabbc4a933585ca2ddda729b22a34e3b2a3f2/packages/sdk/src/messaging/event-fanin.ts",
+      "sha256": "09d17a32f330b7f0f363f15f77a2a3cee01c9e83741f8f262c76a4d05cf17e8a",
+      "observation": "Bounded event fan-in deduplicates cross-source copies; default 30-second window and 2,048 tracked keys.",
+      "limit": "Same-source repeats and expired-window repeats can pass; not business idempotency."
+    },
+    {
+      "id": "AR-S05",
+      "repository": "https://github.com/AgentWorkforce/relay",
+      "commit": "c1ffabbc4a933585ca2ddda729b22a34e3b2a3f2",
+      "path": "packages/policy/src/agent-policy.ts",
+      "url": "https://github.com/AgentWorkforce/relay/blob/c1ffabbc4a933585ca2ddda729b22a34e3b2a3f2/packages/policy/src/agent-policy.ts",
+      "sha256": "a1bf2f56f5f60b9536dccbb7747a8540e9b70d45b799c274cf4d2b3de05234af",
+      "observation": "Empty canMessage/canSpawn lists skip allowlist checks despite displayed guidance describing none. Spawn count enforcement has a placeholder.",
+      "limit": "Reproduced on helper with fixture policy resolution; production call-site reachability not established."
+    },
+    {
+      "id": "AR-S06",
+      "repository": "https://github.com/AgentWorkforce/relay",
+      "commit": "c1ffabbc4a933585ca2ddda729b22a34e3b2a3f2",
+      "path": "packages/connect/README.md",
+      "url": "https://github.com/AgentWorkforce/relay/blob/c1ffabbc4a933585ca2ddda729b22a34e3b2a3f2/packages/connect/README.md",
+      "sha256": "703388611685ff9cebdbbda66c5de5b895f161b8b87ba7204aabef3fbf86fa38",
+      "observation": "Convenient temporary join links and probe setup; documents crossSessionInbound accept setting.",
+      "limit": "No installer or probe run. Evaluate disclosure, expiration, revocation and configuration restoration before adoption."
+    },
+    {
+      "id": "AR-S07",
+      "repository": "https://github.com/AgentWorkforce/relay",
+      "commit": "c1ffabbc4a933585ca2ddda729b22a34e3b2a3f2",
+      "path": "plugins/shared-sessions/README.md",
+      "url": "https://github.com/AgentWorkforce/relay/blob/c1ffabbc4a933585ca2ddda729b22a34e3b2a3f2/plugins/shared-sessions/README.md",
+      "sha256": "3c91cebe67509b729da0d03af72943d1d0c542813560cc9c7441803b4e1de92e",
+      "observation": "Workspace-authorized history search through Cloud; notes release prerequisites for sessions-only CLI support.",
+      "limit": "A repository feature is not proof that a published release supports it; no Cloud search performed."
+    },
+    {
+      "id": "AR-S08",
+      "repository": "https://github.com/AgentWorkforce/relay",
+      "commit": "c1ffabbc4a933585ca2ddda729b22a34e3b2a3f2",
+      "path": "docs/self-hosting/README.md",
+      "url": "https://github.com/AgentWorkforce/relay/blob/c1ffabbc4a933585ca2ddda729b22a34e3b2a3f2/docs/self-hosting/README.md",
+      "sha256": "60c23830cd5971919f4da2bc876b1a861b47efd5e1349ad9b47d3f392fbc2f82",
+      "observation": "Self-host Relaycast first; Relay CLI/broker handles agent sessions; hosted features still require Cloud.",
+      "limit": "Not a feature-parity or production deployment test."
+    },
+    {
+      "id": "AR-S09",
+      "repository": "https://github.com/AgentWorkforce/relaycast",
+      "commit": "262519998f4107a9ee7879a891151bfa9ed135e9",
+      "path": "docs/self-hosting.md",
+      "url": "https://github.com/AgentWorkforce/relaycast/blob/262519998f4107a9ee7879a891151bfa9ed135e9/docs/self-hosting.md",
+      "sha256": "4f233711a8ad0bd6cb50bf9417cf33b1fc541fac9cd523b796d1911e76b11e8c",
+      "observation": "Documents a single-process, single-tenant engine and in-memory sequencing, connection and background-work limitations.",
+      "limit": "Some generic idempotency statements differ from newer selected SQL-backed A2A paths; do not generalize across all subsystems."
+    },
+    {
+      "id": "AR-S10",
+      "repository": "https://github.com/AgentWorkforce/relaycast",
+      "commit": "262519998f4107a9ee7879a891151bfa9ed135e9",
+      "path": "packages/engine/src/middleware/auth.ts",
+      "url": "https://github.com/AgentWorkforce/relaycast/blob/262519998f4107a9ee7879a891151bfa9ed135e9/packages/engine/src/middleware/auth.ts",
+      "sha256": "dc16bb63b596fa0e038e3ca158f67efac20f3d3187e756016529194d40571f56",
+      "observation": "Bearer authentication and workspace/agent/node contexts; observer scope checks.",
+      "limit": "Selected middleware review, not complete endpoint authorization audit."
+    },
+    {
+      "id": "AR-S11",
+      "repository": "https://github.com/AgentWorkforce/relaycast",
+      "commit": "262519998f4107a9ee7879a891151bfa9ed135e9",
+      "path": "packages/engine/src/routes/a2a.ts",
+      "url": "https://github.com/AgentWorkforce/relaycast/blob/262519998f4107a9ee7879a891151bfa9ed135e9/packages/engine/src/routes/a2a.ts",
+      "sha256": "a5e2bc056d782f88645a95ac4771783d3404eabd0aff1a9242774118b86e835e",
+      "observation": "Registered proxy path authenticates, scopes local targets and rejects external-proxy forwarding; message/send supported, proxy message/stream rejected. SQL-backed inbound fingerprint/idempotency logic is present.",
+      "limit": "Selected source only, not end-to-end A2A or specification conformance testing."
+    },
+    {
+      "id": "AR-S12",
+      "repository": "https://github.com/AgentWorkforce/relaycast",
+      "commit": "262519998f4107a9ee7879a891151bfa9ed135e9",
+      "path": "packages/engine/src/engine/a2aEgress.ts",
+      "url": "https://github.com/AgentWorkforce/relaycast/blob/262519998f4107a9ee7879a891151bfa9ed135e9/packages/engine/src/engine/a2aEgress.ts",
+      "sha256": "9f85243edd4a4f06d45b2159e28c6ada037759825eb9eca0d26d5123aff62e37",
+      "observation": "Bounded retries, claims/leases, target revalidation, retained source checks and state transitions.",
+      "limit": "No live failures injected; retention/retry window does not replace a long-lived business ledger."
+    },
+    {
+      "id": "AR-S13",
+      "repository": "https://github.com/AgentWorkforce/relaycast",
+      "commit": "262519998f4107a9ee7879a891151bfa9ed135e9",
+      "path": "docs/a2a-ratify-federation.md",
+      "url": "https://github.com/AgentWorkforce/relaycast/blob/262519998f4107a9ee7879a891151bfa9ed135e9/docs/a2a-ratify-federation.md",
+      "sha256": "02a7a9db17f6e5af0b6dc2a10208d367efd2522aeb44049c6ac47f4f92c1ca18",
+      "observation": "Describes proof/revocation metadata carrier and verification against trusted issuer keys.",
+      "limit": "Metadata carrying a proof is not proof that every execution path verifies/enforces it."
+    },
+    {
+      "id": "AR-S14",
+      "repository": "https://github.com/AgentWorkforce/relaycast",
+      "commit": "262519998f4107a9ee7879a891151bfa9ed135e9",
+      "path": "packages/engine/src/engine/delivery.ts",
+      "url": "https://github.com/AgentWorkforce/relaycast/blob/262519998f4107a9ee7879a891151bfa9ed135e9/packages/engine/src/engine/delivery.ts",
+      "sha256": "46728bf148d02b59d97606310feaa040603422564a09fb63f69b31866dddcd99",
+      "observation": "Per-delivery acknowledgments avoid advancing a cumulative cursor past earlier pending work. Atomic transition guards and ownership checks are present.",
+      "limit": "Static selected-function review, not database race testing."
+    },
+    {
+      "id": "AR-S15",
+      "repository": "https://github.com/AgentWorkforce/relay",
+      "commit": "c1ffabbc4a933585ca2ddda729b22a34e3b2a3f2",
+      "path": "TELEMETRY.md",
+      "url": "https://github.com/AgentWorkforce/relay/blob/c1ffabbc4a933585ca2ddda729b22a34e3b2a3f2/TELEMETRY.md",
+      "sha256": "2eb9ebf7d1871c9f3701e6634695b8ea75cb176d1ce9c3b8866ba7fd3c475dc5",
+      "observation": "Documents CLI telemetry, identifiers and opt-out controls.",
+      "limit": "Self-host engine telemetry behavior does not imply every client has telemetry disabled; no runtime audit."
+    },
+    {
+      "id": "AR-S16",
+      "repository": "https://github.com/AgentWorkforce/relaycast",
+      "commit": "262519998f4107a9ee7879a891151bfa9ed135e9",
+      "path": "packages/engine/src/engine/a2a.ts",
+      "url": "https://github.com/AgentWorkforce/relaycast/blob/262519998f4107a9ee7879a891151bfa9ed135e9/packages/engine/src/engine/a2a.ts",
+      "sha256": "6b0a0ffc4cb0227d29baa35c9d5d29b3f367963349c31ee407cded4d56b37587",
+      "observation": "Selected transport code rejects credentialed HTTP and redirects.",
+      "limit": "Not a complete SSRF, DNS rebinding, egress or private-address audit."
+    }
+  ],
+  "public_sources": [
+    "https://agentrelay.com/",
+    "https://agentrelay.com/docs/introduction",
+    "https://www.ycombinator.com/companies/agent-relay"
+  ],
+  "limitations": [
+    "No Cloud account, installer, probe or real agent messages used",
+    "No full upstream test suite, live federation, server runtime, load or penetration test",
+    "Separate Relayfile/Relayflows code not reviewed",
+    "No commercial pricing or measured SupaBiz performance established"
+  ]
+}

@@ -1,0 +1,200 @@
+[
+  {
+    "id": "GL-01",
+    "title": "Make business memory a shared platform service",
+    "decision": "Adopt architecture",
+    "source_ids": [
+      "GL-S01"
+    ],
+    "supabiz_proposal": "Store evidence, records, decisions, procedures and preferences separately behind one scoped retrieval interface. Model swaps retain approved context.",
+    "measure": "Verified outcomes across model/harness changes",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "GL-02",
+    "title": "Retrieve for the task before asking users to repeat history",
+    "decision": "Experiment",
+    "source_ids": [
+      "GL-S02"
+    ],
+    "supabiz_proposal": "Offer a small relevant context package with citations, freshness and an explicit missing-memory fallback. Bound tokens and delay.",
+    "measure": "Context relevance, p95 latency, human re-explanation",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "GL-03",
+    "title": "Keep live records authoritative",
+    "decision": "Adopt",
+    "source_ids": [
+      "GL-S07"
+    ],
+    "supabiz_proposal": "Read current stock, notice, assignment or payment state from its authoritative source. Use memory for rationale and history, and surface conflicts.",
+    "measure": "Stale-answer rate; authoritative-source coverage",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "GL-04",
+    "title": "Resolve tenant and source permissions before retrieval",
+    "decision": "Build",
+    "source_ids": [
+      "GL-S02"
+    ],
+    "supabiz_proposal": "Derive business identity from authenticated context. Restrict candidates before content enters generation or external reranking; recheck selected evidence.",
+    "measure": "Wrong-business and wrong-matter disclosure",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "GL-05",
+    "title": "Make the answer audience part of authorization",
+    "decision": "Build",
+    "source_ids": [
+      "GL-S02"
+    ],
+    "supabiz_proposal": "A private owner view and a staff-group reply use different allowed context. Evaluate the intended destination before composing the answer.",
+    "measure": "Group-output leakage; audience-switch regression cases",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "GL-06",
+    "title": "Carry lineage and restrictions into derived memory",
+    "decision": "Build",
+    "source_ids": [
+      "GL-S07"
+    ],
+    "supabiz_proposal": "Require permission for all protected inputs by default. A broader redacted summary needs deliberate disclosure approval, not merely summarization.",
+    "measure": "Derived-summary access tests; lineage completeness",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "GL-07",
+    "title": "Invalidate memory when access or facts change",
+    "decision": "Build",
+    "source_ids": [
+      "GL-S07"
+    ],
+    "supabiz_proposal": "Track source and policy versions; evict stale caches and descendants. Reconstruct future agent context after revocation and explain prior transmissions cannot be recalled.",
+    "measure": "Revocation delay; stale cache hits; invalidated descendants",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "GL-08",
+    "title": "Separate recording, recall and transmission",
+    "decision": "Adapt UX",
+    "source_ids": [
+      "GL-S07"
+    ],
+    "supabiz_proposal": "Show Save new memory, Use saved memory and Cloud processing separately, with business/device/session scope. A failed setting change remains unconfirmed.",
+    "measure": "Mode comprehension; transmission/retention mismatch",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "GL-09",
+    "title": "Capture payloads deliberately",
+    "decision": "Adapt client pattern",
+    "source_ids": [
+      "GL-S08"
+    ],
+    "supabiz_proposal": "Inventory serialized prompts, tool output, metadata and media extracts. Redact or exclude before transmission where required; a truncated preview is insufficient.",
+    "measure": "Sensitive fields leaving allowed scope; capture completeness",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "GL-10",
+    "title": "Show why this context was used",
+    "decision": "Build UX",
+    "source_ids": [
+      "GL-S07"
+    ],
+    "supabiz_proposal": "Expose permitted citations, source time, evidence status and relevance. Let users exclude an item for this task without deleting institutional history.",
+    "measure": "Citation correctness; irrelevant-context dismissals",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "GL-11",
+    "title": "Separate correcting, suppressing and deleting",
+    "decision": "Adapt UX",
+    "source_ids": [
+      "GL-S07"
+    ],
+    "supabiz_proposal": "Use exact evidence references. Preserve audit history for correction; separately implement retention deletion and derived-index/cache handling.",
+    "measure": "Repeat stale claims; unintended suppression; deletion coverage",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "GL-12",
+    "title": "Promote reviewed procedures from real work",
+    "decision": "Adapt with review",
+    "source_ids": [
+      "GL-S07"
+    ],
+    "supabiz_proposal": "Suggest procedures with owner, version, scope and dependencies. High-impact operational changes require review and replay tests before promotion.",
+    "measure": "Procedure success; harmful scope propagation",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "GL-13",
+    "title": "Keep retrieved evidence below executable policy",
+    "decision": "Build",
+    "source_ids": [
+      "GL-S08"
+    ],
+    "supabiz_proposal": "Tag memory as evidence, not instructions. Retrieved claims cannot grant tools, share secrets or execute a suggested skill without normal authorization.",
+    "measure": "Prompt-injection and unapproved-skill tests",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "GL-14",
+    "title": "Use portable handoff packages with integrity checks",
+    "decision": "Reuse candidate",
+    "source_ids": [
+      "GL-S08"
+    ],
+    "supabiz_proposal": "Transfer approved summary, records, pending work, sources and explicit permissions. Validate target capability/context budget and preserve provenance.",
+    "measure": "Handoff completeness; permission widening; lost task state",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "GL-15",
+    "title": "Give memory a visible owner and review date",
+    "decision": "Build UX",
+    "source_ids": [
+      "GL-S02"
+    ],
+    "supabiz_proposal": "Show who approved each reusable rule, where it applies and when to review it. Separate personal habits from organization policy.",
+    "measure": "Unowned/stale rules; correction turnaround",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "GL-16",
+    "title": "Evaluate with time-correct memory and permissions",
+    "decision": "Adopt evaluation method",
+    "source_ids": [
+      "GL-S06"
+    ],
+    "supabiz_proposal": "Replay dated cases with no future answers/corrections. Compare no memory, unstructured retrieval and scoped memory under equal quality and access constraints.",
+    "measure": "Verified quality, leakage, total cost and time",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "GL-17",
+    "title": "Budget the entire memory lifecycle",
+    "decision": "Build measurement",
+    "source_ids": [
+      "GL-S04"
+    ],
+    "supabiz_proposal": "Count capture, extraction, embeddings, ranking, injected tokens, storage, invalidation and human review. Benchmark filters and update workloads.",
+    "measure": "Cost per verified task; cold-start and steady-state latency",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "GL-18",
+    "title": "Connect shared memory to bounded collaboration",
+    "decision": "Build with Relay",
+    "source_ids": [
+      "GL-S07"
+    ],
+    "supabiz_proposal": "Exchange purpose-scoped approved context through Relay. The receiving business keeps independent authority; shared memory never becomes a universal access grant.",
+    "measure": "Cross-business disclosure; recipient-scope enforcement",
+    "status": "Design candidate; not implemented"
+  }
+]

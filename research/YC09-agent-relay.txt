@@ -1,0 +1,270 @@
+AGENT RELAY / RELAYCAST — SUPABIZ RESEARCH
+17 October 2026 | selected-source review, not full audit
+
+DECISION AND EVIDENCE BOUNDARY
+
+Agent Relay is worth a bounded integration experiment. Its strongest reusable ideas are a model-neutral communication layer, structured action contracts, explicit delivery outcomes and recoverable message processing. Its collaboration experience can inform SupaBiz’s future app-to-app interface. It is not sufficient by itself to become the authority for inter-business decisions.
+
+This review inspected selected source in two pinned repositories: Relay, the coding-agent/session toolkit, and Relaycast, the messaging engine. We also read official product, onboarding, self-hosting, federation and telemetry documentation. Twenty-one isolated checks executed source-derived TypeScript modules with synthetic inputs and adapters. All passed, including checks designed to reproduce limitations. This is not an end-to-end install, a production security audit, an assessment of customer deployments or proof of throughput. No vendor account, workspace, invite, installer, model or real agent session was used.
+
+The repositories expose Apache-2.0 root licenses, which makes selected code a reuse candidate subject to dependency and notice review. The independently cloned commits are not a verified compatible release pair. Shared-session documentation explicitly notes release prerequisites, so source presence must not be confused with current package availability. Earlier Marble findings remain preserved; this report adds sixteen design candidates to the register.
+
+HOW THE PARTS WORK
+
+Relay sits near the agent session: adapters connect supported coding agents and harnesses, while the SDK provides messaging and action interfaces. A delivery runner consumes server-backed inbox entries and calls an adapter. The outcome controls acknowledgment, deferral or failure reporting. A thrown adapter error requests a retry. These are delivery semantics, not proof that a business task was completed.
+
+Relaycast provides the communication substrate: workspaces, authenticated agents, channels, direct messages, threads and delivery state. Its selected authentication middleware distinguishes workspace credentials from agent/node context and checks observer permissions. Workspace administrative keys must never become credentials handed to every supplier agent. Shared history search is documented as a separate Cloud-authenticated workspace capability; it does not grant permission to resume or message other sessions.
+
+The action registry maps an action name to input/output schemas, an optional policy hook and a handler. It rejects invalid input before the handler. It can emit invocation, denial, failure and completion events. Policy absence permits otherwise valid calls. Output validation runs after the handler, so a rejected result cannot undo an already-sent order. SupaBiz needs a mandatory authorization wrapper, durable action record and effect verification around this reusable skeleton.
+
+The event fan-in component merges multiple event sources. Its bounded cache suppresses copies seen from different sources within a default thirty-second window. Repeated events from the same source, or after the window, can still reach consumers. This is sensible transport bookkeeping but cannot guarantee once-only business effects.
+
+Selected federation routes accept authenticated registered A2A proxies, resolve targets within the workspace and refuse forwarding to another external proxy. That registered proxy path supports message/send and explicitly rejects message/stream. Inbound request identity and fingerprints have SQL-backed handling; the outbound path uses claims, leases, bounded retries and target revalidation. This is useful implementation material, not evidence of complete A2A specification support or arbitrary federation safety.
+
+THE CROSS-BUSINESS BOUNDARY SUPABIZ MUST OWN
+
+There are three distinct collaboration levels. Inside Consu, specialists can work under one business’s policies with role-specific scopes. Between Consu and ForeFathers, common ownership permits Varun to establish relationships, but does not automatically permit all staff or agents to read each other’s records. With a supplier or external CA, a separate relationship and purpose-specific sharing grant is required.
+
+An agent’s display name, a well-known agent card or a bearer-authenticated message is not enough to authorize an order. Bind credentials to immutable business and agent principals. A grant should identify issuer, grantee, capability, resource constraints, purpose, financial/quantity limits, expiry, delegation limits and policy version. Validate the current grant at request acceptance, document access and action commitment. Do not allow the caller to select its own tenant through untrusted JSON.
+
+The receiver controls its own execution boundary. Consu’s agent can request a quote; the supplier decides whether it can quote and what data to return. Consu’s approval cannot authorize reading the supplier’s private ledger. Likewise, a supplier’s claim that Varun approved a purchase does not substitute for Consu’s own approval record. Federation should carry authenticated requests and evidence, while each business independently decides and records what it accepts.
+
+The Ratify metadata document describes carrying proof bundles and revocations. It correctly requires issuer trust and signature verification. A public key arriving beside its own signature does not establish that trust. We did not verify enforcement across every route. SupaBiz must test audience, expiry, revocation freshness, key rotation, narrowed delegation and replay handling before relying on such proofs.
+
+Share the smallest useful result. For a quote this may be item specification, requested quantity and delivery window, not sales history, margins, staff activity or bank details. Evidence links need authorization at fetch time and expiry. Once an external recipient has lawfully downloaded data, revocation cannot erase that copy; make sharing scope and retention expectations visible before the handoff.
+
+WORKED EXAMPLE: CONSU, FOREFATHERS AND A SUPPLIER
+
+ILLUSTRATIVE PROPOSAL, not a tested product flow. Consu’s manager needs 10 kg of tomatoes. The Consu agent opens job JOB-Q001 with a deadline and asks two permitted counterparts: ForeFathers for an approved surplus-availability statement, and a supplier for a quote. These are two scoped requests, not a broadcast of Consu’s operational memory.
+
+ForeFathers returns “3 kg potentially available until 15:00, subject to manager confirmation.” It has not moved inventory. The supplier returns an offer for 10 kg with price, quality specification, delivery window, validity and quote version. Neither a delivered message nor the offer reserves stock or creates a purchase commitment. The manager sees the alternatives, their freshness and any missing information.
+
+If Varun chooses the supplier, SupaBiz creates a separate purchase proposal bound to supplier, legal entity, items, quantity, price, currency, delivery details and exact version. A new action grant and approval are required if the quote-only relationship does not permit ordering. The action executor rechecks them, atomically claims the idempotency key and submits the order. A timeout enters outcome_unknown and triggers reconciliation; it does not blindly submit again.
+
+Supplier confirmation is recorded against the order version. Delivery receiving remains a separate workflow: staff record actual accepted/rejected quantities. The Marble workflow then matches the order, accepted receipts and invoice. Accounting posting and payment remain separate authorized steps. An agent saying “done” is not sufficient evidence for any of these transitions.
+
+If a transfer from ForeFathers is selected instead, both sides need authorization and linked dispatch/in-transit/receipt records. Stock moves once on each appropriate ledger boundary, with the correct inter-business document treatment configured by the accountant. A shared owner dashboard may aggregate permitted summaries while each underlying record retains its own business scope.
+
+UX WORTH TAKING
+
+The best idea is a collaboration room whose subject is a real job. A compact header says “Consu · supplier quote · owner: manager · due 14:00.” Participant chips show both the agent and the business it represents. The room explains what was shared, what was withheld, whether the relationship permits only inquiry or also action, and when access expires.
+
+The timeline should prioritize human events: request accepted, missing specification, quote received, approval required, order confirmed, delivery exception and result verified. Technical retries, tool calls and agent chatter belong in an expandable activity view. Distinguish “seen by agent” from “accepted by supplier,” and “result submitted” from “verified.” Avoid presenting a typing indicator as progress on the business job.
+
+An invitation should preview the exact scope and identity before acceptance. Relay Connect offers a low-friction join concept; its documentation also describes changing Claude’s inbound setting to accept. SupaBiz should explain any permission change, its duration and how to revoke or restore it. No invisible widening of device or workspace access should be necessary merely to ask for a quote.
+
+Give people a few meaningful controls: clarify, approve the exact version, reject, reassign, pause and revoke access. After an external effect has happened, cancellation is a separate request or compensation, not a promise to undo the past. Display who can authorize that next step. A supplier or CA should be able to participate through a familiar permitted channel before adopting the full SupaBiz app; the structured workflow still needs one canonical identity and state.
+
+For Ramya’s firm, the analogous room is a matter-specific assignment or document request. Sharing with an external professional must remain matter-scoped; a collaboration transcript is not a reason to expose other clients’ files. Apply the same handoff and evidence machinery without importing restaurant-specific schemas.
+
+FINDINGS THAT CHANGE THE ADOPTION DECISION
+
+First, an isolated policy-helper discrepancy is reproducible. In the inspected AgentPolicyService, canMessage: [] and canSpawn: [] skip the allowlist restriction because the code tests for a nonzero list length. Elsewhere the helper’s displayed guidance describes an empty list as allowing nobody. Our checks reproduced both permissive cases; a target marked canBeSpawned: false still blocks spawning. Nonempty allowlists behave differently. We stubbed policy resolution and audit output and did not establish whether current production call paths invoke this helper. This is a bounded source finding, not a demonstrated hosted-service exploit. SupaBiz must not import this helper as its cross-business security boundary without resolving semantics and testing enforcement through the actual server.
+
+Second, self-host documentation describes a single-process engine, with in-memory connection, sequencing and rate-limit state. Adding identical replicas behind a load balancer is not sufficient for shared ordering, presence, quota or ownership. A supported scale-out design or managed service needs separate validation. Generic self-host documentation discusses weak restart guarantees for some in-memory state; selected A2A source has SQL-backed inbound/egress state. Therefore the correct conclusion is subsystem-specific durability testing, not “all messages lose idempotency on restart.”
+
+Third, shared-session search, cloud sandboxes and hosted views are not established as equivalent features of the standalone engine. Relayfile integrations and Flow implementations were not audited. Keep our transport adapter narrow so these conveniences do not quietly become mandatory product dependencies.
+
+Finally, telemetry boundaries differ. The CLI documentation describes telemetry and opt-outs. A self-hosted engine’s no-op telemetry implementation does not prove that all connected clients are silent. Deployment review must inspect the actual released client/server combination and configured destinations.
+
+REUSE, BUILD AND DEFER
+
+REUSE CANDIDATES: the messaging abstraction, selected delivery-runner logic, typed action/event contracts, explicit transport receipts and small portions of retry/idempotency design. Evaluate the maintained SDK or service before forking code; pin a compatible release and keep a conformance test suite behind our own interface. Preserve applicable licenses and notices.
+
+BUILD FOR SUPABIZ: durable business/job records, mandatory authorization, relationship grants, purpose-scoped evidence exchange, immutable principal identity, exact-version approvals, outbox/action ledger, verified outcome records, budget/delegation control, collaboration rooms and domain-specific workflows. These are differentiating requirements that a messaging platform cannot infer from channels or agent names.
+
+DEFER: public discovery of every business agent, unrestricted nested delegation, agent-to-agent autonomous purchasing, global shared memory and large all-to-all swarms. Start with a named counterparty and one useful completed workflow. Coding-agent terminal controls remain useful for development operations, but ordinary stock and accounting actions should use typed, constrained application services.
+
+IMPLEMENTATION SEQUENCE AND EXIT CRITERIA
+
+Stage 1 — transport contract and replay fixture. Define a small interface for send, receive, ack/defer and delivery status. Connect two synthetic agents with fake business data. Validate SDK/engine release compatibility, restart behavior and out-of-order delivery. Exit when transport receipts and domain receipts remain distinct and every message has a traceable job and principal.
+
+Stage 2 — one-business job rooms. Route Consu’s receiving exception to its manager and accountant role. Implement mandatory grants, evidence access and durable state transitions before multi-business exposure. Exit when a denied or duplicate action cannot mutate the record, and a restart resumes owned work without losing the original evidence.
+
+Stage 3 — two businesses, read-only exchange. Pilot approved surplus inquiry or supplier quotes with explicit invitations and expiring grants. Deliberately test wrong-business names, revoked access, duplicated messages, hostile text and stale documents. Exit when no forbidden disclosure occurs in the scenario suite and managers can explain the room’s status and scope.
+
+Stage 4 — one approved external action. Add exact-version order approval, idempotent dispatch, remote confirmation and outcome_unknown reconciliation. Connect it to the Marble receipt/invoice flow. Exit when injected timeouts and retries produce no duplicate committed effect, and every terminal success has independently checked evidence.
+
+Stage 5 — controlled scale. Measure queue age, p95 completion latency, retry volume, human review, model use and cost per verified job. Load-test the selected deployment and restore from backup before expanding tenants. Establish SLOs from business deadlines and measured pilot results; no vendor percentage is a SupaBiz guarantee. A schedule estimate requires team capacity and the existing harness’s implementation status, which this source review does not establish.
+
+PERFORMANCE, STORAGE AND COST MODEL
+
+Let N be participants, M source messages, R authorized recipients per message, B mean payload bytes, T retained messages, E evidence objects and A approval/action records. Directed fan-out creates O(MR) deliveries; an all-to-all round creates N(N-1). With ten agents that is ninety directed sends, compared with eighteen sends for one coordinator requesting and receiving one reply from each of nine workers. This is arithmetic for those topologies only: an 80% reduction in sends in that example is not an 80% latency, cost or quality improvement, and tasks with genuine peer dependencies differ.
+
+Transport payload storage is approximately O(TB), plus indexes, metadata and optional per-recipient delivery rows. Evidence storage depends on E and object sizes; use references so a large file is not copied into every message. Search and permission-filter costs depend on the index and access predicates. Do not assert constant-time authorization for arbitrary grant chains; bounded depth D makes proof/grant traversal O(D) before cache and signature costs.
+
+The selected fan-in cache has bounded space O(K), K defaulting to 2,048. Hash-map lookup is expected O(1), while trimming/expiry work and handlers add cost. This short-lived cache is not the durable action ledger. A database uniqueness index typically adds O(log A) lookup/update work under common B-tree assumptions, plus transaction, locking and I/O costs. An in-memory action map offers expected O(1) name dispatch; input validation scales with payload/schema traversal and handler work dominates.
+
+Budget monthly cost as infrastructure + database/backups + transport/network + evidence storage/egress + model tokens + external tools + human exception handling + operations. Model inference is needed to interpret or plan ambiguous work, not to route every acknowledgment. Measure cost per verified job, not merely per message. Keep a direct single-agent baseline against the collaborative design using the same workloads, quality criteria and human-review accounting. No commercial price, runtime benchmark or reliable SupaBiz improvement percentage was established in this investigation.
+
+EVALUATION PLAN AND UNRESOLVED QUESTIONS
+
+Thirty-six proposed SupaBiz cases accompany this report. They are unexecuted design tests, distinct from the twenty-one source component checks. Cover cross-business identity, grants and revocation; delayed/duplicated/out-of-order messages; exact-action approval; ambiguous remote outcomes; evidence access and prompt injection; budget/delegation limits; and backup/restore behavior.
+
+Track verified completion rate, unauthorized effects, wrong-business disclosure, duplicate effects, human touches, completion time, recovery time and total cost. Use explicit denominators and a labeled test set. Zero observed failures in a small sample is not a proof of impossibility; retain each failure as a regression case and run it against model, prompt, policy and connector changes.
+
+Still unresolved: compatible released versions for the desired feature set; actual production use of the policy helper; full server authorization coverage; complete federation proof enforcement and revocation freshness; achievable load and isolation on the intended hosting plan; real Cloud pricing/data terms; and end-user usability in Varun’s environment. These are adoption gates, not reasons to stop collecting useful design lessons. Next queued review is Glen; this turn does not begin it.
+
+SIXTEEN SAVED DESIGN CANDIDATES
+
+AR-01 Use a model-neutral communication layer
+Decision: Reuse candidate
+Wrap Relaycast/SDK behind a SupaBiz transport interface. Swap model or harness without changing job identity, message contracts or business records. Do not make coding-agent terminal injection the default executor for restaurant transactions.
+Measure: Model/adapter swap success; protocol compatibility failures.
+Evidence: AR-S01
+
+AR-02 Create a room for a job, not an endless swarm chat
+Decision: Adapt UX
+One room follows a supplier quote, inventory transfer or accountant request. Show participating businesses, accountable person, requested result, deadline and evidence. Keep technical agent messages expandable.
+Measure: Time to understand status; unresolved jobs; unnecessary notifications.
+Evidence: AR-S01
+
+AR-03 Bind agents to a business principal
+Decision: Build
+Use immutable agent and business IDs plus credential versions. A human-readable name is a label, not authority. Separate Consu, ForeFathers and supplier workspaces even when Varun owns two of them.
+Measure: Wrong-business disclosure and action tests; credential rotation recovery.
+Evidence: AR-S10
+
+AR-04 Separate delivery receipts from work receipts
+Decision: Adapt and extend
+Retain transport accepted/delivered/deferred/failed separately from job accepted/in_progress/needs_approval/result_submitted/verified. A supplier agent receiving a PO does not confirm its commercial acceptance.
+Measure: False completion rate; time in each state; unowned accepted work.
+Evidence: AR-S02
+
+AR-05 Expose small typed capabilities
+Decision: Reuse candidate
+Define request_quote, share_approved_availability and submit_reconciliation_result with schemas. Validate input, then current server-side permission and constraints before execution. Validate output and independently verify external effects.
+Measure: Schema rejection quality; unauthorized handler invocations; invalid results after effects.
+Evidence: AR-S03
+
+AR-06 Exchange minimum evidence, not whole memory
+Decision: Build
+Share a purpose-specific summary and authorized document references with scoped access and provenance. Do not copy all chat history into a partner context. Apply permission checks to search and dereferencing, including derived summaries.
+Measure: Unnecessary fields disclosed; expired evidence access; retrieval permission failures.
+Evidence: AR-S07
+
+AR-07 Make relationship grants explicit
+Decision: Build
+A relationship grant binds issuer, recipient business/agent, allowed capabilities and data, purpose, limits, expiry and delegation depth. Check at request acceptance, evidence access and action commit. Transport credentials never replace it.
+Measure: Revoked or expired grant attempts blocked; cross-tenant negative tests.
+Evidence: AR-S10
+
+AR-08 Use invitations with a reviewable access preview
+Decision: Adapt UX
+Let a manager invite a named accountant or supplier to one job or bounded relationship. Show identity, scope, expiry and changes before joining; include disconnect/revoke. Unsolicited requests remain in an inbox until accepted.
+Measure: Onboarding completion; mistaken invitations; time to revoke.
+Evidence: AR-S06
+
+AR-09 Keep durable business idempotency above event dedupe
+Decision: Build over transport
+Use a persistent business action key, payload hash, atomic claim and remote reconciliation. Same-source duplicates, reconnects and retries days later must not create duplicate purchase orders. Conflicting payloads for the same key require rejection.
+Measure: Duplicate effects; ambiguous outcomes reconciled; conflicting retries blocked.
+Evidence: AR-S04
+
+AR-10 Verify delegation proofs against trusted issuers
+Decision: Conditional pattern
+Resolve issuer trust independently of the message; validate signature, audience, expiry, capability and current revocation. A proof cannot broaden the parent grant. Keep received text and tool instructions untrusted.
+Measure: Forged, replayed or wrongly scoped proof rejection; grant-chain limits.
+Evidence: AR-S13
+
+AR-11 Recover work without skipping earlier messages
+Decision: Adapt and test
+Persist per-job progress and independent message acknowledgment. An out-of-order ack must not erase older work. Use deadlines, lease renewal, backoff, dead-letter handling and an owner for stuck jobs.
+Measure: Recovery after restart; missing messages; dead-letter age.
+Evidence: AR-S14
+
+AR-12 Give people a collaboration console
+Decision: Build UX
+Show requested, shared, approved, committed and verified events as a compact timeline. Provide exact-action approval, pause, revoke, reassign and disputed-result paths. Label whether a button stops future work or requires compensating an existing effect.
+Measure: Time to resolve an exception; accidental approvals; status comprehension.
+Evidence: AR-S01
+
+AR-13 Bound delegation and agent conversation
+Decision: Build
+Cap depth, participants, tool calls, spend, duration and message rate per job. Track parent job and causation IDs to detect loops. Prefer direct task routing; broadcast only to an authorized bounded audience.
+Measure: Cost per verified job; loops; fan-out; budget-stop correctness.
+Evidence: AR-S12
+
+AR-14 Treat deployment topology as an adoption gate
+Decision: Conditional reuse
+Pilot self-hosted Relaycast in a limited environment. Before production, validate version compatibility, durable recovery, isolation, backup/restore and connection limits; choose managed service or redesign shared state for replicas.
+Measure: Restart data-loss tests; restore time; queue lag; peak-connection limits.
+Evidence: AR-S09
+
+AR-15 Make privacy and connection changes visible
+Decision: Adapt UX
+Present capture/sharing/telemetry settings and credential destinations separately. Track who connected which device and business. Explain temporary inbound permissions and how they expire or are restored.
+Measure: Unexpected scope changes; stale device credentials; configuration restoration.
+Evidence: AR-S15
+
+AR-16 Turn each boundary failure into a regression case
+Decision: Build with Hue pattern
+Add empty-list denial, cross-business leakage, stale approvals, changed quotes and duplicate commits to the harness. Preserve Asakana’s scoped correction → approved rule → regression test loop. Never promote a policy based only on a successful happy path.
+Measure: Regression coverage; false authorization; verified outcome rate and cost.
+Evidence: AR-S05
+
+PINNED SOURCE INDEX
+
+AR-S01: https://github.com/AgentWorkforce/relay/blob/c1ffabbc4a933585ca2ddda729b22a34e3b2a3f2/README.md
+Observed: Model-neutral coding-agent toolkit, messaging, sessions and integration surfaces.
+Limit: README features are not production verification; separate Relayfile/Flows implementations not audited.
+
+AR-S02: https://github.com/AgentWorkforce/relay/blob/c1ffabbc4a933585ca2ddda729b22a34e3b2a3f2/packages/sdk/src/delivery/runner.ts
+Observed: Adapter outcomes map to ack, defer or failure; exceptions request retry; requires server delivery state.
+Limit: Isolated synthetic adapters only; no delivery server executed.
+
+AR-S03: https://github.com/AgentWorkforce/relay/blob/c1ffabbc4a933585ca2ddda729b22a34e3b2a3f2/packages/sdk/src/actions/registry.ts
+Observed: Typed inputs and outputs, action events and optional policy hook.
+Limit: Validation is not authorization; output validation happens after handler side effects.
+
+AR-S04: https://github.com/AgentWorkforce/relay/blob/c1ffabbc4a933585ca2ddda729b22a34e3b2a3f2/packages/sdk/src/messaging/event-fanin.ts
+Observed: Bounded event fan-in deduplicates cross-source copies; default 30-second window and 2,048 tracked keys.
+Limit: Same-source repeats and expired-window repeats can pass; not business idempotency.
+
+AR-S05: https://github.com/AgentWorkforce/relay/blob/c1ffabbc4a933585ca2ddda729b22a34e3b2a3f2/packages/policy/src/agent-policy.ts
+Observed: Empty canMessage/canSpawn lists skip allowlist checks despite displayed guidance describing none. Spawn count enforcement has a placeholder.
+Limit: Reproduced on helper with fixture policy resolution; production call-site reachability not established.
+
+AR-S06: https://github.com/AgentWorkforce/relay/blob/c1ffabbc4a933585ca2ddda729b22a34e3b2a3f2/packages/connect/README.md
+Observed: Convenient temporary join links and probe setup; documents crossSessionInbound accept setting.
+Limit: No installer or probe run. Evaluate disclosure, expiration, revocation and configuration restoration before adoption.
+
+AR-S07: https://github.com/AgentWorkforce/relay/blob/c1ffabbc4a933585ca2ddda729b22a34e3b2a3f2/plugins/shared-sessions/README.md
+Observed: Workspace-authorized history search through Cloud; notes release prerequisites for sessions-only CLI support.
+Limit: A repository feature is not proof that a published release supports it; no Cloud search performed.
+
+AR-S08: https://github.com/AgentWorkforce/relay/blob/c1ffabbc4a933585ca2ddda729b22a34e3b2a3f2/docs/self-hosting/README.md
+Observed: Self-host Relaycast first; Relay CLI/broker handles agent sessions; hosted features still require Cloud.
+Limit: Not a feature-parity or production deployment test.
+
+AR-S09: https://github.com/AgentWorkforce/relaycast/blob/262519998f4107a9ee7879a891151bfa9ed135e9/docs/self-hosting.md
+Observed: Documents a single-process, single-tenant engine and in-memory sequencing, connection and background-work limitations.
+Limit: Some generic idempotency statements differ from newer selected SQL-backed A2A paths; do not generalize across all subsystems.
+
+AR-S10: https://github.com/AgentWorkforce/relaycast/blob/262519998f4107a9ee7879a891151bfa9ed135e9/packages/engine/src/middleware/auth.ts
+Observed: Bearer authentication and workspace/agent/node contexts; observer scope checks.
+Limit: Selected middleware review, not complete endpoint authorization audit.
+
+AR-S11: https://github.com/AgentWorkforce/relaycast/blob/262519998f4107a9ee7879a891151bfa9ed135e9/packages/engine/src/routes/a2a.ts
+Observed: Registered proxy path authenticates, scopes local targets and rejects external-proxy forwarding; message/send supported, proxy message/stream rejected. SQL-backed inbound fingerprint/idempotency logic is present.
+Limit: Selected source only, not end-to-end A2A or specification conformance testing.
+
+AR-S12: https://github.com/AgentWorkforce/relaycast/blob/262519998f4107a9ee7879a891151bfa9ed135e9/packages/engine/src/engine/a2aEgress.ts
+Observed: Bounded retries, claims/leases, target revalidation, retained source checks and state transitions.
+Limit: No live failures injected; retention/retry window does not replace a long-lived business ledger.
+
+AR-S13: https://github.com/AgentWorkforce/relaycast/blob/262519998f4107a9ee7879a891151bfa9ed135e9/docs/a2a-ratify-federation.md
+Observed: Describes proof/revocation metadata carrier and verification against trusted issuer keys.
+Limit: Metadata carrying a proof is not proof that every execution path verifies/enforces it.
+
+AR-S14: https://github.com/AgentWorkforce/relaycast/blob/262519998f4107a9ee7879a891151bfa9ed135e9/packages/engine/src/engine/delivery.ts
+Observed: Per-delivery acknowledgments avoid advancing a cumulative cursor past earlier pending work. Atomic transition guards and ownership checks are present.
+Limit: Static selected-function review, not database race testing.
+
+AR-S15: https://github.com/AgentWorkforce/relay/blob/c1ffabbc4a933585ca2ddda729b22a34e3b2a3f2/TELEMETRY.md
+Observed: Documents CLI telemetry, identifiers and opt-out controls.
+Limit: Self-host engine telemetry behavior does not imply every client has telemetry disabled; no runtime audit.
+
+AR-S16: https://github.com/AgentWorkforce/relaycast/blob/262519998f4107a9ee7879a891151bfa9ed135e9/packages/engine/src/engine/a2a.ts
+Observed: Selected transport code rejects credentialed HTTP and redirects.
+Limit: Not a complete SSRF, DNS rebinding, egress or private-address audit.

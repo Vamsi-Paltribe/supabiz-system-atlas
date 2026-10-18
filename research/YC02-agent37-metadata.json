@@ -1,0 +1,280 @@
+{
+  "id": "YC02-agent37",
+  "date": "2026-10-17",
+  "repositories": [
+    {
+      "path": "source",
+      "url": "https://github.com/agent37-platform/starter-kit",
+      "revision": "e6caed10767a0c7aafc77d76b0a54c9050169e8b"
+    },
+    {
+      "path": "examples",
+      "url": "https://github.com/agent37-platform/examples",
+      "revision": "46a981523e6b2b7c7839cd9f54687ebfcb95d498"
+    }
+  ],
+  "license": "MIT in both repository roots; downstream and hosted terms not exhaustively assessed",
+  "scope": "Selected public source and mutable official API docs; exact helper probes. No private backend, live account, app deployment or performance benchmark.",
+  "evidence_files": [
+    {
+      "repository": "source",
+      "path": "src/lib/agent37.ts",
+      "sha256": "9d30d6e9f0cae17e082ad4f93d4fa7989cf54b102cd2175894315530b7d5f5f0",
+      "bytes": 11908,
+      "source_url": "https://github.com/agent37-platform/starter-kit/blob/e6caed10767a0c7aafc77d76b0a54c9050169e8b/src/lib/agent37.ts",
+      "coverage": "Selected sections inspected; not exhaustive file audit"
+    },
+    {
+      "repository": "source",
+      "path": "LICENSE",
+      "sha256": "98c11fa4800d30b4a00ab1285111a46ba38bda674fbd50789a4f619619835fb7",
+      "bytes": 1064,
+      "source_url": "https://github.com/agent37-platform/starter-kit/blob/e6caed10767a0c7aafc77d76b0a54c9050169e8b/LICENSE",
+      "coverage": "Selected sections inspected; not exhaustive file audit"
+    },
+    {
+      "repository": "source",
+      "path": "src/components/chat/useChat.ts",
+      "sha256": "36549cff2b6599b253d4ca18876aaa1132030d0516af53dbe2c3dcc3368e71dd",
+      "bytes": 22354,
+      "source_url": "https://github.com/agent37-platform/starter-kit/blob/e6caed10767a0c7aafc77d76b0a54c9050169e8b/src/components/chat/useChat.ts",
+      "coverage": "Selected sections inspected; not exhaustive file audit"
+    },
+    {
+      "repository": "examples",
+      "path": "dots/server.js",
+      "sha256": "8a0fc4aa0473baf62e1a3a577c45641dfcbe30a30bf71038bdc28b87ddc0e84c",
+      "bytes": 46020,
+      "source_url": "https://github.com/agent37-platform/examples/blob/46a981523e6b2b7c7839cd9f54687ebfcb95d498/dots/server.js",
+      "coverage": "Selected sections inspected; not exhaustive file audit"
+    },
+    {
+      "repository": "examples",
+      "path": "custom-images/hermes-vnc-desktop/Dockerfile",
+      "sha256": "6138cad035da183585d4b78b21d2b5f37969a6d0d4af8be3d3e66ef6fa8ddd8e",
+      "bytes": 1233,
+      "source_url": "https://github.com/agent37-platform/examples/blob/46a981523e6b2b7c7839cd9f54687ebfcb95d498/custom-images/hermes-vnc-desktop/Dockerfile",
+      "coverage": "Selected sections inspected; not exhaustive file audit"
+    },
+    {
+      "repository": "examples",
+      "path": "custom-images/hermes-vnc-desktop/desktop-entrypoint.sh",
+      "sha256": "441b0516efe7337ec20c5d86361fb6c2a2f5f10fef80c81f0e79e11935da0774",
+      "bytes": 2239,
+      "source_url": "https://github.com/agent37-platform/examples/blob/46a981523e6b2b7c7839cd9f54687ebfcb95d498/custom-images/hermes-vnc-desktop/desktop-entrypoint.sh",
+      "coverage": "Selected sections inspected; not exhaustive file audit"
+    },
+    {
+      "repository": "examples",
+      "path": "dots/public/app.js",
+      "sha256": "a05f3e284ea5836c502bb2844dde9b2192a7f88cee87eb65ba841c973b3ce80a",
+      "bytes": 58049,
+      "source_url": "https://github.com/agent37-platform/examples/blob/46a981523e6b2b7c7839cd9f54687ebfcb95d498/dots/public/app.js",
+      "coverage": "Selected sections inspected; not exhaustive file audit"
+    },
+    {
+      "repository": "source",
+      "path": "src/components/chat/useChatAttachments.ts",
+      "sha256": "8802b5c4718b0c3028127342c617cf63ba4d53d55c2032656f049bf9ba8ab668",
+      "bytes": 5479,
+      "source_url": "https://github.com/agent37-platform/starter-kit/blob/e6caed10767a0c7aafc77d76b0a54c9050169e8b/src/components/chat/useChatAttachments.ts",
+      "coverage": "Selected sections inspected; not exhaustive file audit"
+    },
+    {
+      "repository": "source",
+      "path": "src/components/files/useFileBrowser.ts",
+      "sha256": "07f477f0042ac2fc03508fbf834ec7705501047f9d3f4f0f17eebdd21bb79089",
+      "bytes": 9307,
+      "source_url": "https://github.com/agent37-platform/starter-kit/blob/e6caed10767a0c7aafc77d76b0a54c9050169e8b/src/components/files/useFileBrowser.ts",
+      "coverage": "Selected sections inspected; not exhaustive file audit"
+    },
+    {
+      "repository": "source",
+      "path": "src/components/channels/WhatsAppConnect.tsx",
+      "sha256": "970287bd8ee07e3b6558e1a5d76e66b9179aedcffa62f9f7a2c1dcf645612abf",
+      "bytes": 6545,
+      "source_url": "https://github.com/agent37-platform/starter-kit/blob/e6caed10767a0c7aafc77d76b0a54c9050169e8b/src/components/channels/WhatsAppConnect.tsx",
+      "coverage": "Selected sections inspected; not exhaustive file audit"
+    },
+    {
+      "repository": "source",
+      "path": "src/lib/hermes-messaging.ts",
+      "sha256": "e2634e426fbe20d5cb93ea22353ce6c45a6b813305163189e391bd15aaf98250",
+      "bytes": 5545,
+      "source_url": "https://github.com/agent37-platform/starter-kit/blob/e6caed10767a0c7aafc77d76b0a54c9050169e8b/src/lib/hermes-messaging.ts",
+      "coverage": "Selected sections inspected; not exhaustive file audit"
+    },
+    {
+      "repository": "source",
+      "path": "src/components/channels/ChannelCredentialsForm.tsx",
+      "sha256": "b69bed3795aa2dc6c93d60e108a1eeaf5510b6e1764c4ca763d1f48d0004f9d3",
+      "bytes": 6092,
+      "source_url": "https://github.com/agent37-platform/starter-kit/blob/e6caed10767a0c7aafc77d76b0a54c9050169e8b/src/components/channels/ChannelCredentialsForm.tsx",
+      "coverage": "Selected sections inspected; not exhaustive file audit"
+    },
+    {
+      "repository": "source",
+      "path": "src/app/api/agents/[id]/channels/[channel]/route.ts",
+      "sha256": "1e46954287b0a502bea972d9e4ca0a096daf9db320a51b20c995e6f284c85750",
+      "bytes": 5821,
+      "source_url": "https://github.com/agent37-platform/starter-kit/blob/e6caed10767a0c7aafc77d76b0a54c9050169e8b/src/app/api/agents/[id]/channels/[channel]/route.ts",
+      "coverage": "Selected sections inspected; not exhaustive file audit"
+    },
+    {
+      "repository": "source",
+      "path": "src/lib/telegram.ts",
+      "sha256": "2a1e4668319ce7bff1ccf69e75551cc5a8b237db55b5b4da8d46a907461af4aa",
+      "bytes": 3590,
+      "source_url": "https://github.com/agent37-platform/starter-kit/blob/e6caed10767a0c7aafc77d76b0a54c9050169e8b/src/lib/telegram.ts",
+      "coverage": "Selected sections inspected; not exhaustive file audit"
+    },
+    {
+      "repository": "source",
+      "path": "src/components/IntegrationsTab.tsx",
+      "sha256": "f02631738a8dd0ca03285e190bc550fdc219077120a582c92c125edcaf72e201",
+      "bytes": 15884,
+      "source_url": "https://github.com/agent37-platform/starter-kit/blob/e6caed10767a0c7aafc77d76b0a54c9050169e8b/src/components/IntegrationsTab.tsx",
+      "coverage": "Selected sections inspected; not exhaustive file audit"
+    },
+    {
+      "repository": "source",
+      "path": "src/lib/auth.ts",
+      "sha256": "49042b103e8a5c24b690c49ff73170bcd670f9450ab0f55fd926db3fb0b555cb",
+      "bytes": 2911,
+      "source_url": "https://github.com/agent37-platform/starter-kit/blob/e6caed10767a0c7aafc77d76b0a54c9050169e8b/src/lib/auth.ts",
+      "coverage": "Selected sections inspected; not exhaustive file audit"
+    },
+    {
+      "repository": "source",
+      "path": "supabase/migrations/0001_init.sql",
+      "sha256": "a199c4efcfecf0a57e83341fc767c42ee11af43a0e3c5548d495881a829d6ad3",
+      "bytes": 8935,
+      "source_url": "https://github.com/agent37-platform/starter-kit/blob/e6caed10767a0c7aafc77d76b0a54c9050169e8b/supabase/migrations/0001_init.sql",
+      "coverage": "Selected sections inspected; not exhaustive file audit"
+    },
+    {
+      "repository": "source",
+      "path": "src/app/api/agents/route.ts",
+      "sha256": "f104677f22c51ca2c4df7450d99025ddb8f47ae1232f949d83c01c57a8c93d8d",
+      "bytes": 6066,
+      "source_url": "https://github.com/agent37-platform/starter-kit/blob/e6caed10767a0c7aafc77d76b0a54c9050169e8b/src/app/api/agents/route.ts",
+      "coverage": "Selected sections inspected; not exhaustive file audit"
+    },
+    {
+      "repository": "source",
+      "path": "src/app/api/workspaces/[id]/route.ts",
+      "sha256": "d4edc5a30f892dd12717bcf9f17f371a03349ca4dc1e68ad5516cf325e5315b7",
+      "bytes": 1985,
+      "source_url": "https://github.com/agent37-platform/starter-kit/blob/e6caed10767a0c7aafc77d76b0a54c9050169e8b/src/app/api/workspaces/[id]/route.ts",
+      "coverage": "Selected sections inspected; not exhaustive file audit"
+    },
+    {
+      "repository": "source",
+      "path": "src/app/api/agents/[id]/files/content/route.ts",
+      "sha256": "a8ef0520db64cf6e1d7d6a90baab7b96cb13dd09141312d511345c9111b4bf16",
+      "bytes": 3921,
+      "source_url": "https://github.com/agent37-platform/starter-kit/blob/e6caed10767a0c7aafc77d76b0a54c9050169e8b/src/app/api/agents/[id]/files/content/route.ts",
+      "coverage": "Selected sections inspected; not exhaustive file audit"
+    },
+    {
+      "repository": "source",
+      "path": "src/components/files/FilePreview.tsx",
+      "sha256": "55cf4838710098ffb6b4fd3e0ae8ec199d43b01bc8aa8094f104e4d0fb6982ee",
+      "bytes": 4318,
+      "source_url": "https://github.com/agent37-platform/starter-kit/blob/e6caed10767a0c7aafc77d76b0a54c9050169e8b/src/components/files/FilePreview.tsx",
+      "coverage": "Selected sections inspected; not exhaustive file audit"
+    }
+  ],
+  "web_sources": [
+    {
+      "id": "cloud",
+      "title": "Published resource pricing",
+      "url": "https://www.agent37.com/cloud",
+      "accessed": "2026-10-17",
+      "status": "read; mutable source, no retained full-page snapshot"
+    },
+    {
+      "id": "white-label",
+      "title": "Public starter boundary",
+      "url": "https://www.agent37.com/docs/agents-api/white-label",
+      "accessed": "2026-10-17",
+      "status": "read; mutable source, no retained full-page snapshot"
+    },
+    {
+      "id": "lifecycle",
+      "title": "Persistence and readiness",
+      "url": "https://www.agent37.com/docs/agents-api/instance-lifecycle",
+      "accessed": "2026-10-17",
+      "status": "read; mutable source, no retained full-page snapshot"
+    },
+    {
+      "id": "sleep",
+      "title": "Auto-sleep contract",
+      "url": "https://www.agent37.com/docs/agents-api/instance-auto-sleep",
+      "accessed": "2026-10-17",
+      "status": "read; mutable source, no retained full-page snapshot"
+    },
+    {
+      "id": "budgets",
+      "title": "Managed-service budget contract",
+      "url": "https://www.agent37.com/docs/agents-api/budgets",
+      "accessed": "2026-10-17",
+      "status": "read; mutable source, no retained full-page snapshot"
+    },
+    {
+      "id": "streaming",
+      "title": "Stream/replay/cancellation contract",
+      "url": "https://www.agent37.com/docs/agents-api/streaming",
+      "accessed": "2026-10-17",
+      "status": "read; mutable source, no retained full-page snapshot"
+    },
+    {
+      "id": "desktop",
+      "title": "Desktop and capability limits",
+      "url": "https://www.agent37.com/docs/agents-api/desktop",
+      "accessed": "2026-10-17",
+      "status": "read; mutable source, no retained full-page snapshot"
+    },
+    {
+      "id": "messaging",
+      "title": "WhatsApp and Telegram channel behavior",
+      "url": "https://www.agent37.com/docs/agents-api/messaging",
+      "accessed": "2026-10-17",
+      "status": "read; mutable source, no retained full-page snapshot"
+    },
+    {
+      "id": "crons",
+      "title": "Scheduler semantics",
+      "url": "https://www.agent37.com/docs/agents-api/crons",
+      "accessed": "2026-10-17",
+      "status": "read; mutable source, no retained full-page snapshot"
+    },
+    {
+      "id": "dots",
+      "title": "Proactive example guide",
+      "url": "https://www.agent37.com/docs/agents-api/dots",
+      "accessed": "2026-10-17",
+      "status": "read; mutable source, no retained full-page snapshot"
+    },
+    {
+      "id": "urls",
+      "title": "Signed URL contract",
+      "url": "https://www.agent37.com/docs/agents-api/urls",
+      "accessed": "2026-10-17",
+      "status": "read; mutable source, no retained full-page snapshot"
+    },
+    {
+      "id": "postgres",
+      "title": "Function privilege defaults",
+      "url": "https://www.postgresql.org/docs/current/sql-createfunction.html#SQL-CREATEFUNCTION-SECURITY",
+      "accessed": "2026-10-17",
+      "status": "read; mutable source, no retained full-page snapshot"
+    }
+  ],
+  "unavailable_docs": [
+    "https://www.agent37.com/docs/agents-api/instance-backups",
+    "https://www.agent37.com/docs/agents-api/instances/restore"
+  ],
+  "results": "probes/results.json",
+  "prior_review": "../YC01-executor/review.txt"
+}

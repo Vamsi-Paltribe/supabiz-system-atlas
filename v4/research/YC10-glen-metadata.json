@@ -1,0 +1,254 @@
+{
+  "id": "YC10-glen",
+  "date": "2026-10-17",
+  "name": "Glen",
+  "scope": "Public product and selected plugin/shipped CLI review; no private server audit",
+  "plugin_commit": "4bbed33f2ecad9dd692050fe156b89601d86edf6",
+  "cli_version": "0.41.7",
+  "sources": [
+    {
+      "id": "GL-S01",
+      "url": "https://www.ycombinator.com/companies/glen",
+      "kind": "Vendor-authored YC profile",
+      "observation": "Company identity and institutional learning positioning; product claims, not deployment verification."
+    },
+    {
+      "id": "GL-S02",
+      "url": "https://www.tryglen.com/",
+      "kind": "Official product page",
+      "observation": "Claims observation-level access at recall, database isolation, portable knowledge and shared learning. Backend implementation unverified."
+    },
+    {
+      "id": "GL-S03",
+      "url": "https://www.tryglen.com/privacy",
+      "kind": "Published policy, July 5 2026",
+      "observation": "Allows provider processing; excludes training its own models; retention and third-party processing remain relevant. Not an audited control."
+    },
+    {
+      "id": "GL-S04",
+      "url": "https://www.tryglen.com/sub-processors",
+      "kind": "Published vendor inventory, July 5 2026",
+      "observation": "Lists Vercel, Neon, Inngest and OpenAI among providers. Described stack, not source-verified topology."
+    },
+    {
+      "id": "GL-S05",
+      "url": "https://www.tryglen.com/terms",
+      "kind": "Published terms, June 1 2026",
+      "observation": "Service restrictions need separate adoption review; public client licensing does not establish service integration rights."
+    },
+    {
+      "id": "GL-S06",
+      "url": "https://www.tryglen.com/blog/replaying-100-prs",
+      "kind": "Vendor benchmark, August 4 2026",
+      "observation": "100 PRs, five runs per arm, time-cut memory; reported 29% fewer tokens and 21% faster. No reproduced SupaBiz gain."
+    },
+    {
+      "id": "GL-S07",
+      "url": "https://github.com/Glen-Web-App/glen-claude-code-plugin/tree/4bbed33f2ecad9dd692050fe156b89601d86edf6",
+      "kind": "Cloned public plugin, MIT",
+      "observation": "Hooks and skills reviewed as target content; none installed or followed as instructions."
+    },
+    {
+      "id": "GL-S08",
+      "url": "https://registry.npmjs.org/@tryglen/cli/-/cli-0.41.7.tgz",
+      "kind": "Published CLI artifact, integrity verified",
+      "observation": "Selected shipped JavaScript inspected statically; pure components tested. No CLI boot, login, hook or server execution."
+    },
+    {
+      "id": "GL-S09",
+      "url": "https://github.com/Glen-Web-App/glen",
+      "kind": "Linked source boundary",
+      "observation": "Linked monorepo returned 404; private server source not established."
+    }
+  ],
+  "file_evidence": [
+    {
+      "kind": "plugin",
+      "path": "plugins/glen/hooks/hooks.json",
+      "sha256": "b122fc2423dfc716a091fd1fc1c0f60bb0c033623f741cb3935a3c2c3065a8c6",
+      "lines": 16,
+      "observation": "Actual four hook events differ from root README overview",
+      "url": "https://github.com/Glen-Web-App/glen-claude-code-plugin/blob/4bbed33f2ecad9dd692050fe156b89601d86edf6/plugins/glen/hooks/hooks.json",
+      "coverage": "Selected manual source read; REA automated scope separately recorded"
+    },
+    {
+      "kind": "plugin",
+      "path": "plugins/glen/skills/search/SKILL.md",
+      "sha256": "a97796633c35123e36f61cfea1ceabe7113f2e6f1a075d2a27bd10920a36c57f",
+      "lines": 35,
+      "observation": "Prefer current source for current facts; cite memory sources",
+      "url": "https://github.com/Glen-Web-App/glen-claude-code-plugin/blob/4bbed33f2ecad9dd692050fe156b89601d86edf6/plugins/glen/skills/search/SKILL.md",
+      "coverage": "Selected manual source read; REA automated scope separately recorded"
+    },
+    {
+      "kind": "plugin",
+      "path": "plugins/glen/skills/controls/SKILL.md",
+      "sha256": "d44bdee58500ab52ee30e7d0fcdeb829be850b09544a09db30de6d4471c37f51",
+      "lines": 45,
+      "observation": "Independent recording/surfacing modes and scope; server enforcement documented, not tested",
+      "url": "https://github.com/Glen-Web-App/glen-claude-code-plugin/blob/4bbed33f2ecad9dd692050fe156b89601d86edf6/plugins/glen/skills/controls/SKILL.md",
+      "coverage": "Selected manual source read; REA automated scope separately recorded"
+    },
+    {
+      "kind": "plugin",
+      "path": "plugins/glen/skills/forget/SKILL.md",
+      "sha256": "d01963b6e9bdef19401d6f12134f56acab16062205788e63040335784231d888",
+      "lines": 41,
+      "observation": "Reference-level suppression, lineage and audit-retention contract",
+      "url": "https://github.com/Glen-Web-App/glen-claude-code-plugin/blob/4bbed33f2ecad9dd692050fe156b89601d86edf6/plugins/glen/skills/forget/SKILL.md",
+      "coverage": "Selected manual source read; REA automated scope separately recorded"
+    },
+    {
+      "kind": "plugin",
+      "path": "plugins/glen/skills/create-skill/SKILL.md",
+      "sha256": "f371c561359e3771bd7418b5ab41d837594b3ba69f287b5eac1a5377c886015a",
+      "lines": 41,
+      "observation": "Private-by-default reviewed sharing and dependency declaration",
+      "url": "https://github.com/Glen-Web-App/glen-claude-code-plugin/blob/4bbed33f2ecad9dd692050fe156b89601d86edf6/plugins/glen/skills/create-skill/SKILL.md",
+      "coverage": "Selected manual source read; REA automated scope separately recorded"
+    },
+    {
+      "kind": "plugin",
+      "path": "plugins/glen/skills/create-artifact/SKILL.md",
+      "sha256": "925753db0b4521e1c2bc7f8b07186793b8028b07ec71756189176dbc498df31d",
+      "lines": 11,
+      "observation": "Explicit sharing; deletion differs from recall suppression",
+      "url": "https://github.com/Glen-Web-App/glen-claude-code-plugin/blob/4bbed33f2ecad9dd692050fe156b89601d86edf6/plugins/glen/skills/create-artifact/SKILL.md",
+      "coverage": "Selected manual source read; REA automated scope separately recorded"
+    },
+    {
+      "kind": "cli",
+      "path": "dist/commands/ingest/index.js",
+      "sha256": "c49fab1b4f08dd314da929ef4993f14a5f44ea6f1d3fff409c455af3f9220baa",
+      "lines": 376,
+      "observation": "Reads supplied transcript; serializes turns; off gate, incognito request continues; eight-second request budget",
+      "url": "https://registry.npmjs.org/@tryglen/cli/-/cli-0.41.7.tgz",
+      "coverage": "Selected manual source read; REA automated scope separately recorded"
+    },
+    {
+      "kind": "cli",
+      "path": "dist/commands/ingest/_utils/build-turn-body.js",
+      "sha256": "5045b406d12d2165cfa76b29bf9dd74ca3b29be43a8039562366f0d6bd8c776f",
+      "lines": 18,
+      "observation": "Turn envelope without redaction in this helper",
+      "url": "https://registry.npmjs.org/@tryglen/cli/-/cli-0.41.7.tgz",
+      "coverage": "Selected manual source read; REA automated scope separately recorded"
+    },
+    {
+      "kind": "cli",
+      "path": "dist/commands/ingest/_utils/parse-transcript.js",
+      "sha256": "a81849f9e03621dfc4fda881d42a39e8e9a352fdac9093a17c70d3dcb68a6f6b",
+      "lines": 93,
+      "observation": "Completed-turn parsing and retained segments",
+      "url": "https://registry.npmjs.org/@tryglen/cli/-/cli-0.41.7.tgz",
+      "coverage": "Selected manual source read; REA automated scope separately recorded"
+    },
+    {
+      "kind": "cli",
+      "path": "dist/clients/claude/extract-claude-segments.js",
+      "sha256": "7f95fcb2acd203dfb33ee2783b50143ac42b7a13f143952a6dac3ddec9e8d09b",
+      "lines": 53,
+      "observation": "Short segment preview can accompany complete structured tool output",
+      "url": "https://registry.npmjs.org/@tryglen/cli/-/cli-0.41.7.tgz",
+      "coverage": "Selected manual source read; REA automated scope separately recorded"
+    },
+    {
+      "kind": "cli",
+      "path": "dist/clients/glen-api/glen-api.js",
+      "sha256": "ef43a4e1f5e1c9b9e343773de08865e9e574281ca20f0e72e572805532d892ac",
+      "lines": 204,
+      "observation": "Credential/org headers, typed request and response validation; not server enforcement",
+      "url": "https://registry.npmjs.org/@tryglen/cli/-/cli-0.41.7.tgz",
+      "coverage": "Selected manual source read; REA automated scope separately recorded"
+    },
+    {
+      "kind": "cli",
+      "path": "dist/clients/glen-api/glen-headers.js",
+      "sha256": "9daf001a8c950d25ca60bdf4f065a026a56628872128a6e541f728473ff7ab0c",
+      "lines": 10,
+      "observation": "Incognito header expresses requested mode, not zero transmission",
+      "url": "https://registry.npmjs.org/@tryglen/cli/-/cli-0.41.7.tgz",
+      "coverage": "Selected manual source read; REA automated scope separately recorded"
+    },
+    {
+      "kind": "cli",
+      "path": "dist/commands/session-start/index.js",
+      "sha256": "e340a9067a39264181a7c23d08dc22ed413b6482efb57765cdeea2aa2cdd98bc",
+      "lines": 116,
+      "observation": "teamMemoryBlock at startup; client-specific fallback",
+      "url": "https://registry.npmjs.org/@tryglen/cli/-/cli-0.41.7.tgz",
+      "coverage": "Selected manual source read; REA automated scope separately recorded"
+    },
+    {
+      "kind": "cli",
+      "path": "dist/commands/ingest/_utils/format-turn-nudges.js",
+      "sha256": "99b383dcd43fe78d1dce3665c30bbb16509c9527e43c2166ce0098a980cee233",
+      "lines": 47,
+      "observation": "Turn formatter handles skills/artifact suggestions",
+      "url": "https://registry.npmjs.org/@tryglen/cli/-/cli-0.41.7.tgz",
+      "coverage": "Selected manual source read; REA automated scope separately recorded"
+    },
+    {
+      "kind": "cli",
+      "path": "dist/commands/search/_utils/format-search-result.js",
+      "sha256": "bbcdae52d5a6758f57ad362d98a7745925830e1ec852ddf45f4a86b6ab7cb9e0",
+      "lines": 30,
+      "observation": "Blank-answer handling; broadly asserts prior verification without checking truth",
+      "url": "https://registry.npmjs.org/@tryglen/cli/-/cli-0.41.7.tgz",
+      "coverage": "Selected manual source read; REA automated scope separately recorded"
+    },
+    {
+      "kind": "cli",
+      "path": "dist/commands/forget/index.js",
+      "sha256": "8acff86f1167d03fc3f3e3c70286d0dd8dee02f24c0aabb7ed3169aa476a4c2b",
+      "lines": 30,
+      "observation": "Displays server-returned suppression counts, preserves transcript",
+      "url": "https://registry.npmjs.org/@tryglen/cli/-/cli-0.41.7.tgz",
+      "coverage": "Selected manual source read; REA automated scope separately recorded"
+    },
+    {
+      "kind": "cli",
+      "path": "dist/commands/takeover/index.js",
+      "sha256": "3018d8e9e2c4f7e27b604672c3e9c5e7c0e2ec3330af81adfce7be104131f7fe",
+      "lines": 164,
+      "observation": "Digest and staged round-trip checks; no live handoff tested",
+      "url": "https://registry.npmjs.org/@tryglen/cli/-/cli-0.41.7.tgz",
+      "coverage": "Selected manual source read; REA automated scope separately recorded"
+    },
+    {
+      "kind": "cli",
+      "path": "dist/commands/takeover/_utils/context-fit.js",
+      "sha256": "dff61dee05a95d4a71265c750e03c01762c25d8aa04f2ed3d73eac1d338e5987",
+      "lines": 32,
+      "observation": "Conservative UTF-8 bound with reserves; not universal tokenizer proof",
+      "url": "https://registry.npmjs.org/@tryglen/cli/-/cli-0.41.7.tgz",
+      "coverage": "Selected manual source read; REA automated scope separately recorded"
+    },
+    {
+      "kind": "cli",
+      "path": "dist/core/state/state-line.js",
+      "sha256": "4f8173657cb91a58735bb11c72d58bd6737cbaa52232dba3df1be98347ef8630",
+      "lines": 12,
+      "observation": "Organization/mode indicators",
+      "url": "https://registry.npmjs.org/@tryglen/cli/-/cli-0.41.7.tgz",
+      "coverage": "Selected manual source read; REA automated scope separately recorded"
+    },
+    {
+      "kind": "cli",
+      "path": "dist/commands/artifact/share.js",
+      "sha256": "6aace36c486006245e02dff9e200ea1b876a1ad43c4d100995c00211379dd38a",
+      "lines": 42,
+      "observation": "Explicit recipients/org sharing request; authorization delegated to server",
+      "url": "https://registry.npmjs.org/@tryglen/cli/-/cli-0.41.7.tgz",
+      "coverage": "Selected manual source read; REA automated scope separately recorded"
+    }
+  ],
+  "rea_summary": "rea-summary.json",
+  "artifact_identity": "artifact-identity.json",
+  "limits": [
+    "No authenticated application access",
+    "No real data, server permission, benchmark or federation tests",
+    "No public backend source established at linked monorepo",
+    "REAs selected analysis excludes 486 inventoried files; manual reads extend selected client coverage only"
+  ]
+}

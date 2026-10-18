@@ -1,0 +1,164 @@
+SIDEKICK → SUPABIZ FRONTLINE OPERATIONS / YC07
+2026-10-17
+
+SCOPE AND CONCLUSION
+Hue’s fourteen learnings remain saved. This review studies Sidekick at textsidekick.com, the manufacturing/frontline product linked by YC. It covers the current public site and FAQ, policies and selected frames of the official one-minute demo. The demo showed a short equipment message, a manager work queue and procedure version/deprecation controls. Neither linked YouTube video supplied a transcript. We did not verify spoken narration or watch a live customer deployment.
+
+Focused searches did not establish a public application repository or usable official API specification. A directory entry or third-party metadata repository is not product source. This is therefore a public-product and recorded-demo review, not binary analysis, decompilation or a backend audit. Authentication, channel internals, language accuracy, video processing, training implementation and action reliability remain unverified. No vendor contact, form submission, account, software install or real staff data was involved.
+
+Our recommendation is to adopt the frontline interaction design and build it on SupaBiz’s existing evidence, record and workflow architecture. Sidekick is a product-pattern reference rather than an established source-code dependency. Its manufacturing examples translate well to restaurant maintenance, cleanliness reporting, stock exceptions and staff knowledge, but do not establish restaurant-specific performance. The advertised 15% throughput improvement is not a SupaBiz estimate.
+
+THE EXPERIENCE VARUN’S STAFF SHOULD HAVE
+A waiter notices a leak near the back sink. They send a voice note and a short clip in the approved channel. SupaBiz acknowledges the report, identifies the authorized outlet and asks only for the missing location if necessary. It proposes an issue record with the media attached and routes it using the outlet’s configured on-shift responsibilities. The acknowledgement should say who has been assigned and whether they have accepted, not invent an arrival time.
+
+For a routine report, an illustrative reply is: “Consu · back sink · leak reported. Issue C-104 recorded. Assigned to the shift manager; acceptance pending. Reply here with an update.” If the location is ambiguous, the response asks “Back sink or wash area?” instead of forcing the worker to fill out a form. Supported quick replies in our app might be Correct location, Add detail and Track issue. In a channel without buttons, ordinary text must still work.
+
+The manager sees the original report, evidence, extracted facts and unresolved questions. They can accept ownership, assign an authorized person, request more information or mark work ready for verification. Varun sees exceptions and recurring issues across the two businesses, with explicit outlet labels. A simple Received → Owned → Resolved trail is more useful to the reporter than a long agent reasoning transcript. The full audit remains available to authorized reviewers.
+
+This is a proposed SupaBiz flow, not a claim that Sidekick supports these exact buttons, states or Indian WhatsApp group semantics. The app should earn adoption by making capture and followthrough easier; moving every worker to a new chat app is not a prerequisite for the first useful workflow.
+
+VOICE, PHOTOS AND VIDEOS SOLVE DIFFERENT JOBS
+VOICE — good for a worker who can describe an issue faster than type it. Preserve the original audio, language information, transcript and translation as separate artifacts. Use timestamps to connect an extracted quantity or location to its source. Confirm uncertain critical facts such as “five crates, not fifty” or “has not been cleaned”; do not treat fluent translation as evidence of correct meaning. Test the staff’s actual languages, code-switching, background machinery, overlapping speakers and short incomplete notes. Optional read-aloud helps, but a text receipt should remain available in a noisy kitchen.
+
+PHOTO — good for identifying visible damage, a delivery label, a spill or a relevant equipment display. Keep the original and reference any derived crop. OCR should preserve uncertain characters and units rather than silently normalizing them. A single image does not establish hidden damage, internal temperature, food safety, actual inventory behind an occlusion or how long a condition existed. If the system needs a different view, ask for a specific shot rather than “send a better photo.”
+
+VIDEO — good for motion, sound and ordered demonstrations: an intermittent drip, a machine that shakes, or an approved trainer showing a routine. A transcript alone misses silent actions; sparse frames can miss brief events. Align audio, OCR, frames and observations on one timeline. For an important moment, examine a denser segment or request human review. Show the relevant timestamp beside the claim and record which portions were actually analyzed. “No fault seen in sampled frames” must not become “the equipment is safe.”
+
+Use two explicit video intents: Report an issue and Teach a procedure. The first creates evidence for work. The second creates a draft tutorial requiring authorized review, scope and versioning. Never turn an accidental unsafe demonstration into an approved instruction automatically. Staff should capture media only where safe and appropriate; no task should require filming while handling equipment or distract someone from an immediate incident.
+
+HOW THE PIPELINE FITS THE ARCHITECTURE
+The connector layer records source account, message ID, sender identity, business/outlet context, event time and receipt time. It tracks edits, deletions, replies, duplicates and media availability. WhatsApp session ingestion already explored for SupaBiz needs its own access, reconnect and gap handling; Sidekick’s channel marketing does not validate our group-reading implementation. Plain SMS is text-only; rich-media delivery depends on the actual channel and carrier/application capabilities.
+
+The media service stores immutable source bytes under tenant/object grants, computes an integrity hash and records MIME type, duration, dimensions and provenance. Validate file types and bound sizes before decoding. Queue expensive processing and expose Received, Uploading, Processing, Needs detail and Failed states honestly. A client upload acknowledgement differs from successful server receipt. The app can have a retryable local queue, but existing messaging channels require their own transport-specific behavior.
+
+Modality workers produce typed observations: ASR transcript segments, translated text, OCR regions, image observations and video segments. They do not directly write stock, approve purchases or close issues. A context resolver connects authorized outlet, area, asset, worker and active issue IDs. Low-confidence matches generate candidates, not silent assignments. The agent harness selects permitted evidence and applicable SOP versions, then proposes a structured business event.
+
+The deterministic workflow service applies grants, approval policy, version checks and transitions. Approved effects pass through an idempotent outbox and connector verification. The scheduler handles acceptance deadlines, reminders and shift handover outside the model session. A closure event includes resolver, work performed, evidence and required reviewer decision. A knowledge service can suggest an approved scoped rule after closure; Hue-style evaluations test future behavior. All observations retain source links and model/parser/version identity for later correction.
+
+WORKER IDENTITY, PERMISSIONS AND TRUST
+No-login marketing describes low interaction friction, not proof that identity and authorization are unnecessary. SupaBiz should enroll staff through the business, bind approved identities to roles and outlets, and revoke access promptly when work relationships change. Shared phones and reassigned numbers need an explicit actor-selection or re-verification path. A staff member may report an issue without authority to inspect accounts or approve supplier spending. A QR code can identify an asset but must not grant access to its private records.
+
+Distinguish the conversation audience from the operational record audience. A group may contain people who should not see private staff information or customer details. Redact or route sensitive follow-ups to an authorized channel. Tell workers which reports and usage data managers can see. Keep the pilot focused on reported operational issues rather than employee ranking, continuous recording or emotion/identity inference from voice or faces.
+
+Consu and ForeFathers need separate business scope by default even when Varun owns both. A shared checklist can be intentionally published to both, but a recipe, supplier term, staff record or equipment-specific fix should not spread automatically. Keep the administrator’s authority explicit. Vendor privacy statements are not verified controls: the Sidekick policy describes general retention and SOC 2 work in progress, and does not establish the detailed residency, model-training or deletion terms we would require before sending sensitive data.
+
+CLOSE THE LOOP AND RETAIN USEFUL KNOWLEDGE
+A media report is not a completed workflow. Record the issue, route it, obtain acceptance, track blockers, verify the work and tell the original reporter what happened. Dedupe should join genuine repeats without erasing evidence or hiding a new recurrence. Distinguish same incident still open from the same asset failing again after closure. A thumbs-up or “done” message can be a completion claim, but the workflow may still require a manager’s check.
+
+Knowledge capture works best after a verified outcome. Draft a reusable entry with symptoms, asset/version, permitted action, conditions, evidence and reviewer. A temporary workaround must remain labeled as such. Give the manager choices for one occurrence, one asset, an outlet or a reviewed template. Corrections supersede specific claims without rewriting the historical record. Procedure publication and deprecation should invalidate stale retrieval results while keeping old decisions reproducible.
+
+For training, a chef records a walkthrough and SupaBiz drafts timestamped steps, a short checklist and translated explanations. A qualified reviewer checks the procedure and language before assigning it. Track acknowledgement, practice and competence checks separately. Opening a video is not evidence that someone learned the task. Safety-critical content should use current approved procedures and responsible human review; this report supplies no operational repair or food-safety instructions.
+
+The learning chain is now concrete: Asakana contributes scoped business understanding; Praxis contributes owned work and blockers; Hue contributes regression evidence; Sidekick contributes a low-effort frontline interface. The existing VERY IMPORTANT correction → scoped memory → regression-test principle remains the governing rule. Learning from activity does not mean unreviewed weight training or automatic truth from every message.
+
+BEST INITIAL WORKFLOWS AND ROLLOUT
+Start with two workflows: issue reporting/assignment/verification, and questions answered from a small approved SOP library with escalation. Use one outlet and a small group of consenting staff; collect representative synthetic or authorized examples from their real languages and devices. Define the shift-manager fallback, time expectations and evidence required for closure before automation.
+
+Stage 1: text and photos, explicit outlet/asset confirmation, visible receipts and manager queue. Gate on correct routing, no unowned issues, recoverable uploads and useful resolution status. Stage 2: voice input with critical-field confirmation, source replay and language-specific evaluation. Gate on negation, quantities, units and noisy speech rather than only aggregate transcription accuracy.
+
+Stage 3: short video reports and trainer-to-SOP drafts. Gate on timestamped evidence, missed-event tests, reviewable uncertainty and publication approval. Stage 4: recurrence insights, shift handover and explicit cross-outlet template reuse. Add sensor data only after the asset registry, freshness semantics and maintenance workflow are reliable. Keep purchase approval and inventory receipt semantics separate throughout.
+
+These stages are recommendations, not promised sprint durations. Do not wait to build every input mode before testing whether the report-to-resolution loop helps. Compare current WhatsApp handling with SupaBiz on representative shifts, including busy periods and exceptions. Measure staff reporting time, manager interruptions, report-to-owner acceptance, verified resolution, reopen rate and total cost per completed issue.
+
+PERFORMANCE, STORAGE AND COST REASONING
+Let B be media bytes, T audio/video duration, f selected frames per second, K sampled frames, A authorized assets, M existing incidents and N reports. Reading, hashing and uploading media is O(B) work. Speech processing generally scales with duration and the chosen service; actual latency depends on provider, batching and hardware. Sampling approximately K=ceil(T×f) frames bounds subsequent per-frame inference, but decoding compressed video may still need intervening frames. Do not claim all video processing falls to O(K) or that sampling proves full temporal coverage.
+
+Exact indexed asset/incident lookups can be approximately O(log A) or O(log M) plus returned matches under suitable indexes. Fuzzy matching and multimodal inference have different costs and must be measured. Storage is source bytes plus transcripts, derived images/segments, record versions, audit history and optional test copies. Integrity hashes help exact dedupe; perceptual similarity only proposes candidates because different incidents can look similar. Stream processing and bounded queues reduce peak working memory; queues need backpressure and tenant fairness during bursts.
+
+Illustrative workload: ten 12-second clips contain two minutes of video. Sampling one frame per second selects 120 frames versus 3,600 frames at 30 fps—a 96.7% reduction in frame count, not a measured reduction in bills, latency or error. Short events can disappear at that sampling rate. Increase temporal coverage when the question depends on a brief action; native video models may price or process differently.
+
+Model the full bill as messaging + audio minutes + images/frames or native video usage + text tokens + storage/egress + workflow infrastructure + human exceptions/support. Route by task and uncertainty: an adequate photo should not require a video, and a simple receipt should not need a large model. Measure p50/p95 receipt time separately from extraction, manager acceptance and resolution time. Receipt must remain responsive even when media analysis is queued, without implying it was fully understood.
+
+No commercial Sidekick price or measured SupaBiz uplift was established. A claimed manufacturing throughput percentage does not predict restaurant savings. Small pilots should report denominators, invalid/missing media, staff drop-off and correctness as well as speed. Set explicit thresholds for critical errors; a high average success score cannot offset wrong-outlet disclosure or unsupported safety claims.
+
+FOURTEEN FINDINGS
+
+SK-01 Keep the worker’s existing front door
+Evidence: The public product emphasizes familiar messaging. [SK-S01, SK-S02]
+Our proposal: Let staff report through the authorized WhatsApp connection first. Add the SupaBiz app when it improves capture, offline queues or receipts. A low-friction interface still needs organization enrollment, current staff grants, business/outlet identity and revocation. A phone number or group membership alone is not sufficient authority for purchases, payroll or broad data access.
+Measure: Report completion rate; time to first useful report; identity errors; onboarding effort.
+
+SK-02 Capture now; ask the smallest missing question
+Evidence: The recorded demo starts with a brief equipment report. [SK-S03]
+Our proposal: Acknowledge receipt without claiming resolution. Resolve the likely outlet and asset from authorized context, then ask one focused question if needed. During service, do not force staff through a long form. Let them answer by voice, text or a quick choice. Persist incomplete reports with a visible owner and status so unanswered questions do not erase the issue.
+Measure: Time to report; clarification turns; abandoned reports; unresolved ambiguity age.
+
+SK-03 Voice should preserve meaning across languages
+Evidence: Voice and multilingual input are advertised. [SK-S01]
+Our proposal: Support the languages and code-switching actually used by Varun’s staff; test kitchen noise. Store original audio, time-aligned transcript and translation separately under retention policy. Confirm critical units, numbers, asset and negation, not every word. Offer short text acknowledgement and optional read-aloud; keep transcripts editable. Do not infer worker identity or emotion from voice.
+Measure: Critical-field error rate; negation/unit errors; correction effort; language-specific task success.
+
+SK-04 Photos should anchor a report to visible evidence
+Evidence: Photo reporting is advertised. [SK-S01]
+Our proposal: Link each observation to the original image and relevant crop or box. A spill, damaged seal or delivery label can support a report, but a photo cannot establish hidden temperature, food safety or repair success. Ask for a wider view, close-up or readable label only when needed. Distinguish observed, worker-reported and model-inferred facts.
+Measure: Correct issue/location identification; unsupported visual claims; requests for retakes; evidence availability.
+
+SK-05 Use video for sequence and movement
+Evidence: Video input is advertised; its processing internals are unknown. [SK-S01, SK-S02]
+Our proposal: Use short clips for recurring leaks, moving equipment or a chef’s demonstration. Analyze audio and time-linked visual segments together; retain timestamps. Begin with bounded sampling and request closer examination for uncertain moments. Never infer absence of a brief event from sparse frames. Separate live issue evidence from tutorial capture, and require review before a demonstrated procedure becomes a published SOP.
+Measure: Temporal-event recall; unsupported conclusions; reviewer effort; cost per useful clip.
+
+SK-06 Resolve the outlet, area and asset explicitly
+Evidence: Public examples connect reports to equipment. [SK-S02, SK-S03]
+Our proposal: Maintain Consu/ForeFathers → outlet → area → asset identifiers and scoped aliases. A QR label can prefill the asset in the SupaBiz app; it is a locator, not an access credential. Resolve fridge near the back using the current authorized outlet; ask when multiple assets match. Keep original worker wording and any inferred association.
+Measure: Wrong-outlet routing; wrong-asset tasks; duplicate incidents; clarification frequency.
+
+SK-07 Return a work receipt and close the loop
+Evidence: Work-order routing appears in the public material. [SK-S01, SK-S03]
+Our proposal: Reply with a short issue ID, confirmed location, what was understood, current owner and next status. Track received, needs clarification, assigned, accepted, in progress, blocked, submitted and verified closed. A sent notification is not an accepted assignment. A before/after photo supports review but must not automatically prove physical repair or sanitation.
+Measure: Report-to-acceptance time; unowned issues; verified resolution; reopen rate.
+
+SK-08 Give managers an exception queue
+Evidence: The recorded demo shows filters for manager attention and unassigned work. [SK-S03]
+Our proposal: Give the outlet manager Needs attention, Unassigned, Waiting, Due this shift and Needs verification views. Varun receives a cross-business summary with a clear outlet label on every item. Bundle routine updates; escalate urgent issues under approved policies. Shift handover carries open work, accepted owner, blocker and evidence rather than another long chat recap.
+Measure: Manager interruptions; age of blockers; handover omissions; alert acknowledgement.
+
+SK-09 Answer from approved local procedures
+Evidence: Source-grounded workplace answers are advertised. [SK-S01, SK-S02]
+Our proposal: Return a concise answer with the relevant approved SOP version and a link to the exact page or clip time. Use retrieval filters for outlet, asset model, role and validity dates. Do not mix a different business’s recipe, allergen procedure or maintenance instruction into a confident answer. Missing or contradictory guidance should go to the designated manager.
+Measure: Evidence-backed answer rate; outdated-SOP answers; unsupported instructions; escalation precision.
+
+SK-10 Capture a verified fix as candidate knowledge
+Evidence: The product advertises memory of resolutions and manager answers. [SK-S02]
+Our proposal: After a verified resolution, draft a knowledge entry with problem, asset, symptoms, evidence, authorized resolver and conditions. Ask whether it applies once, to this asset, this outlet or an approved organization-wide pattern. Do not learn a general rule from every message or repeat an unsafe workaround. Link to SB-AS-13 and generate a reviewed Hue-style regression case.
+Measure: Repeat incident rate; unsafe generalization; knowledge freshness; regression coverage.
+
+SK-11 Version and retire procedures
+Evidence: The demo shows New Version and Deprecate controls. [SK-S03]
+Our proposal: Let an authorized chef or manager record a short training walkthrough. Produce a draft checklist with timestamped steps and missing-information flags. A reviewer approves scope, translations and version before publishing. Staff acknowledgement and demonstrated competence are separate events; video viewed is not certification. Retire superseded instructions while retaining historical provenance.
+Measure: Training completion with checks; outdated content retrieval; reviewer correction rate; ramp-up time.
+
+SK-12 Share knowledge between outlets deliberately
+Evidence: Cross-site knowledge reuse is marketed. [SK-S02]
+Our proposal: Varun owning two businesses does not make all information interchangeable. Default to business/outlet scope. Offer an explicit approved template-sharing action with equipment/procedure applicability checks. Reuse generic issue categories or approved process templates while keeping customer, staff, supplier, financial and business-specific knowledge appropriately separated.
+Measure: Cross-business leaks; wrong-equipment advice; useful approved reuse; template update propagation.
+
+SK-13 Treat sensor evidence separately from visual inference
+Evidence: Connected-machine monitoring is advertised. [SK-S01]
+Our proposal: Later, ingest approved refrigerator/asset telemetry with device identity, calibrated units, timestamp and freshness. Distinguish measured temperature from a staff report and a photographed display. Missing sensor data is unknown, not normal. Do not copy predictive-maintenance claims without sufficient telemetry and validation. Start with issue reporting before buying hardware or promising prediction.
+Measure: Sensor freshness; false alerts; missed events; measured downtime; review burden.
+
+SK-14 Make staff trust and operational value visible
+Evidence: Privacy describes employer access to some usage information. [SK-S05, SK-S07]
+Our proposal: Tell staff what is recorded, who can see reports and how to correct them. Use targeted operational capture, not continuous surveillance or inferred worker scoring. Minimize bystander/customer media, restrict sensitive details, and propagate retention/deletion to transcripts, thumbnails and test copies. Measure correct completed work and staff effort before claiming productivity gains.
+Measure: Staff adoption; privacy incidents; verified completion cost; correction time; report quality.
+
+SOURCES
+SK-S01 https://www.ycombinator.com/companies/textsidekick
+Company-authored YC profile/launch — Manufacturing target founded by Justin So. Claims multimodal worker messages, document-grounded assistance, work routing and operational knowledge capture. Claimed 15% throughput benefit is not independently verified or transferable to SupaBiz.
+SK-S02 https://textsidekick.com/
+Public homepage and expanded FAQ inspected — Channel-first worker experience, manager interface, cited knowledge history and cross-site learning are advertised. FAQ says uncertain questions escalate. Absolute repeat-error prevention is marketing, not a demonstrated guarantee. Embedded feature videos failed to play in page.
+SK-S03 https://www.youtube.com/watch?v=a5zBRSXi-90
+Selected recorded-demo frames visually inspected — No transcript available. Approximately 0:19: short equipment report; 0:29: manager activity filters and work-order list; 0:44: procedure record with New Version and Deprecate controls; 0:54: completion/remembering illustration. No live backend execution, audio comprehension or model accuracy established.
+SK-S04 https://www.youtube.com/watch?v=yxwq5ZAojXg
+Launch video page identified; transcript unavailable — No transcript available; not used as evidence of spoken claims or detailed functionality.
+SK-S05 https://textsidekick.com/privacy
+Published privacy policy, updated 2026-01-01 — Describes usage data shared with employers, provider processing, general retention and access controls. SOC 2 Type II is described as in progress. No independent security audit, detailed model-training boundary, location guarantee or exact deletion SLA established.
+SK-S06 https://textsidekick.com/terms
+Published terms read; no agreement accepted — Describes proprietary service and user-owned uploaded content with a service-use license. Does not establish reusable code, public API, Indian channel support or numeric pricing.
+SK-S07 https://textsidekick.com/sms-consent
+Published channel consent page — Describes enrollment, usage-related messages and STOP opt-out. This is vendor policy, not a finding about Indian messaging requirements or WhatsApp group functionality.
+SK-S08 https://textsidekick.com/sms-terms
+Published SMS terms — US-carrier-oriented description. Text-only SMS and rich-media transports must not be conflated in the SupaBiz capability matrix.
+SK-S09 https://textsidekick.com/documentation
+Unverified documentation link from third-party directory — Direct web fetch failed. Focused searches did not establish an official application repository or usable public API specification. Directory metadata repositories are not the product source.

@@ -1,0 +1,186 @@
+{
+  "id": "YC06-hue",
+  "date": "2026-10-17",
+  "source_commit": "9ba8077524baf4f0e34dd7b7a112061ca82cad8e",
+  "source_repository": "https://github.com/hue-run/hue-sdk",
+  "license": "MIT (SDK repository)",
+  "versions": {
+    "typescript": "0.19.1",
+    "python": "0.12.1"
+  },
+  "sources": [
+    {
+      "id": "HU-S01",
+      "url": "https://www.ycombinator.com/companies/hue",
+      "evidence_type": "Company-authored profile",
+      "notes": "Correct target: Hue / hue.run, founders Aneesh Kethini and Josh Le. Production-derived repeatable agent testing.",
+      "observed": "2026-10-17"
+    },
+    {
+      "id": "HU-S02",
+      "url": "https://hue.run/",
+      "evidence_type": "Public UI inspected",
+      "notes": "Observability, suggestions, replays and evaluation illustrations. These are marketing examples, not measured runs; provider-logo illustration explicitly disclaims support. Compliance claims not independently audited.",
+      "observed": "2026-10-17"
+    },
+    {
+      "id": "HU-S03",
+      "url": "https://docs.hue.run/evaluations/case-from-trace",
+      "evidence_type": "Official documentation read in browser",
+      "notes": "Human review of task, intended outcome, generated criteria and starting world. Answer-only and world cases have different evidence tiers. Copied case files can outlive trace deletion. No hosted conversion executed.",
+      "observed": "2026-10-17"
+    },
+    {
+      "id": "HU-S04",
+      "url": "https://docs.hue.run/evaluations/simulations",
+      "evidence_type": "Official documentation read in browser",
+      "notes": "Isolated worlds, journals and virtual clocks. Mirror gateway marked preview/not released in Hue Cloud; provider registrations described as inactive. Native simulation MCP is the documented runnable hosted path. No live fidelity test.",
+      "observed": "2026-10-17"
+    },
+    {
+      "id": "HU-S05",
+      "url": "https://github.com/hue-run/hue-sdk/blob/9ba8077524baf4f0e34dd7b7a112061ca82cad8e/README.md",
+      "evidence_type": "SDK overview",
+      "notes": "MIT SDK only; hosted application source excluded. SDK can use OTLP receivers; hosted services still require access.",
+      "observed": "2026-10-17",
+      "local_path": "/Users/pntopapple2/Documents/ChatGPT/SupaBiz 2/research/hue-sdk/README.md",
+      "sha256": "cf6ef6d2619e71af49a30cad64acbe1918c8745d967b41d1cf500d6d68fb8e03"
+    },
+    {
+      "id": "HU-S06",
+      "url": "https://github.com/hue-run/hue-sdk/blob/9ba8077524baf4f0e34dd7b7a112061ca82cad8e/packages/sdk-python/EVALUATIONS.md",
+      "evidence_type": "SDK guide",
+      "notes": "Pinned datasets/scorers, independent result-content policy, recovery and historical rescoring.",
+      "observed": "2026-10-17",
+      "local_path": "/Users/pntopapple2/Documents/ChatGPT/SupaBiz 2/research/hue-sdk/packages/sdk-python/EVALUATIONS.md",
+      "sha256": "12b6c0894a65e8b2b2355f9113aff0a27faf5e851e9747bc47cb38efe0c1c44b"
+    },
+    {
+      "id": "HU-S07",
+      "url": "https://github.com/hue-run/hue-sdk/blob/9ba8077524baf4f0e34dd7b7a112061ca82cad8e/packages/sdk-python/src/hue_sdk/evals/runner.py",
+      "evidence_type": "Selected Python source",
+      "notes": "run_experiment at 396; uncertain checkpoint handling at 539 onward; rescore at 748. Source inspected and selected installed-package checks passed.",
+      "observed": "2026-10-17",
+      "local_path": "/Users/pntopapple2/Documents/ChatGPT/SupaBiz 2/research/hue-sdk/packages/sdk-python/src/hue_sdk/evals/runner.py",
+      "sha256": "12a6948ea9ad312bd2a8a76bc359e40c4dca0156eb77393fe187d032af88f5eb"
+    },
+    {
+      "id": "HU-S08",
+      "url": "https://github.com/hue-run/hue-sdk/blob/9ba8077524baf4f0e34dd7b7a112061ca82cad8e/packages/sdk-python/src/hue_sdk/evals/_checkpoint.py",
+      "evidence_type": "Selected Python source",
+      "notes": "Private POSIX checkpoint directory, exclusive lock, integrity envelope and atomic fsynced writes. No automatic stale-lock deletion.",
+      "observed": "2026-10-17",
+      "local_path": "/Users/pntopapple2/Documents/ChatGPT/SupaBiz 2/research/hue-sdk/packages/sdk-python/src/hue_sdk/evals/_checkpoint.py",
+      "sha256": "76c71cf96dd825b386c29fd5f197c905e1b798716a16edcf706b0fbf271dcd71"
+    },
+    {
+      "id": "HU-S09",
+      "url": "https://github.com/hue-run/hue-sdk/blob/9ba8077524baf4f0e34dd7b7a112061ca82cad8e/packages/sdk-typescript/src/evals/verdicts.ts",
+      "evidence_type": "Selected TypeScript source",
+      "notes": "Separate pending/error/skipped/scored outcomes, advisory/required evaluator handling. Numeric metrics need explicit pass criteria; per-case filtering scans the result collection.",
+      "observed": "2026-10-17",
+      "local_path": "/Users/pntopapple2/Documents/ChatGPT/SupaBiz 2/research/hue-sdk/packages/sdk-typescript/src/evals/verdicts.ts",
+      "sha256": "6f0fc781250da03dc8dd0eb2c2cdb8cf2da321e5c77c15a8268ea8ea69a74018"
+    },
+    {
+      "id": "HU-S10",
+      "url": "https://github.com/hue-run/hue-sdk/blob/9ba8077524baf4f0e34dd7b7a112061ca82cad8e/packages/sdk-typescript/src/evals/environment-evidence.ts",
+      "evidence_type": "Selected TypeScript source",
+      "notes": "Bounded journal evidence, version/execution identity checks, explicit environment-incomplete validity. No reported gap does not establish parity.",
+      "observed": "2026-10-17",
+      "local_path": "/Users/pntopapple2/Documents/ChatGPT/SupaBiz 2/research/hue-sdk/packages/sdk-typescript/src/evals/environment-evidence.ts",
+      "sha256": "8110da0483a3889638ace664912630b0e418c2f9990a4779675a3f7e92dd1b37"
+    },
+    {
+      "id": "HU-S11",
+      "url": "https://github.com/hue-run/hue-sdk/blob/9ba8077524baf4f0e34dd7b7a112061ca82cad8e/packages/sdk-typescript/src/environment/world.ts",
+      "evidence_type": "Selected TypeScript source",
+      "notes": "worldNow returns null if missing/invalid; world handoff and control-plane credential filtering. A configuration helper is not a network sandbox.",
+      "observed": "2026-10-17",
+      "local_path": "/Users/pntopapple2/Documents/ChatGPT/SupaBiz 2/research/hue-sdk/packages/sdk-typescript/src/environment/world.ts",
+      "sha256": "7f371d8793ac011d1ce01ff2a28d6eff91eff5b1edca94953b34d7756b3abe29"
+    },
+    {
+      "id": "HU-S12",
+      "url": "https://github.com/hue-run/hue-sdk/blob/9ba8077524baf4f0e34dd7b7a112061ca82cad8e/packages/sdk-typescript/CLI.md",
+      "evidence_type": "CLI contract read",
+      "notes": "Same-client mirror routing; child process excludes Hue control-plane keys by default but inherits other environment values. Production endpoint escape still needs independent prevention.",
+      "observed": "2026-10-17",
+      "local_path": "/Users/pntopapple2/Documents/ChatGPT/SupaBiz 2/research/hue-sdk/packages/sdk-typescript/CLI.md",
+      "sha256": "e7e526eb909576d2fdbbf7c39abc84ef771d352abecc30f244c06acdd14c3527"
+    },
+    {
+      "id": "HU-S13",
+      "url": "https://github.com/hue-run/hue-sdk/blob/9ba8077524baf4f0e34dd7b7a112061ca82cad8e/RELIABILITY.md",
+      "evidence_type": "Published reliability contract",
+      "notes": "Optional tracing preserves business results, bounds queues and surfaces loss. Safe failure is not a guarantee of durable evidence.",
+      "observed": "2026-10-17",
+      "local_path": "/Users/pntopapple2/Documents/ChatGPT/SupaBiz 2/research/hue-sdk/RELIABILITY.md",
+      "sha256": "32319a1f9b8b8a5d081ae92c30943d5dfd50ece56ef2ce9c53ff3cb65cf94992"
+    },
+    {
+      "id": "HU-S14",
+      "url": "https://github.com/hue-run/hue-sdk/blob/9ba8077524baf4f0e34dd7b7a112061ca82cad8e/packages/sdk-python/src/hue_sdk/client.py",
+      "evidence_type": "Selected Python source",
+      "notes": "Content capture defaults true at the reviewed version. Explicit capture_content=False is required for metadata-only behavior; arbitrary metadata and other exporters still need policy.",
+      "observed": "2026-10-17",
+      "local_path": "/Users/pntopapple2/Documents/ChatGPT/SupaBiz 2/research/hue-sdk/packages/sdk-python/src/hue_sdk/client.py",
+      "sha256": "15068a20a3d833d0856cdcc0930d75b76b2606e68c3a727ee807d4e44fc4b6de"
+    },
+    {
+      "id": "HU-S15",
+      "url": "https://github.com/hue-run/hue-sdk/blob/9ba8077524baf4f0e34dd7b7a112061ca82cad8e/packages/sdk-python/tests/test_evaluations.py",
+      "evidence_type": "Reviewed and selected executed tests",
+      "notes": "Recovery without duplicate target calls; result privacy; uncertain execution; exclusive ownership; file integrity and evaluator-only file separation.",
+      "observed": "2026-10-17",
+      "local_path": "/Users/pntopapple2/Documents/ChatGPT/SupaBiz 2/research/hue-sdk/packages/sdk-python/tests/test_evaluations.py",
+      "sha256": "c6a13aff1f73dbf4d5258757b202178a5d00410e92299a60d62a833c91f0b9e1"
+    },
+    {
+      "id": "HU-S16",
+      "url": "https://github.com/hue-run/hue-sdk/blob/9ba8077524baf4f0e34dd7b7a112061ca82cad8e/packages/sdk-python/tests/test_isolation.py",
+      "evidence_type": "Reviewed and selected executed tests",
+      "notes": "Tracing/redactor failure and retries preserve original business result/error and invocation count.",
+      "observed": "2026-10-17",
+      "local_path": "/Users/pntopapple2/Documents/ChatGPT/SupaBiz 2/research/hue-sdk/packages/sdk-python/tests/test_isolation.py",
+      "sha256": "6cfc487b9fabd55b2e197b78c890ad5650b1f3994d47fd41fd40b6339ba383cc"
+    },
+    {
+      "id": "HU-S17",
+      "url": "https://github.com/hue-run/hue-sdk/blob/9ba8077524baf4f0e34dd7b7a112061ca82cad8e/packages/sdk-python/tests/test_receipts.py",
+      "evidence_type": "Reviewed and selected executed tests",
+      "notes": "Stored trace/field presence and redirect credential behavior; receipts do not prove task correctness.",
+      "observed": "2026-10-17",
+      "local_path": "/Users/pntopapple2/Documents/ChatGPT/SupaBiz 2/research/hue-sdk/packages/sdk-python/tests/test_receipts.py",
+      "sha256": "be634003344c2d665cd41bdc7ad2d4064ac07d484d631b75ed99dffaa23ab721"
+    },
+    {
+      "id": "HU-S18",
+      "url": "https://github.com/hue-run/hue-sdk/blob/9ba8077524baf4f0e34dd7b7a112061ca82cad8e/packages/sdk-python/src/hue_sdk/evals/_failure.py",
+      "evidence_type": "Selected source and tests",
+      "notes": "Distinguishes world setup, configuration, service, connection, timeout and target failures. Exception classification is heuristic, not root-cause proof.",
+      "observed": "2026-10-17",
+      "local_path": "/Users/pntopapple2/Documents/ChatGPT/SupaBiz 2/research/hue-sdk/packages/sdk-python/src/hue_sdk/evals/_failure.py",
+      "sha256": "9ef14c798d7e7d79c38d0f95a4e99cd84a7000f0a6e7780502de0c2eb5dcf841"
+    },
+    {
+      "id": "HU-S19",
+      "url": "https://github.com/hue-run/hue-sdk/blob/9ba8077524baf4f0e34dd7b7a112061ca82cad8e/LICENSE",
+      "evidence_type": "License inspected",
+      "notes": "MIT applies to this repository; retain notices when reusing code. No hosted platform self-hosting right established.",
+      "observed": "2026-10-17",
+      "local_path": "/Users/pntopapple2/Documents/ChatGPT/SupaBiz 2/research/hue-sdk/LICENSE",
+      "sha256": "474a4ede42b639603ff2041e6aaa0452e068e1666688f3512792723924a780da"
+    }
+  ],
+  "scope": "Selected public SDK source review plus 17 installed Python component checks; public product/docs inspection",
+  "limitations": [
+    "Hosted application source not included",
+    "No live cloud world or facade tested",
+    "TypeScript inspected, not executed",
+    "Mirror gateway documented preview/not released in Hue Cloud",
+    "No SupaBiz production harness benchmark",
+    "No compliance audit or price verified"
+  ],
+  "next": "Selected first-priority sequence complete; compare six reviews before selecting the next candidate"
+}

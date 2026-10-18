@@ -1,0 +1,252 @@
+{
+  "id": "YC01-executor",
+  "date": "2026-10-17",
+  "repository": "https://github.com/UsefulSoftwareCo/executor",
+  "revision": "906bee5efc9b2bfc0d9341cd471a701314136144",
+  "source_inventory_count": 2543,
+  "evidence_file_count": 34,
+  "files": [
+    {
+      "path": "LICENSE",
+      "sha256": "216e92ed2c5b69ae52480c2a1638bce00b098f6dc85c787ce03cd5a7e95b8f4b",
+      "bytes": 1070,
+      "source_url": "https://github.com/UsefulSoftwareCo/executor/blob/906bee5efc9b2bfc0d9341cd471a701314136144/LICENSE",
+      "coverage": "selected functions or sections inspected; not exhaustive file audit"
+    },
+    {
+      "path": "README.md",
+      "sha256": "e9491c7aeb5efc4772d56dd277113ac61bd65f0eca65c71efb234c48f6102692",
+      "bytes": 11008,
+      "source_url": "https://github.com/UsefulSoftwareCo/executor/blob/906bee5efc9b2bfc0d9341cd471a701314136144/README.md",
+      "coverage": "selected functions or sections inspected; not exhaustive file audit"
+    },
+    {
+      "path": "apps/docs/concepts/policies.mdx",
+      "sha256": "762d2475518bb67958f2dedefed42034bf42988f870833ee2a638bc19e8b9698",
+      "bytes": 598,
+      "source_url": "https://github.com/UsefulSoftwareCo/executor/blob/906bee5efc9b2bfc0d9341cd471a701314136144/apps/docs/concepts/policies.mdx",
+      "coverage": "selected functions or sections inspected; not exhaustive file audit"
+    },
+    {
+      "path": "apps/host-selfhost/executor.config.ts",
+      "sha256": "a0a502dd812b8e47f3dd5dc62e4b1634a3b1b4c837e4da2559a4ceee0af5ef5f",
+      "bytes": 2150,
+      "source_url": "https://github.com/UsefulSoftwareCo/executor/blob/906bee5efc9b2bfc0d9341cd471a701314136144/apps/host-selfhost/executor.config.ts",
+      "coverage": "selected functions or sections inspected; not exhaustive file audit"
+    },
+    {
+      "path": "apps/host-selfhost/src/auth/better-auth.ts",
+      "sha256": "ada0267cf72b1c9eadb9a4436468ccc6fb7fa7b2134a0b271a5e4c0d13d72ccd",
+      "bytes": 21997,
+      "source_url": "https://github.com/UsefulSoftwareCo/executor/blob/906bee5efc9b2bfc0d9341cd471a701314136144/apps/host-selfhost/src/auth/better-auth.ts",
+      "coverage": "selected functions or sections inspected; not exhaustive file audit"
+    },
+    {
+      "path": "apps/host-selfhost/src/auth/identity.ts",
+      "sha256": "dc836d1c40b880a0d56ebc5312e34ebe3efddf3e5dd9a43ceb82d0e4f34953b5",
+      "bytes": 6115,
+      "source_url": "https://github.com/UsefulSoftwareCo/executor/blob/906bee5efc9b2bfc0d9341cd471a701314136144/apps/host-selfhost/src/auth/identity.ts",
+      "coverage": "selected functions or sections inspected; not exhaustive file audit"
+    },
+    {
+      "path": "apps/host-selfhost/src/config.ts",
+      "sha256": "a116fc0c9e7a4fa29a9d5b39321df543ff18239d5bad0c4c46edb4bebaaccf40",
+      "bytes": 19645,
+      "source_url": "https://github.com/UsefulSoftwareCo/executor/blob/906bee5efc9b2bfc0d9341cd471a701314136144/apps/host-selfhost/src/config.ts",
+      "coverage": "selected functions or sections inspected; not exhaustive file audit"
+    },
+    {
+      "path": "apps/host-selfhost/src/execution.ts",
+      "sha256": "54de156aac21393684081601cf111bc8a1b80011a3b5793c12d1634c140d59c7",
+      "bytes": 4030,
+      "source_url": "https://github.com/UsefulSoftwareCo/executor/blob/906bee5efc9b2bfc0d9341cd471a701314136144/apps/host-selfhost/src/execution.ts",
+      "coverage": "selected functions or sections inspected; not exhaustive file audit"
+    },
+    {
+      "path": "apps/local/src/auth.ts",
+      "sha256": "d99c0fd62fbbd917f7704a578b4efb76f3dbf575226fb953563758920211d9f3",
+      "bytes": 3545,
+      "source_url": "https://github.com/UsefulSoftwareCo/executor/blob/906bee5efc9b2bfc0d9341cd471a701314136144/apps/local/src/auth.ts",
+      "coverage": "selected functions or sections inspected; not exhaustive file audit"
+    },
+    {
+      "path": "apps/local/src/serve-shared.ts",
+      "sha256": "42e07137ecc66594f5d0f848ea1e7ff20f3b5f1f118f584d324aa3ef67cfd741",
+      "bytes": 4125,
+      "source_url": "https://github.com/UsefulSoftwareCo/executor/blob/906bee5efc9b2bfc0d9341cd471a701314136144/apps/local/src/serve-shared.ts",
+      "coverage": "selected functions or sections inspected; not exhaustive file audit"
+    },
+    {
+      "path": "apps/local/src/serve.ts",
+      "sha256": "7eeddbe102e7d057c013b788d3cdd64672c63d3aacd386b69261ae7f016548eb",
+      "bytes": 22013,
+      "source_url": "https://github.com/UsefulSoftwareCo/executor/blob/906bee5efc9b2bfc0d9341cd471a701314136144/apps/local/src/serve.ts",
+      "coverage": "selected functions or sections inspected; not exhaustive file audit"
+    },
+    {
+      "path": "bun.lock",
+      "sha256": "e2c8f0395c4093e3c4879c17423749ed7cc940937ef3489249828733901b037f",
+      "bytes": 992680,
+      "source_url": "https://github.com/UsefulSoftwareCo/executor/blob/906bee5efc9b2bfc0d9341cd471a701314136144/bun.lock",
+      "coverage": "selected functions or sections inspected; not exhaustive file audit"
+    },
+    {
+      "path": "package.json",
+      "sha256": "c0a081d20b2555bc8fa2f34b9fffa391b74748bdaed732d379d79306632886c9",
+      "bytes": 6426,
+      "source_url": "https://github.com/UsefulSoftwareCo/executor/blob/906bee5efc9b2bfc0d9341cd471a701314136144/package.json",
+      "coverage": "selected functions or sections inspected; not exhaustive file audit"
+    },
+    {
+      "path": "packages/core/api/src/handlers/executions.ts",
+      "sha256": "202222d9cb78d3f8036f38cfce3b4021306e01767c32e5270994991b7b136989",
+      "bytes": 10772,
+      "source_url": "https://github.com/UsefulSoftwareCo/executor/blob/906bee5efc9b2bfc0d9341cd471a701314136144/packages/core/api/src/handlers/executions.ts",
+      "coverage": "selected functions or sections inspected; not exhaustive file audit"
+    },
+    {
+      "path": "packages/core/api/src/server/execution-stack-middleware.ts",
+      "sha256": "c350d7e3fdb171854a821f2f0ab9b4908d61c9748f0c9c8d03510a5208357705",
+      "bytes": 19850,
+      "source_url": "https://github.com/UsefulSoftwareCo/executor/blob/906bee5efc9b2bfc0d9341cd471a701314136144/packages/core/api/src/server/execution-stack-middleware.ts",
+      "coverage": "selected functions or sections inspected; not exhaustive file audit"
+    },
+    {
+      "path": "packages/core/execution/README.md",
+      "sha256": "fce6fe306a5e740623dc3c44d267c417e4dac629f4646a9fafa5e3c9a4672c7d",
+      "bytes": 4328,
+      "source_url": "https://github.com/UsefulSoftwareCo/executor/blob/906bee5efc9b2bfc0d9341cd471a701314136144/packages/core/execution/README.md",
+      "coverage": "selected functions or sections inspected; not exhaustive file audit"
+    },
+    {
+      "path": "packages/core/execution/src/engine.ts",
+      "sha256": "736c1d4c0fa4bbb6cd4a4fa0dae9e04a20f4c5de1434794940e72c98564ed3af",
+      "bytes": 35222,
+      "source_url": "https://github.com/UsefulSoftwareCo/executor/blob/906bee5efc9b2bfc0d9341cd471a701314136144/packages/core/execution/src/engine.ts",
+      "coverage": "selected functions or sections inspected; not exhaustive file audit"
+    },
+    {
+      "path": "packages/core/execution/src/tool-invoker.ts",
+      "sha256": "ae95bf6cd2b32aad1fd56cea46b94e19b6d8c50b0f1a5967b612342f705f1635",
+      "bytes": 32530,
+      "source_url": "https://github.com/UsefulSoftwareCo/executor/blob/906bee5efc9b2bfc0d9341cd471a701314136144/packages/core/execution/src/tool-invoker.ts",
+      "coverage": "selected functions or sections inspected; not exhaustive file audit"
+    },
+    {
+      "path": "packages/core/sdk/src/blob.ts",
+      "sha256": "bdef68a5aea4a6dadf1b0fcf043a83b85c837d55920444c47c60e98ba60948b9",
+      "bytes": 9610,
+      "source_url": "https://github.com/UsefulSoftwareCo/executor/blob/906bee5efc9b2bfc0d9341cd471a701314136144/packages/core/sdk/src/blob.ts",
+      "coverage": "selected functions or sections inspected; not exhaustive file audit"
+    },
+    {
+      "path": "packages/core/sdk/src/executor.ts",
+      "sha256": "e8282373abf41ac20a40163676f70a0e57ae8f76c24d2cbf96eed6f05d6218dd",
+      "bytes": 331677,
+      "source_url": "https://github.com/UsefulSoftwareCo/executor/blob/906bee5efc9b2bfc0d9341cd471a701314136144/packages/core/sdk/src/executor.ts",
+      "coverage": "selected functions or sections inspected; not exhaustive file audit"
+    },
+    {
+      "path": "packages/core/sdk/src/ids.ts",
+      "sha256": "99171cb4289e7196e8ed91e788305f32ca4aae8404c51a1f2464a8b9a665c96d",
+      "bytes": 4099,
+      "source_url": "https://github.com/UsefulSoftwareCo/executor/blob/906bee5efc9b2bfc0d9341cd471a701314136144/packages/core/sdk/src/ids.ts",
+      "coverage": "selected functions or sections inspected; not exhaustive file audit"
+    },
+    {
+      "path": "packages/core/sdk/src/org-write-access.ts",
+      "sha256": "76e4cbdf310bf56f45f6e28218e756d3d33235ea33935e4a99a507987315b3b9",
+      "bytes": 1374,
+      "source_url": "https://github.com/UsefulSoftwareCo/executor/blob/906bee5efc9b2bfc0d9341cd471a701314136144/packages/core/sdk/src/org-write-access.ts",
+      "coverage": "selected functions or sections inspected; not exhaustive file audit"
+    },
+    {
+      "path": "packages/core/sdk/src/owner-policy.ts",
+      "sha256": "83ba63f5bdb1a1f81666c349f281f7d94a64663f9c619825871c121b05365e18",
+      "bytes": 10391,
+      "source_url": "https://github.com/UsefulSoftwareCo/executor/blob/906bee5efc9b2bfc0d9341cd471a701314136144/packages/core/sdk/src/owner-policy.ts",
+      "coverage": "selected functions or sections inspected; not exhaustive file audit"
+    },
+    {
+      "path": "packages/core/sdk/src/pending-approval.test.ts",
+      "sha256": "c99db0d71e23de3b7d2785efdfd73e6ad977eaff72db38b2bf7eb66b306a90f3",
+      "bytes": 5044,
+      "source_url": "https://github.com/UsefulSoftwareCo/executor/blob/906bee5efc9b2bfc0d9341cd471a701314136144/packages/core/sdk/src/pending-approval.test.ts",
+      "coverage": "selected functions or sections inspected; not exhaustive file audit"
+    },
+    {
+      "path": "packages/core/sdk/src/pending-approval.ts",
+      "sha256": "efe700e025bf45de25170d16823b1b8ceaf9883a79dc7d254859d0650050e54b",
+      "bytes": 5309,
+      "source_url": "https://github.com/UsefulSoftwareCo/executor/blob/906bee5efc9b2bfc0d9341cd471a701314136144/packages/core/sdk/src/pending-approval.ts",
+      "coverage": "selected functions or sections inspected; not exhaustive file audit"
+    },
+    {
+      "path": "packages/core/sdk/src/policies.ts",
+      "sha256": "cfcf15fe51b87ffd92a9ec30c413e017fdd79b891f238bd944a2c234880b078c",
+      "bytes": 13689,
+      "source_url": "https://github.com/UsefulSoftwareCo/executor/blob/906bee5efc9b2bfc0d9341cd471a701314136144/packages/core/sdk/src/policies.ts",
+      "coverage": "selected functions or sections inspected; not exhaustive file audit"
+    },
+    {
+      "path": "packages/hosts/cloudflare/src/mcp/execution-owner-directory.ts",
+      "sha256": "368e73b68b76eac20a020af2209781c08ea3f60f02433186506c5ca19a7751ad",
+      "bytes": 4629,
+      "source_url": "https://github.com/UsefulSoftwareCo/executor/blob/906bee5efc9b2bfc0d9341cd471a701314136144/packages/hosts/cloudflare/src/mcp/execution-owner-directory.ts",
+      "coverage": "selected functions or sections inspected; not exhaustive file audit"
+    },
+    {
+      "path": "packages/kernel/runtime-deno-subprocess/src/deno-worker-process.ts",
+      "sha256": "c32ee9f4d66c4caf7d5db8e559ceb6151a4e6599c054eeefd68ec0026e2d0457",
+      "bytes": 5221,
+      "source_url": "https://github.com/UsefulSoftwareCo/executor/blob/906bee5efc9b2bfc0d9341cd471a701314136144/packages/kernel/runtime-deno-subprocess/src/deno-worker-process.ts",
+      "coverage": "selected functions or sections inspected; not exhaustive file audit"
+    },
+    {
+      "path": "packages/kernel/runtime-deno-subprocess/src/index.ts",
+      "sha256": "30f6274a9ee2e3766ffd67ada44ca10c93b23480e203a102b2e47499cf0eaf80",
+      "bytes": 14196,
+      "source_url": "https://github.com/UsefulSoftwareCo/executor/blob/906bee5efc9b2bfc0d9341cd471a701314136144/packages/kernel/runtime-deno-subprocess/src/index.ts",
+      "coverage": "selected functions or sections inspected; not exhaustive file audit"
+    },
+    {
+      "path": "packages/kernel/runtime-dynamic-worker/src/executor.ts",
+      "sha256": "fc5ae8896595422d4323361c7a6650c01218fd4ee53eab09a799e44d2580bd91",
+      "bytes": 31548,
+      "source_url": "https://github.com/UsefulSoftwareCo/executor/blob/906bee5efc9b2bfc0d9341cd471a701314136144/packages/kernel/runtime-dynamic-worker/src/executor.ts",
+      "coverage": "selected functions or sections inspected; not exhaustive file audit"
+    },
+    {
+      "path": "packages/kernel/runtime-quickjs/src/index.ts",
+      "sha256": "a85afb5d5ac00ef9e613f84081ceb903c5485f26c8f504c2a51a70a27d3f986f",
+      "bytes": 20694,
+      "source_url": "https://github.com/UsefulSoftwareCo/executor/blob/906bee5efc9b2bfc0d9341cd471a701314136144/packages/kernel/runtime-quickjs/src/index.ts",
+      "coverage": "selected functions or sections inspected; not exhaustive file audit"
+    },
+    {
+      "path": "packages/kernel/runtime-workerd-subprocess/src/index.ts",
+      "sha256": "0f4eb85fb06faeed0c458e998ce9dff3b8a4f1e19c97644bdfc4da8e985a871e",
+      "bytes": 25857,
+      "source_url": "https://github.com/UsefulSoftwareCo/executor/blob/906bee5efc9b2bfc0d9341cd471a701314136144/packages/kernel/runtime-workerd-subprocess/src/index.ts",
+      "coverage": "selected functions or sections inspected; not exhaustive file audit"
+    },
+    {
+      "path": "packages/plugins/encrypted-secrets/src/index.ts",
+      "sha256": "e34219a82e75438bfae8364d1de082b38452c0edde5c236f6163cbe9c4e3e382",
+      "bytes": 5873,
+      "source_url": "https://github.com/UsefulSoftwareCo/executor/blob/906bee5efc9b2bfc0d9341cd471a701314136144/packages/plugins/encrypted-secrets/src/index.ts",
+      "coverage": "selected functions or sections inspected; not exhaustive file audit"
+    },
+    {
+      "path": "packages/plugins/file-secrets/src/index.ts",
+      "sha256": "577df8983d8165a63e4213702e832220b3dd24b9032f8044496363253f0ec211",
+      "bytes": 10360,
+      "source_url": "https://github.com/UsefulSoftwareCo/executor/blob/906bee5efc9b2bfc0d9341cd471a701314136144/packages/plugins/file-secrets/src/index.ts",
+      "coverage": "selected functions or sections inspected; not exhaustive file audit"
+    }
+  ],
+  "checks": "probes/results.json",
+  "scope": "Selected source review plus isolated component checks; no full application/provider test",
+  "license": "Root MIT; dependency/vendored terms not exhaustively assessed",
+  "rea_route": "Installed REA skill directs full-source architecture analysis to normal repository tools"
+}

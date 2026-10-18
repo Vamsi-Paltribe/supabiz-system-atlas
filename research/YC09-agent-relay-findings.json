@@ -1,0 +1,178 @@
+[
+  {
+    "id": "AR-01",
+    "title": "Use a model-neutral communication layer",
+    "decision": "Reuse candidate",
+    "source_ids": [
+      "AR-S01"
+    ],
+    "supabiz_proposal": "Wrap Relaycast/SDK behind a SupaBiz transport interface. Swap model or harness without changing job identity, message contracts or business records. Do not make coding-agent terminal injection the default executor for restaurant transactions.",
+    "measure": "Model/adapter swap success; protocol compatibility failures.",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "AR-02",
+    "title": "Create a room for a job, not an endless swarm chat",
+    "decision": "Adapt UX",
+    "source_ids": [
+      "AR-S01"
+    ],
+    "supabiz_proposal": "One room follows a supplier quote, inventory transfer or accountant request. Show participating businesses, accountable person, requested result, deadline and evidence. Keep technical agent messages expandable.",
+    "measure": "Time to understand status; unresolved jobs; unnecessary notifications.",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "AR-03",
+    "title": "Bind agents to a business principal",
+    "decision": "Build",
+    "source_ids": [
+      "AR-S10"
+    ],
+    "supabiz_proposal": "Use immutable agent and business IDs plus credential versions. A human-readable name is a label, not authority. Separate Consu, ForeFathers and supplier workspaces even when Varun owns two of them.",
+    "measure": "Wrong-business disclosure and action tests; credential rotation recovery.",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "AR-04",
+    "title": "Separate delivery receipts from work receipts",
+    "decision": "Adapt and extend",
+    "source_ids": [
+      "AR-S02"
+    ],
+    "supabiz_proposal": "Retain transport accepted/delivered/deferred/failed separately from job accepted/in_progress/needs_approval/result_submitted/verified. A supplier agent receiving a PO does not confirm its commercial acceptance.",
+    "measure": "False completion rate; time in each state; unowned accepted work.",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "AR-05",
+    "title": "Expose small typed capabilities",
+    "decision": "Reuse candidate",
+    "source_ids": [
+      "AR-S03"
+    ],
+    "supabiz_proposal": "Define request_quote, share_approved_availability and submit_reconciliation_result with schemas. Validate input, then current server-side permission and constraints before execution. Validate output and independently verify external effects.",
+    "measure": "Schema rejection quality; unauthorized handler invocations; invalid results after effects.",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "AR-06",
+    "title": "Exchange minimum evidence, not whole memory",
+    "decision": "Build",
+    "source_ids": [
+      "AR-S07"
+    ],
+    "supabiz_proposal": "Share a purpose-specific summary and authorized document references with scoped access and provenance. Do not copy all chat history into a partner context. Apply permission checks to search and dereferencing, including derived summaries.",
+    "measure": "Unnecessary fields disclosed; expired evidence access; retrieval permission failures.",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "AR-07",
+    "title": "Make relationship grants explicit",
+    "decision": "Build",
+    "source_ids": [
+      "AR-S10"
+    ],
+    "supabiz_proposal": "A relationship grant binds issuer, recipient business/agent, allowed capabilities and data, purpose, limits, expiry and delegation depth. Check at request acceptance, evidence access and action commit. Transport credentials never replace it.",
+    "measure": "Revoked or expired grant attempts blocked; cross-tenant negative tests.",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "AR-08",
+    "title": "Use invitations with a reviewable access preview",
+    "decision": "Adapt UX",
+    "source_ids": [
+      "AR-S06"
+    ],
+    "supabiz_proposal": "Let a manager invite a named accountant or supplier to one job or bounded relationship. Show identity, scope, expiry and changes before joining; include disconnect/revoke. Unsolicited requests remain in an inbox until accepted.",
+    "measure": "Onboarding completion; mistaken invitations; time to revoke.",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "AR-09",
+    "title": "Keep durable business idempotency above event dedupe",
+    "decision": "Build over transport",
+    "source_ids": [
+      "AR-S04"
+    ],
+    "supabiz_proposal": "Use a persistent business action key, payload hash, atomic claim and remote reconciliation. Same-source duplicates, reconnects and retries days later must not create duplicate purchase orders. Conflicting payloads for the same key require rejection.",
+    "measure": "Duplicate effects; ambiguous outcomes reconciled; conflicting retries blocked.",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "AR-10",
+    "title": "Verify delegation proofs against trusted issuers",
+    "decision": "Conditional pattern",
+    "source_ids": [
+      "AR-S13"
+    ],
+    "supabiz_proposal": "Resolve issuer trust independently of the message; validate signature, audience, expiry, capability and current revocation. A proof cannot broaden the parent grant. Keep received text and tool instructions untrusted.",
+    "measure": "Forged, replayed or wrongly scoped proof rejection; grant-chain limits.",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "AR-11",
+    "title": "Recover work without skipping earlier messages",
+    "decision": "Adapt and test",
+    "source_ids": [
+      "AR-S14"
+    ],
+    "supabiz_proposal": "Persist per-job progress and independent message acknowledgment. An out-of-order ack must not erase older work. Use deadlines, lease renewal, backoff, dead-letter handling and an owner for stuck jobs.",
+    "measure": "Recovery after restart; missing messages; dead-letter age.",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "AR-12",
+    "title": "Give people a collaboration console",
+    "decision": "Build UX",
+    "source_ids": [
+      "AR-S01"
+    ],
+    "supabiz_proposal": "Show requested, shared, approved, committed and verified events as a compact timeline. Provide exact-action approval, pause, revoke, reassign and disputed-result paths. Label whether a button stops future work or requires compensating an existing effect.",
+    "measure": "Time to resolve an exception; accidental approvals; status comprehension.",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "AR-13",
+    "title": "Bound delegation and agent conversation",
+    "decision": "Build",
+    "source_ids": [
+      "AR-S12"
+    ],
+    "supabiz_proposal": "Cap depth, participants, tool calls, spend, duration and message rate per job. Track parent job and causation IDs to detect loops. Prefer direct task routing; broadcast only to an authorized bounded audience.",
+    "measure": "Cost per verified job; loops; fan-out; budget-stop correctness.",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "AR-14",
+    "title": "Treat deployment topology as an adoption gate",
+    "decision": "Conditional reuse",
+    "source_ids": [
+      "AR-S09"
+    ],
+    "supabiz_proposal": "Pilot self-hosted Relaycast in a limited environment. Before production, validate version compatibility, durable recovery, isolation, backup/restore and connection limits; choose managed service or redesign shared state for replicas.",
+    "measure": "Restart data-loss tests; restore time; queue lag; peak-connection limits.",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "AR-15",
+    "title": "Make privacy and connection changes visible",
+    "decision": "Adapt UX",
+    "source_ids": [
+      "AR-S15"
+    ],
+    "supabiz_proposal": "Present capture/sharing/telemetry settings and credential destinations separately. Track who connected which device and business. Explain temporary inbound permissions and how they expire or are restored.",
+    "measure": "Unexpected scope changes; stale device credentials; configuration restoration.",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "AR-16",
+    "title": "Turn each boundary failure into a regression case",
+    "decision": "Build with Hue pattern",
+    "source_ids": [
+      "AR-S05"
+    ],
+    "supabiz_proposal": "Add empty-list denial, cross-business leakage, stale approvals, changed quotes and duplicate commits to the harness. Preserve Asakana’s scoped correction → approved rule → regression test loop. Never promote a policy based only on a successful happy path.",
+    "measure": "Regression coverage; false authorization; verified outcome rate and cost.",
+    "status": "Design candidate; not implemented"
+  }
+]

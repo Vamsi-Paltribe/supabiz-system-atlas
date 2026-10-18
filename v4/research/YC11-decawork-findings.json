@@ -1,0 +1,200 @@
+[
+  {
+    "id": "DW-01",
+    "title": "Put authorization outside the agent",
+    "decision": "Build",
+    "source_ids": [
+      "DW-S03"
+    ],
+    "supabiz_proposal": "Mediate protected effects through a server-owned gateway and credential broker, outside model control.",
+    "measure": "Bypass attempts reaching protected tools",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "DW-02",
+    "title": "Review the exact action in task context",
+    "decision": "Adapt",
+    "source_ids": [
+      "DW-S01"
+    ],
+    "supabiz_proposal": "Combine trusted task, applicable policy and relevant verified prior receipts with a canonical proposed action.",
+    "measure": "Task relevance; unsafe proposal detection",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "DW-03",
+    "title": "Keep deterministic authority above model judgment",
+    "decision": "Build",
+    "source_ids": [
+      "DW-S01"
+    ],
+    "supabiz_proposal": "A model can restrict or escalate an otherwise permitted action; it cannot override tenant scope, hard limits or mandatory human review.",
+    "measure": "False allows and privilege widening",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "DW-04",
+    "title": "Bind approval to one immutable proposal",
+    "decision": "Build",
+    "source_ids": [
+      "DW-S02"
+    ],
+    "supabiz_proposal": "Bind business, recipient, arguments, file versions, amount/currency, policy and expiry. Material edits create a new approval request.",
+    "measure": "Changed-action and replay rejection",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "DW-05",
+    "title": "Separate hold, deny and missing context",
+    "decision": "Adapt UX",
+    "source_ids": [
+      "DW-S02"
+    ],
+    "supabiz_proposal": "Show ready, denied, needs-context, awaiting-approval and review-unavailable with concrete next steps.",
+    "measure": "Recovery time; inappropriate retries",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "DW-06",
+    "title": "Make execution status explicit",
+    "decision": "Adapt UX",
+    "source_ids": [
+      "DW-S02"
+    ],
+    "supabiz_proposal": "Show not yet executed separately from approved, dispatched, verified and outcome unknown.",
+    "measure": "False completion reports",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "DW-07",
+    "title": "Give each agent an owner and bounded lifetime",
+    "decision": "Adapt",
+    "source_ids": [
+      "DW-S04"
+    ],
+    "supabiz_proposal": "Registry includes business, responsibility, owner, capabilities, expiry, pending work, pause and retirement.",
+    "measure": "Orphaned responsibilities; revocation delay",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "DW-08",
+    "title": "Recheck authority at commit",
+    "decision": "Build",
+    "source_ids": [
+      "DW-S03"
+    ],
+    "supabiz_proposal": "Revalidate current policy, membership, approver authority, task status and resource versions before dispatch.",
+    "measure": "Stale-grant and changed-resource races",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "DW-09",
+    "title": "Cover browser and desktop execution paths",
+    "decision": "Build",
+    "source_ids": [
+      "DW-S03"
+    ],
+    "supabiz_proposal": "A gateway cannot protect effects performed through unmediated browser sessions, shells or device automation. Restrict alternate capabilities.",
+    "measure": "Protected effects bypassing gateway",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "DW-10",
+    "title": "Make approval a readable work card",
+    "decision": "Adapt UX",
+    "source_ids": [
+      "DW-S02"
+    ],
+    "supabiz_proposal": "Show effect, business/matter, recipient, cost/files, evidence, reason, expiry and next step. Keep payload details in a secondary view.",
+    "measure": "Comprehension; mistaken approval; human minutes",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "DW-11",
+    "title": "Turn natural-language rules into reviewed policy",
+    "decision": "Build",
+    "source_ids": [
+      "DW-S01"
+    ],
+    "supabiz_proposal": "Version constraints and examples; resolve ambiguity before an authorized owner publishes changes.",
+    "measure": "Policy conflict detection; regression failures",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "DW-12",
+    "title": "Persist approvals without holding workers",
+    "decision": "Build",
+    "source_ids": [
+      "DW-S03"
+    ],
+    "supabiz_proposal": "Durable state and resumption let people review asynchronously without an active LLM session.",
+    "measure": "Lost approvals; wait-time compute cost",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "DW-13",
+    "title": "Treat retries and uncertain outcomes explicitly",
+    "decision": "Build",
+    "source_ids": [
+      "DW-S03"
+    ],
+    "supabiz_proposal": "Use execution claims, outbox, provider idempotency and reconciliation. A timeout is not proof that nothing happened.",
+    "measure": "Duplicate effects; unresolved outcome age",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "DW-14",
+    "title": "Enforce cumulative budgets and independent business scope",
+    "decision": "Build",
+    "source_ids": [
+      "DW-S01"
+    ],
+    "supabiz_proposal": "Reserve aggregate purpose/time-window budgets and require separate authority for Consu and ForeFathers.",
+    "measure": "Split-order bypass; cross-business authorization",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "DW-15",
+    "title": "Learn from adjudicated outcomes, not clicks alone",
+    "decision": "Build",
+    "source_ids": [
+      "DW-S01"
+    ],
+    "supabiz_proposal": "Store policy/evidence versions, reviewer decisions, human judgment and actual outcomes separately; promote scoped corrections with regression tests.",
+    "measure": "Repeated errors; mislabeled training data",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "DW-16",
+    "title": "Evaluate contextual reviewers before specializing",
+    "decision": "Experiment",
+    "source_ids": [
+      "DW-S01"
+    ],
+    "supabiz_proposal": "Compare deterministic rules alone, rules plus general reviewer, and rules plus specialized reviewer under equal hard rights and frozen cases.",
+    "measure": "False allows/blocks; abstention; cost and p95",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "DW-17",
+    "title": "Maintain permission-aware review evidence",
+    "decision": "Build with Glen",
+    "source_ids": [
+      "DW-S02"
+    ],
+    "supabiz_proposal": "Reviewers and approvers see only authorized source context; task text and retrieved instructions cannot manufacture permission.",
+    "measure": "Approval-inbox and reviewer-context leakage",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "DW-18",
+    "title": "Make delegation and emergency pause explicit",
+    "decision": "Build",
+    "source_ids": [
+      "DW-S04"
+    ],
+    "supabiz_proposal": "Scope and expire delegated authority; pause acknowledges future/in-flight status. Receiving businesses retain independent authority.",
+    "measure": "Unauthorized delegation; effects after acknowledged pause",
+    "status": "Design candidate; not implemented"
+  }
+]

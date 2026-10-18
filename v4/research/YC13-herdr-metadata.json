@@ -1,0 +1,144 @@
+{
+  "id": "YC13-herdr",
+  "name": "herdr",
+  "date": "2026-10-17",
+  "commit": "143bf5fd4781d164260c63fe28e7dc08054ad32f",
+  "package_version": "0.9.5",
+  "license": "Apache-2.0 root; bundled dependency obligations not fully audited",
+  "method": "Selected complete-source review, public promotional UI observation, isolated mocked integration checks. REA skill routes complete source to normal repository tools.",
+  "sources": [
+    {
+      "id": "HD-S01",
+      "url": "https://herdr.dev/",
+      "kind": "Public homepage",
+      "observation": "Promotional mock inspected; blocked-agent selection exercised. Cloud advertised as coming soon."
+    },
+    {
+      "id": "HD-S02",
+      "url": "https://github.com/herdrdev/herdr",
+      "kind": "Official repository",
+      "observation": "Pinned source version 0.9.5; Apache-2.0 root license. No full dependency-license audit."
+    },
+    {
+      "id": "HD-S03",
+      "url": "https://herdr.dev/docs/session-state/",
+      "kind": "Session-state documentation",
+      "observation": "Detach, restore, history and experimental handoff have different guarantees."
+    },
+    {
+      "id": "HD-S04",
+      "url": "https://herdr.dev/docs/connecting-machines/",
+      "kind": "Connection documentation",
+      "observation": "Independent endpoints, stale cached views, disabled input and explicit setup."
+    },
+    {
+      "id": "HD-S05",
+      "url": "https://herdr.dev/docs/agent-automation/",
+      "kind": "Agent automation documentation",
+      "observation": "Agent state waits do not establish individual-turn or external-effect completion."
+    },
+    {
+      "id": "HD-S06",
+      "url": "https://herdr.dev/docs/socket-api/",
+      "kind": "Socket API documentation",
+      "observation": "Live event stream and reconciliation limits; checked against pinned source."
+    },
+    {
+      "id": "HD-S07",
+      "url": "https://herdr.dev/docs/plugins/",
+      "kind": "Plugin documentation",
+      "observation": "Trusted user code; not an isolated extension sandbox."
+    },
+    {
+      "id": "HD-S08",
+      "url": "https://www.ycombinator.com/companies/herdr",
+      "kind": "YC company profile",
+      "observation": "Identity and product context only; adoption numbers not validated."
+    }
+  ],
+  "code_evidence": [
+    {
+      "id": "HD-C01",
+      "path": "src/detect/mod.rs",
+      "start_line": 1,
+      "end_line": 126,
+      "url": "https://github.com/herdrdev/herdr/blob/143bf5fd4781d164260c63fe28e7dc08054ad32f/src/detect/mod.rs#L1",
+      "observation": "24 agent kinds; 22 screen-manifest agents; unknown/working/idle/blocked vocabulary",
+      "sha256": "2594e99fd886cf65cb1fb4ba19993bd54e731a21c9f0f64c564c009ab858d06f"
+    },
+    {
+      "id": "HD-C02",
+      "path": "src/pane/agent_detection.rs",
+      "start_line": 5,
+      "end_line": 143,
+      "url": "https://github.com/herdrdev/herdr/blob/143bf5fd4781d164260c63fe28e7dc08054ad32f/src/pane/agent_detection.rs#L5",
+      "observation": "Weak idle confirmation, unchanged-screen decisions and text cache",
+      "sha256": "762186bc5ec3f523657d86ebb33f34ff142eae6c5912909fc1d2e05b767845a4"
+    },
+    {
+      "id": "HD-C03",
+      "path": "src/detect/manifests/hermes.toml",
+      "start_line": 1,
+      "end_line": 102,
+      "url": "https://github.com/herdrdev/herdr/blob/143bf5fd4781d164260c63fe28e7dc08054ad32f/src/detect/manifests/hermes.toml#L1",
+      "observation": "Hermes title, blocker and clarification patterns; not business-result validation",
+      "sha256": "533d21b65dea3a0c60c25d0475c9c900d28a5712b6392669a7788f75de2b6e85"
+    },
+    {
+      "id": "HD-C04",
+      "path": "src/client/shell/agent_sidebar.rs",
+      "start_line": 20,
+      "end_line": 50,
+      "url": "https://github.com/herdrdev/herdr/blob/143bf5fd4781d164260c63fe28e7dc08054ad32f/src/client/shell/agent_sidebar.rs#L20",
+      "observation": "Priority sorting and custom-order repeated membership scan",
+      "sha256": "60bf4e5b3ef549d6a6f95b9e135b772d08ade683af6a845845528a0933b62016"
+    },
+    {
+      "id": "HD-C05",
+      "path": "src/client/shell/endpoint_agent_state.rs",
+      "start_line": 45,
+      "end_line": 175,
+      "url": "https://github.com/herdrdev/herdr/blob/143bf5fd4781d164260c63fe28e7dc08054ad32f/src/client/shell/endpoint_agent_state.rs#L45",
+      "observation": "Boot/generation/revision-aware completion and per-client seen state",
+      "sha256": "2a59833a51855400e7e943c3b6417f68b8c300a62bacff7b7569c316ed02e925"
+    },
+    {
+      "id": "HD-C06",
+      "path": "src/integration/assets/opencode/herdr-agent-state.js",
+      "start_line": 1,
+      "end_line": 224,
+      "url": "https://github.com/herdrdev/herdr/blob/143bf5fd4781d164260c63fe28e7dc08054ad32f/src/integration/assets/opencode/herdr-agent-state.js#L1",
+      "observation": "Serialized best-effort hook reporting and child/root session handling",
+      "sha256": "f70a7d2193f4a9409838b078acee5a35f72f0925af08f63c142ec9cbf0ba5fcd"
+    },
+    {
+      "id": "HD-C07",
+      "path": "src/detect/manifests/codex.toml",
+      "start_line": 1,
+      "end_line": 129,
+      "url": "https://github.com/herdrdev/herdr/blob/143bf5fd4781d164260c63fe28e7dc08054ad32f/src/detect/manifests/codex.toml#L1",
+      "observation": "Selected live chrome, transcript viewer and startup state rules",
+      "sha256": "d25cfddb5434259303fb0ac27b5b0e6d0558408e6901ee112bcd53de02bcda13"
+    }
+  ],
+  "subsystem_evidence": [
+    "runtime-source-review.json",
+    "security-source-review.json"
+  ],
+  "tests": {
+    "upstream_hook": 9,
+    "additional_hook_boundaries": 9,
+    "total": 18,
+    "rust_application": 0,
+    "live_ssh": 0,
+    "proposed_supabiz": 48
+  },
+  "limits": [
+    "No full application/security audit",
+    "Rust compiler/Cargo unavailable on inspected PATH; application not built",
+    "No target agent launched or integration installed",
+    "No live hosted/cloud verification",
+    "No production benchmark or measured SupaBiz percentage improvement",
+    "Public homepage interaction is a promotional mock"
+  ]
+}

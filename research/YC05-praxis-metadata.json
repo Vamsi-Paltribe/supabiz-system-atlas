@@ -1,0 +1,102 @@
+{
+  "id": "YC05-praxis",
+  "date": "2026-10-17",
+  "company": "Praxis / runpraxis.ai",
+  "sources": [
+    {
+      "id": "PR-S01",
+      "url": "https://www.ycombinator.com/companies/praxis",
+      "type": "Company-authored YC profile",
+      "notes": "Client journey positioning; lawyer oversight. Performance claims not independently measured.",
+      "observed": "2026-10-17"
+    },
+    {
+      "id": "PR-S02",
+      "url": "https://runpraxis.ai/",
+      "type": "Public product page and illustrations inspected",
+      "notes": "Document readiness, matter progress and client portal illustrations. Integration logos do not establish tested capabilities.",
+      "observed": "2026-10-17"
+    },
+    {
+      "id": "PR-S03",
+      "url": "https://runpraxis.ai/blog/heycounsel-session-recap",
+      "type": "Company-authored workshop report and screenshots",
+      "notes": "Describes a supervised intake demo, restricted consultation availability, existing-tool integration and workflow-first onboarding. Manual timer available; automatic capture described as in development. This is not independent live execution.",
+      "observed": "2026-10-17"
+    },
+    {
+      "id": "PR-S04",
+      "url": "https://runpraxis.ai/blog/pre-consultation-intake",
+      "type": "Company-authored guidance",
+      "notes": "Staged intake and early conflict review. US examples are not Indian legal rules.",
+      "observed": "2026-10-17"
+    },
+    {
+      "id": "PR-S05",
+      "url": "https://runpraxis.ai/blog/client-onboarding-for-law-firms",
+      "type": "Company-authored workflow and architecture claims",
+      "notes": "Structured handoffs; claims AI interpretation with deterministic sensitive actions, limited permissions and audit trails. No code verified.",
+      "observed": "2026-10-17"
+    },
+    {
+      "id": "PR-S06",
+      "url": "https://runpraxis.ai/privacy",
+      "type": "Published policy, updated 2026-10-13",
+      "notes": "Firm ownership of data and instructed playbooks; US hosting, logical isolation, provider zero-retention terms and export/deletion conditions are policy claims, not audited controls.",
+      "observed": "2026-10-17"
+    },
+    {
+      "id": "PR-S07",
+      "url": "https://runpraxis.ai/security",
+      "type": "Published security claims",
+      "notes": "No independent control validation. Broad no-training wording needs reconciliation with the narrower cross-customer training wording in privacy before procurement.",
+      "observed": "2026-10-17"
+    },
+    {
+      "id": "PR-S08",
+      "url": "https://runpraxis.ai/terms",
+      "type": "Public terms page",
+      "notes": "Full terms were not published: page said they were being finalized. No agreement assessed or accepted.",
+      "observed": "2026-10-17"
+    },
+    {
+      "id": "PR-S09",
+      "url": "https://app.ecourts.gov.in/App/apphelp.html",
+      "type": "Official eCourts help",
+      "notes": "CNR is a 16-character alphanumeric identifier; alternate case searches exist. Does not establish a public integration API or universal court coverage.",
+      "observed": "2026-10-17"
+    },
+    {
+      "id": "PR-S10",
+      "url": "https://drive.google.com/file/d/1lxtcy55l5t2dvd82J1_px194DW-Y6RXl/view",
+      "type": "Linked public launch video; access failed",
+      "notes": "Player returned Unable to load video. Not watched; no transcript read; no download workaround.",
+      "observed": "2026-10-17"
+    },
+    {
+      "id": "PR-S11",
+      "url": "https://runpraxis.ai/manifesto",
+      "type": "Company positioning",
+      "notes": "Outcome-oriented positioning; not evidence of implementation or comparative superiority.",
+      "observed": "2026-10-17"
+    },
+    {
+      "id": "PR-S12",
+      "url": "https://runpraxis.ai/roi-calculator",
+      "type": "Public calculator page",
+      "notes": "Commercial illustration only; not a SupaBiz baseline or measured benefit.",
+      "observed": "2026-10-17"
+    }
+  ],
+  "source_repository": null,
+  "source_commit": null,
+  "scope": "Public-product, published-article and policy review; no application source or runtime audit",
+  "limitations": [
+    "Launch video failed to load; not watched",
+    "No authenticated product access",
+    "No source-code reuse or license established",
+    "India court, WhatsApp and production behavior unverified",
+    "No performance/security benchmark executed"
+  ],
+  "next": "YC06 Hue"
+}

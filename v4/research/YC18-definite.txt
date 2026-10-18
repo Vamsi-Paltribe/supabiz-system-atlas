@@ -1,0 +1,186 @@
+YC18 DEFINITE → SUPABIZ
+Reviewed 2026-10-18
+Public product/docs investigation; no verified finance-platform source audit.
+
+RECOMMENDATION
+Definite is a strong architecture reference for SupaBiz’s business-record and verification layers. Adapt its separation of evidence, proposed interpretation, checks, review and durable outputs. It is not established as a reusable open-source harness or an immediately usable SDK dependency. Begin with SupaBiz-owned records and rules for a narrow workflow. Do not add an enterprise finance platform as a dependency merely to obtain these patterns.
+
+WHAT WAS ACTUALLY INVESTIGATED
+REA target attribution, official product and technical documentation, four interactive public walkthrough tabs, published privacy/website terms, direct public registry lookups and a downloaded-package identity check. No authenticated Definite console, backend source, actual customer proof bundle, private deployment, model benchmark or production API was accessed. The public product walkthrough is illustrative. The wrong-name npm artifact was never installed, imported or run. No Definite binary analysis or vendor runtime tests were performed.
+
+THE PRODUCT’S ARCHITECTURAL CONTRIBUTION
+The documented platform separates input snapshots, a durable control plane, bounded agent work, rule evaluation and review [DF-S03]. For SupaBiz this suggests a record layer beneath every assistant. An LLM can propose that a message refers to invoice INV-17; the system must still establish the business, supplier, date, document revision and intended operation. Retrieval can find evidence, but an embedding match must not silently create a stock movement or change a matter deadline.
+
+CURRENT DOCUMENTATION BEATS CACHED LIFECYCLE DESCRIPTIONS
+Directly retrieved lifecycle documentation describes completion separately from per-rule correctness [DF-S07]. Earlier cached text used accepted and exception as run outcomes. Direct cryptography documentation distinguishes reporting receipt signatures from audit-event and checkpoint hash domains [DF-S09]; cached text blurred those versions. Preserve retrieval dates and snapshots. Do not combine incompatible contracts into one invented API. Current docs remain statements of intent until executable contracts and server behavior are checked.
+
+PACKAGE IDENTITY: A CONCRETE ADOPTION BLOCKER
+The current TypeScript guide points to npm definite-ts, but public definite-ts@1.0.0 describes Kenyan motor insurance and uses a different authentication/API model [DF-S14, DF-S20]. Its declared ISC license applies to that unrelated package only. The repository URL returned not found. Public definite-mcp-gateway and PyPI definite-python returned 404 [DF-S15, DF-S21]. Private distributions may exist; these observations do not establish that the product is fake or that the names are malicious. Obtain vendor-confirmed artifacts, publisher identity, hashes, license and a versioned schema before evaluating code reuse.
+
+VARUN: INVOICE VERSUS RECEIVING EVIDENCE
+Proposed pilot: staff report 20 kg rice received at Consu; an invoice photo says 22 kg. Store a receiving observation of 20 kg and an invoice claim of 22 kg, linked to the supplier and delivery. If receiving evidence is valid and authorized, record 20 kg once; the invoice/receipt reconciliation fails by 2 kg and remains open for the manager. Payment approval is a separate action. A photo of an invoice is not proof of delivery. A repeated forward adds provenance to the existing evidence rather than stock. Unit ambiguity, missing delivery identity or a blurry quantity is unverified, not a numeric mismatch. ForeFathers data stays outside Consu’s context unless the owner has an explicit cross-business view.
+
+RAMYA: CORRECTED COURT NOTICE TO REVIEWED WORK
+Proposed pilot: email arrives with a matter number and revised hearing date. Bind the email and PDF revision to a source observation; match court, jurisdiction, matter identifier and year before using name similarity. Preserve source locators and the previously known date. The agent drafts a calendar/task change and attachment handoff for Ramya, showing old value, new value and evidence. Ambiguous identity pauses the change. A hearing date and a filing deadline remain distinct types; legal interpretation requires the responsible lawyer’s judgment. After authorization, recheck current matter grants and evidence version, apply the change idempotently and verify the result. A corrected notice invalidates stale pending approval.
+
+DO NOT COPY MAJORITY AGREEMENT BLINDLY
+The reconciliation page explicitly aligns semantics before comparing values [DF-S16]. Our proposed rule should go further: two forwards of one invoice are one evidentiary origin, not two independent votes. A sales opportunity amount, an invoice balance and cash in a bank account generally measure different things. Matching numerals do not make them equivalent. Define source authority per field and workflow. Keep disputed values visible; a policy-selected working value is a decision with a reason, not a rewrite of history.
+
+THREE STATES DO NOT SOLVE EVERY UNCERTAINTY
+Determinism guarantees repeatability only for fixed inputs and rules. It does not establish that OCR read the right line, that a rule is correct or that all source records arrived. For SupaBiz, separate evidence validity, exact rule results, human judgment and infrastructure state. A missing attachment should block only dependent checks and actions; unrelated safe work can continue. CANNOT_VERIFY should include a reason, required evidence, responsible person and due time. Keep failure-rate metrics separate from missing-data and platform-error rates.
+
+UX WORTH ADAPTING
+Definite’s documented console links queues to evidence-rich resolution workspaces [DF-S05]. For SupaBiz, give staff a simple capture surface and a receipt confirming what was understood. Give managers a needs-attention queue grouped by business, owner and urgency. The right-side drawer shows the original message/photo/audio segment, the extracted fields and their proposed changes. Show Current, Delayed or Missing next to each source, and distinct Proposed, Checked, Reviewed and Applied labels. Voice should read the relevant consequence and request a narrow clarification; it should not recite backend policy IDs. The business workbook is a projection of records, not a separate conflicting database.
+
+THE HARNESS BOUNDARY
+Proposed chain: connector event → dedupe and immutable evidence → scoped candidate records → semantic validation → deterministic checks → bounded clarification or review → permitted record update → independently authorized external action → verified effect. The durable control plane stores task versions, evidence references and approval decisions. Workers receive only the input fields needed for their task. Browser/vision/voice/video are perception or execution adapters around this chain; none becomes the authority for grants, quantities or matter identity. Agent environments can be persistent when needed for browser sessions, while business memory remains outside them.
+
+THE IMPORTANT GATEWAY LIMITATION
+Definite describes its MCP component as telemetry, not an authorizer [DF-S11]. Our action gateway must validate the actor, resource, purpose, operation and current grants before any effect. Persist action intent first. If a supplier accepts an order but completion logging fails, a subsequent tool error is an uncertain outcome; reconcile it against provider state rather than blindly retrying. A model’s successful final answer and a gateway’s completed event are not sufficient evidence of a correct business result.
+
+EVIDENCE INTEGRITY AND PRIVACY
+Signed receipts and externally retained checkpoints are useful portable evidence patterns [DF-S09, DF-S17]. For SupaBiz, initially retain versioned source references and an append-only decision trail. Add a standard signed export format when customers require independent verification. Trust keys through a separately established identity, not merely keys embedded in an untrusted bundle. Inclusion proves an event is in a particular committed history; it cannot prove all real-world events were captured. Hashes of small predictable values may leak information through guessing; do not treat hashes or opaque identifiers as anonymization. Apply access controls, deletion/retention policy and encryption to evidence replicas and exports.
+
+SECURITY FIT AND OPEN QUESTIONS
+The vendor documents tenant isolation, named human actions and minimized agent inputs [DF-S08, DF-S10]. We have not tested these controls. A business-level tenant boundary is insufficient for Arkaj’s matter-specific access and accountant-only groups. SupaBiz needs resource-level grants that flow into derived data, search, exports, notifications and tool execution. Identity-provider login must be followed by active membership and scope checks. Retention, regions, subprocessors, support access and disaster-recovery objectives require concrete deployment agreements, not assumptions based on the website [DF-S18, DF-S19].
+
+LEARNING AND MODEL INDEPENDENCE
+The useful feedback loop is failure-specific: a wrong extraction improves a parser or perception prompt; a wrong supplier link improves identity mapping; a late notice exposes connector lag; an arithmetic error changes deterministic code; an unauthorized send changes policy enforcement. Store reviewed corrections and release updated versions through held-out tests. Do not infer model training or fine-tuning from this loop. Definite’s benchmark claims are vendor assertions, not expected SupaBiz savings [DF-S01]. Evaluate a smaller model under the same evidence and rule contracts, including human review, retries and unresolved work.
+
+HOW IT CONNECTS TO EARLIER REVIEWS
+Asakana supplies capture, structured proposals and correction UX; Marble contributes receiving/invoice/procurement distinctions; Glen contributes scoped context; Decawork contributes action review; Executor contributes integration/tool governance. Definite sharpens the common typed record model and the independent verification contract. Hue and Rystic then test this chain against stateful scenarios and forbidden effects. This is one shared architecture with different responsibilities, not a recommendation to deploy every reviewed vendor.
+
+BUILD SEQUENCE AND ACCEPTANCE GATES
+Stage 1: define the two narrow record models, field authority, evidence locators, role scopes and correction semantics. Stage 2: build read-only ingest, dedupe, source health and the review drawer; run synthetic then consented shadow examples. Stage 3: add exact rule checks, immutable revisions and a clarification queue. Stage 4: allow specific internal record mutations with concurrency checks, then separately authorize external notifications/calendar actions and verify effects. Stage 5: evaluate model substitutions and incremental processing against a held-out suite. Stage 6: add portable signed packs or dedicated deployments only for demonstrated requirements. Each stage needs its own completion criteria; none is an assertion that code already exists.
+
+PERFORMANCE AND COSTING DISCIPLINE
+No measured SupaBiz or Definite speedup was established. cost-complexity.json gives analytical bounds and an explicitly hypothetical sensitivity calculation. Measure source lag, p50/p95 processing latency, review minutes, incorrect acceptance, unresolved rate, duplicate effects, storage growth and cost per correct completed workflow. Compare the same scenario population, model budget, source snapshot and reviewer policy. Report sample size, confidence intervals and failure categories. Connector setup and exception review can dominate token cost; a cheaper model can be more expensive overall if it creates extra work.
+
+DECISION
+Adopt the record-plus-evidence-plus-rules approach now in design. Prototype the manager evidence drawer and three check outcomes in the first workflow. Keep permissions and action execution in SupaBiz’s trusted boundary. Defer generalized ontology tooling, bank-grade evidence ledgers and vendor SDK integration until the narrow workflow and artifact provenance are proven. This is a completed bounded research review, with implementation, deployment verification and performance measurement still open.
+
+SAVED DESIGN CANDIDATES
+
+DF-01 One shared business model
+Represent people, businesses, matters, orders, receipts, invoices and tasks as typed records with stable IDs. Chat, dashboards and agents consume the same authorized projections. Start with one workflow, not a universal ontology.
+Measure: Record agreement across interfaces; incorrect joins
+Evidence: DF-S02, DF-S03
+
+DF-02 Align meaning before matching
+Compare only compatible business, entity, unit, currency, period and fact type. Received quantity and invoiced quantity are distinct facts, even when they differ. Keep conversion rules and source ancestry explicit.
+Measure: Wrong-entity and wrong-unit matches; unresolved match rate
+Evidence: DF-S16
+
+DF-03 Preserve observations and corrections
+Keep immutable evidence revisions and a versioned current projection. Store occurred_at, observed_at, ingested_at and effective period. A corrected notice supersedes a claim without deleting the earlier evidence.
+Measure: Reproducible as-of views; stale-source mistakes
+Evidence: DF-S03, DF-S07
+
+DF-04 Three check outcomes, separate job states
+A check can pass, fail, or remain unverified. Workflow completion, review decision and delivery status are independent dimensions. Display the reason and next responsible person.
+Measure: False passes on missing data; correctly classified failures
+Evidence: DF-S04, DF-S07
+
+DF-05 Exact rules for exact questions
+Use validated decimal/integer arithmetic, explicit units and versioned rules for quantities, totals, duplicate keys and permissions. OCR confidence, legal meaning and visual cleanliness need their own uncertainty or review path.
+Measure: Arithmetic errors; rule coverage; perception errors kept separate
+Evidence: DF-S03, DF-S04
+
+DF-06 Approval records do not rewrite facts
+Bind approval to tenant, actor, action digest, record version, policy version and expiry. A reviewer may authorize a permitted exception with a reason; preserve the failed check and original evidence. Recheck identity and grants at execution.
+Measure: Stale approvals blocked; unexplained overrides
+Evidence: DF-S04, DF-S06
+
+DF-07 A work item with an evidence drawer
+Show the proposed field change beside the original photo, audio timecode, email attachment or PDF page, with freshness and conflicts. Make every queue item lead to a resolution action and named owner.
+Measure: Review time; evidence-open rate; orphaned exceptions
+Evidence: DF-S05
+
+DF-08 Useful uncertainty rather than a dead end
+State exactly what is missing and request only the evidence needed: received weight, clearer invoice line, or confirmation of the matter. Limit reminders and use a single evolving work item.
+Measure: Clarification count; exception age; unnecessary interruptions
+Evidence: DF-S04, DF-S05
+
+DF-09 Rules and mappings are reviewed versions
+Translate a plain-language SOP into a draft typed workflow. Show scope, trigger, data access, checks, approvals and effects; simulate it, publish a version, and support rollback. Staff corrections remain local proposals until reviewed.
+Measure: Time to safe activation; rule regressions
+Evidence: DF-S06, DF-S16
+
+DF-10 Persistent state, replaceable workers
+Keep records, evidence, runs and policy in SupaBiz-owned durable services. Give workers only bounded task context and short-lived capabilities. Persistent desktops may serve browser tasks but should not be the business system of record.
+Measure: Context bytes per task; worker recovery; unauthorized fields exposed
+Evidence: DF-S03, DF-S08
+
+DF-11 Read-only onboarding, separate action gateway
+Begin a pilot with observation and drafts. Enable specific internal writes and external effects progressively through a policy-enforcing action service, scoped credentials and effect receipts. A read permission is not send permission.
+Measure: Time to first reviewed value; unauthorized or duplicate effects
+Evidence: DF-S13, DF-S19
+
+DF-12 Telemetry is not authorization
+Record intended action before an effect, but enforce grants independently. If completion logging fails after an upstream commit, mark outcome uncertain and reconcile before retrying. Never treat a logging gateway as a permission boundary.
+Measure: Unrecorded intent; uncertain outcomes recovered without duplicates
+Evidence: DF-S11
+
+DF-13 Independent, portable evidence
+Make results exportable with input references, rule versions, decisions and hashes. Add signatures and external checkpoints when justified. Verify trusted keys independently; proof integrity does not establish factual truth or population completeness.
+Measure: Offline verification; tamper detection; export completeness
+Evidence: DF-S09, DF-S17
+
+DF-14 Freshness and completeness are first-class
+Record source watermarks, lag, gaps, reconnect state and expected coverage. A disconnected WhatsApp session must visibly limit a summary. An empty successful fetch differs from a failed or partial fetch.
+Measure: Missing-event detection; stale summaries; p95 ingestion lag
+Evidence: DF-S05, DF-S13
+
+DF-15 Replayable events, idempotent consumers
+Use a transactional outbox and tenant-scoped event IDs; consumers record dedupe and object revisions. Out-of-order events cannot roll back current state. Delivery retries never mean the underlying business action should repeat.
+Measure: Duplicate effects; out-of-order regressions; delivery lag
+Evidence: DF-S06, DF-S12
+
+DF-16 Model choice is a measured substitution
+Try a cheaper model for constrained extraction or explanation under the same input and rule contracts. Compare held-out complete workflows including corrections, review time and missed exceptions before routing production traffic.
+Measure: Cost per correct completed workflow; false acceptance; abstention
+Evidence: DF-S01, DF-S22
+
+DF-17 Tenant isolation extends into every output
+Enforce business and matter grants in retrieval, object downloads, exports, notifications, caches and execution. Sign-in establishes identity; active membership and resource scope establish access. Keep model context and logs minimal.
+Measure: Cross-business/matter disclosure; revocation latency
+Evidence: DF-S08, DF-S10
+
+DF-18 Bind approvals to current state
+Use optimistic version checks so two reviewers cannot silently overwrite one another. If evidence or intended recipients change, invalidate the pending approval and explain the difference before another decision.
+Measure: Lost updates; approval conflicts; action-version mismatch
+Evidence: DF-S05, DF-S06
+
+DF-19 Verify package identity and compatibility
+Pin publisher, registry, digest, API schema and tested capabilities. Prefer scoped package names. Block setup on identity mismatch, and retain the failure reason. Do not execute an arbitrary same-name package from documentation.
+Measure: Incorrect package acceptance; SDK/API drift caught before rollout
+Evidence: DF-S14, DF-S15, DF-S20, DF-S21
+
+DF-20 Start with a small record-and-verification core
+Build one receipt/invoice workflow and one notice/task workflow using a relational record store, object storage and a job queue. Add advanced proof infrastructure, dedicated tenant deployments or generalized workflow builders only after measured demand.
+Measure: Time to verified pilot; operational cost; migration burden
+Evidence: DF-S03, DF-S13
+
+PRIMARY REFERENCES
+DF-S01 https://www.ycombinator.com/companies/definite
+DF-S02 https://www.usedefinite.com/
+DF-S03 https://docs.usedefinite.com/concepts/platform-architecture
+DF-S04 https://docs.usedefinite.com/concepts/verification
+DF-S05 https://docs.usedefinite.com/console
+DF-S06 https://docs.usedefinite.com/api/vault
+DF-S07 https://docs.usedefinite.com/concepts/request-lifecycle
+DF-S08 https://docs.usedefinite.com/concepts/tenant-isolation
+DF-S09 https://docs.usedefinite.com/security/cryptography-and-tokens
+DF-S10 https://docs.usedefinite.com/security/platform-security
+DF-S11 https://docs.usedefinite.com/sdk/mcp-gateway
+DF-S12 https://docs.usedefinite.com/api/decision-streams
+DF-S13 https://docs.usedefinite.com/deployment/production-architecture
+DF-S14 https://docs.usedefinite.com/sdk/typescript
+DF-S15 https://docs.usedefinite.com/sdk/python
+DF-S16 https://www.usedefinite.com/solutions/reconciliation
+DF-S17 https://docs.usedefinite.com/api/ledger-and-proofs
+DF-S18 https://www.usedefinite.com/privacy
+DF-S19 https://www.usedefinite.com/terms
+DF-S20 https://registry.npmjs.org/definite-ts/1.0.0
+DF-S21 https://registry.npmjs.org/definite-mcp-gateway
+DF-S22 https://docs.usedefinite.com/faq

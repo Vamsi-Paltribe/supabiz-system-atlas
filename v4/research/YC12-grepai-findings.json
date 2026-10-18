@@ -1,0 +1,222 @@
+[
+  {
+    "id": "GR-01",
+    "title": "Turn repeated work into governed procedures",
+    "decision": "High priority",
+    "source_ids": [
+      "GR-S05"
+    ],
+    "supabiz_proposal": "Suggest saving stable steps with variable inputs, business scope, owner, output contract and last verified run.",
+    "measure": "Procedure reuse; duplicated setup; verified outcomes",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "GR-02",
+    "title": "Move predictable steps into code",
+    "decision": "High priority",
+    "source_ids": [
+      "GR-S02"
+    ],
+    "supabiz_proposal": "Use tested arithmetic, normalization, dedupe and exact lookups where applicable; retain uncertain interpretation as model work.",
+    "measure": "Cost and error rate by step",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "GR-03",
+    "title": "Keep an explicit exception path",
+    "decision": "Build",
+    "source_ids": [
+      "GR-S02"
+    ],
+    "supabiz_proposal": "Guard applicability and source quality; escalate unfamiliar or contradictory cases rather than forcing a cheap answer.",
+    "measure": "Missed exceptions; false fallback; resolution time",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "GR-04",
+    "title": "Separate learning from live execution",
+    "decision": "Build",
+    "source_ids": [
+      "GR-S05"
+    ],
+    "supabiz_proposal": "Collect traces, propose changes and evaluate offline; publish versioned releases with canary and rollback.",
+    "measure": "Regression escape; rollback success",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "GR-05",
+    "title": "Distinguish memory, prompts, routing and training",
+    "decision": "Adopt clarity",
+    "source_ids": [
+      "GR-S05"
+    ],
+    "supabiz_proposal": "Label what changed. A saved correction or workflow does not imply model-weight training.",
+    "measure": "User understanding; reproducibility",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "GR-06",
+    "title": "Package purpose, evidence, tools and output together",
+    "decision": "Adapt UX",
+    "source_ids": [
+      "GR-S03"
+    ],
+    "supabiz_proposal": "Give each responsibility an inspectable contract and sample case; expose business language before advanced configuration.",
+    "measure": "Setup completion; missing requirements",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "GR-07",
+    "title": "Make draft, tested and active separate states",
+    "decision": "Build",
+    "source_ids": [
+      "GR-S05"
+    ],
+    "supabiz_proposal": "Require evaluation and authorized publication before production behavior changes; SDK build success alone is insufficient.",
+    "measure": "Untested activation; last-verified coverage",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "GR-08",
+    "title": "Persist run identity across devices and restarts",
+    "decision": "Build",
+    "source_ids": [
+      "GR-S07"
+    ],
+    "supabiz_proposal": "Save input refs, procedure version, submission identity and progress before dispatch; reconnect to existing work.",
+    "measure": "Duplicate work; restart recovery",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "GR-09",
+    "title": "Make batches visible per business record",
+    "decision": "Adapt UX",
+    "source_ids": [
+      "GR-S06"
+    ],
+    "supabiz_proposal": "Show individual completed, pending, exception and failed records; retry selected unresolved rows.",
+    "measure": "Partial failures hidden; duplicate successful rows",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "GR-10",
+    "title": "Expose first-run and pause semantics",
+    "decision": "Adapt UX",
+    "source_ids": [
+      "GR-S09"
+    ],
+    "supabiz_proposal": "Show whether enabling starts immediately, timezone and next run; acknowledge in-flight work when pausing.",
+    "measure": "Unexpected runs; missed schedules; pause comprehension",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "GR-11",
+    "title": "Enforce cumulative budgets",
+    "decision": "Build",
+    "source_ids": [
+      "GR-S09"
+    ],
+    "supabiz_proposal": "Combine per-run, per-batch, recurring and monthly/business reservations with concurrency fairness.",
+    "measure": "Overspend; noisy-tenant starvation",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "GR-12",
+    "title": "Review exact multi-stage plans",
+    "decision": "Adapt with Decawork",
+    "source_ids": [
+      "GR-S10"
+    ],
+    "supabiz_proposal": "Bind plan approval to version/digest while separately authorizing each material external effect.",
+    "measure": "Stale-plan execution; effect authorization gaps",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "GR-13",
+    "title": "Validate outputs beyond JSON shape",
+    "decision": "Build",
+    "source_ids": [
+      "GR-S07"
+    ],
+    "supabiz_proposal": "Check schema, domain arithmetic, source evidence and current records before posting or assigning.",
+    "measure": "Plausible-but-wrong records",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "GR-14",
+    "title": "Keep transport retry separate from business retry",
+    "decision": "Build",
+    "source_ids": [
+      "GR-S07"
+    ],
+    "supabiz_proposal": "Use durable request identity, same-body idempotency where supported and outcome reconciliation before repeat effects.",
+    "measure": "Duplicate effects; unknown-outcome age",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "GR-15",
+    "title": "Pin clients and verify deployment contracts",
+    "decision": "Adopt engineering practice",
+    "source_ids": [
+      "GR-S08"
+    ],
+    "supabiz_proposal": "Test exact SDK/package versions against actual deployment capability and status contracts; resolve doc/source drift.",
+    "measure": "Integration regressions; failed upgrades",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "GR-16",
+    "title": "Retain raw and normalized statuses",
+    "decision": "Reuse pattern",
+    "source_ids": [
+      "GR-S07"
+    ],
+    "supabiz_proposal": "Show useful business states but retain provider state for diagnosis; unknown states need explicit handling.",
+    "measure": "False success; unsupported state loops",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "GR-17",
+    "title": "Prove improvements at equal outcome quality",
+    "decision": "Build with Hue",
+    "source_ids": [
+      "GR-S05"
+    ],
+    "supabiz_proposal": "Freeze normal/exception cohorts; compare full cost, accuracy, human minutes and tail latency without future leakage.",
+    "measure": "Verified task economics; safety failures",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "GR-18",
+    "title": "Keep traces, procedures and sharing permission-aware",
+    "decision": "Build with Glen",
+    "source_ids": [
+      "GR-S11"
+    ],
+    "supabiz_proposal": "Apply business/matter/audience policy to evidence, logs and derived procedures; private reports by default.",
+    "measure": "Cross-business leakage; unsafe public links",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "GR-19",
+    "title": "Preserve action controls after optimization",
+    "decision": "Build with Decawork",
+    "source_ids": [
+      "GR-S03"
+    ],
+    "supabiz_proposal": "Generated code and stronger models use the same credential broker, grants and exact approval checks.",
+    "measure": "Optimization-induced permission bypass",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "GR-20",
+    "title": "Offer a readable improvement comparison",
+    "decision": "Adapt UX",
+    "source_ids": [
+      "GR-S03"
+    ],
+    "supabiz_proposal": "Show changed steps, evidence, measured sample and costs; distinguish proposed, tested and released improvements.",
+    "measure": "Misleading savings claims; adoption and rollback comprehension",
+    "status": "Design candidate; not implemented"
+  }
+]

@@ -1,0 +1,166 @@
+{
+  "id": "YC14-terse",
+  "name": "Terse / Durable Actors",
+  "date": "2026-10-17",
+  "commit": "e977511fca9c908692b1ef0c299aed458f898198",
+  "sdk_version": "0.8.0",
+  "observer_version": "0.8.0",
+  "license": "MIT root; dependencies not fully license-audited",
+  "method": "Selected complete-source inspection plus isolated SDK/SQLite and localhost HTTP tests; public demo read observation. REA skill routes source repositories to repository tools.",
+  "sources": [
+    {
+      "id": "TE-S01",
+      "url": "https://www.ycombinator.com/companies/useterse",
+      "kind": "YC identity",
+      "observation": "Official project selection; unrelated Terse projects excluded."
+    },
+    {
+      "id": "TE-S02",
+      "url": "https://github.com/TerseAI/durable-actors",
+      "kind": "Official repository",
+      "observation": "Pinned complete source; SDK and observer 0.8.0; MIT root license."
+    },
+    {
+      "id": "TE-S03",
+      "url": "https://demo.useterse.ai/",
+      "kind": "Public live demo",
+      "observation": "Connected, initial and explicit reads, history tab observed; shared counter not incremented/decremented."
+    },
+    {
+      "id": "TE-S04",
+      "url": "https://github.com/TerseAI/durable-actors/blob/e977511fca9c908692b1ef0c299aed458f898198/docs/self-hosting.md",
+      "kind": "Supported deployment guide",
+      "observation": "GKE Sandbox, PostgreSQL, Standard GCS; optional two-zone Rapid storage."
+    },
+    {
+      "id": "TE-S05",
+      "url": "https://www.useterse.ai/",
+      "kind": "Homepage",
+      "observation": "Vendor latency table and positioning; not independent performance evidence."
+    },
+    {
+      "id": "TE-S06",
+      "url": "https://github.com/TerseAI/durable-actors/blob/e977511fca9c908692b1ef0c299aed458f898198/docs/reference/typescript-guide.md",
+      "kind": "TypeScript guide",
+      "observation": "Guide atomicity descriptions differ from reviewed source; nested assignment requirement documented."
+    },
+    {
+      "id": "TE-S07",
+      "url": "https://www.useterse.ai/privacy",
+      "kind": "Published privacy policy",
+      "observation": "Policy page opened; substantive policy terms not assessed. Not evidence of self-hosted residency or isolation."
+    }
+  ],
+  "code_evidence": [
+    {
+      "id": "TE-C01",
+      "path": "sdk/src/actor/actor.ts",
+      "start_line": 1,
+      "end_line": 125,
+      "url": "https://github.com/TerseAI/durable-actors/blob/e977511fca9c908692b1ef0c299aed458f898198/sdk/src/actor/actor.ts#L1",
+      "observation": "Actor identity, fields, single alarm and non-persisted broadcast contract",
+      "sha256": "8760993594a1dc99fbb35607f77dfbf5db76a3be5914f279162fb72301ef3c61"
+    },
+    {
+      "id": "TE-C02",
+      "path": "sdk/src/host/persisted-fields.ts",
+      "start_line": 1,
+      "end_line": 39,
+      "url": "https://github.com/TerseAI/durable-actors/blob/e977511fca9c908692b1ef0c299aed458f898198/sdk/src/host/persisted-fields.ts#L1",
+      "observation": "Assignment setter persists a JSON value; nested mutation is not deep tracked",
+      "sha256": "e4aaf7baa787cac7d6fe6095e3a812dc9b2e13f58f782dab5aa547081d49fc66"
+    },
+    {
+      "id": "TE-C03",
+      "path": "README.md",
+      "start_line": 1,
+      "end_line": 172,
+      "url": "https://github.com/TerseAI/durable-actors/blob/e977511fca9c908692b1ef0c299aed458f898198/README.md#L1",
+      "observation": "Introductory chat example uses nested array/reply mutation; inspect against actual SDK",
+      "sha256": "f6b0416f7a351d979a80479886f3d3d04fd934951fb7203e7cebd3e44fcef3c9"
+    },
+    {
+      "id": "TE-C04",
+      "path": "sdk/src/host/actor-runtime.ts",
+      "start_line": 45,
+      "end_line": 270,
+      "url": "https://github.com/TerseAI/durable-actors/blob/e977511fca9c908692b1ef0c299aed458f898198/sdk/src/host/actor-runtime.ts#L45",
+      "observation": "Serial/interleaved scheduling, atomicMethods selection, commit and restoration",
+      "sha256": "d9e24789e9845091f322b86ab9b7b9477588d663fd950b87558ec5c4a8e3ec67"
+    },
+    {
+      "id": "TE-C05",
+      "path": "sdk/src/host/database.ts",
+      "start_line": 1,
+      "end_line": 110,
+      "url": "https://github.com/TerseAI/durable-actors/blob/e977511fca9c908692b1ef0c299aed458f898198/sdk/src/host/database.ts#L1",
+      "observation": "Immediate field/SQL write flags and explicit commit/rollback",
+      "sha256": "4b65cb379c447cbffd1134012b12cccc98aaca7d1fe7e24a8852508bfe0c73dd"
+    },
+    {
+      "id": "TE-C06",
+      "path": "sdk/tests/client/remoteClientRetry.test.ts",
+      "start_line": 1,
+      "end_line": 46,
+      "url": "https://github.com/TerseAI/durable-actors/blob/e977511fca9c908692b1ef0c299aed458f898198/sdk/tests/client/remoteClientRetry.test.ts#L1",
+      "observation": "Cold and warm lost-response tests assert one submission and outcome_unknown",
+      "sha256": "a121cd7235fba98cc0f812ee990bda84047d84201e51aa2390a3054a72bf9dd8"
+    },
+    {
+      "id": "TE-C07",
+      "path": "sdk/tests/host/sqlite.test.ts",
+      "start_line": 1,
+      "end_line": 317,
+      "url": "https://github.com/TerseAI/durable-actors/blob/e977511fca9c908692b1ef0c299aed458f898198/sdk/tests/host/sqlite.test.ts#L1",
+      "observation": "Local SQLite fixture checks explicit atomic rollback, restore and commit failure",
+      "sha256": "c9bb60f5e0de74ee5fcfe129d5517c513b642a675f7f40a58ee6b80df02eb63c"
+    },
+    {
+      "id": "TE-C08",
+      "path": "sdk/src/compiler/features/atomicity.ts",
+      "start_line": 1,
+      "end_line": 47,
+      "url": "https://github.com/TerseAI/durable-actors/blob/e977511fca9c908692b1ef0c299aed458f898198/sdk/src/compiler/features/atomicity.ts#L1",
+      "observation": "Explicit Atomic annotation parser; compiler itself not executed here",
+      "sha256": "6d9851e38ebc89742c076760d2c67addc1a1d6f759ce65a55e9be4862ec27506"
+    },
+    {
+      "id": "TE-C09",
+      "path": "charts/durable-actors/values.yaml",
+      "start_line": 1,
+      "end_line": 41,
+      "url": "https://github.com/TerseAI/durable-actors/blob/e977511fca9c908692b1ef0c299aed458f898198/charts/durable-actors/values.yaml#L1",
+      "observation": "Default deployment resource requests and warm count",
+      "sha256": "cd36c2276296471a99094d47d96b846d0299ef098b9e53f0ecaca48a2a96d59a"
+    }
+  ],
+  "subsystem_evidence": [
+    "durability-source-review.json",
+    "security-ux-source-review.json"
+  ],
+  "tests": {
+    "upstream_sdk_sqlite": 22,
+    "upstream_localhost_retry": 2,
+    "targeted_persistence": 4,
+    "total_passed": 28,
+    "rust_cloud": 0,
+    "proposed_supabiz": 48
+  },
+  "environment": {
+    "bun": "1.3.14",
+    "declared_minimum_bun": "1.4.2",
+    "reused_dependencies": {
+      "zod": "4.4.3",
+      "ajv": "8.20.0",
+      "ws": "8.21.0"
+    },
+    "qualification": "Existing packages linked into ignored node_modules; no full lockfile build or supported-stack compatibility certification"
+  },
+  "limits": [
+    "Selected review, not complete audit",
+    "Rust/GCS/GKE paths inspected, not executed",
+    "No production benchmark or savings percentage",
+    "SDK SQLite fixture does not establish Rust alarm atomicity",
+    "No data or credentials connected to vendor service"
+  ]
+}

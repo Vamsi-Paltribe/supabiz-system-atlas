@@ -1,0 +1,200 @@
+[
+  {
+    "id": "SH-01",
+    "title": "Add observation-triggered work",
+    "evidence_refs": [
+      "SH-S01"
+    ],
+    "decision": "High priority pattern",
+    "supabiz_proposal": "Route camera events and staff reports into the same evidence/task system.",
+    "measure": "Useful tasks discovered before manual reporting",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "SH-02",
+    "title": "Keep observation, inference and action distinct",
+    "evidence_refs": [
+      "SH-S02"
+    ],
+    "decision": "Build",
+    "supabiz_proposal": "Represent visual observations separately from business assertions and authorized changes.",
+    "measure": "Unsupported assertions; erroneous actions",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "SH-03",
+    "title": "Start with one visible low-risk event",
+    "evidence_refs": [
+      "SH-S01"
+    ],
+    "decision": "Pilot",
+    "supabiz_proposal": "Begin with table-reset checks under human confirmation.",
+    "measure": "Precision, recall and verified resolution",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "SH-04",
+    "title": "Make camera health a first-class input",
+    "evidence_refs": [
+      "SH-S02"
+    ],
+    "decision": "Build",
+    "supabiz_proposal": "Invalidate stale/obscured observations and keep manual work available.",
+    "measure": "Stale alerts; coverage time",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "SH-05",
+    "title": "Scope state to a table visit",
+    "evidence_refs": [
+      "SH-S02"
+    ],
+    "decision": "Build",
+    "supabiz_proposal": "Separate physical table identity from each occupancy episode; reject late prior-visit events.",
+    "measure": "Wrong-visit updates",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "SH-06",
+    "title": "Reconcile sources by field authority",
+    "evidence_refs": [
+      "SH-S02"
+    ],
+    "decision": "Build",
+    "supabiz_proposal": "Resolve host, POS, camera and staff evidence without declaring any source globally authoritative.",
+    "measure": "Unresolved conflicts; lost valid updates",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "SH-07",
+    "title": "Route by current role and workload",
+    "evidence_refs": [
+      "SH-S01"
+    ],
+    "decision": "Adapt UX",
+    "supabiz_proposal": "Use current shift assignments, permission and capacity; include named ownership and handoff.",
+    "measure": "Acceptance delay; unowned tasks",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "SH-08",
+    "title": "Separate acceptance from verified closure",
+    "evidence_refs": [
+      "SH-S02"
+    ],
+    "decision": "Build",
+    "supabiz_proposal": "Use explicit accepted, ready-for-check and confirmed outcomes.",
+    "measure": "False completion; duplicate ownership",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "SH-09",
+    "title": "Pair a floor map with an accessible queue",
+    "evidence_refs": [
+      "SH-S02"
+    ],
+    "decision": "Adapt UX",
+    "supabiz_proposal": "Give hosts spatial context and staff a short text-based actionable list.",
+    "measure": "Time to find the correct task",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "SH-10",
+    "title": "Budget attention as well as compute",
+    "evidence_refs": [
+      "SH-S02"
+    ],
+    "decision": "Build",
+    "supabiz_proposal": "Deduplicate alerts and set cooldowns, priority and escalation rules.",
+    "measure": "False alerts per table-hour",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "SH-11",
+    "title": "Use reviewed correction categories",
+    "evidence_refs": [
+      "SH-S04"
+    ],
+    "decision": "Build",
+    "supabiz_proposal": "Record incorrect location, occlusion, already handled and rule errors separately.",
+    "measure": "Useful labeled corrections; regression rate",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "SH-12",
+    "title": "Improve with evaluated versions",
+    "evidence_refs": [
+      "SH-S04"
+    ],
+    "decision": "Build",
+    "supabiz_proposal": "Test calibration, temporal rules and candidate models on held-out shifts/sites before activation.",
+    "measure": "Event precision/recall and rollback success",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "SH-13",
+    "title": "Treat camera support as an optional module",
+    "evidence_refs": [
+      "SH-S02"
+    ],
+    "decision": "High priority product",
+    "supabiz_proposal": "Add value alongside existing POS and communication channels; do not require replacement.",
+    "measure": "Onboarding time; time to first verified outcome",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "SH-14",
+    "title": "Keep retention separate for each artifact",
+    "evidence_refs": [
+      "SH-S05"
+    ],
+    "decision": "Build",
+    "supabiz_proposal": "Define independent raw-stream, clip, observation and business-record retention and deletion.",
+    "measure": "Bytes retained; deletion verification",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "SH-15",
+    "title": "Give each audience a permitted view",
+    "evidence_refs": [
+      "SH-S05"
+    ],
+    "decision": "Build",
+    "supabiz_proposal": "Separate task visibility from raw footage rights; scope every source to site and purpose.",
+    "measure": "Unauthorized disclosure attempts blocked",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "SH-16",
+    "title": "Optimize the process before judging people",
+    "evidence_refs": [
+      "SH-S01"
+    ],
+    "decision": "Scope decision",
+    "supabiz_proposal": "Measure service queues and coverage; avoid automated personal ratings from ambiguous footage.",
+    "measure": "Disputed inferences; operational usefulness",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "SH-17",
+    "title": "Measure real economics and coverage",
+    "evidence_refs": [
+      "SH-S03"
+    ],
+    "decision": "Adoption gate",
+    "supabiz_proposal": "Compare cost per verified task and end-to-end delays against manual baseline; separate payment savings.",
+    "measure": "Incremental cost, attention load, task benefit",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "SH-18",
+    "title": "Scale with bounded fresh work",
+    "evidence_refs": [
+      "SH-S02"
+    ],
+    "decision": "Build",
+    "supabiz_proposal": "Shard capture by camera/site and state by table/visit; explicitly handle stale backlog and overload.",
+    "measure": "p95 age, drop rate, recovery correctness",
+    "status": "Design candidate; not implemented"
+  }
+]

@@ -1,0 +1,222 @@
+[
+  {
+    "id": "IB-01",
+    "title": "Stable identity, scoped authority",
+    "evidence_refs": [
+      "INK-GR-04"
+    ],
+    "decision": "Adopt principle",
+    "supabiz_proposal": "Keep a provider-independent agent principal with separate Consu, ForeFathers and Arkaj memberships. Bind channel identities to it without merging business authority.",
+    "measure": "Wrong-business actions; identity continuity after model/provider changes",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "IB-02",
+    "title": "Observe without answering every message",
+    "evidence_refs": [
+      "INK-GR-02"
+    ],
+    "decision": "High priority",
+    "supabiz_proposal": "Allow authorized quiet capture, then wake on an eligible mention, explicit request or approved workflow. Show listening versus working.",
+    "measure": "Model turns per 100 messages; missed actionable events; attention load",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "IB-03",
+    "title": "Separate context, requests and actions",
+    "evidence_refs": [
+      "INK-GR-01"
+    ],
+    "decision": "Build",
+    "supabiz_proposal": "Evaluate observation permission, current sender admission, addressing and action authority separately. Earlier conversation is evidence, not a new command.",
+    "measure": "Unauthorized wake/action rate; useful recall",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "IB-04",
+    "title": "Conversation-specific activation",
+    "evidence_refs": [
+      "INK-GR-04"
+    ],
+    "decision": "Adapt",
+    "supabiz_proposal": "A manager selects a group, purpose, history window and reply mode. Record activation and membership versions; joining one group grants no unrelated history.",
+    "measure": "Onboarding time; cross-group retrieval denials",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "IB-05",
+    "title": "Make permissions understandable",
+    "evidence_refs": [
+      "INK-SEC-08"
+    ],
+    "decision": "Adapt UX",
+    "supabiz_proposal": "Show separate can-read, can-receive, can-reply, can-use-memory and can-change-records cards with concrete examples.",
+    "measure": "Permission comprehension; accidental grants",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "IB-06",
+    "title": "Preserve the original audience",
+    "evidence_refs": [
+      "INK-GR-05"
+    ],
+    "decision": "Build invariant",
+    "supabiz_proposal": "Store exact business, connector, conversation, thread and audience with each action. Recheck current entitlements; never silently redirect a failed group reply to a private chat.",
+    "measure": "Wrong audience and stale membership disclosures",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "IB-07",
+    "title": "Bind approval to the actual proposal",
+    "evidence_refs": [
+      "INK-GR-03"
+    ],
+    "decision": "Build beyond source",
+    "supabiz_proposal": "Bind approver, business, action digest, record version and expiry. Changing quantity, recipient or amount invalidates approval.",
+    "measure": "Stale/replayed/wrong-person approvals blocked",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "IB-08",
+    "title": "Durable receipt, result and delivery stages",
+    "evidence_refs": [
+      "INK-GR-06"
+    ],
+    "decision": "Adapt architecture",
+    "supabiz_proposal": "Persist accepted event, model result and external delivery intent separately. Recover saved results without automatically repeating reasoning or business effects.",
+    "measure": "Crash recovery correctness; avoidable reruns",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "IB-09",
+    "title": "Make uncertainty visible",
+    "evidence_refs": [
+      "INK-GR-07"
+    ],
+    "decision": "High priority",
+    "supabiz_proposal": "After a lost send acknowledgement, show outcome unknown and reconcile via provider receipt/key. Do not infer failure from an absent local response.",
+    "measure": "Duplicate orders/messages; time in uncertain state",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "IB-10",
+    "title": "Stop the exact worker",
+    "evidence_refs": [
+      "INK-GR-08"
+    ],
+    "decision": "Adapt with compatibility tests",
+    "supabiz_proposal": "Fence a worker generation before replacing or cancelling work. A cancelled async wrapper does not prove a tool subprocess stopped. Explain already committed effects.",
+    "measure": "Overlapping attempts; orphan operations",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "IB-11",
+    "title": "Bound burst collection and history",
+    "evidence_refs": [
+      "INK-GR-11"
+    ],
+    "decision": "Experiment",
+    "supabiz_proposal": "Coalesce split staff messages with time, byte and source-count limits; preserve original evidence and expose pending processing. Set caps from measured language/media behavior.",
+    "measure": "Useful latency; truncation; task recall; retained bytes",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "IB-12",
+    "title": "Use a transactional work ledger",
+    "evidence_refs": [
+      "INK-GR-12"
+    ],
+    "decision": "Build for production",
+    "supabiz_proposal": "Replace growing whole-conversation checkpoints with durable event and job records, bounded hydration, retention and atomic queue-to-active transitions.",
+    "measure": "Recovery under injected faults; write amplification; queue age",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "IB-13",
+    "title": "Keep credentials out of model output",
+    "evidence_refs": [
+      "INK-SEC-06"
+    ],
+    "decision": "Build broker",
+    "supabiz_proposal": "Let authorized connectors consume credentials inside the operation boundary. Return redacted receipts, never raw secrets in general model context.",
+    "measure": "Secret leakage in traces/tool outputs; rotation success",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "IB-14",
+    "title": "Authenticate ingress, then authorize effects",
+    "evidence_refs": [
+      "INK-SEC-01"
+    ],
+    "decision": "Build",
+    "supabiz_proposal": "Verify source transport and tenant binding before admission. Signed messages can still contain malicious content; independent policy controls every effect.",
+    "measure": "Invalid event rejection; injection-triggered actions",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "IB-15",
+    "title": "Quarantine unknown event sources",
+    "evidence_refs": [
+      "INK-SEC-03"
+    ],
+    "decision": "Build",
+    "supabiz_proposal": "Unverified events may be inspected in a restricted evidence flow, without the capability to request business changes.",
+    "measure": "Unverified-to-action escalation attempts",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "IB-16",
+    "title": "Show effective permissions and detect drift",
+    "evidence_refs": [
+      "INK-SEC-09"
+    ],
+    "decision": "High priority",
+    "supabiz_proposal": "Read back applied server settings and generate capability help from versioned contracts. Block readiness on differences between requested and effective scope.",
+    "measure": "Configuration mismatch detection; stale guidance incidents",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "IB-17",
+    "title": "Separate voice caller from agent authority",
+    "evidence_refs": [
+      "INK-SEC-07"
+    ],
+    "decision": "Build",
+    "supabiz_proposal": "Give each call a scoped capability set; step up identity checks for disclosures and approvals. Voice modality does not grant owner privileges.",
+    "measure": "Unauthorized disclosure/action rate; useful call resolution",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "IB-18",
+    "title": "Progress should show business truth",
+    "evidence_refs": [
+      "INK-GR-10"
+    ],
+    "decision": "Adapt UX",
+    "supabiz_proposal": "Use one compact thread status: captured, assigned, waiting for approval, delivery unknown, verified. Agent finished is not purchase received or task completed.",
+    "measure": "Manager follow-ups; false completion; time to verified result",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "IB-19",
+    "title": "A2A messages need bounded delegation",
+    "evidence_refs": [
+      "INK-GR-05"
+    ],
+    "decision": "Build SupaBiz contract",
+    "supabiz_proposal": "Treat a remote agent as an external principal with explicit purpose, data scope, task ID and expiry. Remote assertions never become local approval.",
+    "measure": "Cross-business leakage; duplicate delegated work",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "IB-20",
+    "title": "Keep communication behind replaceable adapters",
+    "evidence_refs": [
+      "INK-SEC-12"
+    ],
+    "decision": "Adoption gate",
+    "supabiz_proposal": "Own canonical contacts, evidence, action ledger and exports. Evaluate vendor licensing, retention, regions, India channel availability and real unit economics before adoption.",
+    "measure": "Provider migration completeness; cost per verified workflow",
+    "status": "Design candidate; not implemented"
+  }
+]

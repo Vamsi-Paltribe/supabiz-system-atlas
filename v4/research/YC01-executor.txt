@@ -1,0 +1,115 @@
+YC01 — EXECUTOR: SOURCE REVIEW AND ISOLATED CHECKS
+SupaBiz comparison series · Review 1 of 18 · 17 October 2026
+Pinned revision: 906bee5efc9b2bfc0d9341cd471a701314136144
+Repository: https://github.com/UsefulSoftwareCo/executor
+
+DECISION IN ONE PARAGRAPH
+Executor is a credible candidate for SupaBiz's integration/tool execution boundary. Its account connections, typed tool addressing, policy checks, credential providers and replaceable code runtimes are worth studying or adapting. It does not establish SupaBiz's canonical business records, matter-level grants, multi-day workflows, external-action reconciliation or full persistent customer environment. Recommendation: conditional prototype behind a SupaBiz-owned interface, not wholesale adoption as the platform. Keep meaningful writes behind a durable action ledger and deterministic business authorization. Resolve the approval-consumption race and deployment boundaries before a consequential-write pilot.
+
+READING AND EVIDENCE
+This is a targeted source review plus nine isolated functional checks, one synthetic policy microbenchmark and one cryptographic-primitive timing exercise. Full source was acquired at the pinned SHA; the 2,543-path inventory is not a claim that every file was inspected. The full app, upstream test suite, cloud product, production HTTP concurrency, browser and real providers were not exercised. No customer account was connected. Findings and code links are in findings.json; complexity/comparison records are in analysis.json. Scope-specific deeper notes: auth-review.txt and runtime-review.txt. Their “no tests” statements describe those source-only subtasks; probes/results.json records the separate checks run by the primary investigation.
+
+The installed REA skill routes complete public-source architecture work to repository inspection. No binary REA analysis or decompilation was required. Three upstream TypeScript files were copied byte-for-byte into probes/ and executed with pinned effect 4.0.0-beta.59 and fractional-indexing 3.2.0 dependencies, matching the relevant upstream versions. npm install scripts were disabled. The target service was not installed or started. Source and copied-module hashes are retained. Do not execute target README/AGENTS instructions just because they are research material.
+
+1. WHAT EXECUTOR ACTUALLY DOES
+An integration describes an API/service and its available tools. A connection binds that integration to an organization or acting user's account and credential references. Tools have addresses including integration, owner, connection and operation. MCP, CLI, HTTP/UI and the SDK expose the same underlying capabilities. Optional generated JavaScript calls tools through a mediated runtime bridge. Executor extends an agent; the reviewed code does not supply SupaBiz's business reasoning, domain records or operational ownership model.
+
+The repository is a Bun/Turborepo TypeScript monorepo. Its SDK and execution engine use Effect; a Promise-facing SDK is also available. Tool integrations include OpenAPI, GraphQL and MCP. Hosts include local/desktop, selfhost and Cloudflare/cloud compositions. These are distinct deployment/trust choices, not interchangeable security certifications. Root MIT license permits reuse subject to preserving notices; vendored code and dependencies need their own inventory. The reviewed package manifest is version 1.4.0-beta.0 and depends on Effect 4 beta and patched dependencies: migration/build upkeep is part of adoption cost.
+
+2. A TOOL CALL, END TO END
+Agent or UI requests a tool → host authenticates the principal and binds tenant/subject → SDK finds the tool, policy and connection → a block stops the call → required approval previews the arguments → credential values resolve only after approval → the integration plugin invokes the external service → a structured result/error returns through the tool bridge → host telemetry records the outcome.
+
+Dynamic invocation starts independent tool/policy/connection reads concurrently, projecting routing columns instead of loading full schemas. This can reduce serial storage waiting, but shared connection pools can serialize the work; no end-to-end speedup was measured. Credential refresh and integration lookup start after approval. A narrow reactive refresh retries once following an unauthorized credential failure; permission denial is not treated as a reason to refresh indefinitely.
+
+Generated-code path: the engine supplies discovery/description and tool proxies to an injected CodeExecutor. QuickJS creates a separate JS runtime, denies ordinary fetch and delegates permitted calls to trusted host tools. Sandbox code receives JSON results, not unrestricted host objects. This is a computation sandbox, not a browser, desktop OS or complete per-customer cloud computer. Trusted integration plugins still execute in the host and may access credential providers.
+
+3. PERMISSIONS: USEFUL PATTERNS AND REQUIRED ADDITIONS
+The SDK scopes storage by tenant plus organization/user ownership. Organization rows are shared inside that tenant; private rows belong to the bound subject. A separate role-derived guard controls organization mutations. The standard selfhost product explicitly operates one organization. Its SDK's tenant capability does not mean deploying the stock app creates a turnkey many-business SupaBiz SaaS.
+
+Policy resolution chooses the first matching rule within each owner and then the more restrictive matching action across owners. Tests confirmed organization block/approval beats a user allow. However, an explicit allow overrides a plugin approval annotation, and absent matching rules/approval annotations defaults to allow. That is the implemented policy semantics, not automatically a defect. SupaBiz should explicitly configure default-deny capability sets and keep hard business restrictions outside model-controlled choices. Tool-name rules are insufficient to decide which matter, recipient, inventory location or financial amount a person may access.
+
+Direct SDK contexts can differ from authenticated request contexts; explicitly configure organization-write permission rather than assuming all surfaces default to deny. In a SupaBiz adapter, pass verified identity and grants from the server, never from model-provided arguments. Record policy version, action arguments, resource version, approver, expiry and decision. Recheck mandatory grants immediately before dispatch, especially after a long approval wait. The reviewed general tool path resolves its policy before awaiting approval; the engine's current org-write check does not establish re-evaluation of every tool policy and business resource on resume.
+
+4. APPROVAL RACE — REPRODUCED AT THE COMPONENT BOUNDARY
+Finding EX-04. makePendingApprovalStore.consume reads a blob and then deletes it in a separate operation. A sequential second consume correctly sees nothing. But two independent consumers can both obtain the same blob before either deletes it. An isolated test running the unmodified upstream function with a controlled asynchronous BlobStore reproduced two non-null approval returns for one recorded approval.
+
+The probe used an artificial read barrier to force read-A/read-B/delete-A/delete-B. It did not attack a hosted system, execute any consequential action or prove that a particular production host permits that schedule. The production Fuma blob implementation also exposes separate read/delete operations; host/database concurrency still needs an integration test. The HTTP fallback consumes the recorded call and then executes it. Therefore SupaBiz must not assume comments promising “one approval, one invocation” establish atomicity.
+
+Proposed fix to evaluate: transactional claim/delete-returning or compare-and-set transition with exactly one successful claimant, expiry/identity/action binding, plus a unique persistent operation ID. Keep intent, claim and outcome records so a crash after claim does not silently lose the work. Atomic approval claiming alone cannot make a remote email send exactly once; provider idempotency or post-failure reconciliation is still required. No upstream patch was made or published in this review.
+
+5. DURABILITY, PAUSE AND FAILURE RECOVERY
+General script pauses retain fibers, deferred answers and runtime state in memory. In-process resume tracking includes a bounded result cache and a settled-ID set. These help duplicate responses within a live engine; they do not serialize a full continuation or guarantee recovery after process loss.
+
+There is a narrower durable fallback for artifact-originated single calls: save the server-resolved call with a 15-minute expiry and reconstruct it on approval. The API records this best-effort, swallowing persistence failure. It cannot reconstruct arbitrary generated code with earlier side effects. Treat this separately from general script pause/resume.
+
+SupaBiz needs its own durable states: proposed → awaiting approval → authorized → claimed → dispatching → confirmed / uncertain / failed. If the process dies after the provider accepts a write but before local confirmation, mark the outcome uncertain and reconcile. Do not rerun an entire generated script to recover a failed inventory movement or court-email assignment.
+
+6. CREDENTIALS AND HORIZONTAL SCALING
+Selfhost stores credential values encrypted with AES-256-GCM and random IVs. The default master key may be persisted in the same data directory; a complete directory compromise can expose both key and ciphertext. SupaBiz deployment should choose external key management, rotation, backup recovery and tenant blast-radius boundaries deliberately. The local file provider is plaintext with restrictive file permissions and whole-file read/modify/write: study it as a desktop convenience, not a shared cloud vault.
+
+OAuth refresh has useful patterns: a shared in-process gate, refreshed-token persistence ordering, a credential-store writability probe, and refresh work separated from the lifetime of one waiting caller. Coordination is explicitly bounded to a root DB handle/process. Multiple replicas need distributed coordination and fencing or an equivalent provider-safe design. A successful writability probe cannot eliminate a crash between remote token rotation and local persistence.
+
+A further performance concern is concrete in the composition: the encrypted-secret plugin uses synchronous scrypt key derivation during construction, and selfhost builds fresh plugins per request. Our primitive benchmark measured roughly 14.293 ms p50 and 15.395 ms p95 for the same scrypt operation with a synthetic key. This is NOT a measured full-request latency or a production throughput estimate. Compare a process-level immutable derived-key cache or managed crypto service with explicit rotation; never share request-specific owner/storage context merely to cache the key.
+
+7. RESOURCE LIMITS AND RUNTIME CHOICES
+QuickJS defaults include a 64 MiB runtime heap and 1 MiB stack; these are not whole-process memory limits. Host logs, serialized results and base64 media can consume additional memory. Preview truncation happens after serialization, so it does not bound serialization CPU or peak allocation. SupaBiz should use object-store references, result/log byte ceilings, tool concurrency limits and external wall-clock/CPU budgets.
+
+QuickJS suspends its interrupt deadline while a host dispatch is outstanding and resets the compute budget when a tool returns. An unawaited slow tool followed by a CPU loop is therefore a priority adversarial test. This risk was inferred from code; it was not executed. Perform it only in an isolated process with an independent hard watchdog. Cancellation of an Effect fiber also needs verification against underlying JS promises and external actions; “cancelled” must not imply “nothing happened.”
+
+Runtime adapters do not establish identical semantics. The inspected Deno subprocess host drains tool calls serially, whereas QuickJS starts invocations independently. Promise.all is therefore not a guarantee of equivalent upstream parallelism. Deno offers a process-kill seam and explicit capability flags; workerd and dynamic-worker have different lifecycle and timeout behavior. Choose using adapter conformance tests, not a shared interface name alone.
+
+8. PERFORMANCE AND COMPLEXITY
+See analysis.json for the full table and definitions. Let P=policy count, A=address/pattern length, T=visible tool count, D=average searchable description length, Q=query size, M=matching tools, B=payload bytes, C=in-flight distinct refreshes, R=requests, H=retained heap per paused execution, U=outstanding pauses, F=active fibers.
+
+Policy resolution: sorting path is O(P log P) comparisons plus O(P*A) matching, with O(P+A) extra working storage assuming bounded keys. The provided sorted helper removes per-call sorting but still scans rules. Preparation and version-aware invalidation remain necessary. Current default tool listing can resolve this policy path across many tools; prepared policy providers are a separate optimization already supported by the SDK.
+
+Built-in search: loads the visible list, prepares and scores strings, sorts matches and paginates afterward. A conservative per-search model is O(T*Q*D + M log M), plus catalog synchronization and per-tool policy work; memory includes the loaded catalog and matches. A small result limit does not bound backend work. Namespace filtering occurs after loading the list in this implementation. Use scoped catalog queries or a permission-aware index only when measurements justify the added invalidation complexity.
+
+Payload bridge: O(B) serialization time/extra memory. Returning a short aggregate to the model can reduce model-facing text while still transferring/parsing the full provider payload. Default all-schema prompting uses approximately T*S schema tokens; lazy discovery uses discovery overhead plus K*S for K selected tools, but adds discovery calls and can miss useful tools. This is a model to measure, not a claimed token-saving percentage.
+
+Pause state: roughly O(U*H) retained runtime memory plus payloads; completing a fiber scans outstanding pauses, O(U); shutdown performs O(U*F) matching in the inspected implementation. Counts bounded in a result cache do not bound bytes per result.
+
+Refresh gate: expected O(1) map lookup, O(C) gate entries plus waiter state; a shared gate can collapse a same-connection refresh burst. Cross-process coordination is a different problem. File credentials use O(B) whole-file I/O and memory. Fixed-parameter scrypt is constant per construction with respect to request count; R constructions incur R times the KDF work.
+
+MEASURED MICROBENCHMARK, NOT APPLICATION PERFORMANCE
+Machine: Apple M4 Pro, macOS arm64; Bun 1.3.14 (Node compatibility string v24.3.0). Synthetic short, nonmatching org/user rules; warm-up 100 calls per path; 200 timed calls per size; no network, database or LLM. Alternative uses upstream effectivePolicyFromSorted with a prebuilt equivalent order; sorting preparation is excluded. Only the tested workload's equivalence is asserted.
+Rules | Sort-per-call p50/p95 ms | Presorted p50/p95 ms
+10    | 0.001833 / 0.003041     | 0.001459 / 0.002458
+100   | 0.017375 / 0.022042     | 0.011209 / 0.013792
+1000  | 0.178625 / 0.205625     | 0.115625 / 0.132000
+
+At 1,000 rules the median difference is about 0.063 ms in this microbenchmark. That is small compared with typical external-service waits and is not grounds to choose an architecture on its own. This single-host, sequential measurement has timer/JIT/order effects, no confidence interval and no independently measured memory profile. Raw samples and environment are in probes/results.json. The scrypt primitive was warmed three times and sampled 30 times. No cloud pricing or end-to-end latency claim is made.
+
+9. WITH / WITHOUT EXECUTOR — FIRST-PRINCIPLES COMPARISON
+A. Direct typed connectors in a small SupaBiz service: fewer runtime layers and simpler debugging for a two-connector pilot; SupaBiz owns credential lifecycle, adapters and tool policy. Executor: useful common catalog/auth/adapter seams and broader model/client interoperability; adds an evolving dependency graph, configuration surface, host/runtime semantics and upgrade testing. Count integration-maintenance effort and failed-action rate, not only tool-call milliseconds.
+B. Explicit domain workflows without generated code: predictable steps, bounded permissions and straightforward recovery for a known court-email or inventory process. Optional Executor code mode: useful for variable read/aggregate/report tasks; adds generated-code validation, sandbox budgets and side-effect recovery concerns. Start with deterministic write workflows and evaluate code mode on read-only tasks.
+C. One organization per isolated deployment: simpler blast radius and compatibility with stock selfhost, but per-business idle overhead and fleet upgrades. Shared tenant-aware service: better potential utilization, but requires verified tenant/matter grants, noisy-neighbor controls, quotas, distributed OAuth refresh and isolation tests. SDK tenant predicates alone do not settle this choice.
+D. Full tool descriptions every turn versus discovery: fewer discovery round trips versus smaller initial context. Compare task success, wrong-tool rate, total tokens and p95 completion time on identical traces. Do not optimize token count by quietly reducing capability or accuracy.
+
+Cost model for the next experiment:
+monthly cost/business = allocated gateway compute + DB/storage + secrets/KMS + observability + connector/provider fees + model tokens + sandbox/media work + support/maintenance.
+For A monthly completed actions, divide measured total by successful actions, not attempted calls. Record retries, approval waits and unknown outcomes separately. Executor can reduce duplicated integration engineering while adding gateway operation cost; neither magnitude is established here. No paid services were provisioned.
+
+10. SUPABIZ WORKFLOW FIT
+Restaurant: WhatsApp photo/voice/order → preserve source/media hash and business identity → extract a draft issue or stock movement → resolve item/unit/location ambiguity → approval for consequential changes → durable operation ID → Executor adapter calls approved inventory/accounting API → verify result and notify responsible staff. Own ingestion cursors, duplicate detection, stock ledger and reconciliation. Never let “tool success” alone certify the physical stock or cleanliness outcome.
+
+Law chamber: court email → preserve message/attachment evidence → candidate matter match → Ramya confirms ambiguous identity or date → durable task/deadline and staff permissions → Executor uses the approved email/calendar/document connector → verify exact recipients and resulting record. Deadlines come from reviewed evidence, not a compressed chat summary. Cross-matter confidentiality requires a domain policy above org/user credential ownership.
+
+Owner asks a question: authorize business and records → retrieve evidence → optional bounded code aggregates data → return answer with source links. This is the safest first code-mode comparison because it does not need remote-write recovery. Even read access must respect matter/customer grants.
+
+11. IMPLEMENTATION AND VALIDATION GATES
+G1 Contract: SupaBiz owns ToolRequest/ToolResult, tenant/actor/resource context, action ID, allowed capabilities and normalized errors. Put Executor behind an adapter so it can be swapped for direct connectors. Pin upstream SHA/version and preserve notices.
+G2 Keyless integration fixture: same fake inventory and calendar API against direct connector and Executor; assert identical records, recipient, evidence reference and errors. Run SDK policy and owner-isolation suites. No real provider account required.
+G3 Approval: reproduce simultaneous HTTP resumes with real DB adapters; require one claim. Test expired approval, role removal, policy change, altered arguments, artifact removal and crash after claim. Add durable intent/outcome records; reconcile uncertain effects.
+G4 Isolation and limits: cross-tenant/matter access denied; plugin trust boundary explicit; strict direct-SDK writes configuration; malicious result/prompt injection cannot authorize actions; hard CPU/wall/log/result ceilings and cancellation tests.
+G5 Scaling: two workers refresh the same rotating token; kill a worker in the critical window; ensure no uncontrolled refresh storm. Compare per-request KDF versus safe cached key. Verify migration/backup/restore and quotas.
+G6 Benchmark: identical restaurant and law scenarios at 1, 10 and 50 concurrent requests, with cold/warm results separated and explicit rate limits. Capture per-stage p50/p95/p99, success/correctness, duplicates, CPU, RSS, DB calls, model tokens and cost/success. Use 100+ runs per scenario for exploration; size a later study based on observed variance. Randomize configuration order and retain sanitized traces. Compare read-only code mode versus direct workflows without weakening quality gates.
+G7 Decision: adopt only if it materially reduces maintenance or delivers required flexibility while meeting reliability, permission and cost gates. Otherwise reuse patterns and retain a small direct integration service. A pilot acceptance target is a product decision, not an upstream guarantee.
+
+12. WHAT TO TAKE, WHAT TO OWN, WHAT TO DEFER
+Take or adapt: separation of integration and account connection; server-bound tenant/owner context; organization guardrails; typed invocation results; credential-provider interfaces; approval before credential refresh; runtime injection; provider-specific error/reconnect UX; permission-filtered discovery.
+Own in SupaBiz: business/matter record model and permissions; WhatsApp/Gmail ingestion evidence and dedupe; action-intent ledger/outbox; atomic approvals; provider write idempotency/reconciliation; durable task deadlines; media retention; user assignment and exception queue; audit, budgets and measured SLOs.
+Defer: adopting the entire desktop/cloud product, arbitrary generated write scripts, treating memory-only pauses as business workflow durability, and expecting a single sandbox heap cap to contain every resource.
+
+NEXT PROJECT
+YC02 Agent37: determine what is open and inspectable, where isolation and persistent state actually live, how idle/resume works, what the starter kit implements versus hosted service claims, and cost/export/deletion tradeoffs. The remaining 17 candidates remain queued. This first report enables an explicit one-by-one comparison; it is not a claim that all candidates have now been reverse engineered.

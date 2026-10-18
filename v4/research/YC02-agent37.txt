@@ -1,0 +1,147 @@
+SUPABIZ / AGENT37 — RESEARCH REVIEW 02
+
+DECISION
+
+Agent37 is a strong reference for the environment and interaction layer of SupaBiz. The most valuable discovery is the combination of persistent workspace, visible ongoing responsibilities, recoverable chat, editable memory, finished outputs and human browser handoff. It makes an agent feel like something that owns work between conversations.
+
+Recommendation: adopt these product patterns now; evaluate Agent37 as one optional hosting backend in a controlled prototype. Do not decide to resell the starter unchanged. SupaBiz's main value remains evidence-linked business records, accountable people, scoped permissions, durable actions and verified outcomes. Those are not supplied by an attractive agent dashboard.
+
+Executor and Agent37 are complementary: Executor was principally a connection/tool-policy layer; Agent37 adds an environment lifecycle and product shell. Combining them is optional. We should select one credential and policy authority for each integration rather than paying for and debugging several overlapping paths.
+
+SCOPE AND REPRODUCIBILITY
+
+Reviewed on 2026-10-17. Public starter-kit pinned at e6caed10767a0c7aafc77d76b0a54c9050169e8b; public examples pinned at 46a981523e6b2b7c7839cd9f54687ebfcb95d498. Both repositories carry MIT licenses; preserve notices when copying. Dependency and hosted-service terms were not exhaustively assessed.
+
+This is a selected source review, not a full repository audit. Detailed paths and line links are in findings.json; file hashes and inventories are in metadata.json and source-inventory.json. Two scoped reports cover the starter auth/lifecycle and UX/runtime. Parent review also inspected selected Dots example handlers, desktop recipe and official API documentation.
+
+Seven keyless checks ran against exact extracted upstream readSSE/closeTool functions using Node v26.5.0 and synthetic in-memory inputs. They confirmed five supported behaviors and reproduced two limitations. No dependencies were installed for those checks. No hosted instance, paid API, customer account, database migration, security exploit or end-to-end application was exercised. Upstream Dots tests were deliberately not run: they provision a real billed agent. REA's source-routing guidance calls for normal source inspection here, not binary decompilation.
+
+The public cloud control plane is not included in the inspected starter. Isolation, storage durability, regional placement, disaster recovery, actual latency and operational scale remain unverified vendor capabilities. Two backup documentation URLs were unavailable through the research fetcher; backup policy and restore behavior remain explicit validation items.
+
+THE PRODUCT EXPERIENCE WORTH ADOPTING
+
+1. Give every business a durable place to work. Documents, browser state and active work remain available between conversations. For SupaBiz, the workspace must say Consu, ForeFathers or Arkaj prominently. Do not start by asking an owner to select a harness, RAM allocation or model provider.
+
+2. Make delegated responsibility visible. Show what the assistant is responsible for, who asked, which business/matter it affects, next check, deadline, and what counts as done. Include pause, edit and run-now. Separate a run that started from a business outcome that was verified. Agent37's example provides the interaction idea; our typed responsibility record supplies the enterprise meaning.
+
+3. Allow people to leave and return. A chat is a view of ongoing work. Opening files, changing threads or losing the mobile network should not create a second job. A returned screen should recover the same task and make cancellation status explicit. Persist task IDs and action receipts independently of streamed display text.
+
+4. Let the owner watch and take over. A browser pane beside chat is useful when a site needs login, verification or judgment. Proposed SupaBiz control sequence: request handoff; revoke the agent's control lease; await acknowledgement or stop the browser channel; grant the person control; on return obtain a fresh page observation and revalidate the pending action. The example's immediate UI toggle is not enough to guarantee exclusive control, especially while scheduled jobs also exist.
+
+5. Show what the assistant knows. A memory editor is unusually valuable for business owners. Our version should show a fact, source, scope, last verification and correction history: “Consu receives milk in litres; supplier invoice uses cartons.” A corrected note must not silently rewrite an accounting record, broaden a staff grant or become a higher-priority instruction.
+
+6. Deliver outputs people can find. Put the stock reconciliation, invoice bundle or matter brief in an Outputs panel with preview, version and evidence links. Keep a document accessible after its runtime is rebuilt. Avoid making an owner browse a Linux filesystem to find yesterday's PDF.
+
+7. Make connection setup explain itself. Copy explicit stages such as preparing, scan accepted, applying settings, connected, expired and retry. For SupaBiz add business account identity, selected groups/folders, requested scopes, test-read confirmation and last successful sync. Authentication success is only one stage of a working connector.
+
+8. Be selectively proactive. A useful notification says “This maintenance item is still unassigned; choose a manager” with supporting evidence. It should not simply send every model observation. Add dedupe, quiet hours, severity, acknowledgement, escalation and an outbox for delivery. The inspected example stores callback messages for an open app; it does not itself demonstrate offline push delivery.
+
+HOW THE INTERNALS FIT TOGETHER
+
+Observed public starter: browser UI -> Next.js backend-for-frontend -> verified Supabase user and workspace membership -> privileged Agent37 client. The client calls the hosting API for lifecycle, budgets and integrations, and the per-instance API for chat, streams and files. Local tables mirror remote agent ownership. Losing that mirror prematurely is therefore a recovery and billing problem.
+
+Observed public examples: an Express app maps a signed visitor cookie to one hosted instance in a JSON store. A persistent persona explains responsibilities and scheduling. Platform cron invokes a new agent session; the agent calls an authenticated app callback for proactive messages. The UI exposes activity, schedules, memory, outputs and optional desktop. This is a useful prototype, not distributed production storage or identity.
+
+Observed desktop recipe: Hermes browser tool -> local Chromium CDP port -> headed Chromium on a virtual display -> x11vnc -> websockify/noVNC -> human browser. The persisted Chromium profile keeps session state. This enables watching the same browser the agent drives; it does not prove general video understanding, call transcription or local-PC awareness. SupaBiz media workers still need OCR, speech recognition, video frame/audio processing, timestamped evidence and model-specific evaluation.
+
+Proposed SupaBiz boundary: durable source ingestion and source cursors; object storage and evidence records; domain records and grants; responsibility scheduler, action ledger and outbox; then a replaceable agent-runtime adapter. The agent runtime receives only the scoped context/tools needed for that job. Executor or another chosen integration gateway can sit behind those tools. UI and reporting read durable SupaBiz state, not just runtime memory or transient stream events.
+
+Choose runtime isolation by a credential/data boundary, not automatically one machine per employee or one per case. A prototype might use a runtime per business or restricted staff group, with shorter-lived job contexts. If staff cannot see all matters, they must not share a filesystem/browser session containing everything. Agent profiles within a shared computer are not proven isolation boundaries. Evaluate dedicated runtimes for stricter boundaries against operational cost before choosing pooling.
+
+WHATSAPP CHANGES THE SLEEP DESIGN
+
+The inspected WhatsApp flow is owner self-chat, not evidence of reading arbitrary business groups or backfilling their history. Its connection must stay open; sleeping its instance disconnects that channel according to official messaging docs. The appealing sleep-cost estimate must not be applied directly to an always-connected WhatsApp worker.
+
+For SupaBiz, separate intake availability from reasoning availability where feasible. A continuously available connector accepts authorized events, stores original evidence, advances a durable cursor and queues work. A heavier agent wakes for a batch or urgent event, processes idempotently, and sleeps after completion. Never acknowledge source progress before evidence/job storage is durable. WhatsApp reconnect, deleted/edited messages, late media, group membership changes and session revocation require explicit behavior.
+
+Wake has latency and can fall back to a fresh process. Use visible queued/preparing/running states and keep the last known task view available while compute wakes. Do not poll an instance's file endpoints every few seconds merely to populate an idle dashboard: traffic can defeat sleep. Continuous intake has its own cost and operating burden; the arithmetic below excludes it.
+
+COST AND SCALING: ARITHMETIC, NOT A BENCHMARK
+
+At published rates checked on the review date, an illustrative 2 vCPU, 4 GB RAM, 4 GB disk environment costs:
+monthly resource cost = awake_hours * (2 * 0.0011 + 4 * 0.00096) + retained_hours * 4 * 0.00012 USD.
+
+Use 730 retained hours in every comparison. Always awake: $4.7596. Awake 168 hours: $1.36512. Awake 30 hours: $0.5316. The latter is 88.83% lower resource cost than 730 awake hours under these assumptions, not 88.83% lower total SupaBiz cost. Different month lengths and provider rounding explain small differences from displayed estimates. Thirty awake hours includes work, boot, idle grace and any activity keeping the machine awake; it is not thirty hours of useful model work plus free idle time.
+
+At 1,000 identical retained environments the same arithmetic gives $4,759.60, $1,365.12 or $531.60 per month respectively. Linear multiplication is a cost illustration, not evidence the vendor accepts or sustains that fleet. Capacity limits, workload density, regional placement and concurrency require validation. See costs.json for 1, 100, 1,000 and 10,000 instances.
+
+Total product cost adds LLM tokens, OCR/transcription/video, managed tools, source intake, app/database/object storage/backups, queue, observability, network/egress where charged, support and taxes. If average non-infrastructure usage were an assumed $10/business/month, changing $4.7596 to $0.5316 would reduce the combined illustrative $14.7596 by only 28.65%, before other costs. This sensitivity example is not a measured LLM bill.
+
+A managed-service cap is not a cap on retained disk or compute, and BYOK spend is outside that meter. SupaBiz needs per-business entitlements, creation quotas, model/tool reservations, concurrency limits and spend reconciliation. Keep a non-model path for displaying existing tasks and alerting about exhausted budgets; a court-update queue must not disappear because model credit ran out.
+
+COMPLEXITY AND WITH/WITHOUT COMPARISONS
+
+These are analytical estimates from inspected code, not measured performance improvements. Let U be active dashboards, A agents/workspace, H visible history rows, D deltas/turn, T tool invocations, R live/retained runs, F files, B file bytes, K crons and J historical cron runs.
+
+Chat continuity: per-session registry stores O(R) handles plus retained message bytes. Visible delta updates copy/map history, approximately O(D*H) structural work. Batching deltas and virtualizing histories can reduce rendering work; measure on low-end phones before claiming a percentage. Full stream replay transfers the retained event prefix; cursor-based replay would transfer the missing tail but is our proposed protocol, not a confirmed vendor feature.
+
+Tool matching: current completion lookup is O(T), potentially O(T^2) across a turn, and ambiguous for concurrent same-name calls. An invocation-ID map makes lookup expected O(1), total expected O(T), with O(T) storage. Correct attribution is the main benefit at pilot scale, not a promised end-to-end speedup.
+
+Fleet polling: while transitional, one list poll per roughly five seconds per dashboard implies about U/5 requests/s and O(U*A/5) returned rows/s. At U=1,000 this is about 200 list requests/s. Visibility-aware polling, jitter and pushed changes reduce wasted traffic; provider-side fan-out is a separate unknown. QR pairing sequentially polls around every 2.5 seconds plus response time and currently entails instance exec/curl work.
+
+Files: a four-worker folder upload pool bounds per-batch concurrency and usually improves elapsed upload time over serial transfer when bandwidth/server capacity permit. All bytes still cost O(B); server buffering can consume the sum of active bodies. Chat multi-file upload is unbounded in the inspected hook. Prefer bounded resumable direct uploads with checksums and explicit byte limits. Text preview reads the whole object before truncating display, so its memory/download remains O(B).
+
+Schedules: the Dots allRuns path makes K upstream history requests then sorts J results, O(K) calls plus O(J log J) sorting and O(J) memory. A durable paginated runs table avoids a full per-cron fetch for each view, at the cost of reliable event ingestion/reconciliation. JSON store save rewrites the whole store synchronously, O(store_bytes); indexed database records remove this process-wide bottleneck and allow multiple replicas.
+
+Lifecycle: remote provision then local insert cannot be made atomic by wrapping only the local database call. A durable operation state machine adds writes and retry delay but prevents silent orphaning; use provider idempotency if available, otherwise reconcile by stable metadata/operation ID before retrying. Deletion needs tombstones until remote confirmation. This is a reliability improvement with no honest speed percentage yet.
+
+Sleep versus always-on: lower resource cost trades off wake delay and connector compatibility. Published wake descriptions are vendor claims, not our p95. Measure first-result latency and full task latency separately under warm, sleeping, moved-host and expired-auth states, including simultaneous wake requests and browser handoff.
+
+REFINED WORKFLOWS FOR OUR TWO USERS
+
+Restaurant: authorized group message/photo/voice -> persist evidence and business identity -> dedupe -> resolve outlet/item/task -> create proposed record -> ask only about material ambiguity -> assign manager or prepare stock adjustment -> obtain action-specific approval where required -> commit through idempotent tool -> verify resulting record -> show output and next check. A cleanliness photo should open a maintenance responsibility, not become proof it was fixed. Completion requires the agreed confirmation/evidence.
+
+Restaurant UX: Varun sees Consu and ForeFathers separately, an exception inbox, a short responsibility list and an Outputs panel. The assistant can say “The freezer issue has no owner; assign the Consu manager?” A browser takeover is a fallback for a supplier portal, not the default for APIs we can call reliably.
+
+Law chamber: court email event -> retain message ID, attachment checksum and original time -> match matter using identifiers and permissions -> flag ambiguous case/date/timezone -> propose task/date change and supporting documents -> Ramya confirms material interpretation -> assign permitted staff -> notify through an outbox -> verify calendar/task result -> track acknowledgement and deadline. Maintain source-derived dates separately from accepted deadlines. No percentage reduction in missed hearings is supported by this review.
+
+Law UX: Ramya opens one work card containing the original email, matter candidates, proposed changes, assigned person, files and verification result. Staff see their permitted matters. A scheduled run that merely started cannot mark this work complete. Browser sessions and downloaded documents must respect the same matter boundary as record retrieval.
+
+WHAT TO BUILD, BORROW AND DEFER
+
+Borrow/adapt now: recoverable chat structure; staged connector onboarding; attachment progress/retry and bounded folder uploads; visible responsibilities and schedule controls; editable knowledge with concurrency protection; finished Outputs; browser handoff interaction; runtime lifecycle adapter shape.
+
+Build as SupaBiz: business/matter/outlet model and grants; evidence/media repository; group/email ingestion with cursor/dedupe; action-bound durable approvals; task scheduler with one-shot/overlap/catch-up rules; verified outcomes and reconciliation; notification outbox; total budget/entitlement enforcement; browser control leases; secure content delivery and audit retention.
+
+Evaluate rather than commit: Agent37 hosting, sleep policy, per-business versus stricter runtime boundaries, selected harness/template, managed integrations versus Executor, BYOK gateway, automatic template migration and backup/restore. Keep interfaces small: create, inspect, wake, ready, run, reattach, cancel, files, usage, export and delete/reconcile, with explicit capability metadata.
+
+Defer: multiple cooperating agents per task, broad desktop surveillance, replacing WhatsApp with our own chat and unrestricted self-installing skills. First prove one end-to-end business workflow with correct records, graceful recovery and understood cost. The persistent-agent direction is compatible with the earlier harness work; harness testing is one necessary layer, not the whole product.
+
+PROPOSED IMPLEMENTATION SEQUENCE AND ACCEPTANCE GATES
+
+Step 1: build a read-only responsibility/work-card prototype around a recorded restaurant or legal fixture set. Include source evidence, business/matter, owner, schedule and actual outcome status. Validate terminology with Varun and Ramya; measure task interpretation and ambiguity handling.
+
+Step 2: implement a narrow runtime adapter with durable job IDs and no customer credentials. Test reload/reattach, early cancel, stream loss, budget refusal, cold boot and two same-name tools. Passing gate: UI never claims an unverified write succeeded and recovery does not duplicate a submission.
+
+Step 3: implement authorized intake and records separately from runtime files. Exercise duplicate and reordered messages, late media, expired auth, denied cross-business/matter access and revoked membership. Passing gate: all accepted source events have evidence or an explicit failure state, and unauthorized context does not reach the model/tool.
+
+Step 4: controlled provider pilot with funded test account only when selected. Measure create/wake p50/p95, real resource and token cost, failure recovery, idle behavior with WhatsApp, backup restore and deletion reconciliation. Validate regional/data-processing requirements and service commitments before customer deployment. The review did not provision this pilot.
+
+Step 5: add browser-assisted exception handling with exclusive server control and revoke tests. Add outputs/memory correction UI and notification delivery. Run offline and concurrent takeover tests; no positive UI state may grant more access than the underlying server policy.
+
+Step 6: benchmark equal workflow fixtures against a simple always-on baseline. Record correct completions, ambiguous cases handled, duplicate/missed actions, human touches, end-to-end p95 and cost per verified completion. Publish sample size and failures. Adopt sleep or a new harness only if quality and recovery thresholds hold; do not infer business ROI from an infrastructure discount.
+
+OPEN QUESTIONS BEFORE A HOSTING DECISION
+
+Actual deployment ACLs and invitation concurrency; active-content response behavior; idempotent provision/delete support; event retention and cancellation guarantees; multi-replica behavior; persistent storage backup frequency, retention and tested restore RPO/RTO; data location, subprocessors and processing terms; isolation/egress tests; image supply chain and digest pinning; signed-session revocation; total spend limits and account quota increases; group-reader API stability and media recovery; offline push delivery; workload benchmarks at the intended fleet size. Public claims and testimonials do not close these gates.
+
+These gaps are recorded research limits, not an assertion that Agent37's private backend is insecure. The positive adoption case is the coherent ongoing-agent UX and a potentially useful hosted-runtime abstraction. Choosing it requires runtime evidence we have not collected.
+
+SOURCE LINKS AND READING ORDER
+
+Start with findings.json for stable IDs and pinned line references; then auth-review.txt and ux-runtime-review.txt for deeper source notes. Read probes/results.json before citing a tested behavior. Read costs.json for assumptions.
+
+Published resource pricing: https://www.agent37.com/cloud
+Public starter boundary: https://www.agent37.com/docs/agents-api/white-label
+Persistence and readiness: https://www.agent37.com/docs/agents-api/instance-lifecycle
+Auto-sleep contract: https://www.agent37.com/docs/agents-api/instance-auto-sleep
+Managed-service budget contract: https://www.agent37.com/docs/agents-api/budgets
+Stream/replay/cancellation contract: https://www.agent37.com/docs/agents-api/streaming
+Desktop and capability limits: https://www.agent37.com/docs/agents-api/desktop
+WhatsApp and Telegram channel behavior: https://www.agent37.com/docs/agents-api/messaging
+Scheduler semantics: https://www.agent37.com/docs/agents-api/crons
+Proactive example guide: https://www.agent37.com/docs/agents-api/dots
+Signed URL contract: https://www.agent37.com/docs/agents-api/urls
+Function privilege defaults: https://www.postgresql.org/docs/current/sql-createfunction.html#SQL-CREATEFUNCTION-SECURITY
+
+Official web documentation is mutable; URLs were reviewed on 2026-10-17. No historical snapshot or hosted behavior is implied by a documentation citation.

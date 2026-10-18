@@ -1,0 +1,229 @@
+MARBLE → SUPABIZ RESTAURANT OPERATIONS / YC08
+2026-10-17
+
+DECISION AND EVIDENCE BOUNDARY
+Sidekick’s fourteen learnings remain preserved. Marble is a strong restaurant-domain reference for SupaBiz: the useful idea is a connected operational loop around ingredients and money. Adopt its product patterns, build a restaurant workflow pack on the existing shared architecture, and integrate the accountant’s chosen system before considering replacement of a full accounting package.
+
+This investigation covers current official product material, the vendor-published A&W case study, policies, auto-generated English launch captions and two selected promotional frames. Public navigation and the calculator’s first question were inspected. Focused searches for official GitHub/source and API documentation did not establish a public application repository or usable API specification. No mobile package, authenticated account, live inventory session, supplier transaction or customer deployment was tested. No model, database, forecasting algorithm or production infrastructure was identified from source. REA binary analysis was therefore not applicable to the available evidence.
+
+The linked primary ERP documentation is a cross-check for proposed record semantics, not evidence that Marble uses ERPNext. Third-party directories disagree about API availability and can confuse this company with similarly named products; none establishes source access. All percentages are vendor claims unless explicitly marked synthetic. We cannot transfer the published 90% faster count or 97% forecast claim to Varun without definitions and a controlled pilot.
+
+THE MOST VALUABLE CHANGE TO THE SUPABIZ DIRECTION
+Make the restaurant a coherent set of records rather than a collection of summaries. WhatsApp, email, photos and voice are input channels. Each useful interaction should resolve to an ingredient, delivery, purchase, exception or accountable task. The same evidence should serve staff receiving goods, managers approving purchases, Varun checking cost changes and the CA reviewing books.
+
+This extends earlier reviews: Asakana contributes messy-input interpretation and scoped corrections; Sidekick contributes low-effort capture and work receipts; Hue contributes repeatable regression checks. Marble contributes the restaurant-specific connection between inventory, purchasing, recipes and financial visibility. These can be one domain pack over the existing identity, evidence store, harness, scheduler and action controls. Do not create a separate agent, database or dashboard for every feature before a complete purchase-to-reconciliation flow works.
+
+WORKED EXAMPLE: A SHORT DELIVERY AND AN OVERSTATED INVOICE
+SYNTHETIC EXAMPLE, not Varun’s actual purchasing data. Consu orders 10 kg of tomatoes at ₹100/kg. Staff report 8 kg arrived, of which 1 kg is rejected and immediately returned; 7 kg is accepted. The invoice bills 10 kg. For clarity this example excludes tax, freight, discounts, valuation and other invoice lines.
+
+The worker sees: “Consu · tomatoes · 8 kg arrived, 1 kg rejected/returned, 7 kg accepted. Confirm these quantities.” Confirming under an authorized receiving role creates the receipt event and increases usable stock by 7 kg exactly once. The order retains 2 kg not arrived and a separately recorded 1 kg rejected; neither is silently cancelled. Whether replacement delivery is requested remains a manager decision.
+
+The manager sees a three-record comparison: order 10 kg; accepted receipt 7 kg; billed 10 kg. There is a 3 kg quantity mismatch worth ₹300 on this simplified goods-only basis. The system drafts a dispute or request for a corrected bill; it does not tell the supplier that a settlement has been agreed. The accountant sees a ₹1,000 supplier claim, ₹700 of goods supported by this accepted receipt and a ₹300 exception. This is not an instruction to pay ₹700 or a final journal calculation. Contract terms, other deliveries, tax and adjustments still require review.
+
+If the supplier later sends the remaining goods, that is a new linked receipt. If a credit is promised, keep it pending until the correct adjustment document arrives and is allocated. If an invoice is reposted in WhatsApp and email, preserve both source messages but do not duplicate the bill or stock. The day ends with a clear open exception, named owner and next action instead of an apparently completed chat.
+
+INVENTORY CAPTURE, UNITS AND THE PASSAGE OF TIME
+The count screen should follow how staff walk the premises: dry store, cold room, bar and prep area. Make count intent explicit, but allow the assistant to infer a likely intent and ask when ambiguous. Saying “two crates” requires the item, supplier pack definition and whether the crates are full. A stored conversion needs source, scope and effective date. Do not infer kilograms from a generic photo of produce.
+
+A count is an observation at a cutoff, not an increment to stock. Suppose the recorded balance at 10:00 was 20 kg, a count at 10:00 finds 18 kg and a 5 kg delivery posts at 10:05. Reviewing that count at 10:10 should propose a -2 kg adjustment at the correct effective point, leaving 23 kg after the delivery, not reset current stock to 18 kg. If movements during counting cannot be aligned reliably, mark the count for reconciliation. Store observed_at, received_at and effective_at separately; clock uncertainty is evidence too.
+
+Use movements for received goods, prep consumption, waste, returns and transfers. A transfer has dispatch, in-transit and accepted-receipt stages; goods cannot simultaneously remain available in Consu and become available at ForeFathers. Cross-legal-entity movement also requires the CA’s configured document treatment. Expiry and quarantine are separate from physically present stock. Do not derive edibility, quality approval or hidden quantity solely from a photograph.
+
+Inventory valuation and accounting should have one designated authority per entity and cutover period. If an ERP owns stock, SupaBiz submits controlled documents and reads results back; it must not independently maintain a conflicting financial stock ledger. If SupaBiz owns operational quantities, explicitly reconcile them to the accounting system. A simple aggregate balance column without movement provenance is inadequate for corrections.
+
+FORECASTING AND PROCUREMENT: MAKE UNCERTAINTY ACTIONABLE
+Do not begin with an unconstrained autonomous buyer. A first useful reorder helper can use approved par levels, latest verified counts, known reservations and confirmed outstanding deliveries. Explain what data is missing. Later, compare forecasts against a seasonal-naive baseline on held-out future periods for each outlet and item. Track zero-demand and stockout-censored days rather than hiding them in an aggregate accuracy percentage.
+
+A simplified planning equation is net need = max(0, demand over the protection horizon + buffer - usable stock - eligible confirmed inbound). The protection horizon must match lead time plus the chosen review interval; inbound only counts if arriving before the need. Do not subtract reservations twice if already included in demand. Round to allowed packs, then test minimum order, delivery cutoff, storage capacity, shelf-life and budget. If pack rounding makes the plan infeasible, escalate instead of claiming optimization.
+
+Example: 15 kg expected need plus a 3 kg buffer, less 7 kg usable stock and 5 kg confirmed timely inbound, gives 6 kg. At 2 kg per pack, that is 3 packs before any other constraints. Removing the untrusted inbound raises the need to 11 kg and pack rounding to 12 kg. The system should reveal that dependency. This arithmetic is a planning illustration, not evidence of a calibrated demand model.
+
+Compare suppliers on equivalent specification, landed cost, lead time and reliability. Prices have freshness and validity; do not treat last month’s invoice as a live quote. Supplier selection can be a deterministic ranking with policy constraints initially. General allocation across suppliers, discounts, multiple ingredients and budget can be a much harder optimization problem; the LLM should explain and collect missing information rather than invent feasible solutions.
+
+RECEIVING, INVOICE MATCHING AND THE ACCOUNTANT’S WORKFLOW
+Receiving staff should confirm observed quantities while the goods are present. Support a partial receipt, rejected goods and an unexpected delivery. Retain the missing purchase authorization as an exception; never manufacture a retrospective approved order. Supplier invoices may arrive before or after goods, span several deliveries or contain services that should not affect stock.
+
+Matching first resolves entity, supplier, document identity, ingredient alias and unit. Allocate each bill line to eligible order/receipt quantities, preserving what prior bills already consumed. A fuzzy alias match is a candidate requiring policy review, not a fact. Compare quantities and prices independently, then taxes, discounts, freight and rounding under CA-configured rules. Different line tax treatments and currencies prevent a single “total matches” shortcut. A duplicate file hash is strong evidence of the same bytes, but a changed scan of the same bill needs semantic duplicate detection; document number alone is not globally unique.
+
+The CA’s bundle should include source documents, extraction uncertainty, accepted receipts, unresolved differences, entity and outlet, suggested account mappings, approvals, due dates and external references. Provide a review queue for Missing receipt, Unknown item, Price changed, Possible duplicate, Credit pending and Export failed. Keep the raw invoice intact and show field-level links back to evidence. A correction produces a new version and a reason.
+
+Integrate the existing accounting workflow first. An export file is not a posted voucher; a successful HTTP response is not enough unless the remote record and status are verified. Store external IDs and retry using idempotency. If the remote system commits then times out, reconcile before resending. Ledger/tax mappings, valuation policy and closed-period handling belong to approved configuration and the CA. This report does not supply GST rates, input-credit eligibility, filing guidance or tax conclusions.
+
+The simplified 7 kg/₹700 example never authorizes a payment. Approval, accounting posting, payment initiation, bank confirmation and invoice allocation are separate events. Review supplier bank changes outside the media extraction flow. A requested credit does not count as realized savings until the adjustment is accepted and applied.
+
+ROLE-SPECIFIC EXPERIENCE AND OWNER VISIBILITY
+STAFF: three simple intents—Count, Receive, Report waste—plus natural messages. Show the outlet, item, unit and what is still uncertain; provide a short confirmation receipt with correction support. Offline capture should show queued versus received versus posted honestly. Existing WhatsApp capture has transport-specific reliability; do not claim our app’s local retry semantics automatically apply to it.
+
+MANAGER: one queue of the decisions that need attention. A purchase card explains why, for which outlet, delivery date, supplier, packs, amount, alternatives and evidence freshness. Approval binds to that version. Receiving discrepancies show order, receipt and invoice side by side, with a named owner and next step. Routine matching should be quiet and reviewable, while ambiguity remains visible.
+
+VARUN: a cross-outlet overview of stock risks, committed spend, open credits, waste and unusual ingredient-cost changes. Every number links to its business and time window. Explain whether a margin change could be due to price, mix, portion/yield, waste or incomplete data; do not claim a causal explanation from correlation alone. Separate expected savings, disputed amounts and realized credits. Operational margin estimates need completeness labels and must not masquerade as final P&L or cash balance.
+
+ACCOUNTANT: reviewed evidence, consistent mappings, reconciled external IDs and close exceptions. The same records serve all four roles, but permissions and visible fields differ. A waiter does not need supplier banking or payroll details to record a delivery. A common owner does not make the two businesses one accounting entity.
+
+LEARNING, PRIVACY AND WHAT WE STILL DO NOT KNOW
+A useful learning system does not need to fine-tune a general model on every restaurant. For SupaBiz, store approved supplier aliases, unit conversions, recipe versions, pack rules and recurring exception policies as typed scoped data. Retrieval brings the applicable facts into context. Forecast models can be updated separately when their data and evaluations justify it. Model-weight training, retrieval memory, deterministic configuration and forecast fitting are different mechanisms.
+
+Marble’s published no-generalized-training statement is relevant to this distinction, but it does not reveal their exact per-customer adaptation mechanism or prove implementation. We did not establish their ASR/vision vendors, model family, accuracy on Indian language mixing, tenant isolation implementation, deletion propagation, disaster recovery, hosting costs or Indian connector availability. Treat these as vendor diligence questions before actual adoption.
+
+In SupaBiz, each correction has a type, source, reviewer, scope, version and effective date. A correction to a supplier’s pack conversion must not silently rewrite historical invoices. Generate regression cases from approved corrections and test against adjacent businesses where the rule should not apply. Preserve SB-AS-13 as VERY IMPORTANT: correction → scoped business memory → regression evidence.
+
+Keep immutable business history separate from unbounded retention of personal media. An employee account can be revoked while the restaurant retains required transactions; copied voice, faces, attachments and test examples need their own retention and deletion handling. The user’s maximum-awareness vision should translate into authorized, purpose-specific information access and clear staff visibility into what is captured.
+
+REUSE, BUILD AND DEFER
+REUSE THE IDEAS: guided voice/photo counts; reviewable onboarding; approval cards with business reasons; supplier communication in existing channels; consistent records across staff, managers and accountants. No Marble code license or supported public API was established, so Marble is a reference rather than a confirmed dependency.
+
+REUSE OUR SHARED PLATFORM: connector/auth infrastructure, tenant grants, immutable evidence objects, typed extraction workers, agent harness, durable tasks/scheduler, outbox/action verification and evaluation harness. Reuse a proven accounting/inventory engine where it fits after a separate version/license/integration review; the supplemental ERP docs are not a decision to deploy ERPNext.
+
+BUILD THE RESTAURANT PACK: reviewed item/unit/recipe/vendor master data; count cutoffs; stock movement semantics; purchase approval versions; receipt allocation; invoice match exceptions; credit lifecycle; CA mapping and reconciliation adapter; outlet-aware UX and scenario tests.
+
+DEFER UNTIL PROVEN: autonomous supplier switching, unrestricted purchasing, payroll replacement, generic live P&L, full ERP migration and highly complex forecast optimization. These widen correctness requirements before we know whether a receiving exception saves Varun meaningful work.
+
+FOUR IMPLEMENTATION INCREMENTS AND ACCEPTANCE GATES
+Increment 1 — Trustworthy capture. Select one outlet, a small ingredient catalog and a few suppliers. Map aliases/units, approve an opening-count cutoff and capture receipts plus invoice evidence. Gate: no duplicate stock, no invoice-as-receipt behavior, every uncertain critical field visible, wrong-outlet access blocked. Validate staff effort against existing WhatsApp practice.
+
+Increment 2 — Reconciliation and CA handoff. Add line allocation, returns, quantity/price exceptions, reviewed export and remote verification. Gate: duplicate imports and timeout retries are safe; corrections remain traceable; accountant can resolve every pilot bill or see an explicit blocker. Run in shadow mode before relying on automatic matching.
+
+Increment 3 — Approved procurement. Add par-level suggestions, supplier rules, confirmed inbound, version-bound approvals and order acknowledgment. Gate: retries cannot duplicate a purchase; changed price/recipient revokes stale approval; unconfirmed inbound is visible. Measure accepted useful recommendations and time to supplier confirmation.
+
+Increment 4 — Forecast and cost intelligence. Integrate clean POS/recipe data, perform rolling backtests and add demand-informed prep and variance explanations. Gate: chosen model beats a declared simple baseline on agreed metrics without unacceptable waste or stockout tradeoffs. Expand to ForeFathers only after scope and transfer tests pass. These are scope increments, not promised calendar durations or savings percentages.
+
+TIME, SPACE AND COST MODEL
+Let B be evidence bytes, L invoice lines, P linked order lines, R receipt lines, C fuzzy candidates per line, M stock events, K relevant events and E recipe ingredient edges. Ingest/hash is O(B); source storage is O(B). OCR/ASR/vision latency depends on pages, duration, model and hardware and cannot be inferred from these source materials. Parsing should happen once per exact artifact/version and be reused with provenance; cross-tenant byte dedupe must not leak access or object existence.
+
+An exact normalized match can index P+R lines in expected O(P+R) time and space, then perform expected O(L) lookups, plus allocation work proportional to matched receipt fragments. An all-pairs scan costs O(L(P+R)); fuzzy resolution adds approximately O(LC) scoring after retrieval and has different quality tradeoffs. Duplicate lines and partial receipts need an allocation structure, so this is not a complete invoice benchmark. With L=12, P=20 and R=18, a naive scan considers 456 pairs while an idealized index uses 38 insertions plus 12 lookups, excluding allocations. These different operation types do not justify a measured speedup percentage.
+
+A complete balance replay is O(M); indexed scope lookup is approximately O(log M + K) and an incremental projection processes only new movements. Projection updates still pay transaction/index/locking costs and need atomic concurrency control; they are not magically constant-cost database writes. Projections use O(number of item-location balances) storage in addition to the O(M) audit. Historical corrections can require replaying affected downstream valuations and must be scheduled with backpressure.
+
+Demand-to-ingredient aggregation over a fixed acyclic recipe graph can scale with traversed E, while forecasting and constrained supplier optimization have algorithm-specific costs. Prevent recipe cycles and retain prepared-item boundaries. Never advertise one universal big-O for the complete AI agent or optimization workflow.
+
+Budget per completed reconciled bill, count or purchase: channel costs + media extraction + model tokens + storage/egress + workflow compute + connector maintenance + human review/support + accounting integration. Cost per successful outcome = total attributable cost / verified successful outcomes. Media blobs dominate storage more readily than short business events; tier and expire them according to policy. Start with bounded workers, per-tenant queues, a transactional database and object storage; partition/scale when measured queue delay, contention, I/O or tenant size requires it. Dedicated always-on agent environments per employee are not justified by this review.
+
+MEASUREMENT WITHOUT INVENTED RETURNS
+Measure end-to-end time including setup, rescans, correction, manager review, failed uploads and CA rework. Count speed alone can improve while total labor gets worse. Pair comparable shifts/outlets and report sample sizes, workload differences, stockout rate, waste value and confidence intervals where the data supports them. Retain unprocessed and abandoned items in denominators.
+
+For a pilot, define count quantity error by base unit and item, critical-unit/negation error, false invoice match rate, duplicate posting rate, exception age, verified credit recovery, accepted supplier order rate and p50/p95 completion latency. Zero observed harmful errors in a small set is not a zero-risk guarantee. Evaluate policies on noisy voice, partial delivery, duplicate messages, changed packs, revoked permissions and concurrent updates.
+
+The saved scenarios are proposed harness cases, not tests run against Marble or a shipped SupaBiz inventory system. The small browser arithmetic illustration is only UI logic with synthetic inputs. Published uplift percentages and testimonial onboarding times remain hypotheses to investigate, not promises to Varun.
+
+SIXTEEN FINDINGS
+
+MB-01 Connect the business objects before automating the work
+Observation: Public material connects capture, planning and actions. [MB-S01]
+Our proposal: Build a restaurant workflow pack on the shared SupaBiz platform. Link business, outlet, storage location, ingredient, supplier item, unit conversion, recipe version, purchase order, receipt, invoice and settlement. Keep typed records as the operational authority; chat and embeddings help find and interpret evidence. A supplier invoice is not a receipt, a receipt is not a payment, and a count is not a purchase.
+Measure: Missing links; wrong-entity writes; manual reconciliation time.
+
+MB-02 Onboard by showing what the system understood
+Observation: Onboarding explicitly maps operational relationships. [MB-S02, MB-S03]
+Our proposal: Import authorized menus, representative invoices, supplier lists, recipes and POS history into a reviewable draft. Show aliases, pack sizes, unresolved items and affected outlets. Ask Varun or the manager to approve mappings in small batches. Require a physical opening count and agreed cutover before calling balances reliable. Do not silently infer that every supplier uses the same crate size.
+Measure: Time to verified first workflow; unresolved mappings; correction rate after onboarding.
+
+MB-03 Make counting a guided staff task
+Observation: Voice/vision counts are advertised and visually illustrated. [MB-S02, MB-S04]
+Our proposal: Offer Count stock, Receive delivery and Report waste as distinct intents, with plain-language routing from WhatsApp. Walk staff through storage areas; show counted, skipped, uncertain and explicitly zero items. Preserve language, units, source media and count time. Read back critical quantities. Hidden stock, partially filled containers and duplicate views need measurement or confirmation, not visual certainty.
+Measure: Time per accepted count; unit error rate; uncounted lines; noisy voice and occlusion accuracy.
+
+MB-04 Keep observations separate from stock movements
+Observation: Marble does not disclose its ledger implementation; ERP patterns provide a reference. [MB-S08, MB-S10]
+Our proposal: Maintain an append-only movement history and a current balance projection. Receipts, consumption, waste, returns and transfers have distinct event types. A stocktake proposes an adjustment relative to the balance at the count cutoff; subsequent movements must not be overwritten. Record event time, receipt time and posting time. Give stale estimates an as-of timestamp and coverage label.
+Measure: Balance reconciliation; duplicate movements; late-event correctness; time to repair an incorrect posting.
+
+MB-05 Connect recipes and sales without pretending usage is measured
+Observation: Recipe costing and demand-informed prep appear in public material. [MB-S02]
+Our proposal: Version recipes, portions, yields and substitutions. Derive theoretical ingredient consumption from sold menu items; keep it distinct from observed stock depletion. Account for modifiers, voids, staff meals, prep batches and recorded waste. Do not deduct ingredients twice when prep consumes raw stock and sales consume prepared stock. Investigate unexplained variance rather than labeling it theft.
+Measure: Theoretical-versus-observed usage; unmapped menu items; double-consumption incidents; prep waste.
+
+MB-06 Make forecasts accountable to a baseline
+Observation: The published case study claims high forecasting accuracy without defining the metric. [MB-S03]
+Our proposal: Start with manager par levels and seasonal-naive demand baselines. Evaluate future periods using rolling-origin backtests, never random train/test leakage. Track bias, MAE/WAPE where defined, interval coverage, stockouts and waste by outlet/item. Zero sales may mean unavailable stock. Weather, reservations and event adjustments need provenance, ablations and manager overrides; an LLM explanation is not calibrated forecasting.
+Measure: Error against baseline by horizon; service levels; waste; performance on low-volume and stockout days.
+
+MB-07 Explain an order using stock, demand and constraints
+Observation: The homepage illustrates supplier comparison and a draft requiring approval. [MB-S02]
+Our proposal: Calculate projected need from usable stock, expected demand and confirmed inbound arriving in time. Exclude quarantine, expired/unusable stock and uncertain deliveries. Show pack rounding, minimum order, lead time, cutoff, budget, storage capacity and shelf-life constraints. Compare landed cost and equivalent approved quality, not price alone. Keep a visible reason for each recommendation and rejected alternative.
+Measure: Overbuying; missed cutoffs; constraint violations; manager override reasons; stockout incidence.
+
+MB-08 Treat supplier communication as an order lifecycle
+Observation: Policy lists email, portals, API and opted-in SMS. [MB-S05]
+Our proposal: Keep one purchase-order ID/version across authorized channels. Separate approved, sending, send-unknown, sent, supplier-confirmed, partially fulfilled and cancelled states. A transport receipt is not supplier acceptance. Freeze the exact approved recipient, lines, amount and version; material changes require renewed approval. Use an outbox, idempotency and reconciliation before retrying ambiguous sends. Suppliers can reply in familiar channels without becoming app users.
+Measure: Duplicate supplier orders; unconfirmed-order age; recovery from send timeout; approval mismatch rate.
+
+MB-09 Make delivery receiving the first valuable workflow
+Observation: Deliveries/invoices are part of Marble capture; receipt details come from the supplemental reference. [MB-S01, MB-S08]
+Our proposal: Match a delivery to an order when possible, but support explicit emergency/no-PO receiving. Record actual arrived, accepted, rejected/quarantined and missing quantities with lot/expiry when relevant. Multiple deliveries may fulfill one order. Only accepted usable quantity increases available stock; rejected goods retained on site need a separate disposition record. A signature or invoice photo alone is insufficient.
+Measure: Receiving completion time; unrecorded rejects; stock overstatement; disputed quantity recovery.
+
+MB-10 Reconcile the order, accepted receipt and invoice
+Observation: Invoice reconciliation is advertised; detailed matching behavior is not public. [MB-S01, MB-S09]
+Our proposal: Compare line-level authorized order terms, cumulative accepted receipts net of returns and supplier bill allocations. Normalize supplier aliases and units before matching. Preserve quantity, price, tax, freight, discount and rounding differences separately. Use configured tolerances with visible rationale; never auto-tolerate an unknown item or wrong legal entity. Support split receipts/invoices and avoid allocating the same receipt twice.
+Measure: False matches; exception review time; duplicate bills; unallocated receipts; match rate with denominators.
+
+MB-11 Expose price changes on a comparable basis
+Observation: The homepage illustrates a price-driven recommendation. [MB-S02]
+Our proposal: Compare the same ingredient specification, pack size, base unit, currency and cost basis. Separate quoted price, ordered price and invoiced price with validity dates. A cheaper pack may contain less product or produce less usable yield. Show the specific changed lines and affected recipe costs; manager approval is needed for substitutions that affect the dish.
+Measure: Normalized price variance; misleading price alerts; verified savings after credits and freight.
+
+MB-12 Give the accountant an evidence bundle and verified sync
+Observation: Accounting sync is advertised; the supplemental reference distinguishes posting and settlement. [MB-S02, MB-S09]
+Our proposal: Prepare supplier identity, original invoice, PO, receipt, adjustments, approvals, entity/outlet, account mapping and exception history. Label captured, reviewed, exported, remote-accepted, posted and reconciled separately. Record external voucher ID and verify read-back. Let the CA configure ledger/tax/valuation treatment and period controls. Begin with a reviewed export to the accountant’s existing system; do not claim Tally, Zoho or Indian GST support is already established.
+Measure: Accountant touches per bill; rejected exports; duplicate vouchers; reconciliation completeness.
+
+MB-13 Keep disputes, credits and payments visible until resolved
+Observation: Public material does not establish the detailed credit or payment workflow. [MB-S06, MB-S09]
+Our proposal: Track disputed quantities and credit requests through supplier acknowledgment, received adjustment and allocation. A requested credit is not money recovered. An approved bill is not paid; partial payments and one payment covering multiple bills require allocations. Bank-detail changes require separate authorized verification. Preserve accounting history through approved adjustments rather than overwriting posted documents.
+Measure: Unresolved dispute age; credits actually allocated; wrong/duplicate payment exposure; closed-period exceptions.
+
+MB-14 Give each role a different view of the same evidence
+Observation: Marble emphasizes manager approvals and financial insight. [MB-S02, MB-S04]
+Our proposal: Staff receive short capture receipts; managers get receiving and purchase exceptions; Varun sees outlet-labeled shortages, spend commitments and recurring variance; the CA sees reconciliation and close status. Show source freshness and missing costs next to margin estimates. Operational estimates, accounting profit and cash are different views. A price explanation should link to evidence and offer a draft action, not assert a causal diagnosis without support.
+Measure: Time to decision; unnecessary alerts; unresolved owner assignments; stale or misleading financial summaries.
+
+MB-15 Learn typed business rules with explicit scope
+Observation: Closed-loop learning is claimed; policy excludes generalized-model training. [MB-S01, MB-S05]
+Our proposal: Classify a correction as extraction, alias mapping, unit conversion, recipe, supplier constraint, forecast override or workflow policy. Apply the change only at its approved scope and effective date. Measure its effect on replay tests before promotion. Preserve a rollback/version and invalidate stale derived views. Historical records keep the rules used at the time. Do not train on an unverified invoice or a manager’s accidental approval as unquestioned truth.
+Measure: Repeat errors; harmful scope propagation; regression pass rate; correction reversibility.
+
+MB-16 Separate outlet access, business ownership and personal identity
+Observation: Privacy policy distinguishes account deletion from retained restaurant records. [MB-S05]
+Our proposal: Keep Consu and ForeFathers legal entities and outlets explicit; common ownership does not grant all staff cross-business access. Enforce supplier, amount, action and period grants server-side. Employee departure revokes access without erasing required business history. Apply separate retention to source media, personal identifiers, operational records and test copies. Obtain actual vendor terms before adopting cloud processing; a written no-training statement is not implementation verification.
+Measure: Cross-entity leakage; revoked-user access; retention coverage; stale credential and connector isolation tests.
+
+SOURCE REGISTER
+MB-S01 https://www.ycombinator.com/companies/joinmarble
+Company-authored YC profile and launch
+Marble, formerly Truffle; restaurant operations product. Capture, forecast, act and learn are its stated phases. Numerical improvement claims lack evaluation detail and are not SupaBiz targets.
+
+MB-S02 https://joinmarble.ai/
+Official homepage, browser DOM and illustrations
+Advertises voice/vision counts, document extraction, supplier comparison, approval-based orders, recipe/prep planning and operational integrations. Onboarding maps restaurant relationships. Marketing examples are not tested application behavior.
+
+MB-S03 https://joinmarble.ai/case-studies/aw
+Vendor-published case study, dated 2026-07-05
+Describes POS connection, catalog/recipe/vendor mapping and manager review. Claims 90% faster counts, 97% forecast accuracy and six-day first-site onboarding. Metric definition, sample size and independent validation were not supplied.
+
+MB-S04 https://www.youtube.com/watch?v=Sbib-QYUH_Y
+Official launch video: auto-generated English captions and selected frames
+Caption text reviewed through 1:15 of the 1:22 video. At about 0:50 a phone-based stock scan is illustrated; at 1:05 an order-delivery notification appears. This is a promotional sequence, not a live workflow demonstration. No independent audio verification.
+
+MB-S05 https://joinmarble.ai/privacy
+Published policy, updated 2026-09-26
+Describes cloud media processing, multiple supplier communication channels, direct vendor SMS consent and no generalized-model training from customer/vendor/partner API data. Personal account deletion differs from retention of restaurant business records. US processing is possible. Statements are not audited controls.
+
+MB-S06 https://joinmarble.ai/terms
+Published terms, updated 2026-07-15
+Names Truffle Technologies Inc.; customer retains submitted data; fees depend on agreement. No numeric price or reusable application source established. Read only; no account or agreement submitted.
+
+MB-S07 https://joinmarble.ai/impact-calculator
+Public calculator entry and first step inspected
+First question asks number of locations. No business data submitted and no result generated. An impact calculator is a sales aid, not proof of savings.
+
+MB-S08 https://docs.frappe.io/erpnext/purchase-receipt
+Supplemental primary engineering reference, not Marble evidence
+Separates accepted and rejected receipt quantities and subsequent billing. Used to cross-check SupaBiz record boundaries; no ERPNext source audit or deployment performed.
+
+MB-S09 https://docs.frappe.io/erpnext/purchase-invoice
+Supplemental primary engineering reference, not Marble evidence
+Distinguishes supplier bills, stock updates and payment states; warns against duplicating receipt stock on invoicing. SupaBiz adapter must respect its selected accounting system.
+
+MB-S10 https://docs.frappe.io/erpnext/immutable-ledger-in-erpnext
+Supplemental primary engineering reference, not Marble evidence
+Supports traceable corrections/reversals and controlled period handling. Referenced as a design pattern, not a claim about Marble internals.

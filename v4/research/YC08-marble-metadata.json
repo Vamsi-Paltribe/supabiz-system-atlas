@@ -1,0 +1,103 @@
+{
+  "id": "YC08-marble",
+  "date": "2026-10-17",
+  "name": "Marble",
+  "company": "Truffle Technologies Inc.",
+  "website": "https://joinmarble.ai/",
+  "source_repository": null,
+  "source_commit": null,
+  "scope": "Public-product, policy, case-study, caption and selected promotional-frame review; supplemental primary ERP references",
+  "sources": [
+    {
+      "id": "MB-S01",
+      "url": "https://www.ycombinator.com/companies/joinmarble",
+      "type": "Company-authored YC profile and launch",
+      "notes": "Marble, formerly Truffle; restaurant operations product. Capture, forecast, act and learn are its stated phases. Numerical improvement claims lack evaluation detail and are not SupaBiz targets.",
+      "observed": "2026-10-17"
+    },
+    {
+      "id": "MB-S02",
+      "url": "https://joinmarble.ai/",
+      "type": "Official homepage, browser DOM and illustrations",
+      "notes": "Advertises voice/vision counts, document extraction, supplier comparison, approval-based orders, recipe/prep planning and operational integrations. Onboarding maps restaurant relationships. Marketing examples are not tested application behavior.",
+      "observed": "2026-10-17"
+    },
+    {
+      "id": "MB-S03",
+      "url": "https://joinmarble.ai/case-studies/aw",
+      "type": "Vendor-published case study, dated 2026-07-05",
+      "notes": "Describes POS connection, catalog/recipe/vendor mapping and manager review. Claims 90% faster counts, 97% forecast accuracy and six-day first-site onboarding. Metric definition, sample size and independent validation were not supplied.",
+      "observed": "2026-10-17"
+    },
+    {
+      "id": "MB-S04",
+      "url": "https://www.youtube.com/watch?v=Sbib-QYUH_Y",
+      "type": "Official launch video: auto-generated English captions and selected frames",
+      "notes": "Caption text reviewed through 1:15 of the 1:22 video. At about 0:50 a phone-based stock scan is illustrated; at 1:05 an order-delivery notification appears. This is a promotional sequence, not a live workflow demonstration. No independent audio verification.",
+      "observed": "2026-10-17"
+    },
+    {
+      "id": "MB-S05",
+      "url": "https://joinmarble.ai/privacy",
+      "type": "Published policy, updated 2026-09-26",
+      "notes": "Describes cloud media processing, multiple supplier communication channels, direct vendor SMS consent and no generalized-model training from customer/vendor/partner API data. Personal account deletion differs from retention of restaurant business records. US processing is possible. Statements are not audited controls.",
+      "observed": "2026-10-17"
+    },
+    {
+      "id": "MB-S06",
+      "url": "https://joinmarble.ai/terms",
+      "type": "Published terms, updated 2026-07-15",
+      "notes": "Names Truffle Technologies Inc.; customer retains submitted data; fees depend on agreement. No numeric price or reusable application source established. Read only; no account or agreement submitted.",
+      "observed": "2026-10-17"
+    },
+    {
+      "id": "MB-S07",
+      "url": "https://joinmarble.ai/impact-calculator",
+      "type": "Public calculator entry and first step inspected",
+      "notes": "First question asks number of locations. No business data submitted and no result generated. An impact calculator is a sales aid, not proof of savings.",
+      "observed": "2026-10-17"
+    },
+    {
+      "id": "MB-S08",
+      "url": "https://docs.frappe.io/erpnext/purchase-receipt",
+      "type": "Supplemental primary engineering reference, not Marble evidence",
+      "notes": "Separates accepted and rejected receipt quantities and subsequent billing. Used to cross-check SupaBiz record boundaries; no ERPNext source audit or deployment performed.",
+      "observed": "2026-10-17"
+    },
+    {
+      "id": "MB-S09",
+      "url": "https://docs.frappe.io/erpnext/purchase-invoice",
+      "type": "Supplemental primary engineering reference, not Marble evidence",
+      "notes": "Distinguishes supplier bills, stock updates and payment states; warns against duplicating receipt stock on invoicing. SupaBiz adapter must respect its selected accounting system.",
+      "observed": "2026-10-17"
+    },
+    {
+      "id": "MB-S10",
+      "url": "https://docs.frappe.io/erpnext/immutable-ledger-in-erpnext",
+      "type": "Supplemental primary engineering reference, not Marble evidence",
+      "notes": "Supports traceable corrections/reversals and controlled period handling. Referenced as a design pattern, not a claim about Marble internals.",
+      "observed": "2026-10-17"
+    }
+  ],
+  "transcript": {
+    "language": "en",
+    "kind": "auto-generated",
+    "source_video": "Sbib-QYUH_Y",
+    "sha256": "c0a8e9252e8e9e92fef9d00fa87816d92da7568d5a31023ec2f0a83d34b62877",
+    "coverage": "Full exported captions through 1:15; video duration 1:22; selected frames only",
+    "retention": "No full transcript republished"
+  },
+  "search_boundary": [
+    "Official homepage/navigation and linked case study/policies",
+    "Focused searches for joinmarble.ai GitHub and API documentation; no official product code/API spec established",
+    "No logged-in or mobile app access"
+  ],
+  "limitations": [
+    "No live workflow or model accuracy tests",
+    "No backend or source audit",
+    "No Indian accounting/POS connector support established",
+    "Forecast metric and pilot statistics absent",
+    "No numeric commercial price established",
+    "Security statements not independently audited"
+  ]
+}

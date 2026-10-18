@@ -1,0 +1,184 @@
+RYSTIC → SUPABIZ
+Date: 2026-10-18
+
+RECOMMENDATION
+Rystic belongs in SupaBiz’s evaluation and development layer. Its valuable idea is a repeatable business environment in which actions change state and failures can be controlled. Keep the production agent harness independent. Start with one restaurant workflow and one law-office workflow, then decide whether commercial API twins reduce enough integration-test work to justify adoption.
+
+HOW THIS EXTENDS THE HUE RESEARCH
+Our saved Hue review already proposed stateful business worlds, protected outcome scoring and incident-to-test conversion. Rystic reinforces that direction and adds a concrete procurement candidate for external API behavior, public conformance reporting, coherent multi-service samples and deliberate broken-client controls. Do not add two mandatory evaluation platforms: keep one SupaBiz case/trace/oracle contract, and plug in a simulator or runner only where it solves a measured gap.
+
+WHAT WAS ACTUALLY EXAMINED
+Official public docs and catalogue, example repository at commit 51fc13b764d2bfe9bd7067d120eacdec42bd2a4d, and two downloadable Harbor setup artifacts. Fifteen offline checks ran unchanged public helper functions with fake MCP responses and temporary receipt files. These checks do not run a simulator, authenticate a user, exercise MCP transport or validate Rystic’s engine. Public scripts are MIT; engine binaries have separate terms. No engine source, binary decompilation, installation, live account, paid rollout, training or benchmark was performed.
+
+HOW THE DOCUMENTED APPROACH WORKS
+An application or agent points its client at a local service substitute through a configurable endpoint. A named world provides initial records; requests alter that world, so subsequent reads depend on earlier actions. Trusted orchestration controls setup, time and selected failures. An evaluator observes the resulting state and external-effect records. The product distinguishes service APIs, administration interfaces and optional UI/tool integrations. Source examples demonstrate client and test patterns; the underlying simulator implementation remains unavailable in this review.
+
+WHY THIS CHANGES OUR HARNESS TESTING
+A conversational test can reward a plausible answer even when the wrong stock record changed or no staff member received the task. SupaBiz needs evidence that the intended business transition happened under the correct authority, and that forbidden transitions did not happen. Keep unit tests for parsers and policy logic; add stateful episodes for coordination; then retain real connector-sandbox checks for provider behavior the simulation does not cover. Each tier answers a different question.
+
+VARUN: A SYNTHETIC RECEIVING SHIFT
+Seed Consu and ForeFathers, distinct stock ledgers, a shared supplier, manager and staff roles, existing purchase orders, a delivery photo and voice note. During the episode send the same invoice twice, introduce a units conflict and interrupt the supplier acknowledgement. The agent should preserve evidence, request clarification for conflicting units, obtain exact proposal approval and create one Consu record. The protected grader checks quantities, business scope, supplier recipient, duplicate effects and verified receiving status. A statement that inventory is updated is insufficient. All described records and actions are synthetic proposals.
+
+RAMYA: A SYNTHETIC MATTER-UPDATE DAY
+Seed two similar matter numbers, different staff entitlements and a pending hearing update. Deliver a corrected email notice, duplicate it through a WhatsApp fixture, delay an attachment and revoke one staff member’s access mid-run. The agent must distinguish source evidence from assumptions, match the correct matter or ask Ramya, preserve the correction history and assign permitted work. Grade document access as well as final task state. Keep legal-date interpretation under authorized human review; the test evaluates administrative handling, not legal correctness beyond its defined fixtures.
+
+TEST THE TESTS WITH KNOWN MISTAKES
+The example repository includes a working bot and five deliberately broken variants. This is a strong pattern for SupaBiz: create controlled implementations that double inventory, ignore tenant scope, reuse expired approvals or resend after an uncertain result. Our evaluator should identify the intended defect. A generic crash or missing dependency must not count as success at catching a business mistake. The inspected example test accepts broad failure conditions, so copy the method with stronger failure attribution.
+
+RESET IS PART OF CORRECTNESS
+A clean database does not prove a clean episode. A prior worker may still be alive; its tool client may retain credentials or cached state; a delayed callback can arrive after reset. SupaBiz should define one lifecycle boundary covering workers, queues, caches, credentials, model/session context, test clock and injected faults. Assign a new generation and reject callbacks from old generations. Use a separate mutable world per concurrent run. Verify initial state before the policy starts and record failures as infrastructure failures rather than agent-quality scores.
+
+THE EXAMINER MUST BE PROTECTED
+The agent under test must not read expected answers, change its grade, reset the world or rewrite the observation record. Separate the trusted controller, policy runner and verifier, with access control outside prompts. Keep provider keys on the intended inference host and simulation credentials scoped to one episode. Disable live endpoint fallback at the network/configuration boundary. Synthetic impersonation switches belong to the test controller; they are not production authentication mechanisms.
+
+SCHEDULING, WEBHOOKS AND READ COVERAGE NEED SEPARATE PROOFS
+The Resend product documentation says advancing the simulated clock does not fire scheduled emails; it also distinguishes generated events from opt-in webhook delivery. SupaBiz must therefore test its own scheduler and the full receiver-to-business-state chain. The shared-simulator guide distinguishes mutation logs from a read-aware call surface. Unauthorized retrieval may leave no business mutation, so preserve protected read-access evidence. These are documented limitations, not runtime results from this review. Environment replay also does not make LLM responses deterministic: compare paired cases and repeat stochastic trials.
+
+PUBLIC UX WORTH ADAPTING
+The catalogue lets a user search by service and expand a compact capability card into concrete workflow steps. SupaBiz should offer similar progressive detail: a business owner sees what a workflow will change, while an engineer can inspect the steps, source evidence and failure reason. Proposed Practice mode loads synthetic business data, makes its simulation status persistent and shows an event timeline plus before/after records. A replay link should capture the world and all relevant versions. No simulated success should be presented as live business completion.
+
+FIDELITY IS WORKFLOW-SPECIFIC
+Published match percentages describe selected vendor probes. They do not establish SupaBiz task success, full provider coverage or production security. Track the exact operations and semantics needed by each workflow: permissions, pagination, duplicates, scheduling, expiry, media access and ambiguous mutations. A supported HTTP endpoint does not establish support through a particular MCP server. A good final state also does not excuse a forbidden intermediate read. Before trusting a twin, qualify the relevant contracts against synthetic accounts in the actual provider sandbox and retain every divergence.
+
+DOCUMENTATION DRIFT IS A REAL ENGINEERING FINDING
+Current pricing/licensing pages describe ten free hours with scenarios and seeds; older installation/index text describes five hours and a fixed-world restriction. Product-specific event-delivery descriptions also disagree with generic control-plane statements. The Slack document describes event/socket delivery while older entries on that same page say neither exists. These conflicts prevent treating documentation as an executed contract. Save page dates and source identity, discover runtime capabilities, pin the chosen release and verify the required behaviors before making a dependency decision.
+
+WHAT THE OFFLINE CHECKS ESTABLISH
+The downloaded setup helper checks an exact tool-name set, writes one uniquely marked reply, reads it back, records the original thread and requires a changed generation plus restored thread after reset. Fifteen offline tests exercised these functions with fabricated responses. They confirmed rejection of missing/extra tools, duplicate/missing reply readback, stale reset state and failed writes without retry. A separate check reproduced duplicate CSV header names silently overwriting earlier values. These are helper-level findings; they establish neither live manifest protection nor simulator fidelity.
+
+IMPROVE THE OBSERVER AS WELL AS THE AGENT
+The source review found that selected bot observation helpers can turn an HTTP error into an empty result and that a Slack negative smoke check asserts an error string without fully asserting the documented HTTP/body contract. SupaBiz’s trusted observer should validate status, schema, identity and completeness. Unknown observations make an episode ungradable. Mutation detection needs a healthy baseline and a defect-specific reason. Otherwise the testing system can reward missing evidence.
+
+TRAINING IS A LATER, SEPARATE PROGRAM
+A simulator does not automatically make a model learn. First use it to compare prompts, retrieval policies, tools, orchestration and model choices. Save reviewed failures, propose a targeted change, run regression episodes and evaluate held-out worlds before release. Fine-tuning or reinforcement learning additionally needs valid data rights, a training pipeline, a reward resistant to shortcuts, independent evaluation and deployment rollback. Do not optimize on the same hidden cases used to claim improvement.
+
+REUSE, BUILD AND DEFER
+Reuse MIT example patterns with their notices: state round trips, negative controls and coherent multi-service fixtures. Evaluate commercial Slack/Drive/storage twins where the exact contract is useful. Build SupaBiz worlds, WhatsApp/Gmail/calendar fixtures where missing, domain state, authority rules, protected oracles, replay manifests and media-quality evaluation. A Google Drive simulator is not a Gmail simulator; Slack behavior is not WhatsApp behavior. Defer an enterprise Harbor deployment or RL investment until a small local workflow suite proves measurable value. Hosted customer-facing resale/practice environments need a separate license assessment from internal testing.
+
+COST, SCALING AND COMPLEXITY
+Evaluation cost grows with worlds × repetitions × variants × active services × duration, plus model and observation work. Parallel execution shortens elapsed time only within CPU, RAM, disk and provider limits; it does not remove total simulator or inference usage. For a synthetic example, 100 episodes using three services for five active minutes each total 1500 simulator-minutes: $18 at the published marginal rate before credits, subscription and infrastructure. Engine complexity is unknown. Our analytical model distinguishes full-state scans, bounded incremental checks, trace retention and event scheduling; it contains no claimed benchmark improvement.
+
+IMPLEMENTATION SEQUENCE
+First define ten high-value episodes for Consu receiving and Arkaj matter routing, each with expected state and forbidden effects. Next add isolated seeded worlds, a controllable application clock and redacted action traces, using our actual connector interface. Then add protected graders and deliberately broken controls; require those controls to fail for the right reasons. Next inject duplicate events, late callbacks, revoked permissions and lost acknowledgements. Finally compare a baseline and candidate on held-out variations and verify critical contracts in real provider sandboxes. Only then choose paid twins, broader parallelism or a training pipeline.
+
+RELEASE GATES AND OPEN QUESTIONS
+A candidate must satisfy every designated safety invariant, correctly classify infrastructure/observer failure, recover from declared interruption cases and show no unacceptable regression on held-out tasks. Define task-specific quality, latency and cost thresholds before running the comparison; do not invent achieved percentages. Engine behavior, live fidelity, lease behavior, deployed isolation, broader MCP coverage and simulator-specific reset/fault semantics remain unverified here. Forty saved acceptance cases are proposals, not executed workflows.
+
+SAVED LEARNINGS
+
+RY-01 — A repeatable practice business
+Create synthetic Consu and Arkaj worlds spanning conversations, people, permissions, files and business records. Keep identities and references coherent across services.
+Measure: Workflow completion; fixture consistency
+Evidence: EX-07, RC02
+
+RY-02 — Stateful transitions, not canned success
+A created stock entry must affect later totals; reassignment must change visibility and notifications. Keep fast unit mocks, then add stateful workflow tests.
+Measure: Incorrect state transitions detected
+Evidence: EX-02
+
+RY-03 — Grade effects and forbidden effects
+Judge records, versions, recipients and task ownership independently of the agent narrative. Include no duplicate order, no cross-business read and no stale approval.
+Measure: Verified task success; forbidden-effect rate
+Evidence: EX-04, RC08
+
+RY-04 — Deliberately broken controls
+Seed known failures such as doubled quantity, missing tenant filter, wrong recipient and stale approval. Require the intended failure reason, not any process error.
+Measure: Mutation detection by defect class; false alarms
+Evidence: EX-05
+
+RY-05 — Version the whole experiment
+Pin harness code, world data, simulator digest, connector schemas, model configuration, prompt, policy, oracle and random seed in every result.
+Measure: Reproduction rate; attributable regressions
+Evidence: EX-08
+
+RY-06 — Reset the whole episode
+Stop workers and sessions, reset state/cache/credentials/clock/faults, issue a new generation and reject late replies from the old episode.
+Measure: Cross-episode contamination; stale callback rejection
+Evidence: RS04, RC01
+
+RY-07 — Keep the examiner outside the agent
+Protect grader files, hidden expected results and control-plane credentials. Agents receive task instructions and scoped tools, not the answer key or reset authority.
+Measure: Unauthorized grader/control access attempts
+Evidence: RS04, RC07
+
+RY-08 — Test time as an input
+Separate business time, source time, arrival time and monotonic timeout clocks. Inject delayed notices, expiry and shift changes through a controlled scheduler.
+Measure: Deadline errors; stale action prevention
+Evidence: RS11, RC04
+
+RY-09 — Distinguish failure before and after commit
+Exercise request rejection, effect committed with lost acknowledgement, delayed webhook and partial multi-service completion separately.
+Measure: Lost and duplicate effects; recovery time
+Evidence: RS13, RC03
+
+RY-10 — Validate the observer before scoring
+A failed state read is unknown, not an empty order list. Classify infrastructure and observation failures separately from agent mistakes.
+Measure: False green runs; ungradable episodes
+Evidence: EX-05, RC09
+
+RY-11 — Measure fidelity on our workflows
+Maintain a route/semantics/permission matrix for each exact workflow. Compare selected synthetic-account traces against a real connector sandbox before relying on simulated results.
+Measure: Critical-contract coverage; sim/live divergences
+Evidence: RS03, RC08
+
+RY-12 — Bind actor identity explicitly
+Use synthetic roles for scenarios, but independently test token issuance, revocation, tenant routing and tool authorization in our actual boundary.
+Measure: Wrong-actor/cross-tenant effects blocked
+Evidence: EX-10, RC06
+
+RY-13 — One isolated world per concurrent run
+Share immutable assets while isolating mutable storage, credentials, sessions and clocks. Budget CPU, RAM, disk, model limits and tenant fairness.
+Measure: Contamination; p95 duration; peak resources
+Evidence: RS04
+
+RY-14 — Make practice mode visible
+Let an owner preview a workflow on sample data with a persistent Practice badge, intended changes, simulated audience and explicit exit. Use a physically separate effect route.
+Measure: Onboarding comprehension; accidental live effects
+Evidence: RS02
+
+RY-15 — Expose the replay and state difference
+Show input timeline, authorized tool calls, before/after records and the first violated invariant. Link the exact seed and versions for reproduction.
+Measure: Debugging time; reproducible bug reports
+Evidence: RS02
+
+RY-16 — Separate learning from evaluation
+Use reviewed traces to change a prompt, tool, retrieval rule or policy; score against held-out scenarios before release. Fine-tuning/RL requires a separate data and reward program.
+Measure: Held-out lift; regression rate; leakage
+Evidence: RS05, RC10
+
+RY-17 — Vary the world, not only the wording
+Vary suppliers, quantities, languages, memberships, media quality, timestamps and partial outages. Split by workflow/business/time rather than adjacent message fragments.
+Measure: Unseen-world performance; overfitting gap
+Evidence: EX-07
+
+RY-18 — Separate media perception from orchestration
+Test transcript/OCR extraction against labeled audio/photos separately, then combine selected real processing with stateful workflow fixtures. API simulations do not validate vision quality.
+Measure: Extraction accuracy; downstream error propagation
+Evidence: RS09
+
+RY-19 — Discover effective capabilities
+Show actual installed versions, available operations, unmet entitlements and known gaps. A documentation page or reachable HTTP port is not proof the required workflow is ready.
+Measure: Configuration drift; setup failure diagnosis
+Evidence: RS06
+
+RY-20 — Keep simulation replaceable and off the live path
+Use commercial twins where their fit and cost are proven; own WhatsApp/Gmail/domain fixtures and an adapter contract. Rystic is a test dependency candidate, not mandatory production infrastructure.
+Measure: Cost per useful regression; replacement effort
+Evidence: EX-01
+
+PRIMARY SOURCES
+RS01 https://www.ycombinator.com/companies/rystic — Identity
+RS02 https://www.rystic.ai/simulators — Public UI observed
+RS03 https://www.rystic.ai/docs/fidelity — Vendor evidence board
+RS04 https://www.rystic.ai/docs/slack-harbor — Documented integration contract
+RS05 https://www.rystic.ai/docs/slack-harbor-reference — Documented reference run
+RS06 https://www.rystic.ai/docs/licensing — Current plan and network contract
+RS07 https://www.rystic.ai/pricing — Published price snapshot
+RS08 https://www.rystic.ai/docs/installation — Conflicting older guidance
+RS09 https://www.rystic.ai/docs/simulators/slack — Product-specific limitations
+RS10 https://www.rystic.ai/eula — License boundary
+RS11 https://www.rystic.ai/docs/environments — Multi-service world orchestration
+RS12 https://www.rystic.ai/docs/examples — Public artifact attribution
+RS13 https://www.rystic.ai/examples/slack-harbor/mcp-smoke.py — Downloaded helper; selected offline execution
+RS14 https://www.rystic.ai/examples/slack-harbor/pins.json — Downloaded release identity
+Source lines and limits: example-source-review.json; simulation-contract-review.json; metadata.json

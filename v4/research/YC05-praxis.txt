@@ -1,0 +1,164 @@
+PRAXIS → SUPABIZ / YC05
+Research date: 2026-10-17
+
+DECISION AND EVIDENCE BOUNDARY
+Praxis is a strong product-design reference for a supervised matter operations workspace. It is not established as reusable application code. This review examined public pages, company-authored workflow articles, published policies and product illustrations. No authenticated deployment, source repository, backend architecture or security controls were audited. A focused repository search did not establish a public application repository; that is not proof that none exists. The linked launch video failed to load and was not watched. Public screenshots were inspected, but they do not prove the system executed the illustrated actions.
+
+The immediate recommendation is to reuse the interaction patterns and build SupaBiz’s evidence, authorization and durable workflow core independently. Praxis’s emphasis on client acquisition and onboarding differs from Ramya’s dominant problem: keeping existing litigation moving as new notices arrive. Its India-specific court coverage, WhatsApp group ingestion, multilingual extraction, record matching, approval internals, retry behavior and real-world error rates remain unknown. No vendor percentage in this review is a forecast for SupaBiz.
+
+THE ADDITIONAL ASAKANA LESSONS — VERY IMPORTANT
+The saved priority is SB-AS-13: correction → scoped business memory → regression test. This is our design requirement, not a claim that Asakana exposes this implementation. Every useful correction should preserve the original proposal, evidence, corrected value, reviewer, scope and verified outcome. A correction can fix one record without creating a future rule. A rule needs an authorized scope, version, precedence and expiry or revalidation policy. Human-approved explicit facts must not be overwritten by weaker inferred patterns.
+
+Two further ideas are saved as SB-AS-14 and SB-AS-15. First, make knowledge limits visible: confirmed facts, inferred habits, contradictions and missing context should look different. Second, preview a reusable rule’s impact before activation: show the affected examples and pending work, and support rollback without pretending completed external actions disappear. For Ramya, correcting one matter association must not teach the system to put every email from that client into that matter. Build evaluation cases from reviewed corrections with access controls and minimized data; keep a separate holdout set so repeated tuning does not manufacture success.
+
+RAMYA’S PROPOSED DAILY EXPERIENCE
+The home screen should answer: what changed, what is blocked, and who owns the next action? Its primary views are New evidence, Decisions needed, Waiting on someone, Today’s verified events and Ready for review. Sort using explicit deadlines and configured priorities, with a visible uncertain-date queue. Do not hide unresolved urgent items behind a model-generated importance score.
+
+An example court notice appears as a review card. Left: the original email and attachment, including source identifiers and receipt time. Right: candidate matter, the exact passage supporting a hearing date, affected tasks and proposed next steps. Ramya sees an old-versus-new comparison and the reason for each change. If two matters share parties, she resolves that ambiguity before the system distributes documents. Clicking a source should open the relevant page or message, not an unrelated summarized thread.
+
+After review, the assignee receives the correct document versions and a concise action packet. The matter shows whether the person accepted ownership, what they are waiting for and who reviews the output. A Ready for hearing view is a checklist of verified prerequisites, not a claim of legal readiness: date reviewed, document requirements checked, owner accepted, work submitted, reviewer decision recorded. A qualified person remains responsible for the substantive judgment. A client sees only separately approved public-facing progress. Internal analysis does not become client-visible because it appears on the same matter.
+
+END-TO-END COURT-EMAIL WORKFLOW
+1. Ingest from an authorized mailbox with a durable cursor. Retain source account, message ID, source revision, received time and immutable attachment versions. Detect gaps after outages; expose connector freshness. Hashes support integrity but are not a replacement for source event identity.
+2. Normalize and classify the event. Keep source material untrusted: a notice or attachment must not be allowed to change agent permissions or command the tool executor. Scan attachments through the firm’s chosen processing controls. Failed OCR and unreadable media become explicit exceptions.
+3. Resolve a matter within authorized records. Prefer exact validated identifiers. Scope alternate case numbers to court, type and year; preserve distinct applications and appeals. Similar names offer candidates only. No candidate means unresolved, not permission to create a new case automatically.
+4. Extract typed facts with source spans. Distinguish hearing dates from dates of issue and internal deadlines. An unknown time stays unknown. A new message can contain a historical date, a proposed date or a corrected date; do not overwrite a confirmed event merely because a newer email repeats old text.
+5. Build a proposed change packet. Include impacted calendar entries, work items, required document versions, suggested owner and uncertainties. The reviewer may accept, correct, reject or defer. Sensitive changes require the firm’s designated authority; Ramya’s operational role does not automatically give every principal-level permission.
+6. Commit approved internal changes against the current record revision. Queue permitted external actions through an outbox. If the record or recipient changed since approval, invalidate the relevant approval. Keep partial failure visible: a task update can succeed while a calendar write is still uncertain.
+7. Verify destination state. Store remote IDs and reconcile ambiguous timeouts before retrying. External systems rarely give exactly-once guarantees; use idempotency where available and duplicate detection/reconciliation elsewhere.
+8. Track acceptance and followthrough. A scheduler wakes durable jobs without keeping a model running. Before a reminder or escalation, check whether the dependency was satisfied, the event superseded or access revoked.
+9. Close with evidence of outcome. Record submitted artifacts and reviewer acceptance. Save an authorized correction as a candidate learning only after its intended scope is clear.
+
+DATA AND RUNTIME ARCHITECTURE — OUR PROPOSAL
+Start with a transactional relational store for structured records, object storage for source attachments, a durable queue/scheduler and an interchangeable model gateway. Add search over permission-filtered evidence; do not make a vector database the system of record. Avoid a graph database initially: explicit dependency edges in relational tables are enough for the first workflows.
+
+Core records are Tenant, Principal, Grant, ConnectorAccount, SourceEvent, EvidenceVersion, Matter, MatterIdentifier, MatterEvent, DocumentRequirement, WorkItem, Dependency, Assignment, ReviewPacket, Approval, ActionAttempt, Publication and BusinessRule. Every business record carries tenant and authorization context. External IDs are scoped by provider/account; content digests support integrity and dedupe decisions. Multiple messages can refer to one event without erasing their separate provenance.
+
+The harness assembles permitted evidence, calls a model, validates typed output and records traces. It does not own authorization decisions. The workflow service owns transitions, scheduling and retries. The action service checks current grants and approval bindings immediately before execution. The connector layer owns tokens, scopes, cursors and remote result verification. The model receives only the permitted data needed for this work. A shared mailbox does not imply shared access to every attached matter or every object in storage.
+
+Use per-matter optimistic concurrency and bounded serial processing where order matters. Preserve fairness across tenants with queue quotas and separate expensive OCR/media work. Business-rule versions and model/prompt versions travel with proposals so later failures can be reproduced. Audit entries explain events; compensating actions correct business state. Auditability cannot recall an email, undo a disclosed document or guarantee a remote system rollback.
+
+WHAT TO REUSE, BUILD AND DEFER
+REUSE AS DESIGN: a matter-centered workspace; evidence beside decisions; document readiness; explicit waiting states; controlled client progress; delegated calendar availability; workflow-first adoption; firm-owned instructions. These are patterns, not a license to copy proprietary code or branding.
+
+BUILD FOR SUPABIZ: WhatsApp/email evidence normalization, scoped matter resolution, court-event and deadline data types, permission-aware document delivery, accepted assignment tracking, immutable evidence versions, action-bound approvals, deterministic execution, reconciliation, client publication controls and the correction learning loop. These are common platform capabilities with a law-firm workflow on top.
+
+DEFER: replacing all practice management software, building payments, automatic legal judgments, auto-clearing conflicts, generalized court scraping and broad desktop time surveillance. Do not block urgent operational intake behind invoice payment. Do not copy a universal document-age rule. Do not treat a product screenshot’s Verified label as proof of authenticity. Adopt new-client CRM and billing only after the existing-matter workflow produces verified value.
+
+TIME, SPACE AND PERFORMANCE REASONING
+Let B be source bytes, L document pages, M matters, K identity candidates, V work items, E dependency edges, R scheduled reminders and k jobs due in a selected interval. Persisting and hashing a payload takes O(B) work; OCR/model latency and cost depend on media size, provider and concurrency and must be measured. An indexed exact matter lookup is typically O(log M + K) with a suitable B-tree; this is a database-operation estimate, not an end-to-end guarantee. Fuzzy retrieval is implementation-dependent and cannot be advertised as equally exact or equally cheap.
+
+Checking an entire dependency graph for cycles or a topological order costs O(V + E). Incremental invalidation should touch the affected reachable subgraph, but has that same worst-case bound. Indexing due jobs supports approximately O(log R + k) selection under normal index assumptions. Executing k remote requests still incurs k actions, rate limits and failures. Unindexed scans can instead inspect all M matters or all R reminders per run; the practical improvement depends on cardinality, index selectivity and query plans.
+
+Persistent space grows with evidence bytes, versions, events, tasks and audit history. Retention must cover search indexes, derived text, exports and backups as well as blobs. During inference, bounded context retrieval limits prompt size but can omit relevant evidence; evaluate both retrieval recall and decision correctness. Dedupe can avoid repeated processing, but duplicate detection must not suppress a legitimate revision.
+
+Compared with unconstrained agent polling, durable event-driven jobs can avoid idle model calls. The number saved equals unnecessary polling calls avoided, not an invented universal percentage. Cache immutable extraction by source/version and parser version. Never cache authorization indefinitely. Measure p50/p95 time to a reviewable packet, queue age, assignment acceptance, reviewed completion, exception fraction and full cost per verified update.
+
+COST MODEL AND HONEST COUNTERFACTUAL
+Illustrative assumptions only: 100 incoming updates per day, four manual minutes each, 0.75 minutes to review every assisted update, 25% needing three extra exception minutes and 20 minutes of daily reconciliation. Manual effort is 400 minutes. Assisted effort is 75 + 75 + 20 = 170 minutes: a hypothetical 57.5% reduction. If 60% need five extra minutes, assisted effort becomes 395 minutes, only 1.25% below baseline. If setup, monitoring or exceptional cases add more time, the result can be worse than manual handling.
+
+This arithmetic is not a product benchmark or guaranteed saving. Review time applies to all updates; exception effort is additional, so the formula does not hide review labor. Financial cost adds model tokens, OCR, storage, queues, logs, connector operation, support and amortized setup. Value of time saved is not automatically billable revenue. Obtain supplier prices and measure real token/page volumes before choosing a paid plan. No published Praxis numeric rate was established here.
+
+Compare a permissioned fixed corpus against the current Ramya workflow, then run a shadow pilot. Record document mix, ambiguous identity rate, languages, corrections, missed updates and reviewer effort. Count unresolved items and abstentions as outcomes; do not remove hard cases from the denominator. Report confidence intervals where sample sizes justify them and cost/quality together. A faster workflow that misses a hearing change fails the product goal.
+
+SECURITY AND PORTABILITY QUESTIONS TO RESOLVE
+Published security and privacy statements are not a control audit. Praxis describes US hosting and logical customer separation; that does not establish SupaBiz’s desired location or isolation design. Provider zero-retention terms do not mean the application itself retains nothing. The broader no-training language on the security page and the narrower cross-customer restriction in privacy need clarification before making contractual assumptions. Do not infer that private fine-tuning occurs from that wording difference.
+
+The public terms page did not supply a complete agreement. Subprocessor details and live capability validation would be needed for procurement; this review contacted nobody and accepted nothing. Source code reuse, self-hosting, data residency choice, security attestations and production integration behavior remain unverified. For SupaBiz, publish precise data-use categories and export firm-owned rules as well as raw records. Prove both database and object access isolation. Test revocation during queued work and stale approval replay. Legal deadline computation requires separately maintained jurisdictional rules and professional review; this report proposes operational controls, not legal advice.
+
+IMPLEMENTATION SEQUENCE AND RELEASE GATES
+Stage 1: define the reviewed matter directory, staff roles, source permissions and fixture corpus. Build shadow ingestion and evidence cards. Gate on source completeness, observable gaps, correct matter linkage and abstention on ambiguity. No outbound actions are needed to learn whether this is useful.
+
+Stage 2: add typed matter events, document requirements and assignment packets with acceptance. Gate on version conflict handling, correct evidence delivery, record/object isolation and no unowned accepted work. Validate with Ramya on representative updates, including unreadable scans and linked applications.
+
+Stage 3: add approved calendar and task writes using outbox, idempotency and remote reconciliation. Gate on stale approvals, timeouts, replay, superseded events and access revocation. Do not equate a successful API call with the correct business outcome.
+
+Stage 4: add approved dependency reminders, a client-safe projection and scoped learning. Gate on stop-on-reply, publication permissions, rule impact previews, rollback and held-out regression quality. These are delivery stages, not promised calendar durations. The 24 accompanying scenarios are proposed acceptance tests; none have been executed against Praxis or a working SupaBiz implementation.
+
+TWELVE DESIGN FINDINGS
+
+PR-01 Organize work around the matter
+Evidence: Public pages present matter progress and related work. [PR-S02, PR-S05]
+Our proposal: Give Ramya one operational record per matter with an evidence timeline, current verified hearing information, tasks, documents, ownership and blockers. Messages remain evidence linked to the record. An update to one matter must not create another chat-shaped island. Maintain related applications or appeals as linked records instead of merging everything with the same parties.
+Measure: Time to reconstruct a matter; duplicate matters; missed updates; evidence coverage.
+
+PR-02 Put the decision and its evidence together
+Evidence: The workshop describes reviewing checks and a draft in one place. [PR-S03]
+Our proposal: Create a decision inbox: original court notice beside extracted fields and a precise proposed change. Show what is known, uncertain and blocked. Permit correction of one field without losing the rest. Group related changes into a review packet but require explicit authority for each calendar write, assignment or outbound message. Approval binds the source version, record revision and exact action.
+Measure: Human minutes per update; incorrect approvals; unresolved exception age; stale approvals rejected.
+
+PR-03 Measure document readiness, not attachment count
+Evidence: Public illustrations distinguish requested documents and readiness. [PR-S02]
+Our proposal: Maintain expected document types and versions per work item. Separate received, readable, identified, complete, current-for-purpose and accepted-by-reviewer. A badge must say which checks passed; it must not imply legal validity or authenticity. A historic executed agreement does not expire because another document type has a freshness rule. Identify the missing page or wrong version precisely.
+Measure: Work blocked by missing documents; mistaken readiness; repeated document requests; review time.
+
+PR-04 Make waiting a first-class state
+Evidence: Public positioning includes follow-ups and document collection. [PR-S01, PR-S02]
+Our proposal: Every blocked task records what is missing, who can supply it, next check time, escalation owner and stop conditions. Run durable reminders outside the LLM session. Before sending, recheck replies, new attachments, closure, permissions and cancellation. Combine repeated requests and respect firm-approved frequency limits. Human approval is required for the initial outbound policy and messages outside that authority.
+Measure: Age of blockers; unnecessary chases; missed escalations; duplicate reminders.
+
+PR-05 Publish a client-safe view of progress
+Evidence: The product depicts a separate client portal. [PR-S02]
+Our proposal: Create an explicit publication projection: approved updates, documents requested, upcoming confirmed events and the client’s next action. Keep internal analysis, other clients, privileged notes and unapproved drafts out. For litigation use milestones and readiness, not a percentage suggesting the case is almost won. Each published item has a publisher, audience, evidence and revision.
+Measure: Status enquiries avoided; disclosure errors; client task completion; outdated published updates.
+
+PR-06 Delegate calendar availability narrowly
+Evidence: The workshop says consultation offers use lawyer-released hours. [PR-S03]
+Our proposal: Let a principal release bookable windows and permitted meeting types. Read availability without exposing private event bodies. Treat proposing a time, placing a hold and committing an event as different operations. Court hearings are externally imposed events, not negotiable consultation slots. Track conflicts and let the authorized person resolve them.
+Measure: Double bookings; inappropriate calendar access; scheduling effort; event verification failures.
+
+PR-07 Separate new-client intake from existing-matter updates
+Evidence: Intake guidance describes collecting information in stages. [PR-S04]
+Our proposal: Use two front doors. Existing-matter notices go through identity and change review; new inquiries gather only needed initial facts and route possible conflicts to a lawyer. A search result is not a conflict clearance. An unmatched email is unresolved, not automatically a new matter. Do not make paid invoices a universal gate for handling urgent incoming work.
+Measure: Misrouted updates; duplicate intake; unresolved identity age; urgent items overlooked.
+
+PR-08 Use AI to propose, code to enforce
+Evidence: The onboarding article describes deterministic logic for sensitive actions. [PR-S05]
+Our proposal: Use the model for extraction, summarization and candidate generation. Use typed schemas and server-side checks for tenant, grants, expected revision, allowed transition, idempotency and destination. Commit record changes with a transactional outbox; verify remote results. A sent email cannot be undone by an audit log. Model corrections and compensating actions explicitly.
+Measure: Unauthorized actions; duplicate writes; uncertain outcomes reconciled; recovery after interruption.
+
+PR-09 Make assignment an acknowledged handoff
+Evidence: The onboarding discussion emphasizes preserving context at handoff. [PR-S05]
+Our proposal: Give each assignee a compact packet: task, why it changed, required document versions, evidence, due-date basis, reviewer and next step. Distinguish assigned, delivered, accepted, in progress, submitted and reviewed. Delivery is not acceptance, and submission is not completion. Reassignment preserves history and cancels obsolete reminders.
+Measure: Assignment-to-acceptance time; missing-context questions; unowned work; reviewed completion rate.
+
+PR-10 Keep firm instructions owned and portable
+Evidence: Privacy states that firm-instructed workflows and playbooks belong to the firm. [PR-S06]
+Our proposal: Export approved business rules, matter aliases, templates, evidence references and revision history in documented formats. Keep permission checks on exported data. Connect this to SB-AS-13, the VERY IMPORTANT correction → scoped memory → regression-test loop. Ask whether a correction is one-off, matter-specific or an authorized reusable rule. Business memory is separate from model-weight training.
+Measure: Provider-switch task quality; rule provenance; unsafe generalization; usable export completeness.
+
+PR-11 Onboard one painful workflow first
+Evidence: The workshop describes staged adoption with existing systems. [PR-S03]
+Our proposal: Begin with Ramya’s existing-matter email triage and assignment. Import a reviewed matter list and staff directory; operate in shadow mode before external writes. Keep existing email, calendar and document tools during evaluation. Add billing, new-client acquisition and broad desktop awareness only when a measured workflow needs them.
+Measure: Time to first verified workflow; setup effort; adoption; support cost; parallel-system reconciliation.
+
+PR-12 Add an Indian court-event model explicitly
+Evidence: Official eCourts help documents CNR and alternate search identifiers; Praxis support for this workflow is unverified. [PR-S09]
+Our proposal: When available, use a validated CNR; otherwise scope case type, number and year to the court and jurisdiction. Preserve original strings and aliases. Store notice date, publication date, hearing date, internal work deadline and reminder separately. Retain Asia/Kolkata and unknown times explicitly. New notices supersede specific prior facts only after review. Court integration and deadline rules need their own validation; never infer universal API coverage.
+Measure: Wrong-matter attachments; date-type confusion; superseded dates left active; ambiguous dates correctly escalated.
+
+SOURCE INDEX
+PR-S01 https://www.ycombinator.com/companies/praxis
+Company-authored YC profile — Client journey positioning; lawyer oversight. Performance claims not independently measured.
+PR-S02 https://runpraxis.ai/
+Public product page and illustrations inspected — Document readiness, matter progress and client portal illustrations. Integration logos do not establish tested capabilities.
+PR-S03 https://runpraxis.ai/blog/heycounsel-session-recap
+Company-authored workshop report and screenshots — Describes a supervised intake demo, restricted consultation availability, existing-tool integration and workflow-first onboarding. Manual timer available; automatic capture described as in development. This is not independent live execution.
+PR-S04 https://runpraxis.ai/blog/pre-consultation-intake
+Company-authored guidance — Staged intake and early conflict review. US examples are not Indian legal rules.
+PR-S05 https://runpraxis.ai/blog/client-onboarding-for-law-firms
+Company-authored workflow and architecture claims — Structured handoffs; claims AI interpretation with deterministic sensitive actions, limited permissions and audit trails. No code verified.
+PR-S06 https://runpraxis.ai/privacy
+Published policy, updated 2026-10-13 — Firm ownership of data and instructed playbooks; US hosting, logical isolation, provider zero-retention terms and export/deletion conditions are policy claims, not audited controls.
+PR-S07 https://runpraxis.ai/security
+Published security claims — No independent control validation. Broad no-training wording needs reconciliation with the narrower cross-customer training wording in privacy before procurement.
+PR-S08 https://runpraxis.ai/terms
+Public terms page — Full terms were not published: page said they were being finalized. No agreement assessed or accepted.
+PR-S09 https://app.ecourts.gov.in/App/apphelp.html
+Official eCourts help — CNR is a 16-character alphanumeric identifier; alternate case searches exist. Does not establish a public integration API or universal court coverage.
+PR-S10 https://drive.google.com/file/d/1lxtcy55l5t2dvd82J1_px194DW-Y6RXl/view
+Linked public launch video; access failed — Player returned Unable to load video. Not watched; no transcript read; no download workaround.
+PR-S11 https://runpraxis.ai/manifesto
+Company positioning — Outcome-oriented positioning; not evidence of implementation or comparative superiority.
+PR-S12 https://runpraxis.ai/roi-calculator
+Public calculator page — Commercial illustration only; not a SupaBiz baseline or measured benefit.

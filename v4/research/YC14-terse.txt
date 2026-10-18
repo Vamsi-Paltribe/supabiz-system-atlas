@@ -1,0 +1,99 @@
+TERSE → SUPABIZ · YC14 RESEARCH REVIEW · 17 OCTOBER 2026
+
+DECISION
+
+Terse offers one of the more relevant infrastructure patterns in this series: a named owner of shared state that coordinates updates from multiple people and agents. Give the business object a stable home, serialize the mutations that must agree, retain its state across worker lifetimes, and show authorized viewers what changed. This complements herdr's attention and supervision model. A durable actor is a software object with identity, state and methods; it is not necessarily an LLM, an autonomous agent, a dedicated virtual machine, or a complete workflow engine.
+
+Recommendation: prioritize the entity-state and collaboration pattern; run a bounded adoption experiment before selecting Terse as SupaBiz's production foundation. The code is public and substantial, but this review found important documentation/source differences and operating requirements. Start SupaBiz with one authoritative store per business invariant. A relational transaction plus durable job queue remains a valid baseline; Terse must prove a better outcome for a defined workload, rather than becoming a mandatory layer because its model is elegant.
+
+IDENTITY AND REVIEW SCOPE
+
+The YC-linked product is Terse at useterse.ai, backed by TerseAI/durable-actors. Reviewed repository commit: e977511fca9c908692b1ef0c299aed458f898198. TypeScript SDK and observer package versions are 0.8.0; root license is MIT. The source includes Rust runtime/control-plane code, TypeScript and Python SDK/runtime components, a React observer, examples, tests and a deployment chart. This is a selected-source investigation, not a complete audit or production certification. [TE-S01, TE-S02]
+
+The REA skill routes a complete source repository to ordinary code inspection, so binary decompilation was unnecessary. Independent scoped source passes examined durability/ownership and security/observer UX. The main pass traced TypeScript persistence and exercised 28 component checks: 22 upstream local SDK/SQLite checks, two upstream retry checks against a temporary localhost server, and four targeted persistence-boundary checks. The SDK source was unchanged. These use the upstream SQLite test fixture rather than the Rust/GCS persistence system.
+
+Environment qualification matters: tests ran on installed Bun 1.3.14, below the repository's declared minimum 1.4.2, using existing local zod 4.4.3, ajv 8.20.0 and ws 8.21.0 packages. They establish the reported component behavior in that environment; they are not a supported-stack compatibility run. Initial dependency resolution and localhost binding failures were resolved without a broad installation. A custom assertion was corrected to reflect rehydrated default state. No Rust build, cloud deployment or production benchmark was performed.
+
+WHAT TERSE ACTUALLY ORGANIZES
+
+An actor is addressed by project, actor class and actor ID. Routing determines the owner and execution host. The actor's methods act on its state and SQLite database. TypeScript clients can be generated from declared methods/contracts. The runtime activates actors when needed and can let them sleep when idle. WebSocket connections provide live interaction, while state persistence is handled separately from the lifetime of the browser. The architecture includes control-plane metadata, ownership coordination, sandbox execution and durable storage; it does not eliminate infrastructure or all shared databases. [TE-C01; durability-source-review.json]
+
+For SupaBiz, choose actor boundaries by the invariant that must stay consistent. A matter can own its notice versions, assignment decisions and workflow references. Inventory may need a location-and-SKU owner for stock reservations, while a procurement order coordinates several lines. A single actor per enterprise could serialize unrelated work into one bottleneck. A separate actor for every message would make business-level consistency difficult. These are design alternatives to test, not a claim that one universal granularity is correct.
+
+Do not give both Postgres and an actor database independent authority over the same balance or assignment. If actor state is authoritative, feed reporting/search projections from committed versioned events and define lag and repair behavior. If Postgres is authoritative for the MVP, use explicit transactions, versions and an outbox there; an actor can coordinate collaboration without becoming a second primary ledger. Cross-actor workflows still need a saga, reservation/confirmation protocol or a single transactional authority for the affected invariant.
+
+THE MOST IMPORTANT SOURCE FINDING: PERSISTENCE IS EXPLICIT
+
+The field binding intercepts assignment to a persisted property. It serializes that value and sends it to the database path. It does not install a deep proxy that tracks arbitrary nested edits. A test using the actual SDK returned an in-memory array length of one after push(), while the stored array remained empty. Reassigning a new array persisted it. This matters because the repository's introductory chat example uses push() and mutates reply.content; those operations alone do not establish the durability the reader might assume. [TE-C02, TE-C03]
+
+SupaBiz should prefer explicit commands and append-only record/event operations over casual mutation of large object graphs. A TypeScript type checker will not necessarily catch a forgotten persistence assignment. Add restore-after-each-command tests, immutable update helpers, lint rules where practical, and a reviewed repository template. Test what is recovered after restart, not merely the value returned from the same resident object.
+
+Persisted and ephemeral state are a useful product boundary. Keep business records and recovery identifiers durable; keep disposable caches, typing indicators and in-flight rendering buffers ephemeral. Avoid repeatedly serializing a growing whole conversation for every token. Store append-only messages or events and bounded summaries, and stream transient text separately until the committed result is ready.
+
+ATOMICITY, INTERLEAVING AND LONG MODEL CALLS
+
+The current TypeScript guide describes rollback after failed calls, with a class-wide exception for interleaving. The reviewed runtime makes an additional distinction: methods listed in atomicMethods use atomic database mode; ordinary methods use immediate mode. Our targeted tests showed that an ordinary method can increment a persisted field and then fail while retaining the increment. The explicitly atomic counterpart returned failure and restored the original value. Existing upstream tests also exercise this distinction. Do not infer default transaction semantics from the guide alone. [TE-C04, TE-C05]
+
+Interleaving lets additional calls run while a method awaits. That improves responsiveness for streaming or slow network operations, but other work can observe or change state during the wait. The source changes restoration behavior when a class contains interleaved methods. SupaBiz must review combinations of atomic and interleaved methods explicitly; the tests here do not establish safety for every combination.
+
+A useful design is a short guarded command that records an intent and expected version, followed by slow model/tool work outside the critical mutation section, then another short command that rechecks current state and permissions before applying the result. A model suggestion computed from version 12 cannot silently overwrite version 14. Stream progress while keeping business-state commits explicit. Do not hold the matter or stock actor behind a 40-second model call when a short transaction and separate attempt can preserve the invariant.
+
+WHAT DURABILITY DOES AND DOES NOT BUY
+
+The Rust paths include ownership epochs, storage preconditions, publication and restoration mechanisms. In the inspected database-session path, storage publication is awaited before a durable result is reported; failures can produce an uncertain outcome. There are distinct Standard-storage and optional Rapid-storage mechanisms. These are meaningful implementation details, but no real multi-controller failure, object-store outage or power-loss test was run here. [durability-source-review.json]
+
+The inspected request replay cache retains the last request/result within a session; it is not an unlimited durable business idempotency ledger. Immediate state publication can clear that cached completion. The per-actor mailbox is in memory and uses an unbounded channel in the selected path. Persisted actor state does not imply all queued jobs survive a crash or that overload is bounded. SupaBiz needs admission limits and durable business work records independently.
+
+External effects remain a separate problem. A supplier order, email or task-system write can succeed before an acknowledgement is lost. The two upstream localhost tests confirmed that the client reports outcome_unknown rather than automatically repeating the mutation in their cold/warm scenarios. Adopt that behavior. Add a business effect ID, persisted intent, provider idempotency where available and reconciliation. No reviewed mechanism establishes exactly-once delivery across arbitrary external applications. [TE-C06]
+
+Each actor exposes one alarm slot, so setting another replaces the prior timestamp. This is useful for waking a coordinator at its next due item. It is not a complete multi-deadline scheduler. The Rust database-session path handles alarm changes through storage separately from SQLite calls; do not assume an alarm update and a business-record update are one atomic commit. Persist deadlines and reminder identities, then reconcile the alarm with the earliest outstanding item. The SDK alarm tests use a different local fixture and do not prove cloud alarm/state atomicity.
+
+SHARED VIEWS AND PERMISSION-AWARE COLLABORATION
+
+The public counter demo connected successfully and exposed live status, a read operation, activity/history views and a breakdown of timing. We inspected initial and explicit reads, without increasing or decreasing its shared counter. Two observed reads showed approximately 4.5/5.7 ms actor-host duration and 1055.0/892.8 ms browser round trip. These are isolated UI-reported observations, not a benchmark; cold provisioning/routing and network/app overhead explain why a small internal number is not the user's latency. [TE-S03]
+
+The relevant UX is one shared record that updates across authorized screens, a visible connection state, and an intelligible change history. For Varun, the restaurant manager and accountant can see the same invoice review state with different permitted fields. For Ramya, an assistant can see assigned work while principals retain broader matter access. Show who proposed a change, who approved it, the source evidence, the committed version and what remains pending.
+
+Terse's emitted public fields go to all accepted connections of that actor. Explicit broadcast tags help route messages but are not business authorization. Project session credentials intentionally reach actors and published methods within the project. A stable actor name is not a permission check. SupaBiz should authenticate users through its backend, authorize the exact business/matter operation, issue scoped connection grants, and produce audience-specific views. Never place confidential matter content in a field emitted to a broader audience. [security-ux-source-review.json]
+
+Connection grant expiry is an admission deadline: accepted sockets can remain authorized until closed. Reconnect requires a valid grant. SupaBiz permission revocation therefore needs active connection closure or reauthorization, not merely waiting for the initial grant to expire. Recheck authority on mutations and on sensitive data delivery. Map roles to tags on the trusted server; do not allow a client to assign itself an accountant or principal audience.
+
+OBSERVABILITY THAT HUMANS CAN USE
+
+The observer source contains state versions, request attribution, history inspection and stable historical comparisons. It can distinguish an older selected view from the latest state and acknowledge still-syncing history. Large-diff processing is bounded/offloaded in selected UI paths. These are useful features for both support engineers and business users, provided SupaBiz creates a redacted domain-level view rather than exposing an administrative actor database browser. [security-ux-source-review.json]
+
+Borrow a “What changed?” panel: previous value, new value, evidence, actor/person, permission decision and result. Offer a clear “View latest” action while reviewing history. A replayed trace is an observation of history; it must never imply that an external action was rerun. Terse's observer replay streams stored trace pages and does not itself execute the old workflow. SupaBiz should separately name inspect history, test a proposed change, retry an unresolved action and undo/compensate an applied action. Each has different consequences.
+
+VARUN: TWO STAFF MEMBERS UPDATE STOCK
+
+Suppose two staff members report movements against the same Consu item. Both should reference a deduplicated source event and a business-scoped stock identity. A short serialized/atomic command validates quantity, units, current authority and expected version, then records the accepted movement and any dependent work. The other command reads the resulting state rather than overwriting a stale total. Independent ForeFathers work can proceed under a separate scope.
+
+This prevents a class of application-level lost updates only when the critical paths actually pass through the same authority. It does not fix an incorrect OCR quantity, duplicate source interpretation, or a separate unguarded database writer. Multi-item orders require an explicit cross-item process. Supplier communication happens from durable intent with reconciliation, not as an assumed side effect of committing the stock actor.
+
+RAMYA: A NEW NOTICE ARRIVES DURING ASSIGNMENT
+
+A matter coordinator receives a notice while an assistant is drafting an assignment from an older version. Preserve both evidence records and their order. The final assignment command carries the expected matter version, assignee, attachment references and required permission. If a newer notice changes the relevant context, mark the draft as needing review and show the difference. Ramya can then confirm an updated plan without losing the historical reasoning.
+
+Persist all due items in the matter record. Use the single alarm as a wake-up hint for the next deadline, with periodic reconciliation so a replaced or missed alarm cannot erase a legal-workflow responsibility. This is workflow design, not legal advice or a claim that Terse integrates Indian courts. Correct matter matching, notice interpretation and approved timelines remain SupaBiz's responsibility.
+
+HOSTING, COST AND SCALING
+
+The reviewed supported self-hosting path is Google Cloud: GKE Standard with a gVisor actor pool, PostgreSQL, Standard GCS, TLS/WebSocket ingress, Workload Identity, NetworkPolicy and stable credentials. Optional Rapid storage adds two suitably placed buckets while retaining Standard archival storage. This is open source with a concrete deployment path; it is not evidence that every cloud is equally supported or that operating costs disappear. [TE-S04]
+
+The chart defaults include one controller replica, zero warm actors, and actor resource requests of 500m CPU and 256 MiB. These are requested resources/configuration defaults, not measured usage or a promise that each actor is cheap. Warm capacity trades idle expense for activation latency; controller replication does not guarantee sufficient actor nodes. The selected sandbox path requests gVisor, non-root execution, a read-only root and dropped capabilities. NetworkPolicy permits broad public egress, so sensitive tools still need explicit destinations and credential scope.
+
+Let lambda be arrivals per second at one strictly serialized actor and s its mean service time including waits/commits. Its rough service capacity is 1/s; a stable queue requires lambda*s below one with headroom for bursts. More replicas do not remove one hot key's serialization constraint. Independent keys can scale across capacity, while a single enterprise-wide key can concentrate load. Interleaving changes scheduling, but it does not remove the need for explicit consistency checks.
+
+Indexed actor-local lookups are typically O(log n); serializing a JSON field of B bytes is O(B). Repeated whole-history serialization as a conversation grows can produce quadratic cumulative work in message count under equal-sized additions. Broadcasting a payload of B bytes to C recipients costs roughly O(C*B) bytes before protocol overhead. Durable history/storage is proportional to retained event and state volume. Queue memory grows with backlog; the inspected unbounded mailbox needs external limits. These are analytical approximations, not measured Terse throughput claims.
+
+Monthly cost should include controller/node baseline, PostgreSQL, storage operations and retention, active/warm sandboxes, network, model/media calls, observability, support and human exceptions. Compare cost per verified workflow at equal correctness. The homepage's latency table is vendor-reported and is not a SupaBiz forecast. Benchmark warm/cold paths, hot-key skew, p95 completion latency, duplicate-effect rate, recovery and operational effort against the simpler database/queue baseline before choosing.
+
+REUSE, BUILD AND IMPLEMENTATION GATES
+
+Adapt now: stable entity identity, short serialized commands, explicit persisted/ephemeral state, typed commands, committed-state views, change history and uncertain-outcome handling. Consider reusing the runtime, clients or observer components only after version-pinned validation; preserve MIT notices and review dependencies. Keep framework details behind a small SupaBiz interface so business workflows are portable.
+
+Build: evidence-linked records, business/matter authorization, scoped view generation, active revocation, durable job/effect ledgers, dedupe, deadlines, cross-entity coordination, result verification and an exception inbox. Keep browser/voice/photo/video processing in bounded worker capabilities that return evidence and proposals. The entity coordinator controls accepted business changes; a model's answer cannot grant authority or establish committed success.
+
+Step 1: define one stock invariant and one matter-assignment invariant, including the command and evidence contracts. Step 2: implement a database/queue baseline with the same observable outcomes as the actor experiment. Step 3: test Terse against those contracts, including restore, simultaneous updates, ordinary-versus-atomic failures, stale approvals and lost responses. Step 4: add permission-filtered live views and measure attention-resolution time. Step 5: run a scoped supported-stack deployment/fault test and cost comparison before adoption. Do not introduce two authoritative stores for the same invariant during the experiment.
+
+The 48 saved acceptance cases are proposed SupaBiz tests, not executed product tests. Required gates include no lost accepted movement in the test cohort, no unauthorized cross-business views, no duplicate external effect after an ambiguous response, visible stale drafts, revocation of existing sockets, restored deadlines and a bounded overload response. Production SLOs and cost targets remain to be set from the pilot workload. All 20 saved learnings remain design candidates. herdr and the earlier research are preserved.

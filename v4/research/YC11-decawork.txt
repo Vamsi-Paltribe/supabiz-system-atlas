@@ -1,0 +1,119 @@
+DECAWORK → SUPABIZ • YC11 • 17 OCTOBER 2026
+
+DECISION AND EVIDENCE BOUNDARY
+
+Adopt the pattern of a separately enforced action gateway, contextual review and understandable approval receipts. Build SupaBiz's business-specific authorization and execution guarantees. Do not select a proprietary policy model or assume that its decisions are reliable before evaluating it on our own workflows. This is a public-product investigation, not a backend reverse-engineering audit or a deployed SupaBiz feature.
+
+The review covers Decawork's official homepage and interactive example, security page, website privacy/terms, YC profile, public trust center and auto-generated captions for its linked launch video. No official public application repository, SDK, downloadable model or API specification was established in focused source searches. There is therefore no vendor artifact to run through REA or execute component checks against. No account, private deployment, training pipeline or actual agent traffic was tested. An illustrative browser replay is evidence of communication and UX, not proof of live enforcement. See metadata.json for sources, observations and unresolved questions.
+
+WHAT DECAWORK ACTUALLY PRESENTS
+
+The current YC profile positions Decawork around organization-specific models that assess actions using policy, the active task and action history. Its proposed API/MCP gateway gives those decisions an enforcement point. Small specialized models are a vendor claim: the reviewed material does not expose the dataset, labeling process, training objective, calibration, weights or benchmark needed to judge the claim. [DW-S01]
+
+The homepage's example workspace has an agent registry, action-review view and policy view. In the inspected illustrative onboarding sequence, a task-relevant profile read is allowed, an unrelated employee read is blocked, and privileged group assignment waits for IT approval. The latter two explicitly show that the tool has not been called. Policy, task and history are shown together, which makes the decision understandable without exposing internal model reasoning. This is the most useful UX pattern we can adapt. [DW-S02]
+
+The security page describes agent identities, gateway-held credentials, task-limited access, allow/block/human-review decisions, reassessment and attributable records. These are vendor assertions about the service; the public example cannot establish race safety, revocation latency, credential isolation or protection against alternate execution paths. [DW-S03]
+
+The launch video's auto-generated captions describe an earlier emphasis: standard deployment, scoped identity, ownership, approval, activity visibility and lifecycle management for internally built agents. The current policy-model positioning is more specific. Preserve both lessons, but do not infer that every lifecycle feature mentioned in the explainer exists in the present product. Captions can contain transcription errors; this review does not claim a frame-by-frame product demonstration. [DW-S04]
+
+The public trust center labels SOC 2 Type 1 compliant and SOC 2 Type 2 and ISO 27001 in progress. No audit report was inspected. Its zero publicly listed documents/subprocessors must not be interpreted as absence of subprocessors. The privacy and terms pages explicitly govern the website; customer deployments have separate agreements. Those pages do not establish production retention, training rights, hosting location or tenant isolation. [DW-S05–07]
+
+WHERE IT FITS WITH OUR EARLIER RESEARCH
+
+Glen informs which context an agent may receive. Executor informs how tools and accounts become available. Agent Relay informs how work crosses agent boundaries. Decawork contributes the question immediately before an effect: is this particular action justified and authorized now? Hue informs the replay tests that challenge that decision. Asakana informs how reviewed corrections improve future behavior. Marble supplies exact operational transactions to test. These are complementary responsibilities, not proof that any one vendor implements the whole chain.
+
+For SupaBiz, the product unit should remain a completed business task with evidence and a verified outcome. Do not turn the user experience into a security dashboard for every message. Routine permitted extraction and assignment should run quietly; exceptions should arrive as precise, actionable work cards. Administrators still need a separate registry of agents, owners, capabilities, active responsibilities and paused work.
+
+PROPOSED ARCHITECTURE
+
+1. Authenticate the person, agent and business. Resolve the active responsibility from trusted records. A natural-language task written by an agent cannot expand its rights. Incoming email, WhatsApp content, memory and documents are untrusted evidence, even when they contain convincing instructions.
+
+2. Canonicalize the proposed operation into an immutable action version. Include the connector account, business, resource, recipient, arguments, file/content versions, amount and currency where relevant, intended effect and idempotency key. Hash a defined canonical serialization. The hash binds content; it does not prove authorization or replace schema validation.
+
+3. Run deterministic checks outside the model. Verify tenant, membership, role, source rights, task scope, destination, resource state, cumulative limits and mandatory review conditions. Explicit denials terminate the proposal. A human or reviewer model cannot waive a rule that requires a separate authorized policy change. Read operations also need authorization because disclosure itself can be consequential.
+
+4. Give a contextual reviewer a bounded package: applicable policy version, trusted task, relevant verified prior receipts and permitted evidence. Ask whether the proposal fits the task and whether evidence is missing or contradictory. The reviewer may narrow or escalate an otherwise permitted proposal. It cannot grant authority beyond the deterministic boundary. Record a short reason and evidence references, rather than requesting hidden chain-of-thought.
+
+5. Distinguish ready, denied, needs-context, awaiting-approval and review-unavailable. An unavailable model is not evidence that an action is allowed. A workflow requiring contextual review remains held when it fails. Separately defined low-risk deterministic workflows may continue under their own policy; avoid silently converting a failure into an allow decision.
+
+6. If approval is required, persist a request addressed to an authorized role/person. Bind approval to this action version, content, recipients, policy and expiry. A plain chat “yes” must resolve to exactly one visible request and an authenticated authorized approver. Notifications contain only information the channel is allowed to reveal. Make the secure work card the authoritative decision surface.
+
+7. At execution, recheck current grants, approver authority, task status, resource versions, budget reservations and approval validity. Atomically claim the execution and write its durable dispatch intent. Where providers support conditional writes and idempotency keys, use them. A database transaction alone cannot make an external network action exactly once. Ambiguous provider outcomes require reconciliation before retry.
+
+8. Verify the external outcome and append an attributable receipt. Separate approved, dispatched, provider-accepted, verified, failed and outcome-unknown states. Update the business record only according to the verified result. Revoke task capabilities at completion or expiry, with bounded leases for disconnected workers. A pause acknowledgement must identify in-flight effects that could no longer be stopped.
+
+THE BYPASS PROBLEM
+
+A gateway only governs operations that traverse it. An agent with a broadly logged-in browser, unrestricted shell, exported connector token or desktop automation access may bypass an API gateway entirely. Design credentials and outbound capabilities so the agent cannot independently perform protected effects. Browser and desktop actions need equivalent mediation, resource boundaries and human takeover where a safe technical boundary is unavailable. “Every tool goes through the gateway” is an architecture requirement to demonstrate, not a promise inferred from an API proxy.
+
+Start as modules in the existing application: policy service, approval ledger, execution dispatcher and credential broker. A relational database can hold versioned actions, grants, approvals and an outbox; a durable worker handles waiting and reconciliation. Do not introduce a separate microservice for each box merely because the diagram separates responsibilities. Isolate the credential-bearing executor as the trust boundary requires, and add independent scaling when measured load or deployment risk justifies it. No new agent framework is required by this pattern.
+
+FEATURES AND UX TO TAKE
+
+An action card should answer: what changes; in which business or matter; who receives it; what value or files are involved; why it is needed; what evidence supports it; which rule requires review; who can approve; when it expires; and whether it has executed. Show a before/after change and a short readable summary. Put raw payloads in an engineer/audit view. Do not make users infer effects from tool names or large JSON objects.
+
+Offer approve once, request changes and reject. If content, supplier, recipient, amount or attachment changes, create a new proposal and invalidate the old approval. For business-configured high-risk changes such as supplier bank details, use separately authorized verification and, where required, independent approvers. Do not impose multiple approvers on every task. Provide delegation with explicit scope and expiry rather than a universal “always approve this agent” switch.
+
+Show the policy and context supporting a hold, plus the next practical step: identify the correct matter, attach the missing receipt, obtain manager approval or reconnect the right account. Treat needs-context as different from forbidden. Let users correct extraction without granting broader permission. Translate plain-English policy authoring into versioned, reviewable constraints and examples before publication. Ambiguous instructions stay draft until the authorized owner resolves them.
+
+Allow an owner to pause one responsibility, one connector or all future effects for a business, with clear acknowledgement and outstanding-work status. An agent registry needs business, owner, purpose, allowed capabilities, last successful run, pending reviews, expiry and retirement. When an employee leaves, reassignment is an explicit operational decision; credentials and unattended tasks must not silently retain that employee's authority.
+
+VARUN: A SUPPLIER ORDER
+
+Synthetic example: a Consu stock task proposes an order for INR 4,800. Extraction from a delivery photo and preparation of a draft are distinct from sending the order or posting an accounting entry. The action card binds Consu, the supplier account, approved line items, tax/currency, evidence and recipient. The number is illustrative, not a recommended spending threshold.
+
+If current Consu policy permits that exact reorder within the task's reserved budget, the deterministic boundary and contextual checks can permit execution. If manager approval is required, the order waits without calling the supplier connector. ForeFathers ownership does not supply a missing Consu grant. Splitting an INR 9,600 purchase into two INR 4,800 proposals must still check the aggregate committed and reserved budget for the relevant purpose and time window.
+
+After approval, a changed supplier, price or beneficiary invalidates it. A provider timeout means outcome unknown, not failed; the worker checks supplier-side status before retrying. Invoice posting requires its own authority and reconciliation evidence. Payment authorization does not follow automatically from order approval. Restaurant staff should see the next task and status; accounting details appear only to an authorized audience.
+
+RAMYA: COURT UPDATE TO ASSIGNED WORK
+
+Synthetic example: the system receives a notice for matter M-104, matches it to the existing matter and proposes a task for an authorized staff member with the current notice attached. Verify source, matter match, current date/version, staff access and the task-assignment policy. A confusing matter number or conflicting notice requires clarification before an action based on that uncertainty.
+
+Assignment, sharing a file externally, emailing a client and submitting a filing are separate effects. An internal assignment does not authorize disclosure to a client address or a different matter team. The approval card for external sharing shows the exact recipient and attachment version, with permitted source evidence. A principal's restricted note does not become shareable because it helped produce a summary. Filing and substantive legal decisions follow the firm's designated review process; the agent does not infer professional authority from being able to open the portal.
+
+If the assignee loses matter access between approval and execution, recheck and hold. If a newer notice arrives while approval is pending, supersede the stale proposal and show the material difference. The chain ends with an acknowledged assignment or verified external result, not merely a generated message saying it was done.
+
+HOW BEHAVIOR SHOULD IMPROVE
+
+Decawork does not publicly establish how its company-specific models are trained. Do not describe fine-tuning, reinforcement learning, private adapters or correction-driven updates as verified vendor implementation. For SupaBiz, begin with deterministic rules and a general contextual reviewer running in shadow mode. Build labeled examples from authorized workflow evidence, with sensitive data minimized before any external processing.
+
+Record the action, policy version, available evidence, reviewer result, human decision and eventual outcome separately. A human approval is not automatically the correct label: it can reflect haste, misunderstanding or missing information. Adjudicate disagreements and high-impact failures with qualified business owners. Use reason categories and explicit changes to policy or extraction behavior. Corrections become scoped learning candidates, with provenance and regression cases, preserving the earlier SB-AS-13 priority.
+
+Evaluate on held-out businesses/matters and time periods without future corrections leaking into earlier cases. Include both authorized and unauthorized near-identical proposals, prompt injection, changed recipients, replay, stale grants, partial failures and budget splitting. Distinguish policy compliance from task usefulness. A perfectly authorized but unnecessary action is still poor assistance. Consider a smaller specialized model only when measured throughput, latency and labeled coverage justify its training and maintenance costs.
+
+Compare deterministic policy alone, policy plus general reviewer, and policy plus candidate specialized reviewer on the same frozen cases. Required human approvals remain mandatory in every arm. Promote a reviewer version only after offline gates, shadow operation and bounded rollout with rollback. Do not automatically relax a permission because several users clicked approve. Cross-business model training needs an explicit authorized data arrangement; shared ownership is insufficient.
+
+PERFORMANCE, COMPLEXITY AND COST
+
+Let P be applicable policy predicates, B the canonical action bytes, H the selected history size, A the stored actions, W the pending approvals, and R the actions affected by a revocation. A simple predicate pass is O(P), plus database/network lookups. Canonical hashing is O(B); serialization/sorting cost depends on the chosen canonical format. Indexed history retrieval is approximately O(log A + H) for the relevant index and query, not a claim about every database plan. Pending approval state is O(W); retained action/audit storage is O(A times average record size), plus referenced evidence. Eager indexed invalidation is proportional to affected entries; broad tenant scans can be O(A).
+
+Model inference latency and token cost depend on the model, context size, hardware and concurrency, so a universal Big-O or speedup percentage would be misleading. Bound evidence and history rather than sending the entire business transcript for every call. Deterministic checks and credential retrieval must not leak disallowed context to the reviewer. Approval waiting should persist state and release workers; hold no model stream or compute session for hours while a person decides.
+
+End-to-end latency equals queueing, deterministic checks, context assembly, review, any human wait, execution and verification. Track p50/p95 separately for machine processing and human waiting. The gateway adds an extra synchronous boundary and can become a bottleneck; measure its availability and backpressure. Use policy-versioned caches for immutable supporting data, but do not let stale cached grants authorize an effect after revocation.
+
+Total cost includes reviewer tokens, policy database and audit storage, workers, evidence processing, reconciliation, integration upkeep and human review. Optimize cost per verified successful business task, with a separately reported safety failure rate. Cheaper model calls can be economically worse if they cause false blocks and repeated human work. No Decawork commercial price or SupaBiz measured uplift was established.
+
+An explicitly synthetic workload illustrates the accounting: 1,000 actions with 100 mandatory human reviews and 100 genuinely problematic actions would generate 200 review/hold events under a perfect triage assumption, versus 1,000 under approve-everything-manually. That is 80% fewer manual events, not an expected product improvement: real reviewer errors, overlapping categories, queueing and review effort change the result. The saved cost model states these assumptions and includes reviewer cost for all actions sent to the model. Use pilot measurements before committing to a percentage.
+
+IMPLEMENTATION ORDER AND RELEASE GATES
+
+Stage 1: define the action envelope, authoritative identity/business/matter resolution, deterministic policy checks and durable audit schema. Choose one reversible internal task workflow. Exercise denied, stale and duplicate actions before connecting a credential-bearing executor. Gate: attempts outside scope cannot reach the tool, including alternate paths.
+
+Stage 2: add exact-action approval cards, expiry, request changes, current-authority recheck, durable dispatch and outcome reconciliation. Pilot internal restaurant tasks and legal matter assignment; retain existing required professional approvals. Gate: no duplicate effect under retries, approval cannot survive material action changes, and unresolved provider results stay visible.
+
+Stage 3: add contextual review in shadow mode and a versioned replay set. Measure false allows on labeled disallowed cases, false blocks on allowed cases, abstention/coverage, human minutes, missed deadlines, cost and p95 latency. Report sample size and confidence; zero observed errors does not prove zero risk. Gate: preset workflow-specific acceptance thresholds and known bypass paths addressed.
+
+Stage 4: permit contextual review to escalate eligible live actions, then expand bounded autonomy only where policy and evidence support it. Evaluate specialized models as replaceable reviewer implementations. Add owner lifecycle controls, delegation and cross-business collaboration through independent receiving-business authorization. Keep an emergency stop and a tested rollback path.
+
+WHAT WE SHOULD REUSE AND WHAT WE MUST BUILD
+
+Reuse conceptual patterns now: task-aware review, separate agent identity, explainable decision cards, temporary authority and lifecycle visibility. Reuse our existing account connectors, relational records, durable jobs and evidence store where they meet the requirements. There is no verified Decawork code component to vendor into SupaBiz from this investigation.
+
+Build the SupaBiz-specific authority model, policy publication process, action/approval versions, recipient/matter boundaries, browser/desktop enforcement, cumulative budgets, idempotent dispatch, reconciliation and business-friendly review inbox. Treat a hosted Decawork integration as a future evaluate/buy option, contingent on documented API semantics, deployment and data terms, cost, bypass coverage, outage behavior, audit scope and our own adversarial tests.
+
+SAVED OUTPUT AND OPEN QUESTIONS
+
+This package adds 18 design candidates, two architecture/workflow diagrams, an illustrative action contract, a cost/complexity model, an interactive synthetic approval reader and 48 proposed acceptance scenarios. The scenarios are not executed product tests. Previous Glen and earlier learnings remain intact. No SupaBiz production security implementation or vendor integration is claimed.
+
+Unresolved vendor questions: decision API and schema; supported tool/browser paths; model training provenance and calibration; tenant boundaries and retention; latency/throughput; credential custody; approval binding and revocation races; provider reconciliation; model/version rollback; exportability and pricing. These are concrete due-diligence questions, not evidence of a defect. See investigation-checklist.json and metadata.json for their status.

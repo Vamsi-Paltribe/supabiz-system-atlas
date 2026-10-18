@@ -1,0 +1,186 @@
+HUE → SUPABIZ HARNESS / YC06
+2026-10-17
+Source commit: 9ba8077524baf4f0e34dd7b7a112061ca82cad8e
+
+WHAT WAS ACTUALLY INVESTIGATED
+Praxis’s twelve learnings remain saved. This sixth review studies Hue, the agent testing company at hue.run. It includes public product UI, official case-conversion and simulation documentation, selected TypeScript/Python source and seventeen selected checks against an installed Python SDK built from commit 9ba8077524baf4f0e34dd7b7a112061ca82cad8e. Reviewed package versions are TypeScript 0.19.1 and Python 0.12.1. The SDK repository is MIT-licensed and explicitly excludes the hosted application source.
+
+The original sandbox run passed three classification checks but could not bind loopback servers for ten other checks. The local-server rerun, expanded to cover file integrity and ownership, passed 17 checks with 182 deselected in 8.50 seconds. These are selected component tests with synthetic services, not a full SDK audit, production benchmark, live Hue experiment or SupaBiz implementation test. No customer data, real Hue credential, paid model call or vendor account was used. The checkout is unchanged. Dependency versions and machine-readable results are retained under probes/.
+
+THE ARCHITECTURAL LESSON
+Hue is useful because it pushes evaluation beyond whether an answer sounds right. A business agent acts inside a changing environment. The same request can demand different behavior depending on existing records, permissions, earlier actions, available documents and time. SupaBiz should therefore evaluate the combination of agent, harness and operational state.
+
+There are three distinct kinds of replay. Transcript playback supplies recorded observations and is useful for reproducing a known path. Stateful simulation lets alternative tool calls change a controlled world and is better for comparing behavior after a code or model change. Live integration tests check the real connector contract in a controlled account. None alone replaces the others. A recorded trace cannot reveal every unobserved fact in the original database. The case builder must label observed facts, author-supplied assumptions and unknowns.
+
+The practical design is a small executable model of SupaBiz’s business tools, not a complete imitation of every app. Begin with source messages, matter records, grants, assignments, calendar events and outbound messages. Add inventory events for Varun. Keep a closed set of supported operations; a legitimate unsupported call ends the case as environment-incomplete rather than receiving an invented response.
+
+HOW THE IMPROVEMENT LOOP SHOULD WORK
+Production observability records a permitted trace with stable identifiers for source evidence, tool actions, model/prompt/harness versions, approval decisions, outcomes, time and cost. An operator flags a failure or corrects a record. The incident is triaged into extraction, identity, planning, policy, tool contract, recovery, environment or evaluator failure; fix the actual layer instead of reflexively adding another prompt paragraph.
+
+The Make this a test action prepares a draft case. A reviewer confirms the task and allowed starting context, corrects the expected outcome and lists forbidden effects. The original failure is retained as diagnostic evidence but not provided as an answer key to the target. Generated tests require review because an LLM can encode the same misunderstanding into both agent and evaluator.
+
+Freeze the case, state, policy and scorer versions. Run the baseline and candidate against independent copies of the same initial world, using the same externally visible tool contracts. Compare final state and action journal, as well as explanation quality. Keep failed, invalid and unresolved cases visible. Only after release gates pass should a candidate enter a controlled pilot; observe real results and add the next confirmed failure to the corpus.
+
+This connects to the VERY IMPORTANT Asakana principle without conflating mechanisms. A corrected field updates a business record. A scoped memory rule changes future interpretation. A regression case tests that behavior. Prompt/code changes alter the harness. Fine-tuning changes model weights and is a separate optional intervention. Production traces are not automatic permission to train models or share legal documents.
+
+CONCRETE TESTS FOR RAMYA AND VARUN
+Ramya receives a court notice with two matter candidates sharing the same parties. The baseline incorrectly assigns the attachment to the first candidate. The case should begin with both matters, actual authorized identifiers, original notice and role grants. A passing candidate either resolves the right matter from evidence or asks a focused question when the fixture remains ambiguous. It must not silently create a new matter, expose the other matter’s documents or send an update without authority.
+
+For a confirmed hearing change, the assertions check the correct matter event, source reference, old-event supersession, authorized assignee and calendar result. A virtual clock advances to the reminder time; if a response already satisfied the dependency, no chase should be sent. To test recovery, simulate a remote write succeeding followed by a lost acknowledgement. The final world must contain one intended event rather than two.
+
+For Varun, a WhatsApp photo containing a purchase request can create a draft order but must not increase stock on hand. Receiving goods is a different event. A duplicate photo must not post a second receipt, and a correction of units must stay scoped to the relevant product/outlet/customer rule. Test a voice note whose transcript loses a negation, a blurry quantity and an outdated catalog mapping. An agent that asks for clarification may be correct; a high automatic-entry rate can hide unsafe assumptions.
+
+WHAT TO REUSE AND WHAT TO BUILD
+Reuse candidates: the MIT SDK’s OpenTelemetry integration, local target/scorer interfaces, pinned evaluation concepts, checkpoint/recovery patterns and historical rescoring. Existing OTel instrumentation can remain; avoid requiring a specific model provider or one tracing vendor. Retain license notices when copying code and pin the chosen package plus compatible dependencies. A public SDK client is not a self-hosted evaluation backend.
+
+Build for SupaBiz: our case schema, permission-aware evidence capture, matter/inventory fake services, approval invariants, virtual-clock integration, connector contract fixtures, domain outcome scorers, failure triage and a release decision dashboard. Use the existing harness through injected transports. An evaluation run should have restricted credentials and network access; missing simulator configuration must stop the run. Pay particular attention to code-execution tools, browser calls and remote MCP services that might bypass the injected boundary.
+
+Optional experiment: integrate Hue hosted evaluations later with synthetic fixtures if its released capabilities fit the pilot. The official simulation page currently marks the mirror gateway as preview and not released in Hue Cloud, and describes inactive official provider registrations. Its existing native simulation path has bounded semantics rather than universal Gmail/Slack parity. WhatsApp support for our workflow was not established. We should not make this hosted capability a critical dependency before validating availability and fidelity.
+
+Defer a general simulator of all apps, automatic promotion of AI-generated tests, autonomous production remediation and model training on raw traces. First make a small number of consequential workflows reproducible and measurable.
+
+DEVELOPER EXPERIENCE WORTH ADOPTING
+Give each incident a single page with request, original evidence, starting-state summary, action timeline and observed outcome. Place Create regression case next to the failure, followed by a review screen for task, assertions and assumptions. Display simulator coverage and data retention before the case becomes reusable. Missing snapshots or unsupported tools should be visible before someone spends money on a run.
+
+Give each experiment a manifest and per-case comparison. Show what changed in code/model/prompt/configuration, which cases improved, which regressed and which remain undecidable. Link a failing assertion directly to the affected record or action in the journal. Keep useful explanations separate from gate decisions: a subjective judge’s favorable comment must not override a deterministic access violation.
+
+Provide distinct Retry upload, Rescore saved evidence and Start fresh attempt actions. They have different effects and costs. Export case definitions and results in documented JSON with provenance, so another AI or engineer can challenge the reasoning. Report evidence level per case: verified simulated effects, recorded-response dependence, partial/advisory evidence or answer-only evaluation. Do not imply that an answer-only score verifies external work.
+
+FAILURE SEMANTICS AND IMPORTANT IMPLEMENTATION CAUTIONS
+The selected runner code saves execution progress and refuses to call a target again when execution is uncertain. Its checkpoint store uses private POSIX permissions, exclusive ownership, digests and atomic writes. These are useful mechanisms, but they do not make arbitrary external actions exactly once. Store business idempotency keys and reconcile uncertain remote state. A checksum detects accidental corruption; it is not an authenticity signature against an attacker able to rewrite both content and digest.
+
+The verdict source separates advisory and required outcomes. It also treats an unthresholded numeric metric as informational for pass calculation. Therefore SupaBiz must declare explicit boolean or threshold pass criteria for every release gate. A reported latency of 40 seconds does not fail a 10-second requirement unless that requirement is actually encoded. Preserve separate denominators: all scheduled cases, cases with valid environments and cases with final decisions. Hiding infrastructure errors makes the agent look better without making the system more reliable.
+
+Current Python content capture defaults to true. Set capture_content=False explicitly where metadata-only is intended, and separately set result persistence. Review arbitrary metadata fields, external instrumentors and other exporters too. SDK filtering is not a proof of complete PII removal. Model/provider keys must never become fixture data. A copied case attachment can survive trace deletion, so implement a lineage-aware retention/deletion policy across traces, cases, outputs, checkpoints and backups.
+
+Optional tracing may lose data instead of blocking work. Critical permission decisions and business audit records need durable transactional storage independent of that queue. A stored trace receipt proves selected telemetry arrived, not that the business action was correct. Keep evaluator-only reference files in an isolated execution boundary; the SDK’s same-user local process model is not a sandbox against an agent that can read the runner’s files.
+
+COMPLEXITY, COST AND SCALING
+Let N be cases, V candidate versions, R repetitions, A average actions, S average serialized initial state, J average journal bytes per action, K evaluators, C concurrent worlds and D retained output/media bytes per attempt. Full independent evaluation requires N×V×R target executions. A straightforward copy-and-journal simulator uses roughly O(NVR(S + AJ + D)) retained space; an immutable shared fixture with per-run deltas can reduce initial-state duplication, but deletion and isolation become more complex. Live working memory is approximately O(C(S + AJ)) plus model/context/transport buffers. These are proposed SupaBiz estimates, not measured Hue backend characteristics.
+
+Checking each final state or journal can cost O(K(S + A)) per attempt for a straightforward scan, excluding model-judge calls. Index the records and actions actually needed by common assertions. The reviewed TypeScript summarizeVerdicts code filters the whole result list for each case: if Q is the number of results, that portion is O(NQ), becoming O(N²K) when Q≈NK. A map keyed by subject can reduce grouping to O(Q + N) plus per-case scoring. This is a source-level inference, not a measured performance regression or proof that it matters at the current bounded run size.
+
+For 100 cases, three versions and three repetitions, plan 900 agent executions. If each uses five model calls, that is 4,500 calls before judge calls, retries or setup. Rerunning 900 saved outcomes with a changed rubric can avoid all 900 new agent executions when the stored evidence is sufficient; it still incurs scoring, storage and retrieval costs. A model or tool-policy change requires a new target run. Use actual token, page, audio and tool usage with current supplier prices; no numeric Hue commercial price was verified.
+
+Use a small risk-focused suite on each change, a broader suite before release and periodic holdout evaluation. Cache immutable fixtures/extraction, not mutable tool results that define the test. Limit concurrency by provider quotas and infrastructure budgets, and track queue delay separately from agent latency. More parallelism reduces elapsed time only until rate limits, contention or memory become the bottleneck. Paired cases and repeated stochastic runs improve comparison, but correlated repeated attempts are not independent samples. Do not promise a reliability percentage before a representative pilot.
+
+IMPLEMENTATION STAGES AND EVIDENCE GATES
+Stage 1 — evidence contract: instrument a synthetic SupaBiz workflow through OTel; create explicit capture settings and a versioned attempt manifest. Verify that disabled tracing, outage and queue saturation do not alter the business result or repeat tool calls. Confirm critical audit records survive independently.
+
+Stage 2 — smallest world: implement fake matter, calendar, task and grant services with a virtual clock and no production network access. Turn representative Ramya cases and the highest-risk inventory cases into executable fixtures. Validate fake tool contracts against controlled integration tests; label unsupported behavior.
+
+Stage 3 — incident conversion: add reviewed task/outcome criteria, immutable fixtures and deterministic business assertions. Run baseline/candidate comparisons, include permission/time/retry faults and retain honest non-pass states. Missing required evidence blocks release conclusions.
+
+Stage 4 — improvement workflow: connect confirmed corrections to regression cases, add holdouts and calibrated subjective judges, implement rescoring and cost budgets, and canary successful candidates with measured outcomes. Gates concern reproducible behavior and verified effects, not attractive aggregate scores. The accompanying SupaBiz scenarios are proposed, not executed; the only executed tests reported here are the selected Hue SDK checks.
+
+FOURTEEN FINDINGS
+
+HU-01 Turn reviewed incidents into regression cases
+Observed: Hue documents trace-to-case review before publication. [HU-S03]
+Our proposal: Add Make this a test to an incident or correction. Preserve task, authorized initial context, original failure and reviewed desired outcome. Require a person to check generated assertions. Link SB-AS-13: a business correction and a new generalized rule remain different decisions. The failed output is diagnostic evidence, not automatically the correct answer.
+Measure: Time from incident to reproducible case; repeated incident rate; reviewed assertion coverage.
+
+HU-02 Test a stateful world, not only a prompt
+Observed: Hue documents fresh worlds with action journals and initial/final state. [HU-S04, HU-S10]
+Our proposal: Model a minimal matter store, mailbox, task list, calendar and grants. Tools must read the state changed by earlier tools. Give every test a fresh world and record normalized effects. For restaurants, model stock receipt separately from purchase-order drafting. Recorded response playback can help reproduce a bug, but divergent actions need semantic tool behavior or an explicit coverage gap.
+Measure: State invariant pass rate; unsupported operation rate; unintended effects; reset isolation.
+
+HU-03 Exercise the same agent and tool boundary
+Observed: The SDK runs local targets; CLI documentation describes redirecting existing clients. [HU-S04, HU-S12]
+Our proposal: Keep SupaBiz orchestration, policy checks and tool schemas the same in evaluation. Inject fake service transports at a defined boundary. In test mode refuse missing world configuration, remove production credentials and deny production network destinations. A redirect variable alone is not sufficient: browser paths, code execution and remote tools also need isolation.
+Measure: Production endpoint escapes; adapter contract drift; proportion of real tool paths exercised.
+
+HU-04 Pin the entire experiment
+Observed: SDK runner binds dataset/scorer/config identity and refuses conflicting checkpoints. [HU-S06, HU-S07, HU-S08]
+Our proposal: Version fixture data, virtual time, tool schemas, role grants, prompt, model settings, memory snapshot, harness commit and scorer definitions. Keep an immutable attempt manifest and state digest. Record provider version limitations: a seed or pinned name does not guarantee identical remote model output.
+Measure: Reproduction success; unexplained version differences; stale-case execution.
+
+HU-05 Score effects and forbidden actions
+Observed: Verdict logic separates mandatory outcomes from advisory results. [HU-S09]
+Our proposal: For Ramya assert the correct matter changed, the hearing date retained its source, an authorized assignment exists, and no unapproved message was sent. Use deterministic assertions for IDs, revisions, grants and quantities. Use a calibrated model judge for explanation quality only where needed. A fluent Done message cannot compensate for missing work or a prohibited effect.
+Measure: Verified outcome rate; unauthorized effects; false positive pass rate.
+
+HU-06 Preserve honest non-pass states
+Observed: SDK and docs distinguish missing results, evaluator errors and environment gaps. [HU-S04, HU-S09, HU-S10, HU-S18]
+Our proposal: Report passed, failed, pending, inconclusive, evaluator_error, environment_incomplete and infrastructure_error separately. A missing judge or unsupported connector must never become green. Keep all scheduled cases in a coverage denominator; also show agent quality conditional on valid completed environments. Do not attribute every timeout to model quality.
+Measure: Decision coverage; unresolved run count; infrastructure failure rate; conditional quality.
+
+HU-07 Freeze and advance business time
+Observed: worldNow exposes the simulated clock separately from wall time. [HU-S11]
+Our proposal: Inject a clock into SupaBiz deadline extraction, calendar logic and reminders. Test tomorrow in Asia/Kolkata, a rescheduled hearing, a delayed client reply and cancellation before a reminder fires. In evaluation require a valid clock instead of falling back to the real current date. Keep time-zone and calendar-rule versions explicit.
+Measure: Date-type mistakes; stale reminder sends; repeatability across execution dates.
+
+HU-08 Recover evaluation delivery without repeating business work
+Observed: Selected installed SDK tests verified saved completion recovery and refusal on uncertain starts. [HU-S07, HU-S08, HU-S15]
+Our proposal: Separate target execution, saved outcome, result upload and scoring. Retry idempotent uploads with stable keys. If an action may already have happened and the outcome is missing, stop and reconcile. A new attempt is explicit and gets a fresh isolated world. Do not market this as a universal exactly-once guarantee.
+Measure: Duplicate effects after interruption; recoverable uploads; unresolved uncertain attempts.
+
+HU-09 Rescore existing evidence cheaply
+Observed: Python rescore has no target callback; missing output is explicitly unavailable. [HU-S06, HU-S07]
+Our proposal: When the rubric changes, evaluate saved permitted outputs and sealed journals without another agent run. When the model, harness or starting state changes, run a new experiment. Preserve old scores and scorer identities. Skip or mark inconclusive when retained evidence is insufficient rather than reconstructing it from guesses.
+Measure: Agent/model calls avoided; rescore coverage; evidence retention cost.
+
+HU-10 Separate telemetry privacy from evaluation retention
+Observed: Current SDK defaults capture to true; result persistence is an independent choice. [HU-S06, HU-S14, HU-S15]
+Our proposal: Configure metadata-only capture explicitly by default for SupaBiz customer work. Use authorized minimized or synthetic evidence for debugging and cases. Decide content capture, result persistence, media copying and retention separately. Case copies, checkpoints, search indexes and backups need deletion lineage; deleting a trace may not delete its derived test case.
+Measure: Sensitive-content escape tests; deletion coverage; useful reproduction under minimization.
+
+HU-11 Keep observability optional and loss visible
+Observed: Reliability contract and selected tests preserve application behavior during tracing failures. [HU-S13, HU-S16, HU-S17]
+Our proposal: Bound queues and export deadlines. A telemetry outage must not repeat assignments or block unrelated user work. Alert through an independent health path. Distinguish exported, acknowledged, stored and complete traces. Mandatory audit/approval records belong in the transactional business system, not only a best-effort tracing queue.
+Measure: Tracing overhead; dropped spans; unchanged business invocation count; audit completeness.
+
+HU-12 Verify media and protect evaluator references
+Observed: Selected installed tests checked pinned file integrity and evaluator-only file handling. [HU-S06, HU-S15]
+Our proposal: Pin screenshots, voice clips, PDFs and video segments by bytes and digest; record extraction/model settings and explicit missing-media states. Keep answer keys and evaluator-only files outside the agent process/container permissions. A same-user filesystem convention does not isolate an untrusted coding agent. Validate visual/audio outcomes, not just transcript text.
+Measure: Corrupted/missing media detection; answer-key leakage; modality-specific error rates.
+
+HU-13 Compare versions by case and risk slice
+Observed: Public UX illustrates comparisons; SDK verdicts expose per-case status. [HU-S02, HU-S09]
+Our proposal: Show a release diff: fixed, regressed, unchanged, invalid and pending cases, grouped by workflow, severity, language, modality and permission boundary. Require critical invariants to pass independently of average quality. Repeat stochastic cases and retain a holdout set; the same incident used to tune a prompt is not independent proof of generalization.
+Measure: Critical regressions; paired outcome changes; repeatability; latency and cost per verified workflow.
+
+HU-14 Track simulator coverage as a product
+Observed: Hue has explicit coverage-gap evidence and documented maturity limits. [HU-S04, HU-S10]
+Our proposal: Maintain a matrix for each connector operation: captured, simulated, contract-tested against a controlled provider account, fault-tested and unknown. Prefer a small accurate SupaBiz fake service over a broad fictional clone. Compare representative response shapes and effects against real test accounts before interpreting simulator scores as production evidence.
+Measure: Operation coverage; simulator/provider disagreements; environment-incomplete cases.
+
+SOURCE INDEX
+HU-S01 https://www.ycombinator.com/companies/hue
+Correct target: Hue / hue.run, founders Aneesh Kethini and Josh Le. Production-derived repeatable agent testing.
+HU-S02 https://hue.run/
+Observability, suggestions, replays and evaluation illustrations. These are marketing examples, not measured runs; provider-logo illustration explicitly disclaims support. Compliance claims not independently audited.
+HU-S03 https://docs.hue.run/evaluations/case-from-trace
+Human review of task, intended outcome, generated criteria and starting world. Answer-only and world cases have different evidence tiers. Copied case files can outlive trace deletion. No hosted conversion executed.
+HU-S04 https://docs.hue.run/evaluations/simulations
+Isolated worlds, journals and virtual clocks. Mirror gateway marked preview/not released in Hue Cloud; provider registrations described as inactive. Native simulation MCP is the documented runnable hosted path. No live fidelity test.
+HU-S05 https://github.com/hue-run/hue-sdk/blob/9ba8077524baf4f0e34dd7b7a112061ca82cad8e/README.md
+MIT SDK only; hosted application source excluded. SDK can use OTLP receivers; hosted services still require access.
+HU-S06 https://github.com/hue-run/hue-sdk/blob/9ba8077524baf4f0e34dd7b7a112061ca82cad8e/packages/sdk-python/EVALUATIONS.md
+Pinned datasets/scorers, independent result-content policy, recovery and historical rescoring.
+HU-S07 https://github.com/hue-run/hue-sdk/blob/9ba8077524baf4f0e34dd7b7a112061ca82cad8e/packages/sdk-python/src/hue_sdk/evals/runner.py
+run_experiment at 396; uncertain checkpoint handling at 539 onward; rescore at 748. Source inspected and selected installed-package checks passed.
+HU-S08 https://github.com/hue-run/hue-sdk/blob/9ba8077524baf4f0e34dd7b7a112061ca82cad8e/packages/sdk-python/src/hue_sdk/evals/_checkpoint.py
+Private POSIX checkpoint directory, exclusive lock, integrity envelope and atomic fsynced writes. No automatic stale-lock deletion.
+HU-S09 https://github.com/hue-run/hue-sdk/blob/9ba8077524baf4f0e34dd7b7a112061ca82cad8e/packages/sdk-typescript/src/evals/verdicts.ts
+Separate pending/error/skipped/scored outcomes, advisory/required evaluator handling. Numeric metrics need explicit pass criteria; per-case filtering scans the result collection.
+HU-S10 https://github.com/hue-run/hue-sdk/blob/9ba8077524baf4f0e34dd7b7a112061ca82cad8e/packages/sdk-typescript/src/evals/environment-evidence.ts
+Bounded journal evidence, version/execution identity checks, explicit environment-incomplete validity. No reported gap does not establish parity.
+HU-S11 https://github.com/hue-run/hue-sdk/blob/9ba8077524baf4f0e34dd7b7a112061ca82cad8e/packages/sdk-typescript/src/environment/world.ts
+worldNow returns null if missing/invalid; world handoff and control-plane credential filtering. A configuration helper is not a network sandbox.
+HU-S12 https://github.com/hue-run/hue-sdk/blob/9ba8077524baf4f0e34dd7b7a112061ca82cad8e/packages/sdk-typescript/CLI.md
+Same-client mirror routing; child process excludes Hue control-plane keys by default but inherits other environment values. Production endpoint escape still needs independent prevention.
+HU-S13 https://github.com/hue-run/hue-sdk/blob/9ba8077524baf4f0e34dd7b7a112061ca82cad8e/RELIABILITY.md
+Optional tracing preserves business results, bounds queues and surfaces loss. Safe failure is not a guarantee of durable evidence.
+HU-S14 https://github.com/hue-run/hue-sdk/blob/9ba8077524baf4f0e34dd7b7a112061ca82cad8e/packages/sdk-python/src/hue_sdk/client.py
+Content capture defaults true at the reviewed version. Explicit capture_content=False is required for metadata-only behavior; arbitrary metadata and other exporters still need policy.
+HU-S15 https://github.com/hue-run/hue-sdk/blob/9ba8077524baf4f0e34dd7b7a112061ca82cad8e/packages/sdk-python/tests/test_evaluations.py
+Recovery without duplicate target calls; result privacy; uncertain execution; exclusive ownership; file integrity and evaluator-only file separation.
+HU-S16 https://github.com/hue-run/hue-sdk/blob/9ba8077524baf4f0e34dd7b7a112061ca82cad8e/packages/sdk-python/tests/test_isolation.py
+Tracing/redactor failure and retries preserve original business result/error and invocation count.
+HU-S17 https://github.com/hue-run/hue-sdk/blob/9ba8077524baf4f0e34dd7b7a112061ca82cad8e/packages/sdk-python/tests/test_receipts.py
+Stored trace/field presence and redirect credential behavior; receipts do not prove task correctness.
+HU-S18 https://github.com/hue-run/hue-sdk/blob/9ba8077524baf4f0e34dd7b7a112061ca82cad8e/packages/sdk-python/src/hue_sdk/evals/_failure.py
+Distinguishes world setup, configuration, service, connection, timeout and target failures. Exception classification is heuristic, not root-cause proof.
+HU-S19 https://github.com/hue-run/hue-sdk/blob/9ba8077524baf4f0e34dd7b7a112061ca82cad8e/LICENSE
+MIT applies to this repository; retain notices when reusing code. No hosted platform self-hosting right established.

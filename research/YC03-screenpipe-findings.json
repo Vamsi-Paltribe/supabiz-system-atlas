@@ -1,0 +1,562 @@
+{
+  "id": "YC03-screenpipe",
+  "date": "2026-10-17",
+  "scope": "Selected pinned source; no application runtime audit",
+  "findings": [
+    {
+      "id": "SP-01",
+      "title": "Commercial source-available, not unrestricted open source",
+      "evidence_class": "selected source",
+      "observation": "The current license permits specified research and evaluation uses but requires paid licensing for commercial use and restricts embedding, redistribution and competing offerings. Its reference to previously MIT versions does not identify a legacy version suitable for our needs.",
+      "supabiz_decision": "Learn and independently implement product patterns. Evaluate a licensed integration separately; do not put current source or upstream UI assets into SupaBiz by assuming MIT rights.",
+      "evidence": [
+        {
+          "path": "LICENSE.md",
+          "lines": [
+            1,
+            90
+          ],
+          "url": "https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/LICENSE.md#L1-L90"
+        }
+      ]
+    },
+    {
+      "id": "SP-02",
+      "title": "A versioned work inbox instead of disposable suggestions",
+      "evidence_class": "selected source",
+      "observation": "Interactive list items support resolve, snooze, correct, dismiss and reopen. The server validates output ID/version, action availability and correction/snooze values before appending an action. The UI exposes handled receipts and reversible decisions.",
+      "supabiz_decision": "Adopt a work-card UX with business, matter/outlet, owner, source, due date, confidence and next action. Keep personal snooze separate from official deadlines. A Done click is acknowledgement; business completion needs result evidence.",
+      "evidence": [
+        {
+          "path": "apps/screenpipe-app-tauri/components/settings/live-view-item-controls.tsx",
+          "lines": [
+            118,
+            234
+          ],
+          "url": "https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/apps/screenpipe-app-tauri/components/settings/live-view-item-controls.tsx#L118-L234"
+        },
+        {
+          "path": "crates/screenpipe-engine/src/structured_outputs.rs",
+          "lines": [
+            753,
+            869
+          ],
+          "url": "https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/crates/screenpipe-engine/src/structured_outputs.rs#L753-L869"
+        }
+      ]
+    },
+    {
+      "id": "SP-03",
+      "title": "Answers and workflow steps lead back to the exact evidence",
+      "evidence_class": "selected source",
+      "observation": "Citation footers open sources or timeline context. Workflow steps can bind an exact frame and replay a filtered time range. Screenshot retrieval is lazy, has loading/unavailable/retry states, and distinguishes evidence without visual verification.",
+      "supabiz_decision": "Make Show why a first-class control. Open the original court email, message, photo or document version. Recheck grants when opened and show deleted/expired/unavailable evidence honestly. An observed screen is not proof that a remote write committed.",
+      "evidence": [
+        {
+          "path": "apps/screenpipe-app-tauri/components/chat/source-citation-footer.tsx",
+          "lines": [
+            100,
+            179
+          ],
+          "url": "https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/apps/screenpipe-app-tauri/components/chat/source-citation-footer.tsx#L100-L179"
+        },
+        {
+          "path": "packages/workflows-ui/src/workflow-step-evidence.tsx",
+          "lines": [
+            28,
+            102
+          ],
+          "url": "https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/packages/workflows-ui/src/workflow-step-evidence.tsx#L28-L102"
+        },
+        {
+          "path": "packages/workflows-ui/src/use-source-screenshot.ts",
+          "lines": [
+            12,
+            48
+          ],
+          "url": "https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/packages/workflows-ui/src/use-source-screenshot.ts#L12-L48"
+        }
+      ]
+    },
+    {
+      "id": "SP-04",
+      "title": "Observe a process, investigate gaps, review, then maintain it",
+      "evidence_class": "selected source",
+      "observation": "Scheduled discovery separates four roles and installs templates disabled. Publication resolves evidence outside the write lock, then rechecks workflow revision and permissions before committing. This reduces lock hold time while retaining conflict checks.",
+      "supabiz_decision": "Let Ramya demonstrate a synthetic matter-intake workflow. Draft its steps, exceptions and evidence; ask missing questions; require review and sandbox tests before granting limited execution. Observed repetition alone must never create a standing action permission.",
+      "evidence": [
+        {
+          "path": "apps/screenpipe-app-tauri/lib/workflows/scheduled-discovery.ts",
+          "lines": [
+            9,
+            92
+          ],
+          "url": "https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/apps/screenpipe-app-tauri/lib/workflows/scheduled-discovery.ts#L9-L92"
+        },
+        {
+          "path": "crates/screenpipe-engine/src/routes/workflow_catalog.rs",
+          "lines": [
+            393,
+            505
+          ],
+          "url": "https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/crates/screenpipe-engine/src/routes/workflow_catalog.rs#L393-L505"
+        }
+      ]
+    },
+    {
+      "id": "SP-05",
+      "title": "Voice clarification with human edit precedence",
+      "evidence_class": "selected source",
+      "observation": "Workflow questions merge answers, require a supporting quote to appear in the transcript, and preserve manual edits against late AI results. The UI offers uncertainty and undo. Evidence relinking preserves the written procedure order.",
+      "supabiz_decision": "Offer Speak correction, Not sure and Undo for busy managers. Store transcript, extracted fields and provenance separately. A matching quote is a grounding check, not semantic validation; benchmark names, dates, amounts and Hindi/English/Hinglish.",
+      "evidence": [
+        {
+          "path": "packages/workflows-ui/src/workflow-questions.tsx",
+          "lines": [
+            19,
+            98
+          ],
+          "url": "https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/packages/workflows-ui/src/workflow-questions.tsx#L19-L98"
+        },
+        {
+          "path": "packages/workflows-ui/src/guide-source-review.tsx",
+          "lines": [
+            13,
+            48
+          ],
+          "url": "https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/packages/workflows-ui/src/guide-source-review.tsx#L13-L48"
+        }
+      ]
+    },
+    {
+      "id": "SP-06",
+      "title": "Use accessibility structure before OCR",
+      "evidence_class": "selected source",
+      "observation": "Paired capture associates accessibility metadata with the focused monitor, detaches incoherent text geometry from pixels, and falls back to OCR for inadequate accessibility content and selected cases. A shared OCR semaphore bounds expensive work; its permit stays held until the blocking worker actually finishes.",
+      "supabiz_decision": "Build a modality ladder: connector fields first, accessibility next, OCR/vision only when needed, audio transcription when authorized. Preserve source type and uncertainty. Never project coordinates from a stale or different monitor snapshot onto a live action.",
+      "evidence": [
+        {
+          "path": "crates/screenpipe-capture/src/paired_capture.rs",
+          "lines": [
+            52,
+            77
+          ],
+          "url": "https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/crates/screenpipe-capture/src/paired_capture.rs#L52-L77"
+        },
+        {
+          "path": "crates/screenpipe-capture/src/paired_capture.rs",
+          "lines": [
+            285,
+            383
+          ],
+          "url": "https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/crates/screenpipe-capture/src/paired_capture.rs#L285-L383"
+        }
+      ]
+    },
+    {
+      "id": "SP-07",
+      "title": "Commit deduplication only after durable storage",
+      "evidence_class": "selected source",
+      "observation": "The OCR gate compares a per-app pixel hash against the last durably indexed state. The caller promotes pending state only after the database insertion succeeds and OCR did not fail. A→B→A can still require OCR again; this is not unlimited history deduplication.",
+      "supabiz_decision": "Use the same acknowledgement principle for WhatsApp/email cursors: do not mark an event processed before evidence and required records are durable. Use native event identity for business dedupe; identical text is not proof of the same order or payment.",
+      "evidence": [
+        {
+          "path": "crates/screenpipe-capture/src/ocr_gate.rs",
+          "lines": [
+            93,
+            147
+          ],
+          "url": "https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/crates/screenpipe-capture/src/ocr_gate.rs#L93-L147"
+        },
+        {
+          "path": "crates/screenpipe-capture/src/paired_capture.rs",
+          "lines": [
+            741,
+            787
+          ],
+          "url": "https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/crates/screenpipe-capture/src/paired_capture.rs#L741-L787"
+        }
+      ]
+    },
+    {
+      "id": "SP-08",
+      "title": "Bound background work and expose degraded ingestion",
+      "evidence_class": "selected source",
+      "observation": "Event-driven capture also has periodic idle fallback; focus tiers vary cadence. Database writes use a bounded queue (4096), batches up to 500 and health/degradation state. Recording coverage distinguishes recording, stalled, paused and idle.",
+      "supabiz_decision": "Adopt bounded queues, per-device budgets and last-success/cursor-lag displays. Connected is not fresh. Static-screen dedupe heartbeats are useful liveness evidence but do not prove that every relevant business event was observed.",
+      "evidence": [
+        {
+          "path": "crates/screenpipe-engine/src/event_driven_capture.rs",
+          "lines": [
+            1,
+            55
+          ],
+          "url": "https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/crates/screenpipe-engine/src/event_driven_capture.rs#L1-L55"
+        },
+        {
+          "path": "crates/screenpipe-engine/src/focus_aware_controller.rs",
+          "lines": [
+            20,
+            43
+          ],
+          "url": "https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/crates/screenpipe-engine/src/focus_aware_controller.rs#L20-L43"
+        },
+        {
+          "path": "crates/screenpipe-db/src/write_queue.rs",
+          "lines": [
+            1,
+            85
+          ],
+          "url": "https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/crates/screenpipe-db/src/write_queue.rs#L1-L85"
+        },
+        {
+          "path": "crates/screenpipe-engine/src/recording_coverage.rs",
+          "lines": [
+            5,
+            64
+          ],
+          "url": "https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/crates/screenpipe-engine/src/recording_coverage.rs#L5-L64"
+        }
+      ]
+    },
+    {
+      "id": "SP-09",
+      "title": "Semantic records carry identity quality and clock context",
+      "evidence_class": "selected source",
+      "observation": "The semantic model distinguishes stable native IDs, derived IDs and ephemeral IDs; includes source nodes and timestamp precision. Messaging normalization uses captured time, timezone and locale, preserving missing context instead of inventing a date. Handled-empty and unsupported parsing are different outcomes.",
+      "supabiz_decision": "Carry identity quality, captured_at, occurred_at, timezone, precision, raw label and evidence reference into SupaBiz observations. Use native email/message IDs where available. Unknown matter or ambiguous hearing date needs clarification, not automatic assignment.",
+      "evidence": [
+        {
+          "path": "crates/screenpipe-semantic/src/model.rs",
+          "lines": [
+            187,
+            284
+          ],
+          "url": "https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/crates/screenpipe-semantic/src/model.rs#L187-L284"
+        },
+        {
+          "path": "crates/screenpipe-semantic/src/messaging.rs",
+          "lines": [
+            25,
+            54
+          ],
+          "url": "https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/crates/screenpipe-semantic/src/messaging.rs#L25-L54"
+        },
+        {
+          "path": "crates/screenpipe-db/src/db/source_identity.rs",
+          "lines": [
+            21,
+            100
+          ],
+          "url": "https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/crates/screenpipe-db/src/db/source_identity.rs#L21-L100"
+        }
+      ]
+    },
+    {
+      "id": "SP-10",
+      "title": "A WhatsApp screen parser is not a WhatsApp ingestion service",
+      "evidence_class": "selected source",
+      "observation": "The parser catalog includes WhatsApp native/web and other app-specific semantic parsers. They operate on captured accessible observations. That does not establish complete history, background groups, attachments, edits/deletes or reliable server cursor continuity.",
+      "supabiz_decision": "Retain the selected-group WhatsApp connector and Gmail connector as primary sources. Desktop context can fill a workflow gap with explicit coverage limits; do not silently treat it as the authoritative group archive.",
+      "evidence": [
+        {
+          "path": "crates/screenpipe-semantic/src/parsers/catalog.rs",
+          "lines": [
+            618,
+            635
+          ],
+          "url": "https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/crates/screenpipe-semantic/src/parsers/catalog.rs#L618-L635"
+        }
+      ]
+    },
+    {
+      "id": "SP-11",
+      "title": "Small model context can still preserve original evidence",
+      "evidence_class": "selected source + isolated helper checks",
+      "observation": "MCP search formatting retains valid source IDs and truncation indicators; historical automation nodes are bounded and explicitly described as non-authorizing. Twelve isolated checks exercised source helpers with synthetic input; null becomes unlimited at one helper boundary, without proving the external schema accepts it.",
+      "supabiz_decision": "Retrieve small snippets plus durable IDs, then fetch detail on demand. Enforce an aggregate token/byte budget outside per-hit limits. Treat all captured text as untrusted data. Reobserve the live target and reauthorize before any action.",
+      "evidence": [
+        {
+          "path": "packages/screenpipe-mcp/src/search-result.ts",
+          "lines": [
+            1,
+            69
+          ],
+          "url": "https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/packages/screenpipe-mcp/src/search-result.ts#L1-L69"
+        },
+        {
+          "path": "packages/screenpipe-mcp/src/workflow-tools.ts",
+          "lines": [
+            1,
+            85
+          ],
+          "url": "https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/packages/screenpipe-mcp/src/workflow-tools.ts#L1-L85"
+        }
+      ]
+    },
+    {
+      "id": "SP-12",
+      "title": "Search filters and bounded candidates matter more than a vector database label",
+      "evidence_class": "selected source",
+      "observation": "SQLite/FTS search combines source/time/app filters with candidate IDs and later joins. Mixed-content pagination fetches limit+offset per branch, sorts the combined candidates, then slices. Deep offsets therefore amplify work. Semantic extraction and source navigation also have value without embedding every frame.",
+      "supabiz_decision": "Start with exact IDs, business/matter grants, structured fields and full-text retrieval. Add vector retrieval only for measured recall gaps. Use stable cursor pagination and evaluate representative indexes/query plans before scale commitments.",
+      "evidence": [
+        {
+          "path": "crates/screenpipe-db/src/db/search.rs",
+          "lines": [
+            238,
+            290
+          ],
+          "url": "https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/crates/screenpipe-db/src/db/search.rs#L238-L290"
+        },
+        {
+          "path": "crates/screenpipe-db/src/db/search.rs",
+          "lines": [
+            591,
+            597
+          ],
+          "url": "https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/crates/screenpipe-db/src/db/search.rs#L591-L597"
+        },
+        {
+          "path": "crates/screenpipe-db/src/db/search.rs",
+          "lines": [
+            790,
+            900
+          ],
+          "url": "https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/crates/screenpipe-db/src/db/search.rs#L790-L900"
+        }
+      ]
+    },
+    {
+      "id": "SP-13",
+      "title": "Selective capture and clear permission recovery",
+      "evidence_class": "selected source",
+      "observation": "Onboarding explains screen, microphone and accessibility permissions separately; permission recovery polls with stale-response protection. Capture filters include app/window/domain policy and fail-closed URL handling, but platform capture strategies differ and need separate tests.",
+      "supabiz_decision": "Ask for the permission needed by the selected workflow, with a visible pause state and exclusion controls. Keep personal context private unless a specific business evidence item is released. Do not start with blanket keyboard, clipboard, microphone and full-desktop capture.",
+      "evidence": [
+        {
+          "path": "apps/screenpipe-app-tauri/components/onboarding/permissions-step.tsx",
+          "lines": [
+            164,
+            215
+          ],
+          "url": "https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/apps/screenpipe-app-tauri/components/onboarding/permissions-step.tsx#L164-L215"
+        },
+        {
+          "path": "apps/screenpipe-app-tauri/app/permission-recovery/page.tsx",
+          "lines": [
+            142,
+            185
+          ],
+          "url": "https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/apps/screenpipe-app-tauri/app/permission-recovery/page.tsx#L142-L185"
+        },
+        {
+          "path": "crates/screenpipe-a11y/src/url_filter.rs",
+          "lines": [
+            94,
+            112
+          ],
+          "url": "https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/crates/screenpipe-a11y/src/url_filter.rs#L94-L112"
+        },
+        {
+          "path": "crates/screenpipe-screen/src/capture_screenshot_by_window.rs",
+          "lines": [
+            1003,
+            1100
+          ],
+          "url": "https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/crates/screenpipe-screen/src/capture_screenshot_by_window.rs#L1003-L1100"
+        }
+      ]
+    },
+    {
+      "id": "SP-14",
+      "title": "Canonicalize credentials before checking capabilities",
+      "evidence_class": "selected source; conditional risk, no exploit run",
+      "observation": "Outer API auth accepts registered pipe tokens in header/cookie/query. Pipe permission middleware extracts only header tokens and leaves other requests without pipe restrictions. This is a conditional source-level widening risk for a caller already holding an active restricted token, not a demonstrated unauthenticated exploit.",
+      "supabiz_decision": "Create one typed Principal from the credential once, then carry it through policy and handlers. Test identical scope decisions for every supported transport. Default local API is authenticated loopback; LAN explicitly forces auth, so do not misdescribe default exposure.",
+      "evidence": [
+        {
+          "path": "crates/screenpipe-engine/src/server.rs",
+          "lines": [
+            365,
+            374
+          ],
+          "url": "https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/crates/screenpipe-engine/src/server.rs#L365-L374"
+        },
+        {
+          "path": "crates/screenpipe-engine/src/server.rs",
+          "lines": [
+            1631,
+            1668
+          ],
+          "url": "https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/crates/screenpipe-engine/src/server.rs#L1631-L1668"
+        },
+        {
+          "path": "crates/screenpipe-engine/src/pipe_permissions_middleware.rs",
+          "lines": [
+            54,
+            118
+          ],
+          "url": "https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/crates/screenpipe-engine/src/pipe_permissions_middleware.rs#L54-L118"
+        },
+        {
+          "path": "crates/screenpipe-engine/src/recording_config.rs",
+          "lines": [
+            452,
+            464
+          ],
+          "url": "https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/crates/screenpipe-engine/src/recording_config.rs#L452-L464"
+        }
+      ]
+    },
+    {
+      "id": "SP-15",
+      "title": "Local-first and privacy filtering need explicit egress definitions",
+      "evidence_class": "selected source",
+      "observation": "The query-time privacy filter sends original text to an attested Tinfoil service, skips strings shorter than eight characters and returns an error rather than raw fallback on filter failure. This is distinct from local capture redaction. Current enterprise direct-upload code describes plaintext JSONL protected by TLS/storage IAM, not client-side end-to-end encryption.",
+      "supabiz_decision": "Show where each data type goes. Prefer local minimization and scoped release for desktop context; independently verify redaction recall. A cloud model must receive only authorized selected evidence. Choose encryption and customer-key arrangements explicitly.",
+      "evidence": [
+        {
+          "path": "crates/screenpipe-engine/src/privacy_filter.rs",
+          "lines": [
+            122,
+            184
+          ],
+          "url": "https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/crates/screenpipe-engine/src/privacy_filter.rs#L122-L184"
+        },
+        {
+          "path": "crates/screenpipe-engine/src/routes/search.rs",
+          "lines": [
+            1630,
+            1639
+          ],
+          "url": "https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/crates/screenpipe-engine/src/routes/search.rs#L1630-L1639"
+        },
+        {
+          "path": "apps/screenpipe-app-tauri/src-tauri/src/enterprise/upload.rs",
+          "lines": [
+            5,
+            26
+          ],
+          "url": "https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/apps/screenpipe-app-tauri/src-tauri/src/enterprise/upload.rs#L5-L26"
+        }
+      ]
+    },
+    {
+      "id": "SP-16",
+      "title": "Privacy release is a separate state from capture",
+      "evidence_class": "selected source",
+      "observation": "Protected reads can check revocation epochs before and after handlers, deny unsupported routes and report pending/unknown. Export code revalidates deletions after network waits. Gateway policy denies unmapped routes and stale signed policies.",
+      "supabiz_decision": "Use captured → classified → authorized for release as separate stages. Recheck business/matter grants and deletion state at retrieval/export boundaries. Give users a visible pending/revoked state. Data already transmitted cannot be recalled by a later local filter.",
+      "evidence": [
+        {
+          "path": "crates/screenpipe-engine/src/routes/privacy_release.rs",
+          "lines": [
+            18,
+            61
+          ],
+          "url": "https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/crates/screenpipe-engine/src/routes/privacy_release.rs#L18-L61"
+        },
+        {
+          "path": "apps/screenpipe-app-tauri/src-tauri/src/enterprise/export_filter.rs",
+          "lines": [
+            53,
+            109
+          ],
+          "url": "https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/apps/screenpipe-app-tauri/src-tauri/src/enterprise/export_filter.rs#L53-L109"
+        },
+        {
+          "path": "crates/screenpipe-gateway/src/auth.rs",
+          "lines": [
+            421,
+            451
+          ],
+          "url": "https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/crates/screenpipe-gateway/src/auth.rs#L421-L451"
+        },
+        {
+          "path": "crates/screenpipe-gateway/src/auth.rs",
+          "lines": [
+            483,
+            518
+          ],
+          "url": "https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/crates/screenpipe-gateway/src/auth.rs#L483-L518"
+        }
+      ]
+    },
+    {
+      "id": "SP-17",
+      "title": "Media cleanup is not erasure of business knowledge",
+      "evidence_class": "selected source",
+      "observation": "Retention is disabled by default. Media mode removes files while retaining searchable rows; Lean retains text/transcripts/memories. Vault setup does not encrypt immediately, and unlock decrypts files for normal use. These features do not establish continuous encrypted storage or complete erasure.",
+      "supabiz_decision": "Separate raw-media retention, derived facts, legal holds, cloud copies, backups and deletion receipts. Explain residual searchable data. Require encryption behavior to fail closed when enterprise policy requires it.",
+      "evidence": [
+        {
+          "path": "crates/screenpipe-engine/src/retention.rs",
+          "lines": [
+            56,
+            90
+          ],
+          "url": "https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/crates/screenpipe-engine/src/retention.rs#L56-L90"
+        },
+        {
+          "path": "crates/screenpipe-vault/src/manager.rs",
+          "lines": [
+            101,
+            102
+          ],
+          "url": "https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/crates/screenpipe-vault/src/manager.rs#L101-L102"
+        },
+        {
+          "path": "crates/screenpipe-vault/src/manager.rs",
+          "lines": [
+            289,
+            311
+          ],
+          "url": "https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/crates/screenpipe-vault/src/manager.rs#L289-L311"
+        }
+      ]
+    },
+    {
+      "id": "SP-18",
+      "title": "Evidence-based timing instead of invented productivity percentages",
+      "evidence_class": "selected source",
+      "observation": "Workflow timing derives mean/min/max from validated non-overlapping timestamp intervals, caps samples at 30, and labels the basis estimated-elapsed. It is not a labor-time or causal productivity measurement.",
+      "supabiz_decision": "Measure end-to-end completion, correction effort, missed assignments and verified action success on the same task set before/after. Report sample count and uncertainty; do not turn observed elapsed intervals into claimed staff savings.",
+      "evidence": [
+        {
+          "path": "packages/workflows-ui/src/timing.ts",
+          "lines": [
+            6,
+            18
+          ],
+          "url": "https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/packages/workflows-ui/src/timing.ts#L6-L18"
+        }
+      ]
+    },
+    {
+      "id": "SP-19",
+      "title": "Local audio choices and deferred processing are useful options",
+      "evidence_class": "selected source",
+      "observation": "Audio code exposes local Whisper variants and remote/compatible engines. Meeting modes include realtime and batch-on-meeting-end; VAD and cross-device text similarity can reduce unnecessary work but introduce recall and merging risks.",
+      "supabiz_decision": "Offer voice-note transcription independently of continuous ambient audio. Test noisy kitchens, accents, code-switching and legal names. Schedule heavier work after a meeting when latency permits. Never use transcript similarity as authoritative order deduplication.",
+      "evidence": [
+        {
+          "path": "crates/screenpipe-audio/src/core/engine.rs",
+          "lines": [
+            8,
+            22
+          ],
+          "url": "https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/crates/screenpipe-audio/src/core/engine.rs#L8-L22"
+        },
+        {
+          "path": "crates/screenpipe-audio/src/audio_manager/builder.rs",
+          "lines": [
+            67,
+            80
+          ],
+          "url": "https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/crates/screenpipe-audio/src/audio_manager/builder.rs#L67-L80"
+        }
+      ]
+    }
+  ]
+}

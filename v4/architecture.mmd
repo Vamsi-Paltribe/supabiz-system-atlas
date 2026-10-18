@@ -1,0 +1,17 @@
+flowchart LR
+  A[People and selected sources] --> B[Durable intake]
+  B --> C[Evidence and typed candidates]
+  C --> D[Checks and accepted records]
+  D --> E[Scoped context and bounded harness]
+  E --> F[Durable workflow]
+  F --> G[Exact action authorization]
+  G --> H[Typed API or scoped browser]
+  H --> I[Verified outcome or reconciliation]
+  I --> D
+  D --> J[Role-specific views]
+  K[Identity grants secrets and budgets] -.-> B
+  K -.-> E
+  K -.-> G
+  L[Stateful evaluation and governed learning] -.-> E
+  L -.-> G
+  M[Cloud devices retention and recovery] -.-> F

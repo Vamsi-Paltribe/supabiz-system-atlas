@@ -1,0 +1,81 @@
+{
+  "status": "Analytical expectations and planning examples; no measured SupaBiz improvement",
+  "bounds": [
+    {
+      "path": "Exact entity lookup",
+      "without": "O(N) scan per query; O(N²) all-pairs matching",
+      "with_approach": "O(log N + k) indexed lookup, with bounded candidate k",
+      "space": "O(N) indexes",
+      "caveat": "Ambiguous/fuzzy joins can approach quadratic; cap candidates and escalate rather than silently miss."
+    },
+    {
+      "path": "Incremental checks",
+      "without": "O(NR) full evaluation for N records and R applicable rules",
+      "with_approach": "O(VR) for affected dependency closure V",
+      "space": "O(N + dependency edges)",
+      "caveat": "V may equal N for global rules; retain full recompute reference and version invalidation."
+    },
+    {
+      "path": "Model wake-up",
+      "without": "M messages each trigger a model loop",
+      "with_approach": "qM eligible triggers, plus bounded follow-up calls",
+      "space": "Durable capture remains O(M) metadata plus media",
+      "caveat": "q is measured; routing must be evaluated for missed work. Fewer calls are not automatically fewer errors."
+    },
+    {
+      "path": "Media",
+      "without": "Unbounded download/decoding and full history in context",
+      "with_approach": "O(B) byte processing with per-job/concurrency caps; scoped evidence retrieval",
+      "space": "O(B) retained evidence, bounded active working set",
+      "caveat": "Sampling video reduces processed frames but loses coverage; no unobserved-event absence claims."
+    },
+    {
+      "path": "Concurrency",
+      "without": "Long model calls hold record locks",
+      "with_approach": "Snapshot/version → slow work outside transaction → short guarded commit",
+      "space": "O(active proposals) plus durable state",
+      "caveat": "Hot records still serialize; measure conflicts and queue delay. Do not promise linear scaling."
+    }
+  ],
+  "cost_formula": "Monthly total = allocated infrastructure + connector operations + media + model tokens/tool calls + storage/backups/egress + human review + support/recovery. Divide by correct completed workflows; also report cost per attempted workflow.",
+  "illustrative_inputs": {
+    "currency": "USD; arbitrary sensitivity inputs, not quotes",
+    "messages": 10000,
+    "wake_fraction": 0.2,
+    "calls_per_wake": 2,
+    "input_tokens_per_call": 2500,
+    "output_tokens_per_call": 400,
+    "input_price_per_million": 1,
+    "output_price_per_million": 4,
+    "media_jobs": 400,
+    "media_price_each": 0.02,
+    "allocated_infrastructure": 150,
+    "review_items": 200,
+    "review_minutes_each": 2,
+    "review_cost_per_minute": 0.5,
+    "support": 50,
+    "correct_completed_workflows": 800
+  },
+  "computed_example": {
+    "model_cost": 16.4,
+    "media_cost": 8,
+    "human_review_cost": 200,
+    "total": 424.4,
+    "cost_per_correct_completed_workflow": 0.5305
+  },
+  "measurement": [
+    "p50/p95 source-to-visible and source-to-completed latency; break out wait/review/model/queue time",
+    "Correct completion among all eligible cases; abstention and unresolved coverage alongside conditional extraction accuracy",
+    "False acceptance, wrong-tenant/matter disclosure, duplicate effects and unsupported certainty by risk slice",
+    "Human correction/review minutes; staff interruptions and repeated questions",
+    "Actual invoices/usage and all-in workflow cost, not model price alone"
+  ],
+  "pilot_targets": "Provisional, to freeze with pilot owner in S0: zero critical forbidden effects in the enumerated release suite; 100 representative shadow cases per released workflow before expanding autonomy; paired reviewer-effort/cost comparison with no quality regression. These sample targets do not establish rare-event safety.",
+  "scaling_triggers": [
+    "Start with one control-plane deployment and separate worker pools; per-tenant quotas from day one.",
+    "Scale workers when queue delay breaches the agreed p95 target; preserve provider-rate and review-capacity limits.",
+    "Partition busy objects/tenants only after measured contention; avoid global serialization and avoid invented actor counts.",
+    "Add retrieval indexing when measured search latency/quality requires it; ACL filtering precedes disclosure.",
+    "Add dedicated tenant deployments only for contractual isolation/residency or measured noisy-neighbor requirements."
+  ]
+}

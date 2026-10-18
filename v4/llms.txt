@@ -1,0 +1,14 @@
+# SupaBiz v4.0
+
+Architecture synthesis of 18 bounded reviews. All behavior remains proposed unless explicitly evidenced.
+
+- [Full text](llms-full.txt)
+- [Canonical architecture](architecture.json)
+- [All 298 learning assignments](learning-map.json)
+- [Architecture decisions](decisions.json)
+- [Roadmap](roadmap.json)
+- [Human reader](index.html)
+- [AI reader](ai.html)
+- [Preserved editions](../versions.html)
+
+Original vendor source, SDKs and private credentials are not published in this atlas. Research/*.txt contains authored reviews with source links.

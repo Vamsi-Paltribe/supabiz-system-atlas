@@ -1,0 +1,207 @@
+SCREENPIPE → SUPABIZ / YC03
+2026-10-17 / revision 5ce7edfcda145fa1bb074574925b290a1356bf2c
+
+DECISION AND REVIEW BOUNDARY
+
+Screenpipe is a strong reference for the context, evidence and workflow-learning layer of SupaBiz. Its most useful contribution is the connection between observed work, traceable suggestions, human correction and reusable procedures. Adopt those interaction patterns first using our existing message and email intake. Consider optional desktop awareness later, scoped to a clearly valuable workflow.
+
+This is a deep selected-source review of one pinned revision, not an audit of all 5,904 tracked files, a shipped-binary reverse engineering exercise or proof of production performance. The REA skill routes complete public source to ordinary repository analysis. The application was not installed or launched; no real screen, microphone, account, message history or credential was accessed. Twelve checks executed copied source helper functions with synthetic data and fake responses. Rust capture, storage and security paths were read but not executed. The two specialist appendices preserve further UX and privacy evidence.
+
+Current source uses a commercial source-available license. Our recommendation distinguishes independently implementing ideas from embedding upstream code or operating its product under suitable terms. No licensed-integration decision has been made. The previously saved Executor and Agent37 findings remain intact; all recommendations are design candidates, not shipped SupaBiz functionality.
+
+WHERE IT FITS WITH EXECUTOR AND AGENT37
+
+Executor informs integration discovery, account connections and authorized tool execution. Agent37 informs persistent execution environments, work continuity, outputs and browser handoff. Screenpipe informs how context is observed, indexed, retrieved, cited and corrected. SupaBiz must own business records, permissions, identities, deadlines, workflow versions, approval receipts and verified outcomes across all three.
+
+The proposed flow is: primary WhatsApp/email connectors plus optional scoped desktop observations → immutable evidence and source-health records → permission-aware retrieval → domain extraction and clarification → versioned work card → authorized action → result verification. The agent runtime consumes this context and executes bounded jobs; it is not the only home of business truth.
+
+Keep three identities distinct: the historical observation, the current business record, and a proposed operation. A screenshot can show a draft invoice, but that does not mean the invoice was sent or booked. A previous button location cannot authorize a click today. Reobserve the live application, bind the target and account, recheck permissions, and verify the external result after execution.
+
+WHAT AN OWNER OR OPERATOR WOULD EXPERIENCE
+
+Ramya opens a Needs attention view. A card says: Possible hearing-date change; matter identity unresolved; email received at 10:42; source and attachment available. She opens Show why, sees the relevant passage and corrects the matter or date by typing or voice. Her edit wins over a late model response. SupaBiz records the correction against that exact version, shows the proposed assignee/calendar change, and asks for approval only where policy requires it. If another update arrives first, the old action becomes stale and requires reconciliation.
+
+For Varun, a kitchen photo and message become a proposed maintenance item under Consu, with an owner and a next check. Later changes the reminder, not the underlying promised completion time. Not right can correct the outlet, classify the issue differently or dismiss the suggestion. Reopen preserves the previous decision. Completion requires the agreed evidence: for example, a follow-up photo and manager confirmation. An inventory entry needs the product, unit, quantity, outlet and source; repeated similar messages are not automatically duplicate stock movements.
+
+The second valuable experience is Teach SupaBiz this workflow. Ramya demonstrates a sample intake process using synthetic matter data. The system drafts steps and shows which observation supports each step. It asks only missing questions: how to distinguish a new matter, who owns this class of case, which timezone controls a deadline, what requires principal review, and what to do when an attachment is missing. The reviewed draft is versioned and tested before limited automation. A later change proposes a revision rather than silently rewriting the approved procedure.
+
+The third experience is honest awareness. Users see which source is enabled, what was last successfully indexed, where coverage has gaps and what is private to their device. A paused microphone is not a broken connector. A healthy local process does not prove an email inbox is current. A record removed from search is not necessarily erased from a backup.
+
+IMPLEMENTATION SEQUENCE AND ACCEPTANCE GATES
+
+Stage 1 — Evidence and work cards. Use WhatsApp/email fixtures and existing connector contracts. Build source IDs, immutable references, record versions and the action ledger. Add Show why, correct, snooze, dismiss and reopen. Test stale versions, duplicate arrival, deletion, missing attachments and wrong-business access. Gate: every proposed action has traceable evidence and stale actions cannot silently apply.
+
+Stage 2 — Workflow teaching. Add a structured procedure schema, evidence-linked steps, missing-information questions and voice-assisted fields. Preserve manual edits, support uncertainty and publish through version checks. Test the Ramya intake and Varun maintenance flows with ambiguous dates, near-identical matters, accented speech and changed procedures. Gate: each procedure can be replayed against synthetic cases and rejected safely when its preconditions are missing.
+
+Stage 3 — Optional desktop pilot. Begin with an explicit app/domain allowlist, visible capture indicator and pause. Prefer accessibility to OCR; add bounded queues, durable acknowledgement and source-instance identity. Keep raw observations local unless released by policy. Use artificial desktops and media for exclusion, private-window, monitor-change, permission-revocation and sleep/resume tests on each supported OS. Gate: capture exclusions and cross-business access tests pass before any real client rollout.
+
+Stage 4 — Safe execution and scale. Connect approved procedures to the runtime and a single integration policy authority. Add idempotency, budgets, retry/reconciliation and remote result verification. Load-test realistic bursts and long retention, then size storage and compute from measurements. Gate: retries cannot duplicate stock movements or calendar changes, uncertain results remain visible, and restoration preserves provenance/grants.
+
+These are dependency stages, not calendar promises. Sprint length depends on the existing SupaBiz implementation, which this review has not re-audited. Prioritize a narrow intake-to-assignment or photo-to-maintenance outcome before broad desktop recording. Do not move to app-to-app agent collaboration until business identity and action authority are stable.
+
+PERFORMANCE, COMPLEXITY AND COST WITHOUT INVENTED BENCHMARKS
+
+Let F be capture candidates, P pixels per image, N stored observations, H query matches, K returned results, L snippet length, D source branches and o pagination offset. A fixed-rate baseline processes approximately rT candidates over duration T. Event-triggering plus idle fallback changes the candidate count; AX-first and successful durable hash gating reduce expensive OCR calls further. Image hashing still costs O(P) on inspected pixels; OCR cost depends on resolution and engine. Per-app last-state gates use O(A) hashes plus cached text across A apps; they do not remember every prior image.
+
+The database writer uses a bounded 4096-entry channel and batches up to 500, amortizing transaction overhead. Queue memory also depends on each payload size. A full queue needs an explicit backpressure/recovery policy; bounded memory is not proof of zero loss. Two filesystems/database writes are not automatically one atomic cross-resource transaction. Monitor recovery around screenshot creation, database commit and cursor advancement.
+
+Full-text search depends on index selectivity, postings and query planning; it is not universally O(log N). Mixed search can fetch D(K+o) candidates, then sort them in roughly O(M log M) for M collected candidates. Stable cursor pagination and earlier authorized filters are preferable for deep histories. Per-hit truncation limits ordinary content to approximately O(KL), but explicit unlimited settings, metadata and multiple calls still require an outer aggregate budget.
+
+Lazy screenshot loading changes network/image work from all workflow steps to visible steps and candidate images. It improves demand but does not prove a global concurrency bound. Voice clarification introduces transcription/model latency and correction work; user edits need revision protection. Workflow timing sorting is O(r log r) over at most 30 intervals, but those intervals estimate elapsed time, not labor or business value.
+
+The attached cost model is deliberately synthetic: eight hours, one baseline frame per second versus an assumed 180 changed frames per hour, 150,000 bytes per image, and one 64 kb/s audio track. It yields 28,800 versus 1,440 candidate images and 4.32 versus 0.216 decimal GB of image payload per day. The 95% candidate reduction follows only from these assumptions; it is not measured screenpipe performance. Audio adds 0.2304 GB/day in this scenario. Thirty days totals 136.512 versus 13.392 GB before indexes, metadata, replicas, backups and compression differences. Multiply for tracks, monitors and devices as applicable; event fallback can change the counts.
+
+Price decisions need license/hosting terms, actual awake device CPU/energy, support, cloud storage, egress, ASR and model rates. Local-first saves cloud traffic only to the extent raw context stays local; it can increase device and support costs. There is no verified all-in price or productivity improvement percentage from this review. Measure p50/p95 capture-to-search and source-to-task latency, CPU/RAM/disk, battery drain, OCR/ASR quality, correction time, missed tasks, duplicate actions and total cost per verified business outcome. Compare baseline and proposed approach on the same labeled workload and report sample sizes, failures and uncertainty.
+
+RISKS, UNKNOWNS AND NEXT COMPARISON
+
+Privacy and enterprise isolation need independent implementation and tests. Source review found a conditional mismatch between accepted credential transports and pipe permission extraction, a short autogenerated API key, important differences among local redaction/remote confidential processing, and retention modes that preserve searchable text. The privacy appendix records exact conditions and references; none is presented as a live exploit or a comprehensive security audit.
+
+Unverified: full platform capture coverage, deployment-specific permission and account isolation, actual latency/battery/storage under Indian SME workloads, recognition quality, end-to-end revocation, backup deletion, hosted controls and commercial licensing fit. Official or source comments about speed are not our benchmarks. A source check passing does not establish production reliability.
+
+The practical recommendation is to adopt evidence navigation, reversible versioned decisions, procedure learning and honest source status now as product design. Experiment with selective desktop context and modality routing after connectors and business records work. Defer blanket continuous recording and broad agent-to-agent coordination. The next queued one-by-one review is Asakana, which can test whether our WhatsApp-to-record-to-review workflow is concrete enough; it has not been started in this task.
+
+SOURCE FINDINGS
+
+SP-01 — Commercial source-available, not unrestricted open source
+Evidence: selected source
+Observed: The current license permits specified research and evaluation uses but requires paid licensing for commercial use and restricts embedding, redistribution and competing offerings. Its reference to previously MIT versions does not identify a legacy version suitable for our needs.
+SupaBiz: Learn and independently implement product patterns. Evaluate a licensed integration separately; do not put current source or upstream UI assets into SupaBiz by assuming MIT rights.
+https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/LICENSE.md#L1-L90
+
+SP-02 — A versioned work inbox instead of disposable suggestions
+Evidence: selected source
+Observed: Interactive list items support resolve, snooze, correct, dismiss and reopen. The server validates output ID/version, action availability and correction/snooze values before appending an action. The UI exposes handled receipts and reversible decisions.
+SupaBiz: Adopt a work-card UX with business, matter/outlet, owner, source, due date, confidence and next action. Keep personal snooze separate from official deadlines. A Done click is acknowledgement; business completion needs result evidence.
+https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/apps/screenpipe-app-tauri/components/settings/live-view-item-controls.tsx#L118-L234
+https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/crates/screenpipe-engine/src/structured_outputs.rs#L753-L869
+
+SP-03 — Answers and workflow steps lead back to the exact evidence
+Evidence: selected source
+Observed: Citation footers open sources or timeline context. Workflow steps can bind an exact frame and replay a filtered time range. Screenshot retrieval is lazy, has loading/unavailable/retry states, and distinguishes evidence without visual verification.
+SupaBiz: Make Show why a first-class control. Open the original court email, message, photo or document version. Recheck grants when opened and show deleted/expired/unavailable evidence honestly. An observed screen is not proof that a remote write committed.
+https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/apps/screenpipe-app-tauri/components/chat/source-citation-footer.tsx#L100-L179
+https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/packages/workflows-ui/src/workflow-step-evidence.tsx#L28-L102
+https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/packages/workflows-ui/src/use-source-screenshot.ts#L12-L48
+
+SP-04 — Observe a process, investigate gaps, review, then maintain it
+Evidence: selected source
+Observed: Scheduled discovery separates four roles and installs templates disabled. Publication resolves evidence outside the write lock, then rechecks workflow revision and permissions before committing. This reduces lock hold time while retaining conflict checks.
+SupaBiz: Let Ramya demonstrate a synthetic matter-intake workflow. Draft its steps, exceptions and evidence; ask missing questions; require review and sandbox tests before granting limited execution. Observed repetition alone must never create a standing action permission.
+https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/apps/screenpipe-app-tauri/lib/workflows/scheduled-discovery.ts#L9-L92
+https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/crates/screenpipe-engine/src/routes/workflow_catalog.rs#L393-L505
+
+SP-05 — Voice clarification with human edit precedence
+Evidence: selected source
+Observed: Workflow questions merge answers, require a supporting quote to appear in the transcript, and preserve manual edits against late AI results. The UI offers uncertainty and undo. Evidence relinking preserves the written procedure order.
+SupaBiz: Offer Speak correction, Not sure and Undo for busy managers. Store transcript, extracted fields and provenance separately. A matching quote is a grounding check, not semantic validation; benchmark names, dates, amounts and Hindi/English/Hinglish.
+https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/packages/workflows-ui/src/workflow-questions.tsx#L19-L98
+https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/packages/workflows-ui/src/guide-source-review.tsx#L13-L48
+
+SP-06 — Use accessibility structure before OCR
+Evidence: selected source
+Observed: Paired capture associates accessibility metadata with the focused monitor, detaches incoherent text geometry from pixels, and falls back to OCR for inadequate accessibility content and selected cases. A shared OCR semaphore bounds expensive work; its permit stays held until the blocking worker actually finishes.
+SupaBiz: Build a modality ladder: connector fields first, accessibility next, OCR/vision only when needed, audio transcription when authorized. Preserve source type and uncertainty. Never project coordinates from a stale or different monitor snapshot onto a live action.
+https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/crates/screenpipe-capture/src/paired_capture.rs#L52-L77
+https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/crates/screenpipe-capture/src/paired_capture.rs#L285-L383
+
+SP-07 — Commit deduplication only after durable storage
+Evidence: selected source
+Observed: The OCR gate compares a per-app pixel hash against the last durably indexed state. The caller promotes pending state only after the database insertion succeeds and OCR did not fail. A→B→A can still require OCR again; this is not unlimited history deduplication.
+SupaBiz: Use the same acknowledgement principle for WhatsApp/email cursors: do not mark an event processed before evidence and required records are durable. Use native event identity for business dedupe; identical text is not proof of the same order or payment.
+https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/crates/screenpipe-capture/src/ocr_gate.rs#L93-L147
+https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/crates/screenpipe-capture/src/paired_capture.rs#L741-L787
+
+SP-08 — Bound background work and expose degraded ingestion
+Evidence: selected source
+Observed: Event-driven capture also has periodic idle fallback; focus tiers vary cadence. Database writes use a bounded queue (4096), batches up to 500 and health/degradation state. Recording coverage distinguishes recording, stalled, paused and idle.
+SupaBiz: Adopt bounded queues, per-device budgets and last-success/cursor-lag displays. Connected is not fresh. Static-screen dedupe heartbeats are useful liveness evidence but do not prove that every relevant business event was observed.
+https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/crates/screenpipe-engine/src/event_driven_capture.rs#L1-L55
+https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/crates/screenpipe-engine/src/focus_aware_controller.rs#L20-L43
+https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/crates/screenpipe-db/src/write_queue.rs#L1-L85
+https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/crates/screenpipe-engine/src/recording_coverage.rs#L5-L64
+
+SP-09 — Semantic records carry identity quality and clock context
+Evidence: selected source
+Observed: The semantic model distinguishes stable native IDs, derived IDs and ephemeral IDs; includes source nodes and timestamp precision. Messaging normalization uses captured time, timezone and locale, preserving missing context instead of inventing a date. Handled-empty and unsupported parsing are different outcomes.
+SupaBiz: Carry identity quality, captured_at, occurred_at, timezone, precision, raw label and evidence reference into SupaBiz observations. Use native email/message IDs where available. Unknown matter or ambiguous hearing date needs clarification, not automatic assignment.
+https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/crates/screenpipe-semantic/src/model.rs#L187-L284
+https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/crates/screenpipe-semantic/src/messaging.rs#L25-L54
+https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/crates/screenpipe-db/src/db/source_identity.rs#L21-L100
+
+SP-10 — A WhatsApp screen parser is not a WhatsApp ingestion service
+Evidence: selected source
+Observed: The parser catalog includes WhatsApp native/web and other app-specific semantic parsers. They operate on captured accessible observations. That does not establish complete history, background groups, attachments, edits/deletes or reliable server cursor continuity.
+SupaBiz: Retain the selected-group WhatsApp connector and Gmail connector as primary sources. Desktop context can fill a workflow gap with explicit coverage limits; do not silently treat it as the authoritative group archive.
+https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/crates/screenpipe-semantic/src/parsers/catalog.rs#L618-L635
+
+SP-11 — Small model context can still preserve original evidence
+Evidence: selected source + isolated helper checks
+Observed: MCP search formatting retains valid source IDs and truncation indicators; historical automation nodes are bounded and explicitly described as non-authorizing. Twelve isolated checks exercised source helpers with synthetic input; null becomes unlimited at one helper boundary, without proving the external schema accepts it.
+SupaBiz: Retrieve small snippets plus durable IDs, then fetch detail on demand. Enforce an aggregate token/byte budget outside per-hit limits. Treat all captured text as untrusted data. Reobserve the live target and reauthorize before any action.
+https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/packages/screenpipe-mcp/src/search-result.ts#L1-L69
+https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/packages/screenpipe-mcp/src/workflow-tools.ts#L1-L85
+
+SP-12 — Search filters and bounded candidates matter more than a vector database label
+Evidence: selected source
+Observed: SQLite/FTS search combines source/time/app filters with candidate IDs and later joins. Mixed-content pagination fetches limit+offset per branch, sorts the combined candidates, then slices. Deep offsets therefore amplify work. Semantic extraction and source navigation also have value without embedding every frame.
+SupaBiz: Start with exact IDs, business/matter grants, structured fields and full-text retrieval. Add vector retrieval only for measured recall gaps. Use stable cursor pagination and evaluate representative indexes/query plans before scale commitments.
+https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/crates/screenpipe-db/src/db/search.rs#L238-L290
+https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/crates/screenpipe-db/src/db/search.rs#L591-L597
+https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/crates/screenpipe-db/src/db/search.rs#L790-L900
+
+SP-13 — Selective capture and clear permission recovery
+Evidence: selected source
+Observed: Onboarding explains screen, microphone and accessibility permissions separately; permission recovery polls with stale-response protection. Capture filters include app/window/domain policy and fail-closed URL handling, but platform capture strategies differ and need separate tests.
+SupaBiz: Ask for the permission needed by the selected workflow, with a visible pause state and exclusion controls. Keep personal context private unless a specific business evidence item is released. Do not start with blanket keyboard, clipboard, microphone and full-desktop capture.
+https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/apps/screenpipe-app-tauri/components/onboarding/permissions-step.tsx#L164-L215
+https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/apps/screenpipe-app-tauri/app/permission-recovery/page.tsx#L142-L185
+https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/crates/screenpipe-a11y/src/url_filter.rs#L94-L112
+https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/crates/screenpipe-screen/src/capture_screenshot_by_window.rs#L1003-L1100
+
+SP-14 — Canonicalize credentials before checking capabilities
+Evidence: selected source; conditional risk, no exploit run
+Observed: Outer API auth accepts registered pipe tokens in header/cookie/query. Pipe permission middleware extracts only header tokens and leaves other requests without pipe restrictions. This is a conditional source-level widening risk for a caller already holding an active restricted token, not a demonstrated unauthenticated exploit.
+SupaBiz: Create one typed Principal from the credential once, then carry it through policy and handlers. Test identical scope decisions for every supported transport. Default local API is authenticated loopback; LAN explicitly forces auth, so do not misdescribe default exposure.
+https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/crates/screenpipe-engine/src/server.rs#L365-L374
+https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/crates/screenpipe-engine/src/server.rs#L1631-L1668
+https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/crates/screenpipe-engine/src/pipe_permissions_middleware.rs#L54-L118
+https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/crates/screenpipe-engine/src/recording_config.rs#L452-L464
+
+SP-15 — Local-first and privacy filtering need explicit egress definitions
+Evidence: selected source
+Observed: The query-time privacy filter sends original text to an attested Tinfoil service, skips strings shorter than eight characters and returns an error rather than raw fallback on filter failure. This is distinct from local capture redaction. Current enterprise direct-upload code describes plaintext JSONL protected by TLS/storage IAM, not client-side end-to-end encryption.
+SupaBiz: Show where each data type goes. Prefer local minimization and scoped release for desktop context; independently verify redaction recall. A cloud model must receive only authorized selected evidence. Choose encryption and customer-key arrangements explicitly.
+https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/crates/screenpipe-engine/src/privacy_filter.rs#L122-L184
+https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/crates/screenpipe-engine/src/routes/search.rs#L1630-L1639
+https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/apps/screenpipe-app-tauri/src-tauri/src/enterprise/upload.rs#L5-L26
+
+SP-16 — Privacy release is a separate state from capture
+Evidence: selected source
+Observed: Protected reads can check revocation epochs before and after handlers, deny unsupported routes and report pending/unknown. Export code revalidates deletions after network waits. Gateway policy denies unmapped routes and stale signed policies.
+SupaBiz: Use captured → classified → authorized for release as separate stages. Recheck business/matter grants and deletion state at retrieval/export boundaries. Give users a visible pending/revoked state. Data already transmitted cannot be recalled by a later local filter.
+https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/crates/screenpipe-engine/src/routes/privacy_release.rs#L18-L61
+https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/apps/screenpipe-app-tauri/src-tauri/src/enterprise/export_filter.rs#L53-L109
+https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/crates/screenpipe-gateway/src/auth.rs#L421-L451
+https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/crates/screenpipe-gateway/src/auth.rs#L483-L518
+
+SP-17 — Media cleanup is not erasure of business knowledge
+Evidence: selected source
+Observed: Retention is disabled by default. Media mode removes files while retaining searchable rows; Lean retains text/transcripts/memories. Vault setup does not encrypt immediately, and unlock decrypts files for normal use. These features do not establish continuous encrypted storage or complete erasure.
+SupaBiz: Separate raw-media retention, derived facts, legal holds, cloud copies, backups and deletion receipts. Explain residual searchable data. Require encryption behavior to fail closed when enterprise policy requires it.
+https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/crates/screenpipe-engine/src/retention.rs#L56-L90
+https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/crates/screenpipe-vault/src/manager.rs#L101-L102
+https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/crates/screenpipe-vault/src/manager.rs#L289-L311
+
+SP-18 — Evidence-based timing instead of invented productivity percentages
+Evidence: selected source
+Observed: Workflow timing derives mean/min/max from validated non-overlapping timestamp intervals, caps samples at 30, and labels the basis estimated-elapsed. It is not a labor-time or causal productivity measurement.
+SupaBiz: Measure end-to-end completion, correction effort, missed assignments and verified action success on the same task set before/after. Report sample count and uncertainty; do not turn observed elapsed intervals into claimed staff savings.
+https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/packages/workflows-ui/src/timing.ts#L6-L18
+
+SP-19 — Local audio choices and deferred processing are useful options
+Evidence: selected source
+Observed: Audio code exposes local Whisper variants and remote/compatible engines. Meeting modes include realtime and batch-on-meeting-end; VAD and cross-device text similarity can reduce unnecessary work but introduce recall and merging risks.
+SupaBiz: Offer voice-note transcription independently of continuous ambient audio. Test noisy kitchens, accents, code-switching and legal names. Schedule heavier work after a meeting when latency permits. Never use transcript similarity as authoritative order deduplication.
+https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/crates/screenpipe-audio/src/core/engine.rs#L8-L22
+https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/crates/screenpipe-audio/src/audio_manager/builder.rs#L67-L80

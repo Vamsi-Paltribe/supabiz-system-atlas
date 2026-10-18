@@ -1,0 +1,125 @@
+{
+  "id": "YC16-inkbox",
+  "name": "Inkbox",
+  "date": "2026-10-18",
+  "repository": "https://github.com/inkbox-ai/hermes-agent-plugin",
+  "commit": "78b962151bc68cab6ee405bd9e977a596565f60e",
+  "version": "0.2.20",
+  "method": "REA routing: available source reviewed with ordinary repository tools; selected offline component tests and public UI/docs review.",
+  "scope": "Hermes plugin selected modules, not full plugin or hosted backend audit",
+  "license": "No tracked root LICENSE/COPYING/NOTICE or package license declaration found. Public source availability does not establish reuse permission.",
+  "sources": [
+    {
+      "url": "https://www.ycombinator.com/companies/inkbox",
+      "scope": "Company identity"
+    },
+    {
+      "url": "https://inkbox.ai/",
+      "scope": "Public homepage and Hermes setup tab; illustrations, not authenticated product"
+    },
+    {
+      "url": "https://inkbox.ai/docs/api/contacts/communication-policy",
+      "scope": "Permissions and hosted voice documented defaults"
+    },
+    {
+      "url": "https://inkbox.ai/docs/api/message-sends",
+      "scope": "Send idempotency/replay contract"
+    },
+    {
+      "url": "https://inkbox.ai/docs/capabilities/companion-mode",
+      "scope": "Group activation contract"
+    },
+    {
+      "url": "https://inkbox.ai/docs/api/a2a/authentication",
+      "scope": "A2A authentication and public card visibility"
+    },
+    {
+      "url": "https://inkbox.ai/pricing",
+      "scope": "Published USD pricing; geography matters"
+    },
+    {
+      "url": "https://inkbox.ai/privacy-policy",
+      "scope": "Website/service data distinction"
+    },
+    {
+      "url": "https://inkbox.ai/dpa",
+      "scope": "Contractual data handling terms"
+    }
+  ],
+  "source_snapshot": [
+    {
+      "path": "pyproject.toml",
+      "sha256": "15be0675876e8f9c510a89afa8745c42dd25e11ef0ead02ed07ca35055cf76cf",
+      "lines": 35,
+      "url": "https://github.com/inkbox-ai/hermes-agent-plugin/blob/78b962151bc68cab6ee405bd9e977a596565f60e/pyproject.toml"
+    },
+    {
+      "path": "conversation.py",
+      "sha256": "4b3db640eb9157f7957c8155a5f550a651679f79bbe917e093f9e94705e932fd",
+      "lines": 159,
+      "url": "https://github.com/inkbox-ai/hermes-agent-plugin/blob/78b962151bc68cab6ee405bd9e977a596565f60e/conversation.py"
+    },
+    {
+      "path": "a2a_context.py",
+      "sha256": "6facbcd79d224664268bcaff0b21cb928fca4ad6b1276dc965e10cfaf21e6309",
+      "lines": 146,
+      "url": "https://github.com/inkbox-ai/hermes-agent-plugin/blob/78b962151bc68cab6ee405bd9e977a596565f60e/a2a_context.py"
+    },
+    {
+      "path": "companion.py",
+      "sha256": "d676a05c77f7d5c122e10c44f093d28b3c4f53919c519581bb48cf9056bbdca3",
+      "lines": 1301,
+      "url": "https://github.com/inkbox-ai/hermes-agent-plugin/blob/78b962151bc68cab6ee405bd9e977a596565f60e/companion.py"
+    },
+    {
+      "path": "native_turns.py",
+      "sha256": "21fae229c0624b8bc92192156433cf7e29e35b094996e30001cd53e5447751f6",
+      "lines": 1024,
+      "url": "https://github.com/inkbox-ai/hermes-agent-plugin/blob/78b962151bc68cab6ee405bd9e977a596565f60e/native_turns.py"
+    },
+    {
+      "path": "host_fencing.py",
+      "sha256": "1c253c2933b9f28843fcb84f0d67ccbac9ec25fbf744becd3731f3a0c5873b8f",
+      "lines": 116,
+      "url": "https://github.com/inkbox-ai/hermes-agent-plugin/blob/78b962151bc68cab6ee405bd9e977a596565f60e/host_fencing.py"
+    },
+    {
+      "path": "adapter.py",
+      "sha256": "1dda7104ed74b54c7a48e2db0fa01f81fa693c1e3bb66694a5e3bb13ba87c9b8",
+      "lines": 10103,
+      "url": "https://github.com/inkbox-ai/hermes-agent-plugin/blob/78b962151bc68cab6ee405bd9e977a596565f60e/adapter.py"
+    },
+    {
+      "path": "config.py",
+      "sha256": "f331208d8e09f1d48ad79dedb4051e6a96f2102515f7a6cb6a794c4d8366d17d",
+      "lines": 241,
+      "url": "https://github.com/inkbox-ai/hermes-agent-plugin/blob/78b962151bc68cab6ee405bd9e977a596565f60e/config.py"
+    },
+    {
+      "path": "extended_tools.py",
+      "sha256": "f1f2973a66f10d07e4d956fc4485ba44159e478d54758d335cf64fe75e5291f3",
+      "lines": 164,
+      "url": "https://github.com/inkbox-ai/hermes-agent-plugin/blob/78b962151bc68cab6ee405bd9e977a596565f60e/extended_tools.py"
+    },
+    {
+      "path": "setup_wizard.py",
+      "sha256": "9f2f0b9e32b4764824083e34d81429e512d09eab348c0c36a04e72a1ddf60471",
+      "lines": 2405,
+      "url": "https://github.com/inkbox-ai/hermes-agent-plugin/blob/78b962151bc68cab6ee405bd9e977a596565f60e/setup_wizard.py"
+    },
+    {
+      "path": "skills/inkbox-identity-access/SKILL.md",
+      "sha256": "8ceaa7aa8afb3fb1982e0c7210fff5a3557df19a948a1baa9057f510072e2559",
+      "lines": 27,
+      "url": "https://github.com/inkbox-ai/hermes-agent-plugin/blob/78b962151bc68cab6ee405bd9e977a596565f60e/skills/inkbox-identity-access/SKILL.md"
+    }
+  ],
+  "checks": "component-check-results.json",
+  "limits": [
+    "No plugin installation or SDK execution",
+    "No authenticated account, message, voice call or provider API test",
+    "No live WhatsApp connector verified",
+    "No throughput, latency, model quality or cost benchmark",
+    "No full application or security audit"
+  ]
+}

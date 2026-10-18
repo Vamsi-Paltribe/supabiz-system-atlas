@@ -1,0 +1,114 @@
+[
+  {
+    "id": "S0",
+    "name": "Baseline, contracts and one test world",
+    "estimate": "1 week",
+    "depends": [],
+    "owner": "Platform lead + product owner",
+    "deliver": [
+      "Locate and audit actual SupaBiz product code; reproduce the dossier’s fresh-intake failure.",
+      "Pin source, record, grant, decision, action and evaluation contracts. Inventory actual implementation versus reported behavior.",
+      "Create synthetic Consu/ForeFathers/Arkaj identities and a small stateful world; establish case manifest, clock and protected scorer."
+    ],
+    "gate": "Every observed failure has a source/run/evidence ID and responsible layer. Wrong-tenant, duplicate and wrong-record controls demonstrably fail the test oracle.",
+    "not_yet": "No framework migration, procurement or claim that prior 24/24 known cases represent general accuracy."
+  },
+  {
+    "id": "S1",
+    "name": "Reliable capture and protected evidence",
+    "estimate": "2 weeks",
+    "depends": [
+      "S0"
+    ],
+    "owner": "Integration engineer + platform lead",
+    "deliver": [
+      "Selected WhatsApp group and Gmail intake with durable journal/cursors, replay, gaps and edit/delete handling.",
+      "Authentication, business/matter grants, credential broker, runtime-role DB isolation and object access.",
+      "PDF/image/voice pipeline with bounded workers, provenance and missing-evidence states."
+    ],
+    "gate": "Crash/reconnect/expired-cursor tests preserve events; seeded cross-scope reads fail; source lag and missing coverage visible. Originals and derivatives recover coherently.",
+    "not_yet": "No autonomous external writes; no blanket desktop or microphone capture."
+  },
+  {
+    "id": "S2",
+    "name": "One complete photo-to-task workflow",
+    "estimate": "2–3 weeks",
+    "depends": [
+      "S1"
+    ],
+    "owner": "Product engineer + platform lead + restaurant manager",
+    "deliver": [
+      "Staff capture receipt, evidence drawer, manager correction, assignment, acknowledgement, reminders and verified closure.",
+      "Typed action gateway, approval binding, uncertain-send reconciliation and current-permission recheck.",
+      "Temporal-versus-existing-worker recovery spike; select one owner before live multi-day work.",
+      "Very important correction loop v1: one-off versus scoped rule, reviewed promotion and regression case."
+    ],
+    "gate": "A new unseen photo flows to a correct verified outcome through restart, correction and cancellation. No duplicate effects or unauthorized disclosures in the critical suite. Pilot starts read-only/shadow, then limited authorized actions.",
+    "not_yet": "No full ERP, generic agent marketplace, automated accounting or native messenger."
+  },
+  {
+    "id": "S3",
+    "name": "Receiving, invoices and accountant handoff",
+    "estimate": "2 weeks",
+    "depends": [
+      "S2"
+    ],
+    "owner": "Domain/integration engineer + manager/CA",
+    "deliver": [
+      "Distinct order, receipt, stocktake, movement, invoice and credit records; explicit units and source authority.",
+      "Opening-count/cutover procedure before reliable balances; split/partial receiving and duplicate allocations.",
+      "Reviewed reconciliation packet for existing accountant system; exports and remote posting are distinct."
+    ],
+    "gate": "Golden cases retain correct balances under late movements, returns, duplicate photos and corrections. Quantity/price mismatches stay visible; no unsupported GST/accounting treatment or automatic payment.",
+    "not_yet": "No demand-forecast optimization, supplier auto-pay or POS replacement."
+  },
+  {
+    "id": "S4",
+    "name": "Ramya’s existing-matter workflow in shadow mode",
+    "estimate": "2 weeks; can overlap S3 only with a separate staffed lane",
+    "depends": [
+      "S2"
+    ],
+    "owner": "Product/integration engineer + Ramya + responsible lawyer",
+    "deliver": [
+      "Reviewed matter directory and compound identity; notice/hearing/work deadline types and source locators.",
+      "Evidence-backed change packet, assignee acceptance, document readiness and controlled calendar projection.",
+      "Superseded notices invalidate stale decisions/reminders; matter grants propagate to files and replies."
+    ],
+    "gate": "Held-out notices match correct matters or abstain usefully; no unreviewed schedule-critical writes. Domain reviewer validates dates; revoked assignees cannot receive documents.",
+    "not_yet": "No legal advice, inferred filing deadlines, automatic new-matter creation or automatic client updates."
+  },
+  {
+    "id": "S5",
+    "name": "Pilot economics, hardening and measured optimization",
+    "estimate": "2 weeks per released pilot; extends if gates fail",
+    "depends": [
+      "S2"
+    ],
+    "owner": "Platform lead + QA + pilot owner",
+    "deliver": [
+      "Only evaluate workflows whose own gates passed; S3/S4 are prerequisites for inventory/legal release respectively.",
+      "Coherent restore, retention/deletion lineage, permission revocation, provider outages, quotas and unknown outcomes.",
+      "Compare model/provider and governed-procedure candidates; costs include media, review/support and idle infrastructure.",
+      "Add one API-less browser or short-video case only if it materially unblocks the pilot."
+    ],
+    "gate": "Pre-agreed quality/review/cost thresholds pass on held-out and observed pilot work, with sample sizes and failure categories. Rollback and support runbooks exercised. No measured benefit is claimed before this evidence.",
+    "not_yet": "No expanding scope to hide poor first-workflow completion."
+  },
+  {
+    "id": "S6",
+    "name": "Demand-led collaboration and device expansion",
+    "estimate": "Later; separately scoped",
+    "depends": [
+      "S5"
+    ],
+    "owner": "Product + platform",
+    "deliver": [
+      "Object-linked app chat and partner job rooms with scoped invitations and revocation.",
+      "Optional Agent Relay transport, limited desktop capture or Shire-style camera events after purpose/rights/cost validation.",
+      "Evaluate Terse or dedicated tenant environments only for a measured scaling requirement; expand connector/domain packs independently."
+    ],
+    "gate": "The added capability improves an existing workflow at acceptable total cost and passes the same authority/evidence/outcome controls.",
+    "not_yet": "No automatic agent federation or mandatory migration from WhatsApp."
+  }
+]

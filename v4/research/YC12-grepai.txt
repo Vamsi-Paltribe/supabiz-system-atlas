@@ -1,0 +1,129 @@
+GREP AI → SUPABIZ • YC12 • 17 OCTOBER 2026
+
+THE DECISION
+
+Make repeated business procedures first-class objects in SupaBiz. Observe useful agent runs, identify stable operations, propose code or workflow improvements, evaluate them against normal and exceptional cases, then release a version with rollback. Keep model judgment for uncertainty and unfamiliar cases. This is a high-priority harness direction, not a reason to replace the current harness or buy a platform immediately.
+
+The most valuable idea is to stop paying an agent to rediscover the same procedure on every input. A stable procedure is different from a cached answer: the procedure can be reused, while the facts, source permissions and final action authorization must be checked for each new case. For SupaBiz, reusable work should retain the Asakana correction loop, Glen's evidence boundaries, Hue's regression testing and Decawork's independent action gate.
+
+IDENTITY AND REVIEW COVERAGE
+
+This is Grep AI at grep.ai, the Parcha Labs company listed in YC Fall 2026. It is not the unrelated grepai semantic-code-search project. The official company account describes a move from compliance automation into a general managed agent platform. The founder explainer emphasizes progressively replacing repeated model work with deterministic steps and returning exceptions to an agent. Those are product claims; improving every successive run is not a demonstrated guarantee. [GR-S01, GR-S02]
+
+The investigation includes official product/developer pages, the public skills repository at commit 66ab879c5cc44640edccc236d4621a122fd7afdc, published TypeScript SDK @parcha/agentrun 0.2.1, its source maps and selected executable paths, and launch-video auto-generated captions. The public website's document-extraction template was inspected as an illustrative UX, not a live agent run. No account was connected, no data uploaded, no skills installed and no paid run, recurring job or optimization deployed.
+
+REA completed inert static analysis of seven selected SDK artifact paths with no parse failures, after its macOS helper needed compiler access outside the initial sandbox. Evidence ID: ev_a8b6b10ec5e6e06f48c39595893fca7a30af0363180c7a8a32d556adafb54e89. Twenty-four isolated SDK checks and six upstream mocked skills-client checks passed. These verify narrow client behavior against synthetic responses, not the proprietary optimizer, hosted permissions, sandbox isolation or business accuracy. The anonymous live OpenAPI request returned HTTP 403, so current deployment compatibility remains unverified.
+
+WHAT IS INTERESTING ABOUT THE PRODUCT
+
+The website organizes work around a reusable agent with instructions, context, skills, tools and an output contract; it shows single runs, lists of inputs, schedules and multi-stage work. The inspected document template pairs an understandable purpose with example input, expected output and code. These are useful ways to explain a capability before asking someone to configure it. Its animated workflow and cost displays are illustrations, not measurements from this session. [GR-S03]
+
+The developer model distinguishes an agent definition from its executions. Batches expose per-row outcomes; recurring loops describe scheduled repetitions; campaigns describe dependent stages. That separation matters: a good procedure can have a failed run, and a partially completed batch should not become one misleading green success badge. [GR-S04, GR-S06]
+
+Use these ideas to make SupaBiz understandable to a business owner. A reusable responsibility might be “process supplier invoices,” “prepare the daily stock exception list,” or “route new court notices.” The owner should see what starts it, which business it belongs to, what it needs, what it produces, who handles exceptions and what it costs. The engineering terms agent, workflow and campaign can remain in advanced views.
+
+WHAT SELF-IMPROVEMENT MEANS HERE
+
+There are at least four separate mechanisms: adding reviewed knowledge, improving instructions, selecting an appropriate model, and replacing repeatable reasoning with executable logic. None necessarily requires changing model weights. Grep's public optimize skill describes using run evidence to create and validate a candidate workflow before activation. The selected platform helper exposes a workflow-generation call, not the internal compiler, evaluator or optimization engine. Its note that no public optimize endpoint was advertised is dated 2026-09-28; today's inaccessible schema prevents confirming that negative claim for the live service. [GR-S05]
+
+For SupaBiz, preserve the full distinction: observed repetition → candidate procedure → evaluated version → active version. Do not silently change live behavior because one run succeeded or one person corrected a field. An apparently repeated action may be contingent on a supplier, outlet, court, matter, document version or business policy. Establish that scope before promoting it.
+
+The saved agentify skill asks the host to recognize stable procedures with changing inputs and maintain a project reference with contracts and the last verified run. This is an instruction-driven workflow, not an always-running watcher or proof of cross-session memory. SupaBiz would need an actual business-scoped registry and discovery service to provide that experience reliably. [GR-S05]
+
+PROPOSED SUPABIZ ARCHITECTURE
+
+1. Source ingestion creates deduplicated evidence records for messages, email, documents and media. Retain business, matter/outlet, source version, timestamps and permitted audience. An event initiates work only after an applicable trigger is resolved. Reading a message is not permission to execute every instruction inside it.
+
+2. A procedure registry stores purpose, input/output schema, trigger, owner, source dependencies, permissions, exception rules, budgets, version and lifecycle state. Select an existing procedure by these contracts, not similarity of its title alone. The same owner may need separate Consu and ForeFathers variants.
+
+3. A durable run ledger allocates a run ID, pins the procedure and policy versions, reserves budget, and records input references before dispatch. Phone and desktop reconnect to that record. Batch rows and campaign stages have separate IDs, state, dependencies and effects. Polling timeout or a closed app does not erase remote work.
+
+4. The executor routes validated ordinary cases through code and necessary model steps. Deterministic operations include canonical identifiers, arithmetic, unit conversion under approved rules, duplicate checks and exact database lookups. Media recognition and ambiguous matching remain probabilistic unless the source itself supplies reliable structured fields. Do not call invoice OCR or free-form legal interpretation deterministic merely because a script invokes a model.
+
+5. Runtime guards check applicability, input shape, freshness, schema, domain constraints and required evidence. If the procedure cannot safely settle the case, send a bounded context package to a stronger model or the responsible human. An unfamiliar vendor or conflicting notice must remain visible rather than being forced through a cheap path. Model confidence alone is insufficient to establish that a case is ordinary.
+
+6. Every proposed business effect still traverses the independent action gateway. Optimized code has no extra rights. Recheck business, recipient, current grants and exact approvals before assignments, postings, messages or orders. A procedure release is not a blanket approval of its future external effects.
+
+7. Collect versioned traces and independently checked outcomes. Separate extraction, reasoning, tool time, approval wait, retries and verification costs. Trace identifiers link back to permitted evidence. Raw documents and secrets do not belong in a broadly readable optimization log. Retention, redaction and access apply to traces and derived training/evaluation data too.
+
+8. Run improvement work outside the live executor. Mine repeated patterns, propose a constrained change, run frozen replays, inspect differences, obtain the relevant publication approval and canary the new version. Pin in-flight runs to their existing version unless an explicit migration is safe. Keep a rollback version and invalidate releases whose source assumptions are no longer true.
+
+WHAT THE CLIENT CODE ACTUALLY DOES
+
+The published SDK separates agent definitions/builds, runs, batches, loops and campaigns. It maps several server statuses into a smaller vocabulary while retaining raw_status. A blocked or failed run ends waiting without becoming success. It injects fetch, disables redirects, requires HTTPS except explicit localhost addresses, encodes resource IDs and forwards supplied idempotency keys. A network failure is not automatically retried. These selected behaviors were inspected and exercised locally. [GR-S07; sdk-check-results.json]
+
+The batch parser handles quoted CSV content and rejects invalid headers, inconsistent rows and excessive input counts. The run operation forwards structured-output requirements, but the response parser only accepts an object; it does not establish semantic correctness or validate returned fields against the requested business schema. Our probe deliberately returned an invalid amount as a string and confirmed the parser retained it. SupaBiz therefore needs explicit schema and domain validation before creating records or effects.
+
+Campaign approval requests bind a 64-character review digest in the client. Waiting on a draft does not approve it. However, a configured agent's campaign method starts its template directly, and waitUntilReady activates a completed generated agent. These are distinct lifecycle operations, not equivalent guarantees of human review. SupaBiz should deliberately choose Draft → Tested → Active for production procedures and preserve the Decawork action boundary independently of a campaign plan. Hosted enforcement of stale digests was not tested.
+
+Two integration details deserve attention. The website quickstart uses Agent.create with one options object, whereas published 0.2.1 takes a prompt string followed by options. A synthetic probe reproduced the incompatibility without a network call. Also, the repository's skills package is version 0.3.0 while the published grep-research-skills release was 0.2.0 at review time. The latest source's optimization/agentify instructions must not be presented as already shipped in that older npm release. [GR-S05, GR-S07, GR-S08]
+
+The SDK defaults to the unified /api/v2 API. Its automatic environment variable is AGENTRUN_BASE_URL; website examples can instead explicitly pass a value from AGENTRUN_API_BASE. The older skills reference discusses other endpoint names and compatibility limits. Pin the exact client, API host and verified capability contract rather than copying examples between versions. An accessible route alone does not establish its authorization, cost or response semantics.
+
+UX TO TAKE AND IMPROVE
+
+Offer a “Save as a reusable procedure” suggestion after useful repeated work. Show the stable steps and variable inputs, explain what prompted the suggestion, and let the owner choose reuse, a scoped variant or a new procedure. Do not create recurring execution merely because repetition was detected. Show a sample input and expected output, including sources and missing-information behavior.
+
+Give each responsibility a plain-language card: business and owner; trigger and next run; current version; last verified result; pending exceptions; per-run limit; monthly allowance; and pause controls. Keep Draft, Tested, Active, Paused and Retired separate. A generated configuration is a draft until its behavior and access are checked.
+
+Show an optimization comparison with concrete changed steps. For example, “amount reconciliation now uses tested arithmetic; ambiguous invoice extraction still uses AI.” Include the evaluation window, sample size, error/abstention changes, typical and slow-case latency, human minutes and full cost. Mark candidate versus measured versus released. Never display a savings percentage just because code was generated.
+
+A batch inbox should show Completed, Needs review, Failed, Still running and Skipped per business record. Allow a retry of selected failed rows without redoing successful ones. Preserve each row's source links and external effect ID. A whole batch is not done while required rows remain unresolved. Notify users about changes or exceptions, not every polling tick.
+
+Scheduling needs an explicit first-run choice, timezone, pause meaning and cumulative budget. Grep's docs state that creating a loop starts a first batch immediately, and its cap applies to each occurrence rather than lifetime spend. Its pause and delete semantics allow already running rows to finish. SupaBiz should explain these distinctions before activation and show any in-flight work when paused. [GR-S09]
+
+Campaigns can help engineers compose dependent work, but users should see a business checklist with accountable stages. Approving a plan should bind its exact version. A plan can declare allowable work without authorizing every new external recipient or transaction discovered during execution. Grep's documented draft/digest pattern is useful; backend permission and stale-plan guarantees remain untested. [GR-S10]
+
+VARUN: INVOICE AND STOCK WORK
+
+For a supplier invoice received through WhatsApp, preserve the original file and message reference, hash it and deduplicate delivery events. Extract fields with source spans and uncertainty. Use code for validated arithmetic, approved unit conversions, supplier/SKU lookup and comparison with current purchase and receipt records. Route uncertain pack sizes, unknown suppliers, duplicate-number conflicts, damaged-goods evidence and mismatched amounts to the exception inbox.
+
+Do not infer live stock merely from a supplier invoice. Posting stock requires the accepted receipt and current inventory policy; posting an accounting record requires its own evidence and authority. Supplier orders and payments remain separately authorized actions. An optimized invoice procedure can reduce repeated checking without eliminating those controls.
+
+A reviewed correction such as a supplier-specific pack definition becomes a versioned, scoped rule. Test old and new invoices, including exceptions, before release. A Consu rule must not silently spread to ForeFathers. Video or photo evidence can initiate a receiving investigation; it cannot prove a quantity or resolve an invoice mismatch unless the relevant evidence is actually available and checked.
+
+RAMYA: COURT NOTICE ROUTING
+
+For each incoming email, code can normalize a reliably extracted matter identifier, deduplicate a repeated notice, look up the current matter and assemble an assignment proposal. A model may help read an unfamiliar document, identify a potential new matter or explain a conflicting notice. A staff member resolves ambiguous matches and material contradictions. Retain the authoritative notice and chronology; a remembered prior date cannot overrule a newer notice.
+
+Pin each assignment to the correct matter, notice version, responsible person and required timeline. Current membership and task policy govern execution. A later correction or superseding notice can reopen the relevant work, rather than merely modifying a cached summary. External client communication and filings stay distinct reviewed effects.
+
+The benefit to test is reduced manual routing and fewer missed or incorrect assignments. This is an operations design proposal, not a legal accuracy guarantee. Include nonstandard subject lines, missing attachments, parallel matters with similar parties, corrected dates and staff changes in the acceptance set.
+
+PERFORMANCE, COST AND SCALING
+
+Separate three comparisons: a general agent that reasons through every step; a fixed workflow without sufficient exception handling; and a guarded hybrid procedure with targeted model/human fallback. Measure the same input cohort, evidence availability and outcome requirements in every arm. Restrict any test baseline with unsafe permissions to offline fixtures. Compare quality and safety before cost.
+
+Grep's homepage reports an AML comparison from $2.89 to $0.25 average model cost across 100 alerts, approximately 91% lower. Its 51-minute to roughly three-minute example concerns one alert, not the average of that population. These are vendor-reported figures, not reproduced here; the linked detailed social post was not retrievable. They do not establish SupaBiz savings, total operational cost or equal-quality performance. [GR-S03]
+
+For planning, use C_hybrid = C_ingest + C_code + C_guards + C_small_model + p_exception × C_fallback + C_review + C_storage/recovery. Add optimization and evaluation cost divided by the number of runs that actually use that version. Changes in error rates, human handling and missed work can dominate token savings. Track cost per verified completed workflow, not cost per generated answer.
+
+The saved synthetic model uses abstract cost units: baseline 1.00 per case, hybrid 0.40, and one-time optimization/validation cost 120. At 1,000 equivalent-quality cases, totals would be 1,000 versus 520, a 48% total reduction; steady-state per-case reduction would be 60%. Break-even is 200 cases, with strict savings only above that volume. These are arithmetic examples, not vendor prices, measured results or a recommendation to promise those percentages.
+
+For B input bytes, N rows, K procedure versions, S stages and E dependency edges: parsing/validation is usually O(B) time with O(B + N) materialized storage; an indexed procedure lookup is commonly O(log K) plus authorization and applicability checks; acyclic plan validation can be O(S + E). A naive per-case plan examination can still be O(S). Model inference is empirical, depending on context, provider and hardware. No optimizer guarantees constant-time reasoning or a logarithmic search improvement for every workload.
+
+For M concurrent pending jobs polled every delta seconds, request load is roughly M/delta before retries. Prefer durable events plus bounded reconciliation, or jittered polling with backoff and quotas. Limit batch concurrency per business and connector, reserve spend atomically, and avoid one customer starving others. Repeated schedules need a monthly/business ceiling in addition to per-run caps. Small initial deployments can use one relational store and durable workers; separate services when measured throughput, isolation or operational ownership requires it.
+
+REUSE, BUILD AND DEFER
+
+Reuse the design patterns immediately: reusable procedure definitions, visible input/output contracts, per-case results, durable run references, exact plan review and controlled optimization. The skills repository declares MIT licensing; preserve notices and review the selected code before copying helpers. The inspected SDK package contains no license field or bundled license file, so do not assume that public availability grants unrestricted source reuse. Resolve its license for vendoring; a hosted integration also needs applicable service terms.
+
+Build SupaBiz's procedure registry, typed business records, permission-aware evidence packaging, durable run/effect ledger, drift guards, monthly budgets, outcome verification and reviewed improvement pipeline. Keep the WhatsApp/email/media adapters and model interface replaceable. The public SDK is an API client, not the self-hostable execution or optimization backend. The private harness, model routing internals, evaluator and tenant isolation were not reverse-engineered.
+
+The authentication documentation describes tenant-associated keys, delegated OAuth and public report links that act as read capabilities. For SupaBiz, reports stay private by default; sharing to a group requires a deliberate audience check. Public URLs are unsuitable as the default for legal matters or accounting records. The broad privacy policy covers service operation, retention criteria and international processing; marketing assurances and a SOC 2 label do not replace a reviewed customer data agreement or audit report. [GR-S11, GR-S12]
+
+IMPLEMENTATION PLAN AND ACCEPTANCE GATES
+
+Sprint 1: record procedure/run versions and reliable traces for one invoice workflow and one notice-routing workflow. Establish the baseline on dated, scoped cases. Gate: source linkage, correct business/matter isolation, explicit uncertainty and verified outcomes are visible.
+
+Sprint 2: replace one clearly deterministic repeated operation with reviewed code, behind applicability checks and a fallback. Gate: no new permission bypass, quality meets the agreed baseline, failures remain detectable and rollback works. A code change and its evaluation evidence form one release artifact.
+
+Sprint 3: add the reusable-responsibility UX, per-row batch inbox and explicit schedules with cumulative limits. Gate: restarting a client preserves work, duplicate events do not duplicate effects, partial failures stay visible, and cancellation semantics are understood.
+
+Sprint 4: introduce assisted optimization proposals, frozen replay, canary rollout and version-level cost/quality comparison. Gate: improved economics at acceptable quality on representative and exception cohorts. Only then consider automated candidate generation or more sophisticated model selection. Do not prioritize model training before we have trustworthy labels and sufficient volume.
+
+VERIFICATION AND REMAINING QUESTIONS
+
+Saved outputs include 20 design candidates, 48 proposed SupaBiz acceptance cases, a procedure contract, architecture and optimization-loop diagrams, a synthetic cost model, REA evidence, pinned artifact identity and 30 passed isolated client checks. None of the proposed SupaBiz acceptance scenarios has been executed against a production implementation. Earlier Decawork and other reviews are preserved.
+
+Still unresolved: live schema and SDK compatibility; private optimization semantics; actual quality/cost curves; permission and sandbox enforcement; model-provider data terms; deletion propagation; hosted idempotency behavior; approval races; commercial pricing and SDK license. These are adoption questions, not proven defects. The detailed source review and metadata let another engineer or LLM continue without confusing marketing, inspected implementation and SupaBiz proposals.

@@ -1,0 +1,51 @@
+{
+  "id": "YC15-shire-intelligence",
+  "name": "Shire Intelligence",
+  "date": "2026-10-17",
+  "method": "REA evidence routing; public-product/policy and selected video-frame review. No attributable public implementation artifact established; no code REA or runtime checks claimed.",
+  "sources": [
+    {
+      "id": "SH-S01",
+      "url": "https://www.ycombinator.com/companies/shire-intelligence",
+      "kind": "Official identity and positioning",
+      "observation": "Restaurant CCTV company; product claims, not deployment verification."
+    },
+    {
+      "id": "SH-S02",
+      "url": "https://shireintelligence.com/",
+      "kind": "Public homepage and illustrative UX",
+      "observation": "Floor and role-task illustration inspected. Add-on and broader POS offering; no live business workflow tested."
+    },
+    {
+      "id": "SH-S03",
+      "url": "https://shireintelligence.com/benefits",
+      "kind": "Payment-savings calculator page",
+      "observation": "Published estimates concern payment economics; not measured vision improvement."
+    },
+    {
+      "id": "SH-S04",
+      "url": "https://www.youtube.com/watch?v=d0Y4GISLv2I",
+      "kind": "Official linked demo",
+      "observation": "Selected frames at approximately 0:10, 0:30 and 1:00 show annotated multi-camera restaurant views. Transcript export unavailable; full narration not reviewed."
+    },
+    {
+      "id": "SH-S05",
+      "url": "https://shireintelligence.com/privacy-policy",
+      "kind": "Public privacy policy",
+      "observation": "Specific CCTV retention, training use and processing-location controls not established."
+    },
+    {
+      "id": "SH-S06",
+      "url": "https://shireintelligence.com/terms-of-use",
+      "kind": "Public service terms",
+      "observation": "Public terms are not evidence that backend controls work; see supplementary report."
+    }
+  ],
+  "source_search": "security-source-review.json",
+  "limits": [
+    "No authenticated product or camera integration",
+    "No full transcript or continuous demo review",
+    "No verified model, training pipeline, API, source repository or operational benchmark"
+  ],
+  "prior_synthesis": "../cross-project-patterns-YC07-YC14.txt"
+}

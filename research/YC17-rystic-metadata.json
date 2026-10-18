@@ -1,0 +1,82 @@
+{
+  "id": "YC17-rystic",
+  "name": "Rystic",
+  "date": "2026-10-18",
+  "repository": "https://github.com/Rystic-Inc/rystic-scripts",
+  "commit": "51fc13b764d2bfe9bd7067d120eacdec42bd2a4d",
+  "method": "REA evidence routing: selected public example source, downloaded public setup helper, official docs and public catalogue UI; no simulator binary analysis.",
+  "source_snapshot": [
+    {
+      "path": "README.md",
+      "sha256": "1340fd5cbdc57586320c3f7665991a9153486fc21eaf23731153e14e5f7c27b1",
+      "lines": 21,
+      "url": "https://github.com/Rystic-Inc/rystic-scripts/blob/51fc13b764d2bfe9bd7067d120eacdec42bd2a4d/README.md"
+    },
+    {
+      "path": "LICENSE",
+      "sha256": "127a5fe48fafee7c8c73b3d5cfa55304b2710c396321458e0504ac4dcff22173",
+      "lines": 21,
+      "url": "https://github.com/Rystic-Inc/rystic-scripts/blob/51fc13b764d2bfe9bd7067d120eacdec42bd2a4d/LICENSE"
+    },
+    {
+      "path": "slack/check.sh",
+      "sha256": "59a6f3c95af7912edd704f1b56084122cba61fe32c31e18b3be9419248d33343",
+      "lines": 122,
+      "url": "https://github.com/Rystic-Inc/rystic-scripts/blob/51fc13b764d2bfe9bd7067d120eacdec42bd2a4d/slack/check.sh"
+    },
+    {
+      "path": "google-drive/check.sh",
+      "sha256": "82cc25711e660122730cd3136954f094c0fa3c4ccfb3e3abca8d0e780d24804f",
+      "lines": 171,
+      "url": "https://github.com/Rystic-Inc/rystic-scripts/blob/51fc13b764d2bfe9bd7067d120eacdec42bd2a4d/google-drive/check.sh"
+    },
+    {
+      "path": "github-pulls/bots/test_bot.py",
+      "sha256": "72b8fec6e54331f09f0a31aa9fd39e3030f80be62ae679567081eb8aabed1c37",
+      "lines": 212,
+      "url": "https://github.com/Rystic-Inc/rystic-scripts/blob/51fc13b764d2bfe9bd7067d120eacdec42bd2a4d/github-pulls/bots/test_bot.py"
+    },
+    {
+      "path": "github-pulls/bots/bot.py",
+      "sha256": "b670080ea92de449c3664f729dcf0c6d8e4f488c540b4dca95c58a60fe7b5b6c",
+      "lines": 158,
+      "url": "https://github.com/Rystic-Inc/rystic-scripts/blob/51fc13b764d2bfe9bd7067d120eacdec42bd2a4d/github-pulls/bots/bot.py"
+    },
+    {
+      "path": "environments/design-studio/rystic.yaml",
+      "sha256": "1fa30302960bdc50da2af329b2a31d7b266db49c8f8035d5f6ed1b07361825e7",
+      "lines": 9,
+      "url": "https://github.com/Rystic-Inc/rystic-scripts/blob/51fc13b764d2bfe9bd7067d120eacdec42bd2a4d/environments/design-studio/rystic.yaml"
+    },
+    {
+      "path": "environments/design-studio/docker-compose.yaml",
+      "sha256": "14c4cfa87a116dfb5b79a8041367f95e0287459d8e765851dab35a8a0c8e0225",
+      "lines": 87,
+      "url": "https://github.com/Rystic-Inc/rystic-scripts/blob/51fc13b764d2bfe9bd7067d120eacdec42bd2a4d/environments/design-studio/docker-compose.yaml"
+    }
+  ],
+  "downloaded_artifacts": [
+    {
+      "path": "vendor-artifacts/mcp-smoke.py",
+      "sha256": "8aad7cc123d93034e8e97eedf9d7a5fd5bcada753112fd64b5e4f598e979da5c",
+      "url": "https://www.rystic.ai/examples/slack-harbor/mcp-smoke.py"
+    },
+    {
+      "path": "vendor-artifacts/pins.json",
+      "sha256": "0574c121925c5d67297730f40dfe91db157dd3edf551dcdda56c25b21aed410d",
+      "url": "https://www.rystic.ai/examples/slack-harbor/pins.json"
+    }
+  ],
+  "source_license": "MIT example repository; simulator binaries separately licensed. Downloaded public helper license not established independently; retained as research evidence.",
+  "executed_checks": "15 offline helper checks with fake MCP session responses",
+  "limits": [
+    "No simulator engine source established",
+    "No simulator installation, binary execution, live account or paid use",
+    "No actual Harbor rollout, model training or RL",
+    "No independent vendor fidelity verification",
+    "No WhatsApp/Gmail/Google Calendar simulator established in reviewed catalogue",
+    "No performance benchmark or full application audit"
+  ],
+  "sources": "docs-evidence.json",
+  "prior_learning_count": 258
+}

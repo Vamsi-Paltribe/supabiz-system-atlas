@@ -1,0 +1,142 @@
+GLEN — SHARED BUSINESS MEMORY FOR SUPABIZ
+YC10 | 17 October 2026 | selected public client and shipped-package review
+
+DECISION
+
+Adopt the idea of a shared, portable learning layer. Build SupaBiz’s memory as a governed service over business evidence and authoritative records, with explicit tenant, role, matter, outlet and audience boundaries. Evaluate a narrow client adapter before making a vendor’s hosted memory service a dependency. Glen is especially useful as a product reference for contextual help, correction controls, reusable procedures and handoffs. Its public client does not establish that its private server meets SupaBiz’s permission, retention or regional processing requirements.
+
+Agent Relay and Glen address complementary problems. Relay transports requests between agents. Glen helps an agent find prior work and organizational knowledge. Neither replaces the business record or the authorization needed to change it. The useful combined chain is: authenticated request → allowed evidence and relevant memory → proposal → current authorization and approval → action → verified outcome → reviewed learning.
+
+This review preserves the sixteen Agent Relay learnings and adds eighteen Glen design candidates. It does not implement a production memory service, connect a Glen account or publish an atlas update.
+
+EVIDENCE AND REA COVERAGE
+
+The company identity is Glen at tryglen.com, linked from its YC profile. Official product pages describe shared context, skill discovery, session handoffs and organization knowledge. The homepage claims per-observation checks at recall and database row-level isolation. Those are vendor assertions, not verified server properties. The monorepo linked by the public plugin returned 404; the backend implementation was not available through that path.
+
+We cloned the public MIT-licensed plugin at commit 4bbed33f2ecad9dd692050fe156b89601d86edf6 and downloaded @tryglen/cli 0.41.7 from the npm URL in its registry metadata. The tarball’s SHA-512 matches the registry integrity field. It was extracted without npm installation or lifecycle scripts. MIT is declared in package metadata; deployment and service rights must be assessed separately from the public plugin’s license.
+
+REA analyzed eight selected artifact paths: one manifest and seven JavaScript files. Evidence ev_847704d45e88d123131763aef3a3d115871d9f691e069751efec9cba1fce817d records 494 relevant inventoried files, 486 outside the selected analysis, 3,643 visited AST nodes and zero parse failures. These counts describe static coverage, not security defects or test coverage. The first attempt failed because the macOS isolation helper could not compile inside the sandbox; an authorized retry completed. The Glen CLI entrypoint, bootstrap, account setup and hooks were never run.
+
+Twenty isolated checks imported selected pure shipped modules and their local dependencies. Synthetic inputs tested payload construction, headers, status labels, result formatting, transcript segments and transcript digests. All passed, including observations of limitations. No network, hosted authorization, real customer data, real transcript, model inference or end-to-end workflow was tested. Additional files were read manually outside the eight-path REA selection; metadata records that distinction.
+
+WHAT THE CLIENT ACTUALLY SHOWS
+
+The plugin’s hook manifest calls session-start at session start, ingest on user submission and completion, and pr-link after Bash tools. This is more extensive than the root README’s two-hook description. The shipped ingest command can read the supplied transcript path, parse a completed turn, add workspace/session metadata, construct an idempotency key and send a typed turn request. A transcript may contain tool results and file content previously surfaced to the agent. “Only conversations” therefore does not mean “no sensitive file data.” We did not read any user transcript.
+
+The buildTurnBody helper retains the current prompt or supplied messages and optional prior reply. It performs no redaction in that function. A transcript segment can have a 200-character display preview while its structured output retains longer content; our synthetic check confirmed this. SupaBiz should review the serialized payload itself rather than infer disclosure limits from a preview.
+
+The API client attaches credentials, active organization and a client version, invokes a named server procedure, then checks the response against generated schemas. Incognito/off state adds an incognito header. These headers convey a request; they do not prove that the server validates membership or respects recording policy. The ingest path locally stops when effective mode is off; incognito continues to construct and send a turn. This supports a precise distinction between no recording and no transmission. It does not prove whether or how the private server retains that request.
+
+Context delivery is also version- and client-specific. The inspected session-start code obtains a teamMemoryBlock from controlStatus. The turn formatter handles skill and artifact suggestions. The search command sends a query and formats an answer. The selected formatter does not simply inject an arbitrary memory field from every turn response. Cursor has an explicit fallback instruction to use search because its client cannot inject team memory per turn through the same mechanism. The public per-prompt recall promise must be validated for the exact client/server release pair.
+
+The search skill instructs the agent to prefer live sources for current facts and use memory for durable history. It recommends one comprehensive query, with a follow-up only when materially useful, and asks for source attribution. Its roughly ten-second search estimate is documentation, not our measured latency. The shipped search formatter, however, appends language broadly presenting recalled decisions as implemented and verified. That formatter does not validate the truth of the answer. SupaBiz should carry explicit evidence status rather than promote every retrieved statement to verified authority.
+
+The forget skill distinguishes observations from source messages, supports exact references, describes cascading suppression of unsupported derived observations, and retains transcript history. The CLI displays the server-returned suppression counts and explicitly says message history remains. This is a useful correction UX and an unverified server contract; forgetting from recall is not erasing stored data.
+
+Shared skills and artifacts are described as private by default, with explicit organization or named-person sharing. The client exposes search, get and sharing calls; authorization enforcement remains server-side. Session takeover code checks a prepared transcript digest, stages a destination session, checks round-trip integrity and considers context fit. That is a useful handoff design. We did not run native session installation, verify all adapters, or establish semantic equivalence across models.
+
+WHAT SUPABIZ SHOULD REMEMBER
+
+Keep five related but distinct classes:
+
+1. Evidence: original messages, attachments, extracted spans and source versions. Preserve who supplied them and their access restrictions.
+2. Business records: assigned tasks, purchase orders, receipts, hearing notices and verified statuses. A transaction service owns updates; vector recall does not.
+3. Decisions: who selected an approach, alternatives considered, approval, effective period and supporting evidence. These answer “why did we do this?”
+4. Procedures: approved repeatable methods with an owner, version, applicability and evaluation history. These are executable only through the normal tool and approval boundary.
+5. Preferences and working context: personal style, temporary session state and proposed interpretations. They are not automatically company policy.
+
+A memory item should include tenant/business, domain scope, source references and versions, author/reviewer, evidence state, observation time, effective time, expiry or review date, sensitivity, access-policy reference/version, derivation parents and supersession links. Agent-written claims begin as proposals unless validated by an appropriate source or reviewer. Keep the successful outcome and concise rationale; do not require hidden model reasoning or assume another provider can export it.
+
+HOW PERMISSION-AWARE CONTEXT SHOULD WORK
+
+At capture, resolve the source account, business, channel/matter and the actual sharing authority. A connector credential’s ability to read a group does not authorize sharing its contents with the whole company. A WhatsApp group is not automatically a public company knowledge base. Store both the observed source scope and the separately approved SupaBiz sharing policy. When membership or ACL synchronization is incomplete, avoid expanding access and disclose that coverage is incomplete.
+
+At retrieval, authenticate the human and agent, derive tenant server-side and determine the task’s purpose and destination audience. Restrict retrieval to the permitted corpus before any generation or external reranking that would disclose candidate text. A client-provided tenant filter or a prompt saying “do not reveal” is not an authorization boundary. Database row-level controls can support isolation, but source ACLs, field restrictions, service-account behavior and derived documents still require testing.
+
+Apply permissions before ranking wherever the index supports it. Recheck selected documents against current policy before materializing content for the model. A global top-k search followed by filtering can produce poor recall when most top results are forbidden; filtering only the final answer is too late if restricted content reached a model or reranker. Secure partitions, access bitmaps or bounded authorized candidate retrieval are implementation options to benchmark, not a predetermined database choice.
+
+Derived material requires lineage. If a summary combines an operations thread and an accountant-only note, the safe default is that readers must be authorized for every contributing protected source. The union of the original audiences would widen access. For mixed-audience answers, generate a new result from only sources available to the destination audience. A genuinely shareable redacted summary is a separately approved disclosure artifact, with its own scope and provenance; it is not automatically public because names were removed.
+
+Check audience at output time. Varun may read both businesses’ finances privately, but an answer posted to Consu’s staff group must use the group’s allowed context, not Varun’s full personal access. For a group whose membership cannot be reliably established, use explicitly approved group-shareable records. Never expose restricted titles, citations, result counts or suggestive refusal messages that reveal hidden matters. A private user can be offered an access request only when policy allows disclosure of the resource’s existence.
+
+Cache entries should bind tenant, effective identity, purpose, audience, relevant policy version and source versions. An account switching business must not reuse the previous business’s context. On revocation, invalidate materialized summaries and affected cache entries, stop new tool reads and reconstruct future model context without the revoked material. Previously transmitted context cannot be made unseen; sensitive workflows may require a fresh session. Backups, exports and authorized external recipients need separate retention handling.
+
+FRESHNESS, CONTRADICTION AND CORRECTION
+
+For current inventory, hearing dates, task ownership and payment state, consult the authoritative record or source, then use memory to explain history. Store observed_at, received_at, valid_from and valid_to separately. A late-arriving court email can describe an earlier event; receipt time alone does not define legal or operational order. If two notices conflict, surface the conflict for review rather than trusting whichever text embeds closest to the query.
+
+Give a correction a type: factual correction, superseded decision, revoked evidence, narrower audience, expired preference or procedure change. Mark the affected item and derived dependents, retain evidence of the correction, and re-evaluate downstream answers. Do not delete every source behind an answer because one sentence is stale. Do not let a low-privilege user silently rewrite shared policy. Link this to SB-AS-13: scoped correction → reviewed memory or procedure version → regression test → promotion or rollback.
+
+Make “hide from future answers,” “correct the fact,” “change who may see it,” and “delete retained content” separate controls. Each has a different effect. A recall suppression may preserve audit history; deletion must address original content, extracts, indexes, derived summaries, caches, exports and retention exceptions. Do not promise that a label change erases data already sent to a model provider or another business.
+
+VARUN’S WORKFLOW
+
+Illustrative proposal: a chef posts that a supplier delivered soft tomatoes twice, while the manager records a replacement agreement and the accountant notes an unresolved credit. Those are related facts with different audiences. A shift worker asking what to do with today’s delivery receives the approved receiving procedure and the relevant quality check. The manager receives delivery history and the replacement task. The CA receives the invoice, receipt and credit references. Varun can see an authorized consolidated view, but forwarding that view to staff requires a new audience-filtered answer.
+
+When the manager corrects “Supplier A is banned” to “Supplier A is temporarily excluded for tomatoes at Consu until review,” SupaBiz creates a scoped, dated rule. It does not ban that supplier at ForeFathers or change unrelated ingredients. A later owner-approved revision supersedes the rule; old evidence remains for explanation but should not drive current recommendations.
+
+The compelling UX is a small “Context used” panel: Consu, manager role, last source refresh, three permitted references and one relevant approved procedure. Each item can explain why it was selected, its effective date and who can correct it. The manager can remove an irrelevant item for this task without erasing the organization’s history. Staff should get a concise answer, not be asked to manage a vector database.
+
+RAMYA’S WORKFLOW
+
+Illustrative proposal: a court email arrives for matter M-104. SupaBiz matches the matter using reviewed identifiers and retrieves the current notice, assignment, filing status and applicable approved checklist. Ramya can coordinate the assignment; an assistant assigned to M-104 sees the evidence needed for that task, not another client’s documents or restricted principal notes. If the account receiving the court email is Arkaj’s, that credential does not by itself authorize copying the entire inbox to every employee.
+
+Memory supplies the prior procedural decision and handoff context, while the authoritative notice and calendar record supply the current date. A new notice can supersede a remembered date. A task reassignment changes access to the necessary evidence through an explicit policy; it should not broaden access to every matter in a similar category.
+
+The “why was this assigned?” view should show the rule or principal’s instruction, supporting communication, assignment owner and revision history. A new assistant gets an approved work summary, unresolved questions, required files and next steps. A provider change carries that portable state, not an assumption that the next model inherited hidden reasoning, tool credentials or permissions.
+
+UX AND CONTROLS TO ADAPT
+
+Glen’s control skill separates recording and surfacing into on, off, incognito and silent modes, describes account-wide server enforcement, and treats failed updates as not applied. Its organization switch is described as per-device. SupaBiz should make these dimensions visible in plain language: “Save new memory,” “Use saved memory,” “Send context to cloud,” and the exact business/device/session scope. A change should show pending until the relevant service confirms it. A recording-only mode must remain visibly recording.
+
+Use progressive setup: choose business and source; preview data categories and recipients; synchronize; display freshness and coverage; then offer a relevant context suggestion. Keep personal preferences private unless explicitly promoted. For procedures, show an owner and version and offer a small reusable step at the moment it helps. Do not interrupt every task with promotional banners. A suggestion is evidence of relevance, not authorization to execute downloaded instructions.
+
+Add a memory review queue for high-impact changes: proposed supplier rule, new court checklist, reassignment convention or accounting treatment. Show the supporting examples, conflicts, expected scope and test results. Low-risk personal presentation preferences can be easier to accept. A learned operational habit should not become a global company rule merely because it appeared frequently.
+
+Keep evidence and instructions separate in the harness. Retrieved text may contain a request to ignore policy, reveal files or run code. The memory service supplies facts with provenance; approved procedure code is versioned and executed through bounded capabilities. A supplier’s message cannot promote itself into a system instruction or a new authorization grant.
+
+ARCHITECTURE, REUSE AND BUILD
+
+Reuse candidates are small: hook lifecycle patterns, canonical turn envelopes, stable message identifiers, source-linked correction UX, private-by-default artifact sharing and integrity-checked handoff concepts. Prefer an adapter with contract tests to copying large client surfaces. The public plugin contains skills and hook configuration, not the private memory pipeline. The CLI is useful implementation evidence but does not provide a self-hostable Glen server.
+
+Build a SupaBiz memory gateway beside the harness. Ingestion flows through identity/scope resolution, capture permission, evidence storage and asynchronous extraction. Proposed facts and procedures enter review where needed. Retrieval flows through purpose/audience resolution, authorized search, freshness checks, bounded ranking and a context envelope. Action services independently enforce current permissions. Correction/revocation events invalidate derived memory and feed the evaluation suite. Agent Relay transports a scoped context package only after this gateway permits sharing.
+
+Start with ordinary database records and searchable evidence plus an optional embedding index; do not adopt a graph database just because lineage is graph-shaped. Explicit parent/child tables and indexed relationships may suffice for the first workflow. Measure before introducing more services. Separate immutable evidence identity from mutable visibility, validity and deletion state. Object storage holds media; metadata and references hold permissions and provenance; authorized processors produce transcript/OCR derivatives with the same lineage.
+
+The subprocessor page names PostgreSQL through Neon, background processing through Inngest, Vercel hosting/storage and OpenAI processing. This is a vendor-described stack, not an inspected architecture or a required SupaBiz stack. The privacy page permits service-provider processing and says Glen does not train its own models on customer content. That is narrower than a blanket claim that no third party receives data. The README’s broad privacy wording needs reconciliation before adoption. No regional deployment or data-processing contract was verified.
+
+The hosted terms contain restrictions relevant to competitive-product use and reverse engineering. We inspected public material and MIT-licensed public client artifacts, and did not access a hosted account or probe private endpoints. Public client licensing does not automatically grant rights to embed the commercial service in SupaBiz. Resolve service rights and data terms if a vendor integration becomes a serious choice; this report is not a legal opinion.
+
+BENCHMARK LESSON AND SUPABIZ EVALUATION
+
+Glen’s August 4 vendor benchmark reports replaying 100 PRs, five runs per arm, with matched prompts/model/harness and memory rolled back before the original work. It reports 29% fewer tokens and 21% less time, with quality maintained. The useful methodological idea is time-correct memory replay. These are coding-workload vendor results; raw runs, confidence intervals and an independently reproducible dataset were not available in the reviewed post. They do not predict Varun’s or Ramya’s gains.
+
+For SupaBiz, compare three arms on the same dated cases: authoritative tools without memory; unstructured history retrieval; and scoped, provenance-aware memory. Freeze both knowledge and permission state at each case’s evaluation cutoff. Later corrections, answers and resolved outcomes must not enter earlier replay context. Also run current-policy replay separately to test revoked access; historical authorization for offline evaluation must never become live access for a removed employee.
+
+Measure verified answer/action quality, cross-business/matter leakage, unsupported claims, stale-answer rate, permitted-evidence recall, citation correctness, human review, p50/p95 completion time and full cost per verified task. Include ingestion, embeddings, retrieval, model calls, storage, invalidation and review costs rather than just output tokens. Test no-result behavior and cases where the correct answer is to check the current notice or ask for clarification. Forty proposed cases accompany this report; none has been run against SupaBiz or Glen’s server.
+
+COMPLEXITY AND COST
+
+Let N be memory items, C changed source characters, d embedding dimensions, k retrieved candidates, B injected tokens, P permission predicates and D affected descendants. A naive exact vector scan is O(Nd); approximate indexes trade recall, memory and update costs and do not guarantee constant or logarithmic latency for arbitrary filters. Tenant/ACL filtering can improve safety and reduce the eligible set, but may hurt retrieval recall or index efficiency if implemented poorly. Benchmark the actual corpus and permission distribution.
+
+Lexical indexing, entity keys and deterministic current-record lookups should precede expensive semantic work where appropriate. If ranking sorts k candidates, that part is O(k log k); LLM reranking has additional token and network costs. Authorization work depends on policy representation; evaluating P predicates per candidate can cost O(kP), with membership lookups and source checks in addition. Cache only within equivalent authorization contexts and invalidate on policy/source changes.
+
+Evidence text storage is O(total retained bytes); a dense vector representation is roughly O(Nd) values before index overhead. Lineage needs O(N+E) node/edge storage for E derivation links. Invalidating affected descendants is O(D+E_D) with a reverse dependency index; broad rules can affect most of the corpus. Avoid eagerly copying every summary into every employee’s memory. Processing a changed document once and storing permission-bearing references reduces duplication, provided updates and deletion remain traceable.
+
+Synthetic arithmetic: ten repeated 8,000-token history injections contain 80,000 input tokens. Ten 1,000-token scoped packages contain 10,000: 87.5% fewer injected-history tokens in that example. This excludes retrieval, ranking, capture, outputs and potentially lost context; it is not a measured savings claim or expected production percentage. Memory is beneficial only if avoided rediscovery and errors exceed its full costs while quality and access constraints hold.
+
+IMPLEMENTATION SEQUENCE
+
+Phase 1: build a dated evidence and decision store for one Consu workflow and one matter workflow. Require source references, scopes and reviewed current facts. Add manual retrieval with citations and no automatic policy learning. Exit when wrong-business/matter cases return no forbidden material and stale facts reliably direct users to current records.
+
+Phase 2: add bounded contextual suggestions with a visible context panel, audience-aware answers and explicit no-memory fallback. Compare against the baseline. Exit when source freshness, permission failures and retrieval relevance are measurable and understandable to staff.
+
+Phase 3: implement scoped correction, derived-memory invalidation, revocation, suppression and deletion workflows. Add the Asakana correction loop and Hue-style replay cases. Exit when stale decisions stop surfacing, unchanged supporting evidence remains, and rollback preserves history.
+
+Phase 4: introduce reviewed procedures and portable handoffs across models/devices. Pin procedure versions, validate dependencies, retain permissions and test context fit. Exit when a handoff cannot widen grants, revive revoked sources or silently lose required context.
+
+Phase 5: use Relay for bounded cross-business requests and approved disclosure packages. Start with read-only supplier quotes or CA evidence requests. Expand only after current access, output audience, duplicate actions and verified outcomes survive the scenario suite. No full-team sprint estimate is justified without the current implementation state and team capacity.
+
+OPEN QUESTIONS
+
+The private server’s ACL model, RLS policies, source-connector permissions, revocation propagation, conflict resolution, skill-distillation pipeline, cache isolation, deletion behavior and ranking implementation remain unverified. The exact published-client/hosted-server compatibility and end-to-end recall semantics need validation. Commercial pricing, export completeness, data residency and independent operational benchmarks remain unresolved. The public client gives concrete patterns and testable boundaries, not proof of hosted guarantees. Next queued project is Decawork; it is not investigated in this turn.

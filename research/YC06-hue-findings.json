@@ -1,0 +1,163 @@
+{
+  "id": "YC06-hue",
+  "date": "2026-10-17",
+  "findings": [
+    {
+      "id": "HU-01",
+      "title": "Turn reviewed incidents into regression cases",
+      "observed": "Hue documents trace-to-case review before publication.",
+      "source_ids": [
+        "HU-S03"
+      ],
+      "supabiz_proposal": "Add Make this a test to an incident or correction. Preserve task, authorized initial context, original failure and reviewed desired outcome. Require a person to check generated assertions. Link SB-AS-13: a business correction and a new generalized rule remain different decisions. The failed output is diagnostic evidence, not automatically the correct answer.",
+      "measure": "Time from incident to reproducible case; repeated incident rate; reviewed assertion coverage."
+    },
+    {
+      "id": "HU-02",
+      "title": "Test a stateful world, not only a prompt",
+      "observed": "Hue documents fresh worlds with action journals and initial/final state.",
+      "source_ids": [
+        "HU-S04",
+        "HU-S10"
+      ],
+      "supabiz_proposal": "Model a minimal matter store, mailbox, task list, calendar and grants. Tools must read the state changed by earlier tools. Give every test a fresh world and record normalized effects. For restaurants, model stock receipt separately from purchase-order drafting. Recorded response playback can help reproduce a bug, but divergent actions need semantic tool behavior or an explicit coverage gap.",
+      "measure": "State invariant pass rate; unsupported operation rate; unintended effects; reset isolation."
+    },
+    {
+      "id": "HU-03",
+      "title": "Exercise the same agent and tool boundary",
+      "observed": "The SDK runs local targets; CLI documentation describes redirecting existing clients.",
+      "source_ids": [
+        "HU-S04",
+        "HU-S12"
+      ],
+      "supabiz_proposal": "Keep SupaBiz orchestration, policy checks and tool schemas the same in evaluation. Inject fake service transports at a defined boundary. In test mode refuse missing world configuration, remove production credentials and deny production network destinations. A redirect variable alone is not sufficient: browser paths, code execution and remote tools also need isolation.",
+      "measure": "Production endpoint escapes; adapter contract drift; proportion of real tool paths exercised."
+    },
+    {
+      "id": "HU-04",
+      "title": "Pin the entire experiment",
+      "observed": "SDK runner binds dataset/scorer/config identity and refuses conflicting checkpoints.",
+      "source_ids": [
+        "HU-S06",
+        "HU-S07",
+        "HU-S08"
+      ],
+      "supabiz_proposal": "Version fixture data, virtual time, tool schemas, role grants, prompt, model settings, memory snapshot, harness commit and scorer definitions. Keep an immutable attempt manifest and state digest. Record provider version limitations: a seed or pinned name does not guarantee identical remote model output.",
+      "measure": "Reproduction success; unexplained version differences; stale-case execution."
+    },
+    {
+      "id": "HU-05",
+      "title": "Score effects and forbidden actions",
+      "observed": "Verdict logic separates mandatory outcomes from advisory results.",
+      "source_ids": [
+        "HU-S09"
+      ],
+      "supabiz_proposal": "For Ramya assert the correct matter changed, the hearing date retained its source, an authorized assignment exists, and no unapproved message was sent. Use deterministic assertions for IDs, revisions, grants and quantities. Use a calibrated model judge for explanation quality only where needed. A fluent Done message cannot compensate for missing work or a prohibited effect.",
+      "measure": "Verified outcome rate; unauthorized effects; false positive pass rate."
+    },
+    {
+      "id": "HU-06",
+      "title": "Preserve honest non-pass states",
+      "observed": "SDK and docs distinguish missing results, evaluator errors and environment gaps.",
+      "source_ids": [
+        "HU-S04",
+        "HU-S09",
+        "HU-S10",
+        "HU-S18"
+      ],
+      "supabiz_proposal": "Report passed, failed, pending, inconclusive, evaluator_error, environment_incomplete and infrastructure_error separately. A missing judge or unsupported connector must never become green. Keep all scheduled cases in a coverage denominator; also show agent quality conditional on valid completed environments. Do not attribute every timeout to model quality.",
+      "measure": "Decision coverage; unresolved run count; infrastructure failure rate; conditional quality."
+    },
+    {
+      "id": "HU-07",
+      "title": "Freeze and advance business time",
+      "observed": "worldNow exposes the simulated clock separately from wall time.",
+      "source_ids": [
+        "HU-S11"
+      ],
+      "supabiz_proposal": "Inject a clock into SupaBiz deadline extraction, calendar logic and reminders. Test tomorrow in Asia/Kolkata, a rescheduled hearing, a delayed client reply and cancellation before a reminder fires. In evaluation require a valid clock instead of falling back to the real current date. Keep time-zone and calendar-rule versions explicit.",
+      "measure": "Date-type mistakes; stale reminder sends; repeatability across execution dates."
+    },
+    {
+      "id": "HU-08",
+      "title": "Recover evaluation delivery without repeating business work",
+      "observed": "Selected installed SDK tests verified saved completion recovery and refusal on uncertain starts.",
+      "source_ids": [
+        "HU-S07",
+        "HU-S08",
+        "HU-S15"
+      ],
+      "supabiz_proposal": "Separate target execution, saved outcome, result upload and scoring. Retry idempotent uploads with stable keys. If an action may already have happened and the outcome is missing, stop and reconcile. A new attempt is explicit and gets a fresh isolated world. Do not market this as a universal exactly-once guarantee.",
+      "measure": "Duplicate effects after interruption; recoverable uploads; unresolved uncertain attempts."
+    },
+    {
+      "id": "HU-09",
+      "title": "Rescore existing evidence cheaply",
+      "observed": "Python rescore has no target callback; missing output is explicitly unavailable.",
+      "source_ids": [
+        "HU-S06",
+        "HU-S07"
+      ],
+      "supabiz_proposal": "When the rubric changes, evaluate saved permitted outputs and sealed journals without another agent run. When the model, harness or starting state changes, run a new experiment. Preserve old scores and scorer identities. Skip or mark inconclusive when retained evidence is insufficient rather than reconstructing it from guesses.",
+      "measure": "Agent/model calls avoided; rescore coverage; evidence retention cost."
+    },
+    {
+      "id": "HU-10",
+      "title": "Separate telemetry privacy from evaluation retention",
+      "observed": "Current SDK defaults capture to true; result persistence is an independent choice.",
+      "source_ids": [
+        "HU-S06",
+        "HU-S14",
+        "HU-S15"
+      ],
+      "supabiz_proposal": "Configure metadata-only capture explicitly by default for SupaBiz customer work. Use authorized minimized or synthetic evidence for debugging and cases. Decide content capture, result persistence, media copying and retention separately. Case copies, checkpoints, search indexes and backups need deletion lineage; deleting a trace may not delete its derived test case.",
+      "measure": "Sensitive-content escape tests; deletion coverage; useful reproduction under minimization."
+    },
+    {
+      "id": "HU-11",
+      "title": "Keep observability optional and loss visible",
+      "observed": "Reliability contract and selected tests preserve application behavior during tracing failures.",
+      "source_ids": [
+        "HU-S13",
+        "HU-S16",
+        "HU-S17"
+      ],
+      "supabiz_proposal": "Bound queues and export deadlines. A telemetry outage must not repeat assignments or block unrelated user work. Alert through an independent health path. Distinguish exported, acknowledged, stored and complete traces. Mandatory audit/approval records belong in the transactional business system, not only a best-effort tracing queue.",
+      "measure": "Tracing overhead; dropped spans; unchanged business invocation count; audit completeness."
+    },
+    {
+      "id": "HU-12",
+      "title": "Verify media and protect evaluator references",
+      "observed": "Selected installed tests checked pinned file integrity and evaluator-only file handling.",
+      "source_ids": [
+        "HU-S06",
+        "HU-S15"
+      ],
+      "supabiz_proposal": "Pin screenshots, voice clips, PDFs and video segments by bytes and digest; record extraction/model settings and explicit missing-media states. Keep answer keys and evaluator-only files outside the agent process/container permissions. A same-user filesystem convention does not isolate an untrusted coding agent. Validate visual/audio outcomes, not just transcript text.",
+      "measure": "Corrupted/missing media detection; answer-key leakage; modality-specific error rates."
+    },
+    {
+      "id": "HU-13",
+      "title": "Compare versions by case and risk slice",
+      "observed": "Public UX illustrates comparisons; SDK verdicts expose per-case status.",
+      "source_ids": [
+        "HU-S02",
+        "HU-S09"
+      ],
+      "supabiz_proposal": "Show a release diff: fixed, regressed, unchanged, invalid and pending cases, grouped by workflow, severity, language, modality and permission boundary. Require critical invariants to pass independently of average quality. Repeat stochastic cases and retain a holdout set; the same incident used to tune a prompt is not independent proof of generalization.",
+      "measure": "Critical regressions; paired outcome changes; repeatability; latency and cost per verified workflow."
+    },
+    {
+      "id": "HU-14",
+      "title": "Track simulator coverage as a product",
+      "observed": "Hue has explicit coverage-gap evidence and documented maturity limits.",
+      "source_ids": [
+        "HU-S04",
+        "HU-S10"
+      ],
+      "supabiz_proposal": "Maintain a matrix for each connector operation: captured, simulated, contract-tested against a controlled provider account, fault-tested and unknown. Prefer a small accurate SupaBiz fake service over a broad fictional clone. Compare representative response shapes and effects against real test accounts before interpreting simulator scores as production evidence.",
+      "measure": "Operation coverage; simulator/provider disagreements; environment-incomplete cases."
+    }
+  ]
+}

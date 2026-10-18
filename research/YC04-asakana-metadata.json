@@ -1,0 +1,74 @@
+{
+  "id": "YC04-asakana",
+  "date": "2026-10-17",
+  "sources": [
+    {
+      "id": "AS-S01",
+      "url": "https://www.asakana.co/",
+      "type": "current official public product page + browser walkthrough",
+      "observed": "2026-10-17",
+      "notes": "Public tour: input paperwork, customer-specific context, then an ERP draft. API or custom integration is advertised; no implementation exposed. Current direct page differs from older search excerpts."
+    },
+    {
+      "id": "AS-S02",
+      "url": "https://www.ycombinator.com/companies/asakana",
+      "type": "company-authored YC profile and launch material",
+      "observed": "2026-10-17",
+      "notes": "Claims deployed food-distributor automation, ambiguous work routed to a person and a task-level email receipt. Claimed 40%+ order-desk time benefit is unverified here."
+    },
+    {
+      "id": "AS-S03",
+      "url": "https://www.youtube.com/watch?v=XONUcUsuxSY",
+      "type": "official explainer; auto-generated English transcript read",
+      "observed": "2026-10-17",
+      "notes": "0:26–1:05 illustrates omitted units and customer habits; 1:10–1:27 emphasizes knowledge surviving a staff transition. Auto-captions contain apparent recognition errors; not used as exact order ground truth."
+    },
+    {
+      "id": "AS-S04",
+      "url": "https://www.youtube.com/watch?v=e5evYIy3oXo",
+      "type": "official recorded demo; selected video frames inspected",
+      "observed": "2026-10-17",
+      "notes": "At 0:20 prior sales orders; 0:40 photographed handwritten input beside an ERP sales-order form; 1:00 communication/ERP diagram; 1:15 connection checklist. No transcript available. Recorded demo is not independent live execution proof."
+    },
+    {
+      "id": "AS-S05",
+      "url": "https://www.asakana.co/privacy-policy.html",
+      "type": "published policy; not verified controls",
+      "observed": "2026-10-17",
+      "policy_updated": "2026-09-27",
+      "notes": "Names integration credential encryption, disconnect deletion and US storage; permits specified de-identified platform-data uses with different treatment of connected-system data. Notes analytics/session recordings. These are policy statements, not an implementation audit."
+    },
+    {
+      "id": "AS-S06",
+      "url": "https://www.asakana.co/terms-of-service.html",
+      "type": "published terms; not legal advice or acceptance",
+      "observed": "2026-10-17",
+      "policy_updated": "2026-07-13",
+      "notes": "Requires supplier verification before fulfillment; disclaims guaranteed AI accuracy/results. Describes transaction-volume commission subject to agreement, with no published numeric rate. Proprietary service; no reusable application source established."
+    },
+    {
+      "id": "AS-S07",
+      "url": "https://www.asakana.co/about",
+      "type": "official company narrative",
+      "observed": "2026-10-17",
+      "notes": "Describes observing distributor work and building around existing channels. This is company narrative, not independent customer validation."
+    },
+    {
+      "id": "AS-S08",
+      "url": "https://www.asakana.co/get-quote",
+      "type": "public form inspected read-only",
+      "observed": "2026-10-17",
+      "notes": "First step requests name/company/work email, followed by work and team stages. No form submitted; later steps not traversed."
+    }
+  ],
+  "source_repository": null,
+  "source_commit": null,
+  "scope": "Public claims, published policies, public walkthrough and selected recorded-demo frames. No private product access, source audit or runtime benchmark.",
+  "limitations": [
+    "No application source established",
+    "No live ERP or account",
+    "No security or performance tests",
+    "Recorded demonstrations not independent production verification"
+  ],
+  "prior_review": "../YC03-screenpipe/review.txt"
+}

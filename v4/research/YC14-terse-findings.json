@@ -1,0 +1,222 @@
+[
+  {
+    "id": "TE-01",
+    "title": "Give each business invariant one authoritative owner",
+    "decision": "High priority pattern",
+    "evidence_refs": [
+      "TD-01"
+    ],
+    "supabiz_proposal": "Define stable stock/matter identities and route all protected mutations through one authoritative state boundary.",
+    "measure": "Lost updates; conflicting authorities",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "TE-02",
+    "title": "Choose entity boundaries before choosing actor count",
+    "decision": "Architecture decision",
+    "evidence_refs": [
+      "TD-06"
+    ],
+    "supabiz_proposal": "Test matter, stock-item/location and order boundaries; avoid one global business bottleneck or one unrelated actor per message.",
+    "measure": "Hot-key skew; cross-entity complexity",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "TE-03",
+    "title": "Persist through explicit reviewed commands",
+    "decision": "High priority engineering",
+    "evidence_refs": [
+      "TE-C02"
+    ],
+    "supabiz_proposal": "Use assignment-safe updates or append-only SQL events; restore tests must catch in-memory-only edits.",
+    "measure": "Lost state after reload; mutation mistakes",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "TE-04",
+    "title": "Make atomicity an explicit contract",
+    "decision": "Adoption gate",
+    "evidence_refs": [
+      "TE-C04"
+    ],
+    "supabiz_proposal": "Pin method transaction behavior; validate failure and rollback rather than relying on introductory documentation.",
+    "measure": "Partial business commits; incorrect rollback assumptions",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "TE-05",
+    "title": "Keep slow AI work outside critical mutations",
+    "decision": "Build workflow pattern",
+    "evidence_refs": [
+      "TD-06"
+    ],
+    "supabiz_proposal": "Save intent/version, perform bounded model work, then revalidate and apply through a short guarded command.",
+    "measure": "Queue wait; stale model results",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "TE-06",
+    "title": "Separate durable records from ephemeral progress",
+    "decision": "Adapt data model",
+    "evidence_refs": [
+      "TE-C01"
+    ],
+    "supabiz_proposal": "Persist business decisions and evidence; keep disposable token/typing/cache state ephemeral.",
+    "measure": "Write amplification; lost final results",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "TE-07",
+    "title": "Treat external outcomes as independently verified",
+    "decision": "Build",
+    "evidence_refs": [
+      "TD-05"
+    ],
+    "supabiz_proposal": "Keep durable inbound dedupe and effect identities; reconcile provider outcome before repeating a write.",
+    "measure": "Duplicate effects; uncertainty age",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "TE-08",
+    "title": "Expose uncertain outcomes honestly",
+    "decision": "Adapt UX",
+    "evidence_refs": [
+      "TERSE-SUX-10"
+    ],
+    "supabiz_proposal": "Show awaiting verification when a response is lost; do not quietly retry or claim failure/success.",
+    "measure": "Unsafe repeats; user comprehension",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "TE-09",
+    "title": "Use shared committed views across devices",
+    "decision": "Adapt UX",
+    "evidence_refs": [
+      "TERSE-SUX-06"
+    ],
+    "supabiz_proposal": "Show permitted live state with pending/committed/verified distinctions and reconnect freshness.",
+    "measure": "Cross-device confusion; false success",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "TE-10",
+    "title": "Show what changed and why",
+    "decision": "High priority UX",
+    "evidence_refs": [
+      "TERSE-SUX-12"
+    ],
+    "supabiz_proposal": "Compare old/new values with request, source evidence, reviewer and version; preserve selected history while showing newer updates.",
+    "measure": "Time to resolve exceptions; traceability",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "TE-11",
+    "title": "Separate trace replay from action retry",
+    "decision": "Adapt UX",
+    "evidence_refs": [
+      "TERSE-SUX-09"
+    ],
+    "supabiz_proposal": "Label inspect history, evaluate change, retry unresolved action and compensate clearly.",
+    "measure": "Accidental duplicate effects; misleading replay controls",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "TE-12",
+    "title": "Enforce authorization above project credentials",
+    "decision": "Build",
+    "evidence_refs": [
+      "TERSE-SUX-01"
+    ],
+    "supabiz_proposal": "Authorize actor/method/evidence by business and matter; project session alone is too broad for end users.",
+    "measure": "Cross-business/matter access",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "TE-13",
+    "title": "Design each live view for its audience",
+    "decision": "Build",
+    "evidence_refs": [
+      "TERSE-SUX-04"
+    ],
+    "supabiz_proposal": "Emit minimal allowed fields; tags are trusted routing data, not proof of permission.",
+    "measure": "Sensitive broadcast leakage",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "TE-14",
+    "title": "Revoke active connections as well as grants",
+    "decision": "Build",
+    "evidence_refs": [
+      "TERSE-SUX-03"
+    ],
+    "supabiz_proposal": "Close or reauthorize established sockets after permission changes; expiry at admission is insufficient.",
+    "measure": "Revocation latency; post-revocation delivery",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "TE-15",
+    "title": "Use alarms as wake-up hints for durable deadlines",
+    "decision": "Build scheduler layer",
+    "evidence_refs": [
+      "TD-08"
+    ],
+    "supabiz_proposal": "Store all deadlines/reminder IDs; reconcile one alarm slot with next due item and test separate commit behavior.",
+    "measure": "Missed or replaced reminders; duplicate notices",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "TE-16",
+    "title": "Bound admitted work independently of persistence",
+    "decision": "Build operations",
+    "evidence_refs": [
+      "TD-07"
+    ],
+    "supabiz_proposal": "Use a durable work ledger, queue limits, tenant quotas and visible backpressure.",
+    "measure": "Crash-lost jobs; overload and memory growth",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "TE-17",
+    "title": "Adopt isolation with scoped tools and egress",
+    "decision": "Adapt deployment",
+    "evidence_refs": [
+      "TERSE-SUX-07"
+    ],
+    "supabiz_proposal": "Validate sandbox controls and restrict secrets/destinations; infrastructure isolation does not supply business roles.",
+    "measure": "Cross-tenant resource access; uncontrolled egress",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "TE-18",
+    "title": "Measure end-to-end latency and idle cost",
+    "decision": "Build evaluation",
+    "evidence_refs": [
+      "TD-12"
+    ],
+    "supabiz_proposal": "Separate model, queue, activation, commit, network and review time; include control-plane and warm-node baseline.",
+    "measure": "p95 completion; cost per verified outcome",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "TE-19",
+    "title": "Keep storage authority and projections explicit",
+    "decision": "Architecture decision",
+    "evidence_refs": [
+      "TD-03"
+    ],
+    "supabiz_proposal": "Choose one source of truth per invariant; derive search/reporting views with versions and lag repair.",
+    "measure": "Divergent balances; projection lag",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "TE-20",
+    "title": "Compare against a simpler baseline before adopting",
+    "decision": "Conditional reuse",
+    "evidence_refs": [
+      "TD-11"
+    ],
+    "supabiz_proposal": "Evaluate a pinned Terse experiment against relational transactions plus durable jobs at equal outcomes and load.",
+    "measure": "Total cost; recovery quality; engineering effort",
+    "status": "Design candidate; not implemented"
+  }
+]

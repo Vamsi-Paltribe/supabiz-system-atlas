@@ -1,0 +1,107 @@
+HERDR → SUPABIZ · YC13 RESEARCH REVIEW · 17 OCTOBER 2026
+
+DECISION
+
+Take herdr's separation of running work from the interface, its attention-oriented navigation, explicit connection freshness, and adapter-based agent supervision. Consider it as an engineering operator console. Build SupaBiz's durable business workflow, records, authorization and outcome verification separately. A terminal supervisor is a useful component; it does not establish a completed stock entry, correct assignment or authorized external action.
+
+The especially useful product insight is that a busy owner should see what needs a decision before seeing every conversation. SupaBiz should offer a compact business attention inbox, with evidence and the next permitted action on each card. The terminal view can remain an advanced support tool. This is a design recommendation, not an implemented SupaBiz feature or a measured improvement.
+
+IDENTITY AND EVIDENCE
+
+Official project: herdrdev/herdr, https://herdr.dev, Apache-2.0 in the repository. Reviewed commit 143bf5fd4781d164260c63fe28e7dc08054ad32f; Cargo package version 0.9.5. This is a selected-source review of the actual Rust application plus isolated execution of one shipped JavaScript integration source. It is not a complete security audit, compiled application test, benchmark, or assessment of a hosted service.
+
+The public website's agent count is 22; the pinned source distinguishes 24 agent kinds from 22 screen-manifest agents. Record those definitions instead of treating the different counts as interchangeable. Herdr Cloud was advertised as coming soon when inspected. Do not plan SupaBiz around unverified cloud capabilities. The public homepage mock was inspected and its blocked-agent selection exercised; that is a promotional UI example, not a live agent demonstration. [HD-S01, HD-S02, HD-C01]
+
+The REA skill routes complete source repositories to ordinary source inspection, so no binary decompilation was needed. Two scoped reviews covered runtime/recovery and security/control boundaries. Nine upstream mocked integration tests and nine additional boundary checks passed against the unchanged OpenCode hook. No Rust compiler or Cargo executable was available on the inspected PATH; the Rust application and its integration suite were not built or run. No agent integration was installed and no business data was sent to herdr. Test details and source ranges are indexed in metadata.json and the two source-review files.
+
+HOW THE PARTS FIT
+
+Herdr separates a background server from clients. The server owns terminal processes and their state; clients display and control those terminals. The user can detach a client without terminating the server's work. A shell pane and an agent are separate concepts: a pane is an execution location, while a recognized agent is the program currently occupying it. Workspaces and tabs organize those locations. This is a useful separation between execution and presentation, but a workspace label is not an enterprise authorization boundary. [HD-C01; runtime-source-review.json]
+
+A SupaBiz mapping has more objects: business, matter or operational record, workflow definition, durable run, execution attempt, worker node, external effect, approval, and evidence. One workflow may use several attempts or nodes. A staff member opening the same work on a phone should retrieve the existing run, rather than creating another agent or repeating the instruction. Stable business and run identifiers must outlive terminal layout, node reconnection and provider-session changes.
+
+The reference architecture is: permission-scoped source event → durable workflow and record → authorized worker attempt → proposed action → current policy and approval → effect dispatch/reconciliation → verified result. Phone, desktop and manager dashboard are projections of that state. Browser, voice, vision and video remain capabilities of workers and connectors; herdr's terminal supervision supplies no evidence that it solves SupaBiz's media understanding, WhatsApp ingestion or court-notice interpretation.
+
+STATE DETECTION AND THE ATTENTION EXPERIENCE
+
+The detection code combines agent identity, screen rules and integration information. Hermes has concrete rules for title signals, approval UI and clarification prompts. Codex has distinct rules for live UI, transcript viewers and startup prompts. The pane code delays weak working-to-idle transitions with confirmations and a cap, avoids some unchanged-screen scans, and retains an unknown state. These are engineering responses to noisy observations. They do not make text matching a trustworthy business-completion signal. [HD-C01, HD-C02, HD-C03]
+
+The agent sidebar supports priority ordering by state and change sequence. Client-side completion projection tracks observed work, completion sequence, boot identity, snapshot revision and viewed state. Looking at a result can change its unread presentation without changing what actually executed. This is worth adapting: separate task outcome, notification acknowledgement and review decision. A manager seeing an invoice must not accidentally mark the invoice approved. A colleague reading a matter update must not clear Ramya's unresolved responsibility. [HD-C04, HD-C05]
+
+SupaBiz should expose business labels: needs your decision, waiting for a named person, running, needs reconnection, outcome uncertain, and verified complete. Each attention card should show business/matter, owner, why it is waiting, deadline, evidence links, proposed action and its impact. Keep received/seen/reviewed/approved/verified as distinct events. Rank actionable work by deadline and business impact, then age; provide grouping and filters so routine completions do not hide urgent exceptions. Any predicted priority must remain explainable and adjustable.
+
+Avoid false progress. A spinner can mean a terminal is producing output while the business task is stuck. An idle agent can mean it answered a question, failed silently, or is awaiting the next prompt. A correct SupaBiz completion requires domain-specific evidence: a persisted authorized record, the correct assignee and attachments, or a reconciled provider result. A notification is a projection, never the source of truth.
+
+WHAT THE HOOK TESTS ESTABLISH
+
+The OpenCode integration serializes lifecycle reports, increments a sequence and maps several provider states into working/idle/blocked. Its upstream tests cover child-session attribution, shared-server versus local-client ownership, redundant reports and retry state. This is a concrete example of keeping a parent job's identity while surfacing a child job's need for input. Our additional checks cover missing environment values, unknown states, unrelated events, session errors and failed reporting. [HD-C06]
+
+The reporting helper resolves on timeout, socket error or any received data. It does not parse the received response as a successful server acknowledgement, nor retransmit a failed report in the tested path. This is suitable evidence for a best-effort UI signal, not durable delivery. SupaBiz must distinguish received observation, accepted state transition and confirmed external outcome. Persist effect-critical events and replay them with dedupe; do not promote this hook's promise resolution into a delivery guarantee. The tests use a mocked socket, so they do not validate real server admission or end-to-end ordering.
+
+RECOVERY HAS FOUR DIFFERENT MEANINGS
+
+First, client reconnection: if the execution host and server remain alive, the existing process can keep running. A disconnected phone need not stop a cloud job. This does not mean a job running on a sleeping laptop continues to execute; the execution host's availability is the determining factor.
+
+Second, ordinary restart recovery: saved layout and supported agent conversation references can be restored, but arbitrary old processes are not resurrected. The source implements debounced session saves, atomic replacement mechanics and restoration into fresh shells where stronger restoration is unavailable. Recent unsaved state can be lost. Saved terminal history is optional and off by default; it may contain sensitive prompts or output. Layout/history recovery is not a durable business transaction log. [HD-S03; runtime-source-review.json]
+
+Third, controlled live server handoff: the source includes an experimental Unix path for transferring live terminal resources during a supported same-host server replacement. It is a valuable continuity mechanism with compatibility limits. It is not arbitrary cross-machine migration, crash recovery, or a guarantee that in-flight requests and subscriptions survive. SupaBiz should initially prefer checkpointing and safe worker draining over building terminal-process handoff.
+
+Fourth, business-effect recovery: after a process crashes during a stock update or task creation, the question is whether the target system applied the operation. SupaBiz needs effect identity, a persisted intent, provider idempotency when available, and reconciliation before retry. Restoring an agent conversation cannot answer that question reliably. If the outcome cannot be determined, show an explicit uncertain result and route it for resolution.
+
+MULTI-MACHINE UX AND RESILIENCE
+
+Herdr maintains per-endpoint connections and an aggregated view. On disconnection, cached state remains visible but is marked stale and input stays disabled until fresh state arrives. The source's connection-generation checks prevent old connection events from being mistaken for current ones. Reconnect backoff grows after repeated failures and does not immediately reset after a brief connection. These are useful patterns for SupaBiz's intermittent desktop nodes. [HD-S04; runtime-source-review.json]
+
+Carry the patterns into a node registry with authenticated node identity, tenant/business grants, capability availability, last-seen time and explicit freshness. A disconnected restaurant desktop must not freeze the owner's cloud dashboard or another business. Reconnecting must not steal focus or silently resubmit commands. Use jitter and bounded retry budgets at fleet scale, because many machines can reconnect together after a regional outage. The selected herdr retry function has a deterministic schedule; jitter is our proposed addition, not an observed herdr feature.
+
+Route work by required capability and data location. A cloud worker can continue Gmail processing when a laptop is off. A desktop-only file task remains waiting for that authorized node unless an explicitly permitted alternative exists. Business state should make this understandable: “Waiting for the restaurant PC; last online 12 minutes ago.” Do not quietly copy private files or switch execution location just to make the indicator green.
+
+PERMISSIONS, CONTROL AND PLUGINS
+
+The selected source protects local transport with Unix socket permissions and Windows account access controls; remote access uses SSH. These are meaningful local-user boundaries. They do not establish business-specific roles, matter permissions or tenant isolation. A pane-control API can run commands in the host user's environment. Do not expose it directly as an enterprise tool endpoint. [security-source-review.json]
+
+Herdr has a direct-attachment controller/observer model and explicit takeover behavior. This helps avoid competing terminal input, but it is not a universal authorization gate: separate API input paths exist. SupaBiz should use explicit job/effect ownership with leases or optimistic versions and fence stale writers. “Can watch,” “can suggest,” “can control this run” and “can authorize this action” are different permissions.
+
+Plugin documentation explicitly treats plugins as trusted programs running with the user's environment and CLI access. A plugin declaration is not a sandbox. Reuse the extension contract idea, but put SupaBiz extensions behind scoped credentials, tool admission, network/file restrictions where needed, version pinning and a revocation path. Never assume an approval-looking terminal dialog or a plugin manifest grants business authority.
+
+The reviewed event mechanism has a bounded in-memory history and explicit handling for lost events. That is useful for interactive updates; it is not a durable compliance trail. SupaBiz should support cursor-based replay from durable events or force an authorized snapshot refresh after a gap. Audit records must separately bind actor, business, inputs, decision, target and resulting effect. Retention and redaction apply to both source evidence and derived logs.
+
+VARUN'S RESTAURANT WORKFLOW
+
+A staff member posts a stock photo and voice note. SupaBiz stores the permitted source references, links the restaurant and creates one workflow. A cloud extraction step identifies an apparent quantity discrepancy, but cannot establish the missing pack size. Varun sees “Consu: confirm supplier pack size,” with the photo, invoice line, current rule and consequences. ForeFathers' records remain independently scoped even if Varun can see both businesses.
+
+Closing Varun's phone leaves cloud work running. If the task needs a file on the restaurant PC and that node is unavailable, the card shows the dependency. If a stock write times out, the system checks the target's operation/result before retrying. Completion requires a verified stock record under the approved conversion rule; it does not follow from an agent becoming idle. A later correction becomes a scoped learning candidate under the existing Asakana/Grep improvement process, not an immediate global behavior change.
+
+RAMYA'S LAW-FIRM WORKFLOW
+
+A court email creates an evidence-linked notice record and a run with a stable matter reference. Routine matching and extraction happen in the background. Conflicting identifiers, a superseding notice or unavailable attachments create a specific attention card for the authorized reviewer. Ramya can open it on another device without restarting the work. Matter permissions are rechecked when evidence is read and when assignment or sharing occurs.
+
+The task is complete only when the correct authorized staff member has the correct current assignment and permitted attachments, with a verified result. A provider timeout leaves the effect unresolved until reconciled. Client read receipts do not equal acceptance of responsibility. Internal assignment does not authorize a filing or message to a client. These are product workflow examples, not legal guidance or an assertion that herdr implements law-firm features.
+
+REUSE, BUILD AND DEFER
+
+Reuse or adapt: background runtime/client separation, provider adapters, explicit unknown and stale states, completion-versus-seen semantics, per-node reconnection, capability negotiation, scoped identifiers, observer/control interaction and inspectable automation primitives. Evaluate herdr directly as an optional engineering console on non-production test workloads after separate operational validation. Source reuse requires preserving Apache notices and checking any copied dependency obligations; this review does not audit every bundled dependency license.
+
+Build for SupaBiz: record and workflow model; source dedupe; durable event/effect ledger; identity and tenant/matter policy; credential broker; exact approvals; attention-card UI; node enrollment and revocation; result verification; media pipelines; budgets, quotas and retention. These integrate with the previous Executor, Agent37, Glen, Decawork, Hue and Grep findings. Herdr adds supervision and continuity patterns to that architecture, rather than replacing those layers.
+
+Defer: a general terminal UI for restaurant staff, a large plugin marketplace, arbitrary agent fleets, cross-host process migration and custom live PTY handoff. Start with the smallest number of workers needed to complete real workflows. Persistent environments are useful where state genuinely needs to survive; keeping an idle VM for every business can be expensive. Keep durable workflow state independent of whether execution capacity is warm.
+
+IMPLEMENTATION SEQUENCE AND ACCEPTANCE
+
+Step 1: define the run, attempt, effect and attention contracts and implement one restaurant and one law-firm trace using synthetic data. Keep infrastructure state separate from business state. Step 2: add the durable ledger, authorized dispatch and replay/reconciliation. Step 3: add phone/desktop projections, node freshness and explicit wait states. Step 4: add scoped control, approvals and reconnect failure injection. Step 5: compare outcomes and cost in a small pilot before increasing concurrency or adding providers.
+
+The 48 proposed acceptance cases cover activity signals, recovery, duplicate effects, control, scope, retention and both businesses. They are design tests for future SupaBiz implementation and have not been executed. Gates should include zero unauthorized effects in the test cohort, no duplicate effect after injected acknowledgement loss, visible unresolved outcomes, recovery from expired event cursors and prevention of stale-device writes. Numerical latency and throughput targets should be set from actual workload and pilot requirements.
+
+TIME, SPACE, COST AND PERFORMANCE
+
+Let A be visible agents, R relevant matching rules, L scanned terminal text length, E retained events, C clients and N changed records. A straightforward scan is approximately O(A × R × L), with regex behavior and extraction costs affecting the constants; source caching can avoid parts of repeated unchanged work. Priority sorting is normally O(A log A), but the selected custom-order membership path scans agent membership repeatedly and can approach O(A²). This is a bounded source observation, not a whole-app performance diagnosis. Prefer indexed membership for a large SupaBiz projection. [HD-C02, HD-C04]
+
+Event storage is O(E × average event size); fanout depends on recipient filtering and update size, roughly O(C × N) deliveries when every client receives every changed record. Indexed business/run queries and paged projections avoid sending every terminal or record to every device. Persist large media separately and pass authorized references. These are analytical models; no production throughput or memory benchmark was run.
+
+The useful performance comparison is constant polling versus change-driven updates, coupled to durable replay and freshness. Polling A jobs every p seconds gives about A/p checks per second; an event system handles actual change volume plus heartbeats and replay. Fewer checks do not prove lower total cost if events are large or frequent. The reader includes an explicitly synthetic calculator. Measure p50/p95 decision latency, reconnect time, missed blockers, false completions, duplicate effects, human minutes and cost per verified workflow.
+
+All-in cost includes active compute, warm idle capacity, model/media calls, storage, network, supervision and human resolution. A persistent terminal does not make LLM inference free, and more agents can increase contention and spending. No percentage improvement or savings is established by this review. Compare the same workload and quality gates with and without attention prioritization, durable execution and event-driven updates separately, so the effect of each choice is identifiable.
+
+LIMITS AND OPEN QUESTIONS
+
+The selected Rust code and existing Rust tests were read, not executed. The JavaScript hook checks are isolated and mocked. Real SSH recovery, OS sleep, cross-version handoff, Windows security behavior, heavy output backpressure and production resource use remain unverified here. Homepage demonstrations and claims are not independent measurements. All recommendations in findings.json remain design candidates. Grep AI and every earlier review remain preserved; the shared register adds herdr separately.

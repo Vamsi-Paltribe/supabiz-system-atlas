@@ -1,0 +1,140 @@
+{
+  "id": "YC05-praxis",
+  "date": "2026-10-17",
+  "findings": [
+    {
+      "id": "PR-01",
+      "title": "Organize work around the matter",
+      "observation": "Public pages present matter progress and related work.",
+      "source_ids": [
+        "PR-S02",
+        "PR-S05"
+      ],
+      "evidence_class": "Public vendor material; implementation unverified",
+      "supabiz_proposal": "Give Ramya one operational record per matter with an evidence timeline, current verified hearing information, tasks, documents, ownership and blockers. Messages remain evidence linked to the record. An update to one matter must not create another chat-shaped island. Maintain related applications or appeals as linked records instead of merging everything with the same parties.",
+      "measure": "Time to reconstruct a matter; duplicate matters; missed updates; evidence coverage."
+    },
+    {
+      "id": "PR-02",
+      "title": "Put the decision and its evidence together",
+      "observation": "The workshop describes reviewing checks and a draft in one place.",
+      "source_ids": [
+        "PR-S03"
+      ],
+      "evidence_class": "Public vendor material; implementation unverified",
+      "supabiz_proposal": "Create a decision inbox: original court notice beside extracted fields and a precise proposed change. Show what is known, uncertain and blocked. Permit correction of one field without losing the rest. Group related changes into a review packet but require explicit authority for each calendar write, assignment or outbound message. Approval binds the source version, record revision and exact action.",
+      "measure": "Human minutes per update; incorrect approvals; unresolved exception age; stale approvals rejected."
+    },
+    {
+      "id": "PR-03",
+      "title": "Measure document readiness, not attachment count",
+      "observation": "Public illustrations distinguish requested documents and readiness.",
+      "source_ids": [
+        "PR-S02"
+      ],
+      "evidence_class": "Public vendor material; implementation unverified",
+      "supabiz_proposal": "Maintain expected document types and versions per work item. Separate received, readable, identified, complete, current-for-purpose and accepted-by-reviewer. A badge must say which checks passed; it must not imply legal validity or authenticity. A historic executed agreement does not expire because another document type has a freshness rule. Identify the missing page or wrong version precisely.",
+      "measure": "Work blocked by missing documents; mistaken readiness; repeated document requests; review time."
+    },
+    {
+      "id": "PR-04",
+      "title": "Make waiting a first-class state",
+      "observation": "Public positioning includes follow-ups and document collection.",
+      "source_ids": [
+        "PR-S01",
+        "PR-S02"
+      ],
+      "evidence_class": "Public vendor material; implementation unverified",
+      "supabiz_proposal": "Every blocked task records what is missing, who can supply it, next check time, escalation owner and stop conditions. Run durable reminders outside the LLM session. Before sending, recheck replies, new attachments, closure, permissions and cancellation. Combine repeated requests and respect firm-approved frequency limits. Human approval is required for the initial outbound policy and messages outside that authority.",
+      "measure": "Age of blockers; unnecessary chases; missed escalations; duplicate reminders."
+    },
+    {
+      "id": "PR-05",
+      "title": "Publish a client-safe view of progress",
+      "observation": "The product depicts a separate client portal.",
+      "source_ids": [
+        "PR-S02"
+      ],
+      "evidence_class": "Public vendor material; implementation unverified",
+      "supabiz_proposal": "Create an explicit publication projection: approved updates, documents requested, upcoming confirmed events and the client’s next action. Keep internal analysis, other clients, privileged notes and unapproved drafts out. For litigation use milestones and readiness, not a percentage suggesting the case is almost won. Each published item has a publisher, audience, evidence and revision.",
+      "measure": "Status enquiries avoided; disclosure errors; client task completion; outdated published updates."
+    },
+    {
+      "id": "PR-06",
+      "title": "Delegate calendar availability narrowly",
+      "observation": "The workshop says consultation offers use lawyer-released hours.",
+      "source_ids": [
+        "PR-S03"
+      ],
+      "evidence_class": "Public vendor material; implementation unverified",
+      "supabiz_proposal": "Let a principal release bookable windows and permitted meeting types. Read availability without exposing private event bodies. Treat proposing a time, placing a hold and committing an event as different operations. Court hearings are externally imposed events, not negotiable consultation slots. Track conflicts and let the authorized person resolve them.",
+      "measure": "Double bookings; inappropriate calendar access; scheduling effort; event verification failures."
+    },
+    {
+      "id": "PR-07",
+      "title": "Separate new-client intake from existing-matter updates",
+      "observation": "Intake guidance describes collecting information in stages.",
+      "source_ids": [
+        "PR-S04"
+      ],
+      "evidence_class": "Public vendor material; implementation unverified",
+      "supabiz_proposal": "Use two front doors. Existing-matter notices go through identity and change review; new inquiries gather only needed initial facts and route possible conflicts to a lawyer. A search result is not a conflict clearance. An unmatched email is unresolved, not automatically a new matter. Do not make paid invoices a universal gate for handling urgent incoming work.",
+      "measure": "Misrouted updates; duplicate intake; unresolved identity age; urgent items overlooked."
+    },
+    {
+      "id": "PR-08",
+      "title": "Use AI to propose, code to enforce",
+      "observation": "The onboarding article describes deterministic logic for sensitive actions.",
+      "source_ids": [
+        "PR-S05"
+      ],
+      "evidence_class": "Public vendor material; implementation unverified",
+      "supabiz_proposal": "Use the model for extraction, summarization and candidate generation. Use typed schemas and server-side checks for tenant, grants, expected revision, allowed transition, idempotency and destination. Commit record changes with a transactional outbox; verify remote results. A sent email cannot be undone by an audit log. Model corrections and compensating actions explicitly.",
+      "measure": "Unauthorized actions; duplicate writes; uncertain outcomes reconciled; recovery after interruption."
+    },
+    {
+      "id": "PR-09",
+      "title": "Make assignment an acknowledged handoff",
+      "observation": "The onboarding discussion emphasizes preserving context at handoff.",
+      "source_ids": [
+        "PR-S05"
+      ],
+      "evidence_class": "Public vendor material; implementation unverified",
+      "supabiz_proposal": "Give each assignee a compact packet: task, why it changed, required document versions, evidence, due-date basis, reviewer and next step. Distinguish assigned, delivered, accepted, in progress, submitted and reviewed. Delivery is not acceptance, and submission is not completion. Reassignment preserves history and cancels obsolete reminders.",
+      "measure": "Assignment-to-acceptance time; missing-context questions; unowned work; reviewed completion rate."
+    },
+    {
+      "id": "PR-10",
+      "title": "Keep firm instructions owned and portable",
+      "observation": "Privacy states that firm-instructed workflows and playbooks belong to the firm.",
+      "source_ids": [
+        "PR-S06"
+      ],
+      "evidence_class": "Public vendor material; implementation unverified",
+      "supabiz_proposal": "Export approved business rules, matter aliases, templates, evidence references and revision history in documented formats. Keep permission checks on exported data. Connect this to SB-AS-13, the VERY IMPORTANT correction → scoped memory → regression-test loop. Ask whether a correction is one-off, matter-specific or an authorized reusable rule. Business memory is separate from model-weight training.",
+      "measure": "Provider-switch task quality; rule provenance; unsafe generalization; usable export completeness."
+    },
+    {
+      "id": "PR-11",
+      "title": "Onboard one painful workflow first",
+      "observation": "The workshop describes staged adoption with existing systems.",
+      "source_ids": [
+        "PR-S03"
+      ],
+      "evidence_class": "Public vendor material; implementation unverified",
+      "supabiz_proposal": "Begin with Ramya’s existing-matter email triage and assignment. Import a reviewed matter list and staff directory; operate in shadow mode before external writes. Keep existing email, calendar and document tools during evaluation. Add billing, new-client acquisition and broad desktop awareness only when a measured workflow needs them.",
+      "measure": "Time to first verified workflow; setup effort; adoption; support cost; parallel-system reconciliation."
+    },
+    {
+      "id": "PR-12",
+      "title": "Add an Indian court-event model explicitly",
+      "observation": "Official eCourts help documents CNR and alternate search identifiers; Praxis support for this workflow is unverified.",
+      "source_ids": [
+        "PR-S09"
+      ],
+      "evidence_class": "Public vendor material; implementation unverified",
+      "supabiz_proposal": "When available, use a validated CNR; otherwise scope case type, number and year to the court and jurisdiction. Preserve original strings and aliases. Store notice date, publication date, hearing date, internal work deadline and reminder separately. Retain Asia/Kolkata and unknown times explicitly. New notices supersede specific prior facts only after review. Court integration and deadline rules need their own validation; never infer universal API coverage.",
+      "measure": "Wrong-matter attachments; date-type confusion; superseded dates left active; ambiguous dates correctly escalated."
+    }
+  ]
+}

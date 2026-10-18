@@ -1,0 +1,104 @@
+SHIRE INTELLIGENCE → SUPABIZ · YC15
+17 October 2026 | Public-product and selected demo-frame review
+
+DECISION
+
+Shire adds a useful product direction: connect observed physical events to business work before a person has to report them. For SupaBiz, prioritize the event-to-task pattern and a focused restaurant pilot. Treat continuous camera processing as an optional capability with its own operating costs and permissions. Do not make it a prerequisite for the WhatsApp/email workflows already planned. No public Shire implementation or supported API was established in this investigation, so this is a product-pattern reference rather than a verified code dependency.
+
+We saved the preceding eight-project comparison separately. Its six conclusions distinguish communication, knowledge, business state, execution, authorization and outcomes. Shire adds a new boundary: an observation is evidence about a scene, not automatically a true business fact or permission to act. All earlier research remains intact.
+
+IDENTITY AND EVIDENCE
+
+The target is Shire Intelligence at shireintelligence.com, linked by its YC profile. It is not the unrelated Shire agent-workspace project. The company describes camera-based coordination for restaurant service, using existing CCTV and directing work to appropriate floor roles. This is vendor positioning, not a verified field deployment. [SH-S01]
+
+The homepage presents floor-state and task illustrations, an operations assistant, an add-on for an existing POS, and a broader POS offering. Its add-on price is advertised from USD 150/month; scope, hardware, local availability, taxes and contractual costs remain unverified. Advertised gains do not establish SupaBiz's expected improvement. The separate savings calculator concerns payment-processing economics; its results cannot be attributed to computer vision. [SH-S02, SH-S03]
+
+The public homepage was inspected in the browser. The coordination illustration displays roles and task stages; assistant controls were attempted, but an immediate read did not establish a changed assistant answer. We do not claim those controls ran an agent. The linked official YouTube demo was inspected at selected seek positions around 0:10, 0:30 and 1:00 of a 1:35 player. Frames showed multiple restaurant camera views with colored regions. Transcript export returned unavailable, including after the player loaded; visible captions at selected frames do not establish the full narration. No continuous video understanding or real-time task routing was tested. [SH-S04]
+
+The REA workflow was used to identify what evidence was available. Focused official-site and repository searches did not establish an attributable public backend, SDK, API specification or downloadable application suitable for code-level REA. We did not substitute an unrelated repository, inspect private endpoints, sign up, submit a form or connect cameras. The supplementary evidence review records public policy statements and unresolved questions. No vendor component or runtime tests were executed.
+
+THE NEW SUPABIZ CAPABILITY
+
+Sidekick-inspired capture begins when a worker sends an issue. A Shire-inspired capability can begin when an authorized sensor detects a possible event. Both must feed the same evidence and work records. Otherwise a waiter message and a camera alert could create duplicate tasks for the same table, while two dashboards disagree about whether the job is finished.
+
+Start with an observable, reversible problem: a table appears vacated and may need clearing or reset. Avoid beginning with a claim that the system knows a guest's intention, satisfaction, readiness to pay or a worker's diligence. A closed menu is an observation, not proof someone wishes to order. No observed greeting could mean an obstructed view or a greeting outside the camera's coverage. Absence of evidence becomes meaningful only when coverage and elapsed observable time are known.
+
+The first pilot should therefore produce a suggestion to inspect a table, retain a short authorized evidence reference, and let a staff member confirm, dismiss or correct it. Payment, seating commitments, stock postings and employment decisions remain separate controlled processes. A camera becoming available does not grant permission to analyze every zone or person it can see.
+
+VARUN'S WORKFLOW: FROM TABLE CHANGE TO VERIFIED RESET
+
+Synthetic example: an approved Consu dining-area camera observes that Table 4 has been unoccupied across a configured sequence of valid observations. A table-state service associates those observations with the current table visit, checks camera freshness and reconciles current host/POS information. It creates a proposed reset check. The record includes outlet, table, visit identity, observation interval, evidence, model/configuration versions and uncertainty.
+
+The assigned busser's phone shows: “Consu · Table 4 may need reset. Last clear view 20 seconds ago. Check table.” Controls are Accept, Already handled, Incorrect observation and Need help. These are proposed SupaBiz controls, not observed Shire buttons. Accept records ownership; it does not mark completion. If another staff member accepts concurrently, a version-checked transition ensures one current owner. A guest returning cancels or reopens the appropriate suggestion based on the current visit, without deleting its history.
+
+After work, the busser marks ready for verification. A permitted host confirmation can establish readiness to seat; optional visual evidence can assist but cannot certify hygiene from appearance. A new party creates a new visit identity. Delayed evidence from the earlier party cannot reset the new party's state. Staff corrections are stored with the original observation and reason, making errors diagnosable without silently rewriting history.
+
+Varun sees exceptions across Consu and ForeFathers with unambiguous outlet labels. Camera events can be grouped into a shift summary of outstanding checks, acknowledged work and verified resolutions. Do not flood the operations group with every frame or repeated alert. The owner should be able to ask why a suggestion occurred and see the relevant evidence, coverage limits, current owner and resolution.
+
+PROPOSED ARCHITECTURE AND INTERACTIONS
+
+1. Connector and grants. Register each camera or recording source under a business and site, map allowed zones, record credentials in a secret store, and limit access. Verify actual camera/NVR compatibility in the pilot; RTSP, ONVIF, edge gateways and local inference are candidate implementation choices, not identified Shire internals. Do not scan a customer's network automatically. Share no footage across Consu and ForeFathers merely because Varun owns both.
+
+2. Evidence capture and health. Maintain observed time, received time, source sequence, clock uncertainty and coverage state. Sample or process streams under an explicit budget. Record disconnects, blocked views, stale frames and camera movement. An old frame is not current reality. Bound local buffers and specify what is dropped under load. Keep source identifiers distinct from derived crops or observations.
+
+3. Perception workers. Derive bounded observations such as occupied region or visible tableware; record the model, calibration and zone-map versions. Use a temporal tracker and persistence thresholds to reduce flicker. Distinguish raw confidence scores from empirically calibrated probabilities. Treat cropped images and embedded text as untrusted evidence; visual prompt injection cannot grant a tool action.
+
+4. State reconciliation. Associate observations with a table visit, then reconcile host input, POS events and staff reports using field-specific authority. The POS can establish a payment record while a camera estimates occupancy; neither is authoritative for all fields. Preserve disagreements. An indexed event store and a short transaction with expected versions are a reasonable baseline. Terse-style entity ownership is an optional alternative, not a mandatory new service.
+
+5. Policy and work. A permitted trigger proposes a task. Apply freshness requirements, deduplication, a cooldown and task-owner rules before notification. Create the task and its notification intent durably, then dispatch with a stable effect ID. Agent Relay-style delivery is useful only if the receiving system verifies identity and scope. Message delivery does not establish worker acceptance or task completion.
+
+6. Role-specific views and learning. Project current state to staff, host, manager and owner screens with audience filtering. Keep raw footage access separate from permission to see a task. Store correction labels and versioned outcomes for evaluation. Use Hue-style regression cases and GrepAI-style versioned procedures where rules become stable. Leave media recognition probabilistic where it remains uncertain.
+
+UX TO BORROW AND IMPROVE
+
+A spatial floor view lets a host find a table faster than searching a chat history. Pair it with an accessible list, text labels and keyboard controls; do not encode urgency solely in color. Staff should see a short role-specific queue with time, place, reason and next action. Managers need workload and unowned exceptions. The owner needs cross-site trends with evidence and coverage denominators, rather than an unexplained staff ranking.
+
+Visible health is part of the product. Show “camera stale,” “view obstructed,” “awaiting staff confirmation” and “confirmed ready” as different states. Keep the last known state visibly dated and expire automation when observation becomes stale. If a camera fails, the manual workflow should continue. The site's POS offline description does not prove that its camera analysis runs offline; SupaBiz must specify these capabilities independently.
+
+Progressive onboarding is attractive: connect one approved source, map a few tables, run silently, review errors, then enable a small task category. Do not require replacing a POS, importing every business account or adopting a new chat application before the first useful result. Offer clear pauses by source, zone and workflow, and explain what continues when a source is paused.
+
+A manager should correct an observation in the same place they see it. Corrections need a type: wrong zone, wrong visit, obscured scene, already handled, mistaken detection or unsuitable rule. Dismissal alone is ambiguous and should not automatically become a negative training label. Similarly, accepted tasks do not prove the underlying detection was correct. Separate reviewer agreement from objectively verified outcomes.
+
+LEARNING AND EVALUATION
+
+Public evidence does not establish Shire's model architecture, datasets, fine-tuning, online learning, evaluation protocol or whether corrections update model weights. We should not infer these from an animated dashboard or colored regions over video. SupaBiz can improve without weight training: adjust zone calibration, refine temporal rules, improve task routing, maintain approved site-specific settings and evaluate candidate detector versions.
+
+Prepare authorized, representative evaluation material across lighting, table arrangements, crowding and camera positions. Hold out later shifts and whole sites where feasible; adjacent frames from the same event must not be split between training and test sets. Include guest return, coat/bag occupancy, children, staff cleaning while a party remains, moved furniture, overlapping camera views, repeated delivery and prolonged camera loss. Staff identity and sensitive traits are unnecessary for the initial table-reset task.
+
+Measure event-level precision and recall against human-labeled events within explicit time windows. Also report duplicate alerts, false alerts per table-hour, missed events, detection delay, valid coverage time, task acceptance delay, confirmed resolution time and corrections per shift. A model with high frame accuracy can still create an unusable queue. Evaluate end-to-end outcomes and alert burden. Track disagreements and blind spots rather than treating unobserved intervals as successful detections.
+
+Compare shadow-mode suggestions against the current manual workflow before enabling notifications. A staged rollout by comparable shift or site can estimate operational effect, but account for demand, staffing, promotions and coverage. Define a primary measure and review window first. No vendor percentage is an expected SupaBiz gain. When a baseline is nonzero and comparable, relative improvement is (baseline minus pilot)/baseline; report sample size and uncertainty, and explain whether lower is actually better for the chosen measure.
+
+PRIVACY AND BUSINESS BOUNDARIES
+
+The inspected public privacy/terms pages focus on restaurant administrative and messaging workflows and do not establish the camera-processing controls needed for this pilot. Supabase and Sakari are named for stated functions; they are not proof of the full vision architecture. Obtain current service-specific answers before selecting a vendor: camera access, processing region, subprocessors, training reuse, retention, deletion, encryption, audit access and incident handling. A website policy is not a complete deployment contract. [SH-S05, SH-S06; security-source-review.json]
+
+Our proposed product should minimize capture and retention, exclude inappropriate/private zones, support site-approved disclosure and access practices, and make footage access auditable. Prefer event metadata and authorized short evidence windows over indefinitely copying every camera stream into shared LLM memory. Local processing can reduce transmission, but its performance and data-flow claims still require tests. Redaction must precede transmission if the purpose is to avoid disclosure. Removing a face label after uploading a frame does not undo that upload.
+
+Do not score individual effort, infer emotion or recommend disciplinary action from ambiguous camera detections. Use task and service process metrics with human context. For Ramya's law-firm workflow, the useful transfer is source health, temporal evidence, role queues and event-to-task handling. CCTV is not a necessary extension of court-email processing; confidential document and client privacy make indiscriminate awareness especially inappropriate.
+
+COST, TIME AND SPACE COMPLEXITY
+
+Let C be cameras, f analyzed frames per second per camera, H active hours per day and D days. Analyzed frames equal C*f*3600*H*D. Four cameras at one analyzed frame per second, 12 hours/day for 30 days, produce 5,184,000 analyzed frames. Sending every original 15-fps frame would produce 77,760,000 frames: a 93.33% reduction in frame count at 1 fps, not a measured cost reduction or guarantee of sufficient detection quality. Full-stream decoding may still be required, and brief events can be missed between samples.
+
+At fixed resolution/model, perception work scales approximately O(C*f*T); actual inference cost depends on model, resolution, batching and hardware. A naive association of K detections to K tracks can require O(K^2) comparisons, while some assignment solvers are O(K^3); the chosen implementation determines the bound. Simple per-table transition updates can be O(1) per observation, indexed deduplication O(log E), and active table state O(N). Bounded W-second frame buffers use roughly O(C*f*W*B) bytes for B bytes per analyzed frame; an original compressed stream buffer has a different bitrate-based formula. Retained clips consume event_count*mean_clip_bytes. No Shire algorithm complexity was established.
+
+For a compressed stream at r Mbps retained for H hours, raw daily storage per camera is approximately 0.45*r*H decimal GB before copies. Event-only retention reduces stored bytes only to the extent that selected clips are fewer/smaller; it may not reduce incoming decode work. The UI calculator reports frames, not prices. Model calls, local hardware, cloud compute, storage requests, egress, monitoring, onboarding/calibration, human review and support all belong in cost per verified task.
+
+Scale stream ingestion and perception by site/camera with bounded queues. Route events by business/table/visit, avoiding one global lock. Prefer fresh operational observations over processing an unlimited old backlog; preserve a separate audit path if required. After recovery, label delayed events and reconcile current state before alerting. Autoscaling cannot recover a missed physical event or fix an incorrect zone map.
+
+IMPLEMENTATION ROADMAP
+
+Phase A: implement the shared task, evidence and correction contracts using existing staff reports. Define one low-risk table-reset workflow, manual fallback, permissions, state transitions and success criteria. This foundation is useful without cameras.
+
+Phase B: use authorized recorded material to test zone mapping, observation freshness and temporal event extraction. Run normal and failure cases. Decide whether existing licensed detectors or a managed perception service meet the measured need; do not build or train a general vision model by default.
+
+Phase C: shadow mode at one approved outlet with a small camera/table scope. Compare candidate events to reviewed ground truth; measure false alerts, missed events, observation delay and operating cost. Tune only on development material and retest held-out shifts.
+
+Phase D: enable a bounded role queue with human acceptance and closure confirmation. Test duplicate messages, concurrent accepts, stale views and reconnect. Compare with the manual baseline before expanding.
+
+Phase E: consider richer service hypotheses or multi-outlet analytics only after the first workflow demonstrates reliable benefit. POS replacement, autonomous pricing, employee scoring and restaurant-wide scheduling are outside the initial wedge.
+
+WHAT REMAINS UNKNOWN
+
+Shire backend code, APIs, camera protocols, model stack, actual edge/cloud division, latency, accuracy, alert routing reliability, training pipeline, privacy enforcement and customer deployment outcomes remain unverified. This pack contains proposed SupaBiz architecture, 18 design findings and 36 acceptance cases, not implemented SupaBiz features or passed vendor tests. The human reader includes synthetic interactive cases; its UI checks test the reader only. Earlier atlas versions are unchanged.

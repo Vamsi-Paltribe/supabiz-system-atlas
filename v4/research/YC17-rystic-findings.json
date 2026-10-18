@@ -1,0 +1,232 @@
+[
+  {
+    "id": "RY-01",
+    "title": "A repeatable practice business",
+    "evidence_refs": [
+      "EX-07",
+      "RC02"
+    ],
+    "decision": "High priority",
+    "supabiz_proposal": "Create synthetic Consu and Arkaj worlds spanning conversations, people, permissions, files and business records. Keep identities and references coherent across services.",
+    "measure": "Workflow completion; fixture consistency",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "RY-02",
+    "title": "Stateful transitions, not canned success",
+    "evidence_refs": [
+      "EX-02"
+    ],
+    "decision": "Adopt testing pattern",
+    "supabiz_proposal": "A created stock entry must affect later totals; reassignment must change visibility and notifications. Keep fast unit mocks, then add stateful workflow tests.",
+    "measure": "Incorrect state transitions detected",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "RY-03",
+    "title": "Grade effects and forbidden effects",
+    "evidence_refs": [
+      "EX-04",
+      "RC08"
+    ],
+    "decision": "Build oracle",
+    "supabiz_proposal": "Judge records, versions, recipients and task ownership independently of the agent narrative. Include no duplicate order, no cross-business read and no stale approval.",
+    "measure": "Verified task success; forbidden-effect rate",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "RY-04",
+    "title": "Deliberately broken controls",
+    "evidence_refs": [
+      "EX-05"
+    ],
+    "decision": "High priority",
+    "supabiz_proposal": "Seed known failures such as doubled quantity, missing tenant filter, wrong recipient and stale approval. Require the intended failure reason, not any process error.",
+    "measure": "Mutation detection by defect class; false alarms",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "RY-05",
+    "title": "Version the whole experiment",
+    "evidence_refs": [
+      "EX-08"
+    ],
+    "decision": "Build manifest",
+    "supabiz_proposal": "Pin harness code, world data, simulator digest, connector schemas, model configuration, prompt, policy, oracle and random seed in every result.",
+    "measure": "Reproduction rate; attributable regressions",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "RY-06",
+    "title": "Reset the whole episode",
+    "evidence_refs": [
+      "RS04",
+      "RC01"
+    ],
+    "decision": "Build lifecycle",
+    "supabiz_proposal": "Stop workers and sessions, reset state/cache/credentials/clock/faults, issue a new generation and reject late replies from the old episode.",
+    "measure": "Cross-episode contamination; stale callback rejection",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "RY-07",
+    "title": "Keep the examiner outside the agent",
+    "evidence_refs": [
+      "RS04",
+      "RC07"
+    ],
+    "decision": "Build isolation",
+    "supabiz_proposal": "Protect grader files, hidden expected results and control-plane credentials. Agents receive task instructions and scoped tools, not the answer key or reset authority.",
+    "measure": "Unauthorized grader/control access attempts",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "RY-08",
+    "title": "Test time as an input",
+    "evidence_refs": [
+      "RS11",
+      "RC04"
+    ],
+    "decision": "Build clock contract",
+    "supabiz_proposal": "Separate business time, source time, arrival time and monotonic timeout clocks. Inject delayed notices, expiry and shift changes through a controlled scheduler.",
+    "measure": "Deadline errors; stale action prevention",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "RY-09",
+    "title": "Distinguish failure before and after commit",
+    "evidence_refs": [
+      "RS13",
+      "RC03"
+    ],
+    "decision": "Build fault scenarios",
+    "supabiz_proposal": "Exercise request rejection, effect committed with lost acknowledgement, delayed webhook and partial multi-service completion separately.",
+    "measure": "Lost and duplicate effects; recovery time",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "RY-10",
+    "title": "Validate the observer before scoring",
+    "evidence_refs": [
+      "EX-05",
+      "RC09"
+    ],
+    "decision": "Build fail-closed grading",
+    "supabiz_proposal": "A failed state read is unknown, not an empty order list. Classify infrastructure and observation failures separately from agent mistakes.",
+    "measure": "False green runs; ungradable episodes",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "RY-11",
+    "title": "Measure fidelity on our workflows",
+    "evidence_refs": [
+      "RS03",
+      "RC08"
+    ],
+    "decision": "Adoption gate",
+    "supabiz_proposal": "Maintain a route/semantics/permission matrix for each exact workflow. Compare selected synthetic-account traces against a real connector sandbox before relying on simulated results.",
+    "measure": "Critical-contract coverage; sim/live divergences",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "RY-12",
+    "title": "Bind actor identity explicitly",
+    "evidence_refs": [
+      "EX-10",
+      "RC06"
+    ],
+    "decision": "Build security tests",
+    "supabiz_proposal": "Use synthetic roles for scenarios, but independently test token issuance, revocation, tenant routing and tool authorization in our actual boundary.",
+    "measure": "Wrong-actor/cross-tenant effects blocked",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "RY-13",
+    "title": "One isolated world per concurrent run",
+    "evidence_refs": [
+      "RS04"
+    ],
+    "decision": "Build scaling rule",
+    "supabiz_proposal": "Share immutable assets while isolating mutable storage, credentials, sessions and clocks. Budget CPU, RAM, disk, model limits and tenant fairness.",
+    "measure": "Contamination; p95 duration; peak resources",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "RY-14",
+    "title": "Make practice mode visible",
+    "evidence_refs": [
+      "RS02"
+    ],
+    "decision": "Adapt product UX",
+    "supabiz_proposal": "Let an owner preview a workflow on sample data with a persistent Practice badge, intended changes, simulated audience and explicit exit. Use a physically separate effect route.",
+    "measure": "Onboarding comprehension; accidental live effects",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "RY-15",
+    "title": "Expose the replay and state difference",
+    "evidence_refs": [
+      "RS02"
+    ],
+    "decision": "Adapt engineer UX",
+    "supabiz_proposal": "Show input timeline, authorized tool calls, before/after records and the first violated invariant. Link the exact seed and versions for reproduction.",
+    "measure": "Debugging time; reproducible bug reports",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "RY-16",
+    "title": "Separate learning from evaluation",
+    "evidence_refs": [
+      "RS05",
+      "RC10"
+    ],
+    "decision": "Build improvement loop",
+    "supabiz_proposal": "Use reviewed traces to change a prompt, tool, retrieval rule or policy; score against held-out scenarios before release. Fine-tuning/RL requires a separate data and reward program.",
+    "measure": "Held-out lift; regression rate; leakage",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "RY-17",
+    "title": "Vary the world, not only the wording",
+    "evidence_refs": [
+      "EX-07"
+    ],
+    "decision": "Build generalization set",
+    "supabiz_proposal": "Vary suppliers, quantities, languages, memberships, media quality, timestamps and partial outages. Split by workflow/business/time rather than adjacent message fragments.",
+    "measure": "Unseen-world performance; overfitting gap",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "RY-18",
+    "title": "Separate media perception from orchestration",
+    "evidence_refs": [
+      "RS09"
+    ],
+    "decision": "Build SupaBiz fixtures",
+    "supabiz_proposal": "Test transcript/OCR extraction against labeled audio/photos separately, then combine selected real processing with stateful workflow fixtures. API simulations do not validate vision quality.",
+    "measure": "Extraction accuracy; downstream error propagation",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "RY-19",
+    "title": "Discover effective capabilities",
+    "evidence_refs": [
+      "RS06"
+    ],
+    "decision": "Build readiness UX",
+    "supabiz_proposal": "Show actual installed versions, available operations, unmet entitlements and known gaps. A documentation page or reachable HTTP port is not proof the required workflow is ready.",
+    "measure": "Configuration drift; setup failure diagnosis",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "RY-20",
+    "title": "Keep simulation replaceable and off the live path",
+    "evidence_refs": [
+      "EX-01"
+    ],
+    "decision": "Architecture decision",
+    "supabiz_proposal": "Use commercial twins where their fit and cost are proven; own WhatsApp/Gmail/domain fixtures and an adapter contract. Rystic is a test dependency candidate, not mandatory production infrastructure.",
+    "measure": "Cost per useful regression; replacement effort",
+    "status": "Design candidate; not implemented"
+  }
+]

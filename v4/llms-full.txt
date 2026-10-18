@@ -1,0 +1,7371 @@
+# SupaBiz architecture atlas v4.0
+
+Proposed architecture and roadmap; not evidence of shipped product capabilities.
+
+metadata:
+  version: 4.0
+  as_of: 2026-10-18
+  title: SupaBiz — one system, clear responsibilities
+  purpose: Turn permitted business conversations and media into reviewed records, coordinated work and accountable actions.
+  status: Architecture synthesis and roadmap; no product implementation or benchmark performed
+  research_basis: 18 bounded YC reviews: 11 selected source/client/example reviews and 7 public-product reviews; 298 saved entries include 292 project learnings and 6 cross-project synthesis entries
+  version_policy: v1, v2, v3 and v3.1 remain byte-identical; root and /v4/ show this revision
+  team_assumption: Illustrative planning: 2 platform/integration engineers + 1 product engineer, shared QA, weekly manager/CA/Ramya access; scope and actual code condition determine dates
+  time_assumption: Roughly 11–14 sequential engineering weeks through S5 for the stated team, excluding waiting/procurement and S6. Estimates are not commitments.
+  legacy_reference_base: Resolve preserved prior_project_decisions research_path values against ../v3.1/ from /v4/, or v3.1/ from the site root.
+layers:
+  - id: L01
+    name: People and decisions
+    purpose: A staff capture surface and an evidence-led manager inbox.
+    reuse: Own the business UX. Adapt Asakana, Praxis, Sidekick, Marble, herdr and Agent37 interaction patterns.
+    build: Business switcher; capture receipt; attention inbox; evidence drawer; old/new diff; ownership; acknowledgement; outputs and connector health.
+    skip: A generic chat transcript as the only interface; employee scoring; forcing a WhatsApp migration.
+    owns: UI state and authenticated user intent; never accepted facts or execution authority.
+    interaction: Scoped records and pending decisions → role/audience view → exact decision command → receipt and current state.
+    gate: Staff can report an issue without a form; managers can resolve it, inspect evidence and distinguish seen, approved, delivered and verified.
+    first_sprint: S2
+    projects:
+      - YC02
+      - YC03
+      - YC04
+      - YC05
+      - YC07
+      - YC08
+      - YC13
+      - YC16
+    components:
+      - owner-app
+      - device-apps
+      - decision-queue
+      - native-chat
+      - answers
+    status: Proposed; implementation not verified
+  - id: L02
+    name: Identity, grants and secrets
+    purpose: Determine who may see or change each resource, on whose behalf.
+    reuse: Reuse maintained authentication and secret-management primitives; study Executor’s credential boundary.
+    build: Organization/business/matter grants; person and agent principals; scoped connection bindings; approval digests; revocation; destination/audience checks; budget reservations.
+    skip: Maximum permissions at signup; model-written permission grants; phone number or group membership as sufficient authority.
+    owns: Membership, policy, grants and authorization decisions. Provider tokens remain in the broker.
+    interaction: Authenticated identity + resource + audience + action + current versions → allow/deny/review → recheck at dispatch.
+    gate: Test with actual runtime DB role, pooled connections, revoked sockets, evidence downloads and exports; deny every seeded cross-scope case.
+    first_sprint: S1
+    projects:
+      - YC01
+      - YC03
+      - YC09
+      - YC10
+      - YC11
+      - YC14
+      - YC16
+      - YC18
+    components:
+      - identity
+      - policy
+      - secrets
+      - sandbox
+      - portability
+    status: Proposed; implementation not verified
+  - id: L03
+    name: Connections and durable intake
+    purpose: Capture permitted events with explicit coverage and recovery.
+    reuse: Keep the founder-reported WhatsApp path behind an adapter until tested; use direct Gmail first. Nango/selected Activepieces adapters remain conditional.
+    build: Durable source journal, native IDs, edit/delete revisions, cursor/checkpoint, media fetch, bounded burst collection, backfill, group enrollment and health.
+    skip: Assuming any official WhatsApp API reads existing groups; acknowledging before durable capture; treating a quiet disconnected source as complete.
+    owns: Source envelope, connection state, checkpoints and intake acknowledgements.
+    interaction: Provider → authenticated ingress → durable event → checkpoint → media/normalization jobs; reconnect replays with dedupe.
+    gate: Disconnect, duplicate, out-of-order, edited/deleted and expired-cursor cases preserve identities and disclose gaps.
+    first_sprint: S1
+    projects:
+      - YC01
+      - YC02
+      - YC03
+      - YC04
+      - YC07
+      - YC16
+    components:
+      - whatsapp
+      - gmail
+      - observations
+      - device-apps
+    status: Proposed; implementation not verified
+  - id: L04
+    name: Media and evidence
+    purpose: Turn permitted media into inspectable, uncertain observations.
+    reuse: Pilot Docling for documents; reuse replaceable speech/vision interfaces. Take Sidekick’s low-friction capture patterns.
+    build: Original/derivative storage, content type and byte limits, parser isolation, page/crop/time citations, language/translation separation, coverage and retention.
+    skip: Continuous desktop/CCTV capture by default; inferring hidden food safety; treating sampled video as complete coverage.
+    owns: Evidence objects, versions, locators, extraction provenance and access state.
+    interaction: Original → isolated OCR/STT/vision → observation with source locator and uncertainty → candidate; never direct business mutation.
+    gate: Hindi/English/Hinglish, kitchen noise, rotated scans, unclear quantities and missing media yield correct extraction or useful abstention.
+    first_sprint: S1
+    projects:
+      - YC03
+      - YC04
+      - YC05
+      - YC07
+      - YC15
+      - YC18
+    components:
+      - media
+      - extraction
+      - vision
+      - voice
+      - video
+      - object-store
+    status: Proposed; implementation not verified
+  - id: L05
+    name: Business records and governed memory
+    purpose: One authority for facts, with separate retrieval and reusable knowledge.
+    reuse: Reuse PostgreSQL transactions and object storage. Adapt Marble/Definite record semantics, Glen retrieval and Terse ownership principles.
+    build: Typed issues, stock movements, invoices, matters, tasks; entity matching; exact units; revision history; field authority; three-state checks; scoped memory and projection invalidation.
+    skip: Vector DB as ledger; one generic task replacing every domain object; majority vote across copied or incomparable evidence; Terse plus SQL as competing authorities.
+    owns: Accepted domain records and revisions. Memory, search, dashboards and calendars are derived views with explicit freshness.
+    interaction: Evidence → candidate → semantic/exact checks → permitted admission → record revision + outbox → authorized projections.
+    gate: Replaying duplicates/corrections/reordering preserves balances and matter identity; unknown inputs never pass; revoked source access affects derived context.
+    first_sprint: S2
+    projects:
+      - YC04
+      - YC05
+      - YC08
+      - YC10
+      - YC14
+      - YC18
+    components:
+      - ledger
+      - views
+      - retrieval
+      - database
+      - observations
+      - portability
+    status: Proposed; implementation not verified
+  - id: L06
+    name: Bounded agent harness
+    purpose: Interpret and propose work within a controlled execution contract.
+    reuse: Retain the current harness as a candidate; adapt Hermes seams. Evaluate Executor for selected tool discovery/execution only.
+    build: Context packet, model/modality adapter, schemas, run/step IDs, token/time/tool budgets, structured proposals, clarification, cancellation and checkpoints.
+    skip: Whole-platform replacement before baseline; unrestricted shell bypass; multiple primary harnesses; a second LLM as ultimate authority.
+    owns: Agent run and proposal state. It owns neither grants nor final business truth.
+    interaction: Trigger → scoped record/evidence snapshot → model/tool loop → schema/grounding checks → proposal → workflow/action service.
+    gate: Run the same held-out cases through two compatible models; malformed calls, injected content and cancelled runs cannot bypass action policy.
+    first_sprint: S2
+    projects:
+      - YC01
+      - YC02
+      - YC10
+      - YC11
+      - YC12
+      - YC16
+      - YC18
+    components:
+      - orchestrator
+      - model-router
+      - output-validation
+      - workflow-packs
+      - answers
+    status: Proposed; implementation not verified
+  - id: L07
+    name: Durable work and domain packs
+    purpose: Keep assignments, waits, reminders and exceptions alive across devices.
+    reuse: Prefer one durable workflow engine: Temporal is the pilot candidate. Compare with the existing persisted worker in S2 before expanding live multi-day work.
+    build: Versioned restaurant/legal packs, task transitions, ack/escalation timers, stop conditions, assignments, inbox/outbox processing and recovery.
+    skip: LLM loops waiting for people; two workflow engines owning one task; interpreting transport delivery as acceptance or completion.
+    owns: Workflow progression/timers. Accepted task and matter data stay in L05.
+    interaction: Accepted event → workflow → task/review/timer → current authorization → effect → verified progression; waiting consumes no active model loop.
+    gate: Restart during human wait, cancel before reminder, correct a date and resume old workers without duplicate work.
+    first_sprint: S2
+    projects:
+      - YC02
+      - YC05
+      - YC07
+      - YC08
+      - YC12
+      - YC13
+      - YC14
+    components:
+      - workflow-engine
+      - tasks
+      - calendar
+      - decision-queue
+      - workflow-packs
+    status: Proposed; implementation not verified
+  - id: L08
+    name: Actions, browser and collaboration
+    purpose: Apply an authorized change and establish its actual outcome.
+    reuse: Use typed provider APIs and deterministic PDF/export libraries. Executor/selected action code are conditional; Browser Use only for a documented API gap.
+    build: Action intent/digest, atomic claim, short-lived credentials, recipient/account binding, idempotency, read-back, uncertain-outcome reconciliation and browser takeover lease.
+    skip: Blind resend after timeout; unmediated browser/shell writes; autonomous payment/filing; broad agent federation in MVP.
+    owns: External action attempts, provider receipts, uncertainty and compensation.
+    interaction: Approved intent → recheck grants/version → persist dispatch intent → provider → verify or reconcile → durable effect receipt.
+    gate: Lose acknowledgement after a real sandbox commit; recover one logical effect or an explicit unresolved state. Test alternate execution paths.
+    first_sprint: S2
+    projects:
+      - YC01
+      - YC02
+      - YC08
+      - YC09
+      - YC11
+      - YC13
+      - YC16
+      - YC18
+    components:
+      - action-executor
+      - business-tools
+      - browser
+      - calendar
+      - tasks
+      - agent-exchange
+    status: Proposed; implementation not verified
+  - id: L09
+    name: Cloud, devices and operating limits
+    purpose: Run bounded workers while keeping intake, state and recovery available.
+    reuse: Use managed database/object/secret services and containers first. Agent37 is an optional runtime provider behind an adapter; no always-on per-customer VM requirement.
+    build: Worker leases/generations, device enrollment, readiness, quotas, retention lineage, coherent restore, kill/pause semantics and cost attribution.
+    skip: Kubernetes by default; platform-admin credentials inside workers; full desktop capture before a workflow needs it; mistaking a container label for isolation proof.
+    owns: Execution lifecycle and resource policy. Durable records survive worker sleep/replacement.
+    interaction: Always-available intake/control plane → short-lived compute or scoped persistent browser/device session → results → cleanup/reconciliation.
+    gate: Restore DB, objects, keys and pending jobs coherently; one unhealthy node cannot stall other tenants; sleep never drops intake.
+    first_sprint: S1
+    projects:
+      - YC02
+      - YC03
+      - YC13
+      - YC14
+      - YC15
+    components:
+      - database
+      - object-store
+      - secrets
+      - sandbox
+      - device-apps
+      - portability
+    status: Proposed; implementation not verified
+  - id: L10
+    name: Evaluation and governed improvement
+    purpose: Measure real outcomes and promote corrections without silent behavior drift.
+    reuse: One SupaBiz case/trace/oracle contract; optional Hue runner adapter and Rystic API twins. Reuse redacted observability primitives, not a second business audit store.
+    build: Synthetic stateful worlds, protected evaluator, fault injection, outcome/forbidden-effect assertions, incident-to-test, scoped correction promotion, release diffs and rollback.
+    skip: Two mandatory eval platforms; testing only fluent answers; auto-training from every correction; vendor percentages as SupaBiz forecasts.
+    owns: Experiment manifests, reviewed expected outcomes, release evidence and learned-rule lifecycle. Business audit stays in transactional storage.
+    interaction: Verified correction → classify scope → candidate rule/prompt/tool/model change → held-out test → authorized release → monitor/rollback.
+    gate: Known-bad clients fail for the intended reason; missing observers never pass; quality/cost compared on the same eligible population.
+    first_sprint: S0
+    projects:
+      - YC04
+      - YC06
+      - YC09
+      - YC12
+      - YC15
+      - YC17
+      - YC18
+    components:
+      - observability
+      - eval-harness
+      - output-validation
+    status: Proposed; implementation not verified
+  - id: L11
+    name: Engineering and dependency governance
+    purpose: Build a maintainable system with reproducible artifacts and explicit compatibility.
+    reuse: Use normal version control, CI, schema validation and migration tools. REA, OpenHands, herdr and other coding assistants are development aids.
+    build: Pinned dependency identity/license checks, adapter contract tests, schema migrations, environment separation, threat reviews, rollout and source-linked decisions.
+    skip: Production install-on-demand; copying source without a suitable license; treating SDK docs as proof of package identity or compatible server behavior.
+    owns: Code, schemas, release manifests, dependency decisions and engineering checks.
+    interaction: Reviewed change → isolated build → meaningful unit/contract/workflow tests → staged deployment → monitored rollback.
+    gate: Build reproducibly; old/new worker and schema compatibility tested; incorrect-publisher and retired-route fixtures block release.
+    first_sprint: S0
+    projects:
+      - YC01
+      - YC06
+      - YC12
+      - YC13
+      - YC14
+      - YC16
+      - YC17
+      - YC18
+    components:
+      - eval-harness
+      - workflow-packs
+      - sandbox
+    status: Proposed; implementation not verified
+project_decisions:
+  - id: YC01
+    name: Executor
+    layers:
+      - L02
+      - L06
+      - L08
+    decision: Conditional code reuse
+    take: Account/credential separation, selected schema discovery and bounded execution.
+    build: Our grants, action ledger, exact approvals and effect reconciliation.
+    skip: Full adoption as the business platform; direct consequential writes before race/recovery fixes.
+    gate: MIT root in saved review; beta dependency/build footprint and approval-consumption race require a pinned spike.
+    first_sprint: S2
+    report: research/YC01-executor.txt
+    review_origin: YC01-executor
+    source: https://www.ycombinator.com/companies/executor
+    evidence_status: selected_source_review_and_isolated_component_checks
+    findings:
+      - SB-EX-01
+      - SB-EX-02
+      - SB-EX-03
+      - SB-EX-04
+      - SB-EX-05
+      - SB-EX-06
+      - SB-EX-07
+    implementation_status: Not integrated by this architecture update
+  - id: YC02
+    name: Agent37
+    layers:
+      - L01
+      - L09
+    decision: UX now; hosting experiment later
+    take: Continuity across devices, outputs panel, responsibilities and browser handoff.
+    build: Durable records, source intake independent of sleeping compute, leases, quotas and cancellation.
+    skip: Reselling the starter unchanged or treating its source as the hosted backend.
+    gate: MIT starter/examples; private hosting, lifecycle semantics, India availability, terms and total cost unverified.
+    first_sprint: S2
+    report: research/YC02-agent37.txt
+    review_origin: YC02-agent37
+    source: https://www.ycombinator.com/companies/agent-37
+    evidence_status: selected_source_api_contract_review_and_isolated_component_checks
+    findings:
+      - SB-AG37-01
+      - SB-AG37-02
+      - SB-AG37-03
+      - SB-AG37-04
+      - SB-AG37-05
+      - SB-AG37-06
+      - SB-AG37-07
+      - SB-AG37-08
+      - SB-AG37-09
+      - SB-AG37-10
+      - SB-AG37-11
+      - SB-AG37-12
+    implementation_status: Not integrated by this architecture update
+  - id: YC03
+    name: screenpipe
+    layers:
+      - L04
+      - L09
+      - L01
+    decision: Pattern reuse; capture deferred
+    take: Evidence-linked work inbox, selective capture, accessibility-before-OCR ladder.
+    build: Explicit release controls, device grants, consent, retention and targeted capture.
+    skip: Blanket recording and code copying under an assumed permissive license.
+    gate: Saved source uses a commercial license; current rights and actual device security need validation.
+    first_sprint: S6
+    report: research/YC03-screenpipe.txt
+    review_origin: YC03-screenpipe
+    source: https://www.ycombinator.com/companies/screenpipe
+    evidence_status: selected_source_review_and_isolated_component_checks
+    findings:
+      - SB-SP-02
+      - SB-SP-03
+      - SB-SP-04
+      - SB-SP-05
+      - SB-SP-06
+      - SB-SP-07
+      - SB-SP-08
+      - SB-SP-09
+      - SB-SP-11
+      - SB-SP-13
+      - SB-SP-16
+      - SB-SP-18
+    implementation_status: Not integrated by this architecture update
+  - id: YC04
+    name: Asakana
+    layers:
+      - L01
+      - L05
+      - L10
+    decision: Priority product pattern
+    take: Messy-message → structured draft → targeted correction → completed record.
+    build: Business entity mapping, scoped knowledge and the correction-to-regression loop.
+    skip: Assuming a demo establishes training methods or automatic generalization.
+    gate: Public product/demo review only; no backend code or measured uplift.
+    first_sprint: S2
+    report: research/YC04-asakana.txt
+    review_origin: YC04-asakana
+    source: https://www.ycombinator.com/companies/asakana
+    evidence_status: public_product_and_recorded_demo_review_no_source_audit
+    findings:
+      - SB-AS-01
+      - SB-AS-02
+      - SB-AS-03
+      - SB-AS-04
+      - SB-AS-05
+      - SB-AS-06
+      - SB-AS-07
+      - SB-AS-08
+      - SB-AS-09
+      - SB-AS-10
+      - SB-AS-11
+      - SB-AS-12
+      - SB-AS-13
+      - SB-AS-14
+      - SB-AS-15
+    implementation_status: Not integrated by this architecture update
+  - id: YC05
+    name: Praxis
+    layers:
+      - L01
+      - L05
+      - L07
+    decision: Priority legal workflow pattern
+    take: Matter workspace, document readiness, acknowledged assignment and blocker ownership.
+    build: Indian court/matter identities, reviewed date types, grants and corrected-notice propagation.
+    skip: Automatic legal interpretation, conflict clearance or client disclosure.
+    gate: Public product/policy review only; no Indian court integration established.
+    first_sprint: S4
+    report: research/YC05-praxis.txt
+    review_origin: YC05-praxis
+    source: https://www.ycombinator.com/companies/praxis
+    evidence_status: public_product_articles_and_policy_review_no_source_audit
+    findings:
+      - SB-PR-01
+      - SB-PR-02
+      - SB-PR-03
+      - SB-PR-04
+      - SB-PR-05
+      - SB-PR-06
+      - SB-PR-07
+      - SB-PR-08
+      - SB-PR-09
+      - SB-PR-10
+      - SB-PR-11
+      - SB-PR-12
+    implementation_status: Not integrated by this architecture update
+  - id: YC06
+    name: Hue
+    layers:
+      - L10
+    decision: Conditional SDK/runner adapter
+    take: Incident-to-case, fixed worlds, outcome scoring, release comparison and saved-evidence rescoring.
+    build: Our business oracle, protected answers, domain fixtures and one portable test contract.
+    skip: Treating tracing as durable business audit or making Hue and Rystic duplicate owners.
+    gate: MIT SDK; selected checks, not hosted server certification. Validate retention, adapter fit and cost.
+    first_sprint: S0
+    report: research/YC06-hue.txt
+    review_origin: YC06-hue
+    source: https://www.ycombinator.com/companies/hue
+    evidence_status: selected_sdk_source_review_and_17_installed_python_component_checks
+    findings:
+      - SB-HU-01
+      - SB-HU-02
+      - SB-HU-03
+      - SB-HU-04
+      - SB-HU-05
+      - SB-HU-06
+      - SB-HU-07
+      - SB-HU-08
+      - SB-HU-09
+      - SB-HU-10
+      - SB-HU-11
+      - SB-HU-12
+      - SB-HU-13
+      - SB-HU-14
+    implementation_status: Not integrated by this architecture update
+  - id: YC07
+    name: Sidekick
+    layers:
+      - L01
+      - L04
+      - L07
+    decision: Priority frontline UX pattern
+    take: Voice/photo capture, minimal clarification, asset location and verified closure.
+    build: Outlet/asset directory, multilingual evidence, role routing and SOP review.
+    skip: Video as proof of hidden conditions; predictive maintenance before telemetry.
+    gate: Public product and selected demo review; no reusable backend established.
+    first_sprint: S2
+    report: research/YC07-sidekick.txt
+    review_origin: YC07-sidekick
+    source: https://www.ycombinator.com/companies/textsidekick
+    evidence_status: public_product_policy_and_selected_recorded_demo_review_no_source_audit
+    findings:
+      - SB-SK-01
+      - SB-SK-02
+      - SB-SK-03
+      - SB-SK-04
+      - SB-SK-05
+      - SB-SK-06
+      - SB-SK-07
+      - SB-SK-08
+      - SB-SK-09
+      - SB-SK-10
+      - SB-SK-11
+      - SB-SK-12
+      - SB-SK-13
+      - SB-SK-14
+    implementation_status: Not integrated by this architecture update
+  - id: YC08
+    name: Marble
+    layers:
+      - L05
+      - L07
+      - L01
+    decision: Priority restaurant domain pattern
+    take: Separate ordering, receiving, stocktake, invoice, credit and settlement objects.
+    build: Accepted-quantity movements, opening count/cutover, reconciliation and CA export.
+    skip: Full ERP/POS replacement, forecasting or payments in the first pilot.
+    gate: Public product evidence; no Tally/Zoho/GST integration established.
+    first_sprint: S3
+    report: research/YC08-marble.txt
+    review_origin: YC08-marble
+    source: https://www.ycombinator.com/companies/joinmarble
+    evidence_status: public_product_policy_case_study_caption_and_selected_promotional_frame_review_no_source_audit
+    findings:
+      - SB-MB-01
+      - SB-MB-02
+      - SB-MB-03
+      - SB-MB-04
+      - SB-MB-05
+      - SB-MB-06
+      - SB-MB-07
+      - SB-MB-08
+      - SB-MB-09
+      - SB-MB-10
+      - SB-MB-11
+      - SB-MB-12
+      - SB-MB-13
+      - SB-MB-14
+      - SB-MB-15
+      - SB-MB-16
+    implementation_status: Not integrated by this architecture update
+  - id: YC09
+    name: Agent Relay
+    layers:
+      - L08
+      - L02
+    decision: Conditional later transport reuse
+    take: Job-scoped rooms, typed requests, separate transport/work receipts.
+    build: Relationship grants, identity, audience scope, durable idempotency and outcome verification.
+    skip: An endless swarm or coding-terminal injection for operational transactions.
+    gate: Apache-2.0 roots in saved review; pinned pair compatibility and server deployment must be tested.
+    first_sprint: S6
+    report: research/YC09-agent-relay.txt
+    review_origin: YC09-agent-relay
+    source: https://www.ycombinator.com/companies/agent-relay
+    evidence_status: selected_source_review_and_21_isolated_component_checks
+    findings:
+      - SB-AR-01
+      - SB-AR-02
+      - SB-AR-03
+      - SB-AR-04
+      - SB-AR-05
+      - SB-AR-06
+      - SB-AR-07
+      - SB-AR-08
+      - SB-AR-09
+      - SB-AR-10
+      - SB-AR-11
+      - SB-AR-12
+      - SB-AR-13
+      - SB-AR-14
+      - SB-AR-15
+      - SB-AR-16
+    implementation_status: Not integrated by this architecture update
+  - id: YC10
+    name: Glen
+    layers:
+      - L05
+      - L02
+    decision: Memory patterns now; service optional
+    take: Task-scoped retrieval, visible memory owners, lineage and portable handoffs.
+    build: Own evidence/record authority, source ACLs, audience filtering and invalidation.
+    skip: Universal shared memory, broad transcript upload or a second record authority.
+    gate: MIT client artifacts reviewed; private backend permissions/retention not audited.
+    first_sprint: S2
+    report: research/YC10-glen.txt
+    review_origin: YC10-glen
+    source: https://www.ycombinator.com/companies/glen
+    evidence_status: selected_plugin_and_shipped_cli_review_REA_and_20_isolated_checks_no_server_audit
+    findings:
+      - SB-GL-01
+      - SB-GL-02
+      - SB-GL-03
+      - SB-GL-04
+      - SB-GL-05
+      - SB-GL-06
+      - SB-GL-07
+      - SB-GL-08
+      - SB-GL-09
+      - SB-GL-10
+      - SB-GL-11
+      - SB-GL-12
+      - SB-GL-13
+      - SB-GL-14
+      - SB-GL-15
+      - SB-GL-16
+      - SB-GL-17
+      - SB-GL-18
+    implementation_status: Not integrated by this architecture update
+  - id: YC11
+    name: Decawork
+    layers:
+      - L02
+      - L08
+    decision: Policy pattern; specialized reviewer deferred
+    take: Exact-action review outside acting model; deny, hold and needs-context states.
+    build: Deterministic grants, approval binding, budgets and independent execution gate.
+    skip: A review model overriding hard limits or unprotected browser paths.
+    gate: Public product/policy review; model/security implementation unverified.
+    first_sprint: S2
+    report: research/YC11-decawork.txt
+    review_origin: YC11-decawork
+    source: https://www.ycombinator.com/companies/decawork
+    evidence_status: public_product_interactive_example_launch_captions_and_policy_review_no_source_audit
+    findings:
+      - SB-DW-01
+      - SB-DW-02
+      - SB-DW-03
+      - SB-DW-04
+      - SB-DW-05
+      - SB-DW-06
+      - SB-DW-07
+      - SB-DW-08
+      - SB-DW-09
+      - SB-DW-10
+      - SB-DW-11
+      - SB-DW-12
+      - SB-DW-13
+      - SB-DW-14
+      - SB-DW-15
+      - SB-DW-16
+      - SB-DW-17
+      - SB-DW-18
+    implementation_status: Not integrated by this architecture update
+  - id: YC12
+    name: GrepAI
+    layers:
+      - L06
+      - L10
+      - L11
+    decision: Procedure patterns; hosted dependency deferred
+    take: Turn repeated work into guarded procedures; keep draft, tested and active separate.
+    build: Offline optimization, versioned packs, exception path, quality/cost comparisons.
+    skip: Silent live self-modification or copying an SDK with unresolved license.
+    gate: Selected skills/shipped SDK review; license/endpoint drift and private optimizer limits recorded.
+    first_sprint: S5
+    report: research/YC12-grepai.txt
+    review_origin: YC12-grepai
+    source: https://www.ycombinator.com/companies/grep-ai
+    evidence_status: selected_skills_source_and_shipped_sdk_review_REA_and_30_isolated_checks_no_backend_audit
+    findings:
+      - SB-GR-01
+      - SB-GR-02
+      - SB-GR-03
+      - SB-GR-04
+      - SB-GR-05
+      - SB-GR-06
+      - SB-GR-07
+      - SB-GR-08
+      - SB-GR-09
+      - SB-GR-10
+      - SB-GR-11
+      - SB-GR-12
+      - SB-GR-13
+      - SB-GR-14
+      - SB-GR-15
+      - SB-GR-16
+      - SB-GR-17
+      - SB-GR-18
+      - SB-GR-19
+      - SB-GR-20
+    implementation_status: Not integrated by this architecture update
+  - id: YC13
+    name: herdr
+    layers:
+      - L01
+      - L09
+      - L11
+    decision: UX pattern; optional engineer tool
+    take: Attention inbox, node health, durable job identity and control handoff.
+    build: Business states, role views, authorized device control and effect recovery.
+    skip: Custom PTY migration or unverified cloud dependency for restaurant staff.
+    gate: Apache-2.0 root; selected source/hook checks, not full runtime verification.
+    first_sprint: S2
+    report: research/YC13-herdr.txt
+    review_origin: YC13-herdr
+    source: https://www.ycombinator.com/companies/herdr
+    evidence_status: selected_rust_source_public_mock_and_18_isolated_hook_checks_no_full_runtime_audit
+    findings:
+      - SB-HD-01
+      - SB-HD-02
+      - SB-HD-03
+      - SB-HD-04
+      - SB-HD-05
+      - SB-HD-06
+      - SB-HD-07
+      - SB-HD-08
+      - SB-HD-09
+      - SB-HD-10
+      - SB-HD-11
+      - SB-HD-12
+      - SB-HD-13
+      - SB-HD-14
+      - SB-HD-15
+      - SB-HD-16
+      - SB-HD-17
+      - SB-HD-18
+      - SB-HD-19
+      - SB-HD-20
+    implementation_status: Not integrated by this architecture update
+  - id: YC14
+    name: Terse
+    layers:
+      - L05
+      - L07
+      - L09
+    decision: Pattern now; runtime experiment deferred
+    take: Stable entity ownership, short guarded commands and committed live views.
+    build: Postgres record authority and current-version checks; keep slow AI outside transactions.
+    skip: Two primary stores or an actor per message without a measured need.
+    gate: MIT root; selected component checks. Benchmark against SQL/jobs before runtime adoption.
+    first_sprint: S5
+    report: research/YC14-terse.txt
+    review_origin: YC14-terse
+    source: https://www.ycombinator.com/companies/useterse
+    evidence_status: selected_rust_typescript_observer_source_28_component_checks_and_public_demo_read_no_cloud_audit
+    findings:
+      - SB-TE-01
+      - SB-TE-02
+      - SB-TE-03
+      - SB-TE-04
+      - SB-TE-05
+      - SB-TE-06
+      - SB-TE-07
+      - SB-TE-08
+      - SB-TE-09
+      - SB-TE-10
+      - SB-TE-11
+      - SB-TE-12
+      - SB-TE-13
+      - SB-TE-14
+      - SB-TE-15
+      - SB-TE-16
+      - SB-TE-17
+      - SB-TE-18
+      - SB-TE-19
+      - SB-TE-20
+    implementation_status: Not integrated by this architecture update
+  - id: YC15
+    name: Shire Intelligence
+    layers:
+      - L04
+      - L07
+      - L01
+    decision: Optional later observation module
+    take: Observation → task and role-specific floor/attention views.
+    build: Camera health, episode identity, source authority, consent and confirmation.
+    skip: Continuous CCTV as prerequisite; personal ratings; claimed savings without field evidence.
+    gate: Public product/selected demo frames only; no verified API/model/code.
+    first_sprint: S6
+    report: research/YC15-shire-intelligence.txt
+    review_origin: YC15-shire-intelligence
+    source: https://www.ycombinator.com/companies/shire-intelligence
+    evidence_status: public_product_policy_and_selected_demo_frame_review_no_source_audit
+    findings:
+      - SB-SH-01
+      - SB-SH-02
+      - SB-SH-03
+      - SB-SH-04
+      - SB-SH-05
+      - SB-SH-06
+      - SB-SH-07
+      - SB-SH-08
+      - SB-SH-09
+      - SB-SH-10
+      - SB-SH-11
+      - SB-SH-12
+      - SB-SH-13
+      - SB-SH-14
+      - SB-SH-15
+      - SB-SH-16
+      - SB-SH-17
+      - SB-SH-18
+    implementation_status: Not integrated by this architecture update
+  - id: YC16
+    name: Inkbox
+    layers:
+      - L03
+      - L02
+      - L08
+    decision: Communication patterns; code reuse blocked on rights
+    take: Quiet capture, selective wake-up, stable identity and conversation/audience binding.
+    build: Durable journal, action authority, channel adapters and effective-permission checks.
+    skip: Replying to every message, broad identity grants or copying unlicensed plugin source.
+    gate: Selected plugin source reviewed; no explicit root/package reuse license found, no hosted/WhatsApp verification.
+    first_sprint: S1
+    report: research/YC16-inkbox.txt
+    review_origin: YC16-inkbox
+    source: https://www.ycombinator.com/companies/inkbox
+    evidence_status: selected_hermes_plugin_source_public_docs_UI_and_20_offline_component_checks_no_backend_audit
+    findings:
+      - SB-IB-01
+      - SB-IB-02
+      - SB-IB-03
+      - SB-IB-04
+      - SB-IB-05
+      - SB-IB-06
+      - SB-IB-07
+      - SB-IB-08
+      - SB-IB-09
+      - SB-IB-10
+      - SB-IB-11
+      - SB-IB-12
+      - SB-IB-13
+      - SB-IB-14
+      - SB-IB-15
+      - SB-IB-16
+      - SB-IB-17
+      - SB-IB-18
+      - SB-IB-19
+      - SB-IB-20
+    implementation_status: Not integrated by this architecture update
+  - id: YC17
+    name: Rystic
+    layers:
+      - L10
+    decision: Conditional simulator procurement
+    take: Stateful service substitutes, coherent worlds, fault injection and deliberate bad controls.
+    build: Our WhatsApp/Gmail/domain fixtures, protected oracle and simulator fidelity matrix.
+    skip: Putting simulators in production or treating examples as engine source.
+    gate: MIT examples; simulator separately licensed; coverage and actual rollout unverified.
+    first_sprint: S0
+    report: research/YC17-rystic.txt
+    review_origin: YC17-rystic
+    source: https://www.ycombinator.com/companies/rystic
+    evidence_status: selected_public_examples_docs_UI_and_15_offline_helper_checks_no_simulator_engine_audit
+    findings:
+      - SB-RY-01
+      - SB-RY-02
+      - SB-RY-03
+      - SB-RY-04
+      - SB-RY-05
+      - SB-RY-06
+      - SB-RY-07
+      - SB-RY-08
+      - SB-RY-09
+      - SB-RY-10
+      - SB-RY-11
+      - SB-RY-12
+      - SB-RY-13
+      - SB-RY-14
+      - SB-RY-15
+      - SB-RY-16
+      - SB-RY-17
+      - SB-RY-18
+      - SB-RY-19
+      - SB-RY-20
+    implementation_status: Not integrated by this architecture update
+  - id: YC18
+    name: Definite
+    layers:
+      - L05
+      - L02
+      - L10
+    decision: Priority architecture pattern; SDK adoption blocked
+    take: Shared records, exact checks, explicit unknowns and evidence-based decisions.
+    build: Domain schema, source authority, versioned checks, action gateway and reviewed correction loop.
+    skip: Blind majority voting; treating signed evidence as factual truth; installing a same-name SDK.
+    gate: Public docs/UI only; documented npm name resolves to unrelated insurance package; no finance SDK audit.
+    first_sprint: S2
+    report: research/YC18-definite.txt
+    review_origin: YC18-definite
+    source: https://www.ycombinator.com/companies/definite
+    evidence_status: public_product_docs_illustrative_UI_and_registry_attribution_review_no_finance_source_audit
+    findings:
+      - SB-DF-01
+      - SB-DF-02
+      - SB-DF-03
+      - SB-DF-04
+      - SB-DF-05
+      - SB-DF-06
+      - SB-DF-07
+      - SB-DF-08
+      - SB-DF-09
+      - SB-DF-10
+      - SB-DF-11
+      - SB-DF-12
+      - SB-DF-13
+      - SB-DF-14
+      - SB-DF-15
+      - SB-DF-16
+      - SB-DF-17
+      - SB-DF-18
+      - SB-DF-19
+      - SB-DF-20
+    implementation_status: Not integrated by this architecture update
+decisions:
+  - id: A01
+    title: One product, replaceable components
+    decision: Build a modular control-plane application with isolated workers. Preserve the existing harness behind an interface.
+    tradeoff: Avoid 18 mandatory dependencies or a framework rewrite without a baseline.
+    layers:
+      - L06
+      - L09
+      - L11
+    projects:
+      - YC01
+      - YC02
+      - YC12
+      - YC13
+    reopen: Reopen if a measured module needs independent scaling or replacement.
+    status: Architecture recommendation; not a completed implementation
+  - id: A02
+    title: One authority for business facts
+    decision: PostgreSQL transactions own accepted facts and revisions; object storage owns evidence bytes. Search, memory and calendar are projections.
+    tradeoff: Terse entity ownership is a useful design principle; its runtime is not selected. No second authoritative ledger.
+    layers:
+      - L05
+      - L07
+    projects:
+      - YC08
+      - YC10
+      - YC14
+      - YC18
+    reopen: Reopen actor runtime only after workload-specific durability/latency/cost comparison.
+    status: Architecture recommendation; not a completed implementation
+  - id: A03
+    title: One owner of durable progression
+    decision: Run S2 recovery spike; prefer Temporal for live multi-day workflows if the team can operate it. A persisted worker is the baseline, not an in-memory scheduler.
+    tradeoff: A durable engine coordinates work but cannot make remote effects exactly once. Do not introduce Activepieces as a second core state owner.
+    layers:
+      - L07
+      - L08
+    projects:
+      - YC02
+      - YC05
+      - YC13
+      - YC14
+    reopen: Choose before multi-day pilot expansion; do not implement two production engines.
+    status: Architecture recommendation; not a completed implementation
+  - id: A04
+    title: Authorization outside all models
+    decision: A mandatory SupaBiz gateway controls every protected effect, including generated code and browser/device routes.
+    tradeoff: Executor is conditional code; Decawork supplies a review pattern. A review model may escalate or deny, never grant extra rights.
+    layers:
+      - L02
+      - L08
+    projects:
+      - YC01
+      - YC11
+      - YC16
+      - YC18
+    reopen: Specialized contextual reviewer requires lower risk or review burden at equal hard policy.
+    status: Architecture recommendation; not a completed implementation
+  - id: A05
+    title: Selective awareness
+    decision: Connect selected sources, groups, history and purpose. Show listening, working and missing coverage separately.
+    tradeoff: Maximum permissions and desktop surveillance are unnecessary for the initial workflows. Quiet capture still requires permission.
+    layers:
+      - L02
+      - L03
+      - L04
+    projects:
+      - YC03
+      - YC07
+      - YC16
+    reopen: Add a device capability only when a concrete workflow cannot use a safer structured source.
+    status: Architecture recommendation; not a completed implementation
+  - id: A06
+    title: Correction is governed learning
+    decision: VERY IMPORTANT: correction → classified scope → reviewed rule or memory → regression case → held-out test → release/rollback.
+    tradeoff: Saved memory, prompt/tool changes, routing and model-weight training are different changes. Do not silently generalize an approval click.
+    layers:
+      - L05
+      - L10
+    projects:
+      - YC04
+      - YC06
+      - YC08
+      - YC12
+      - YC18
+    reopen: Fine-tuning requires a separate consent, dataset and measurable benefit decision.
+    status: Architecture recommendation; not a completed implementation
+  - id: A07
+    title: One evaluation contract
+    decision: Own the world/trace/oracle manifest; optionally use Hue for orchestration and Rystic for specific service semantics.
+    tradeoff: These tools overlap in evaluation but neither owns our business definition of success. Keep graders and real credentials outside the agent world.
+    layers:
+      - L10
+      - L11
+    projects:
+      - YC06
+      - YC17
+    reopen: Buy an adapter only when it reduces maintained fixture work at validated fidelity and total cost.
+    status: Architecture recommendation; not a completed implementation
+  - id: A08
+    title: A narrow initial product
+    decision: Keep v3.1’s photo issue → accepted assignment → verified closure as first vertical slice. Follow with receiving/invoice; legal starts in shadow mode.
+    tradeoff: The reviews broaden the design, not the first release. Staff should gain value before migrating chat or accounting.
+    layers:
+      - L01
+      - L05
+      - L07
+    projects:
+      - YC04
+      - YC05
+      - YC07
+      - YC08
+    reopen: If pilot access is only Arkaj, swap vertical order while keeping shared gates; do not build both fully at once.
+    status: Architecture recommendation; not a completed implementation
+  - id: A09
+    title: Facts, checks and decisions remain distinct
+    decision: Use typed evidence, candidate, accepted record, check, decision and effect records with independent states.
+    tradeoff: A completed run can contain failed checks; human exception authorization preserves the historical verdict.
+    layers:
+      - L05
+      - L06
+      - L08
+    projects:
+      - YC08
+      - YC14
+      - YC18
+    reopen: Add new domain predicates explicitly; do not label subjective interpretation deterministically verified.
+    status: Architecture recommendation; not a completed implementation
+  - id: A10
+    title: Cheap compute follows useful work
+    decision: Separate always-available intake/control state from burst model/media workers. Reserve spend and capacity by business.
+    tradeoff: Agent37’s persistent workspace UX does not require an always-on VM for every tenant. Do not wake an LLM on every group message.
+    layers:
+      - L03
+      - L06
+      - L09
+    projects:
+      - YC02
+      - YC13
+      - YC16
+    reopen: Persistent browser/device sessions are scoped exceptions with measured idle cost.
+    status: Architecture recommendation; not a completed implementation
+  - id: A11
+    title: Collaboration grows around business objects
+    decision: First build shared task/evidence views; later add job rooms and relationship-scoped agent requests.
+    tradeoff: Agent Relay/Inkbox transport identity is not cross-business authority. Native chat is an optional path toward WhatsApp independence.
+    layers:
+      - L01
+      - L02
+      - L08
+    projects:
+      - YC09
+      - YC10
+      - YC16
+    reopen: Requires audited relationship grants, revocation, audience checks and a paying workflow need.
+    status: Architecture recommendation; not a completed implementation
+  - id: A12
+    title: Dependencies require provenance and contracts
+    decision: Verify publisher, exact version, integrity, license, required routes and deployment behavior before enabling an adapter.
+    tradeoff: Definite’s package collision, Inkbox’s missing license and several SDK/doc mismatches block blind reuse.
+    layers:
+      - L11
+    projects:
+      - YC01
+      - YC12
+      - YC16
+      - YC18
+    reopen: Reopen on vendor-confirmed artifacts and passing compatibility/security gates.
+    status: Architecture recommendation; not a completed implementation
+  - id: A13
+    title: Audit evidence is distinct from telemetry
+    decision: Durable decisions and action intent commit transactionally. Diagnostic traces are bounded, redacted and may be best-effort with visible loss.
+    tradeoff: A telemetry outage must not duplicate work; missing mandatory audit data can block a new action. Strong signatures do not establish factual truth.
+    layers:
+      - L05
+      - L08
+      - L10
+    projects:
+      - YC06
+      - YC18
+    reopen: Add signed packs/external witnessing for a concrete verification requirement.
+    status: Architecture recommendation; not a completed implementation
+  - id: A14
+    title: Adapt patterns without copying their whole products
+    decision: Build domain knowledge and operator UX; reuse narrow infrastructure primitives and compatible adapters.
+    tradeoff: Public demos reveal workflows, not backend quality or code rights. Selected source checks are not full security audits.
+    layers:
+      - L01
+      - L11
+    projects:
+      - YC04
+      - YC05
+      - YC07
+      - YC08
+      - YC15
+      - YC18
+    reopen: Any new adoption is a bounded experiment with a rollback/replacement path.
+    status: Architecture recommendation; not a completed implementation
+learning_mapping:
+  - learning_id: SB-EX-01
+    title: Connect accounts once across agents
+    origin: YC01-executor
+    primary_layer: L02
+    delivery_stage: S1
+    disposition: Adopt principle; build domain-specific control
+    application: Keep credentials outside model history; every model uses server-authorized connections.
+    measurement: Reconnect time, successful model swap, permission isolation
+    original_decision: Adopt design principle
+    source_evidence: YC01-executor/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into Identity, grants and secrets. Shares the common membership, policy, grants and authorization decisions.
+  - learning_id: SB-EX-02
+    title: Separate integration from business account
+    origin: YC01-executor
+    primary_layer: L02
+    delivery_stage: S1
+    disposition: Adopt principle; build domain-specific control
+    application: Make Consu/ForeFathers/account/recipient explicit on action previews; never guess across businesses.
+    measurement: Wrong-business and wrong-recipient rate
+    original_decision: Adopt design principle
+    source_evidence: YC01-executor/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into Identity, grants and secrets. Shares the common membership, policy, grants and authorization decisions.
+  - learning_id: SB-EX-03
+    title: Discover tools on demand
+    origin: YC01-executor
+    primary_layer: L06
+    delivery_stage: S2
+    disposition: Adopt principle; build domain-specific control
+    application: Permission-filtered discovery plus small selected schemas; compare against full schemas at equal task quality.
+    measurement: Total tokens, wrong tool rate, p95 task latency
+    original_decision: Experiment
+    source_evidence: YC01-executor/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into Bounded agent harness. Shares the common agent run and proposal state.
+  - learning_id: SB-EX-04
+    title: Pause at the decision needing a person
+    origin: YC01-executor
+    primary_layer: L02
+    delivery_stage: S1
+    disposition: Adopt principle; build domain-specific control
+    application: Show exact change, evidence and expiry; durable action-bound approvals with atomic claim and current grants.
+    measurement: Approval completion and recovery, duplicate execution rate
+    original_decision: Adapt with safeguards
+    source_evidence: YC01-executor/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into Identity, grants and secrets. Shares the common membership, policy, grants and authorization decisions.
+  - learning_id: SB-EX-05
+    title: Use code for bounded reading and calculation
+    origin: YC01-executor
+    primary_layer: L06
+    delivery_stage: S2
+    disposition: Adopt principle; build domain-specific control
+    application: Read-only aggregation first; preserve evidence references, byte/CPU/time caps and typed outputs.
+    measurement: Correctness, total tokens, resource usage
+    original_decision: Experiment
+    source_evidence: YC01-executor/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into Bounded agent harness. Shares the common agent run and proposal state.
+  - learning_id: SB-EX-06
+    title: Actionable authentication and permission errors
+    origin: YC01-executor
+    primary_layer: L02
+    delivery_stage: S1
+    disposition: Adopt principle; build domain-specific control
+    application: Distinguish reconnect, missing scope, denied action and unavailable tool; explain affected business and remaining work.
+    measurement: Recovery time, support tickets, successful completion
+    original_decision: Adopt UX principle
+    source_evidence: YC01-executor/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into Identity, grants and secrets. Shares the common membership, policy, grants and authorization decisions.
+  - learning_id: SB-EX-07
+    title: Conversation with visible work card
+    origin: YC01-executor
+    primary_layer: L01
+    delivery_stage: S2
+    disposition: Adapt UX; build SupaBiz implementation
+    application: Business -> evidence -> proposed change -> responsible person -> approval/status -> verified result. This complete card is our proposed adaptation, not verified Executor UI.
+    measurement: Task understanding, mistaken approvals, unresolved work
+    original_decision: SupaBiz proposal
+    source_evidence: YC01-executor/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into People and decisions. Shares the common ui state and authenticated user intent; never accepted facts or execution authority.
+  - learning_id: SB-AG37-01
+    title: Durable workspace with recoverable work
+    origin: YC02-agent37
+    primary_layer: L09
+    delivery_stage: S1
+    disposition: Adopt principle; build domain-specific control
+    application: Adopt continuity across phone and desktop. Keep durable business work IDs separate from vendor conversation IDs; closing a screen is not cancelling a task.
+    measurement: Reload recovery, duplicate submissions, cross-device continuity
+    original_decision: Adopt pattern
+    source_evidence: YC02-agent37/findings.json#AG37-02
+    status: Proposed; no implementation inferred
+    rationale: Merged into Cloud, devices and operating limits. Shares the common execution lifecycle and resource policy.
+  - learning_id: SB-AG37-02
+    title: Visible responsibilities and next checks
+    origin: YC02-agent37
+    primary_layer: L01
+    delivery_stage: S2
+    disposition: Adapt UX; build SupaBiz implementation
+    application: Adopt the visible responsibility list. Build typed responsibilities, assignee, business/matter, deadline, evidence, next check and completion criteria in a database. Replace the demo cookie/store.
+    measurement: Unassigned work, missed checks, human touches
+    original_decision: Adopt pattern
+    source_evidence: YC02-agent37/findings.json#AG37-05
+    status: Proposed; no implementation inferred
+    rationale: Merged into People and decisions. Shares the common ui state and authenticated user intent; never accepted facts or execution authority.
+  - learning_id: SB-AG37-03
+    title: Browser watch, takeover and return
+    origin: YC02-agent37
+    primary_layer: L08
+    delivery_stage: S2
+    disposition: Adopt principle; build domain-specific control
+    application: Adopt assisted sign-in and exception handoff. Implement a server-owned exclusive control lease and acknowledged cancellation before enabling input; include scheduled runs, not just foreground chat.
+    measurement: Conflicting input, handoff time, post-handoff correctness
+    original_decision: Adapt with server control lease
+    source_evidence: YC02-agent37/findings.json#AG37-07
+    status: Proposed; no implementation inferred
+    rationale: Merged into Actions, browser and collaboration. Shares the common external action attempts, provider receipts, uncertainty and compensation.
+  - learning_id: SB-AG37-04
+    title: Inspectable and correctable knowledge
+    origin: YC02-agent37
+    primary_layer: L01
+    delivery_stage: S2
+    disposition: Adapt UX; build SupaBiz implementation
+    application: Adapt to What SupaBiz knows: facts with business/matter scope, evidence, freshness, owner corrections and change history. Keep preferences distinct from approved records and from executable instructions.
+    measurement: Fact corrections, stale retrieval, overwrite conflicts
+    original_decision: Adapt with evidence and grants
+    source_evidence: YC02-agent37/findings.json#AG37-09
+    status: Proposed; no implementation inferred
+    rationale: Merged into People and decisions. Shares the common ui state and authenticated user intent; never accepted facts or execution authority.
+  - learning_id: SB-AG37-05
+    title: Outputs beside chat
+    origin: YC02-agent37
+    primary_layer: L01
+    delivery_stage: S2
+    disposition: Adapt UX; build SupaBiz implementation
+    application: Adopt an Outputs panel for reports, PDFs, reconciliations and task sheets, with evidence and version links. Use object storage and document IDs; agent paths are implementation details.
+    measurement: Time to find result, correct evidence links
+    original_decision: Adopt pattern
+    source_evidence: YC02-agent37/findings.json#AG37-10
+    status: Proposed; no implementation inferred
+    rationale: Merged into People and decisions. Shares the common ui state and authenticated user intent; never accepted facts or execution authority.
+  - learning_id: SB-AG37-06
+    title: Explicit connector setup and health states
+    origin: YC02-agent37
+    primary_layer: L03
+    delivery_stage: S1
+    disposition: Adopt principle; build domain-specific control
+    application: Copy staged setup feedback. Build selected-group intake, cursors/backfill, dedupe, edits/deletes, media fetch, reconnect and source health. Keep that intake available when compute sleeps.
+    measurement: Setup completion, reconnect recovery, sync freshness
+    original_decision: Adopt pattern
+    source_evidence: YC02-agent37/findings.json#AG37-12
+    status: Proposed; no implementation inferred
+    rationale: Merged into Connections and durable intake. Shares the common source envelope, connection state, checkpoints and intake acknowledgements.
+  - learning_id: SB-AG37-07
+    title: Always-available intake with optional sleeping compute
+    origin: YC02-agent37
+    primary_layer: L09
+    delivery_stage: S1
+    disposition: Adopt principle; build domain-specific control
+    application: Pin template digests, keep dependencies in images and add schema/skill migration readiness. Persist business state outside RAM and treat running, healthy and ready-for-work as different checks.
+    measurement: Missed events, wake p95, total cost per verified outcome
+    original_decision: Experiment
+    source_evidence: YC02-agent37/findings.json#AG37-15
+    status: Proposed; no implementation inferred
+    rationale: Merged into Cloud, devices and operating limits. Shares the common execution lifecycle and resource policy.
+  - learning_id: SB-AG37-08
+    title: Runtime adapter and provider portability
+    origin: YC02-agent37
+    primary_layer: L09
+    delivery_stage: S1
+    disposition: Adopt principle; build domain-specific control
+    application: Use public patterns and consider the hosted service behind a replaceable runtime adapter. A source fork does not self-host the Agent37 cloud.
+    measurement: Export/rebuild fidelity, provider-specific dependencies
+    original_decision: Prototype before vendor choice
+    source_evidence: YC02-agent37/findings.json#AG37-01
+    status: Proposed; no implementation inferred
+    rationale: Merged into Cloud, devices and operating limits. Shares the common execution lifecycle and resource policy.
+  - learning_id: SB-AG37-09
+    title: Durable scheduling instead of reminder-name conventions
+    origin: YC02-agent37
+    primary_layer: L07
+    delivery_stage: S2
+    disposition: Adopt principle; build domain-specific control
+    application: Use a durable SupaBiz scheduler with typed one-shot/recurring tasks, timezone, run uniqueness, overlap policy, retry, catch-up and outcome verification. Adapt the UX, not the name-based reminder lifecycle.
+    measurement: Missed, duplicate and overlapping firings; recovery
+    original_decision: Build
+    source_evidence: YC02-agent37/findings.json#AG37-06
+    status: Proposed; no implementation inferred
+    rationale: Merged into Durable work and domain packs. Shares the common workflow progression/timers.
+  - learning_id: SB-AG37-10
+    title: Truthful work and cancellation states
+    origin: YC02-agent37
+    primary_layer: L08
+    delivery_stage: S2
+    disposition: Adopt principle; build domain-specific control
+    application: Use invocation IDs and explicit running, cancelling, cancelled, failed, unknown and verified states. A closed stream or green tool chip cannot certify an inventory or calendar change.
+    measurement: False success, duplicate writes, unresolved outcomes
+    original_decision: Build
+    source_evidence: YC02-agent37/findings.json#AG37-03
+    status: Proposed; no implementation inferred
+    rationale: Merged into Actions, browser and collaboration. Shares the common external action attempts, provider receipts, uncertainty and compensation.
+  - learning_id: SB-AG37-11
+    title: Lifecycle reconciliation and all-in spend policy
+    origin: YC02-agent37
+    primary_layer: L09
+    delivery_stage: S1
+    disposition: Adopt principle; build domain-specific control
+    application: Build creation reservations, idempotent operation IDs, durable teardown jobs, tombstones, retry and provider reconciliation. Authorization to create must also satisfy plan and concurrency quotas.
+    measurement: Orphan runtime count, teardown time, spend by business
+    original_decision: Build
+    source_evidence: YC02-agent37/findings.json#AG37-18
+    status: Proposed; no implementation inferred
+    rationale: Merged into Cloud, devices and operating limits. Shares the common execution lifecycle and resource policy.
+  - learning_id: SB-AG37-12
+    title: Bounded media and secure output delivery
+    origin: YC02-agent37
+    primary_layer: L04
+    delivery_stage: S1
+    disposition: Adopt principle; build domain-specific control
+    application: Reuse the UX and bounded pool pattern. Add resumable object uploads, global quotas, media IDs and retention. A text display truncation after full download is not a transfer or memory limit.
+    measurement: Peak memory, upload retry, content isolation
+    original_decision: Adapt
+    source_evidence: YC02-agent37/findings.json#AG37-11
+    status: Proposed; no implementation inferred
+    rationale: Merged into Media and evidence. Shares the common evidence objects, versions, locators, extraction provenance and access state.
+  - learning_id: SB-SP-02
+    title: A versioned work inbox instead of disposable suggestions
+    origin: YC03-screenpipe
+    primary_layer: L01
+    delivery_stage: S2
+    disposition: Adapt UX; build SupaBiz implementation
+    application: Adopt a work-card UX with business, matter/outlet, owner, source, due date, confidence and next action. Keep personal snooze separate from official deadlines. A Done click is acknowledgement; business completion needs result evidence.
+    measurement: Stale-action rejection; correction time; verified completion rate
+    original_decision: Adapt design; license gate for upstream code
+    source_evidence: YC03-screenpipe/findings.json#SP-02
+    status: Proposed; no implementation inferred
+    rationale: Merged into People and decisions. Shares the common ui state and authenticated user intent; never accepted facts or execution authority.
+  - learning_id: SB-SP-03
+    title: Answers and workflow steps lead back to the exact evidence
+    origin: YC03-screenpipe
+    primary_layer: L01
+    delivery_stage: S2
+    disposition: Adapt UX; build SupaBiz implementation
+    application: Make Show why a first-class control. Open the original court email, message, photo or document version. Recheck grants when opened and show deleted/expired/unavailable evidence honestly. An observed screen is not proof that a remote write committed.
+    measurement: Evidence availability and time to verify; denied cross-business reads
+    original_decision: Adapt design; license gate for upstream code
+    source_evidence: YC03-screenpipe/findings.json#SP-03
+    status: Proposed; no implementation inferred
+    rationale: Merged into People and decisions. Shares the common ui state and authenticated user intent; never accepted facts or execution authority.
+  - learning_id: SB-SP-04
+    title: Observe a process, investigate gaps, review, then maintain it
+    origin: YC03-screenpipe
+    primary_layer: L10
+    delivery_stage: S6
+    disposition: Defer capability; retain boundary now
+    application: Let Ramya demonstrate a synthetic matter-intake workflow. Draft its steps, exceptions and evidence; ask missing questions; require review and sandbox tests before granting limited execution. Observed repetition alone must never create a standing action permission.
+    measurement: Procedure acceptance and exception recall
+    original_decision: Adapt design; license gate for upstream code
+    source_evidence: YC03-screenpipe/findings.json#SP-04
+    status: Proposed; no implementation inferred
+    rationale: Merged into Evaluation and governed improvement. Capability remains outside first pilot; authority/evidence constraints apply wherever the shared core uses this pattern.
+  - learning_id: SB-SP-05
+    title: Voice clarification with human edit precedence
+    origin: YC03-screenpipe
+    primary_layer: L01
+    delivery_stage: S2
+    disposition: Adapt UX; build SupaBiz implementation
+    application: Offer Speak correction, Not sure and Undo for busy managers. Store transcript, extracted fields and provenance separately. A matching quote is a grounding check, not semantic validation; benchmark names, dates, amounts and Hindi/English/Hinglish.
+    measurement: Field correction effort; names/dates/amount error by language
+    original_decision: Adapt design; license gate for upstream code
+    source_evidence: YC03-screenpipe/findings.json#SP-05
+    status: Proposed; no implementation inferred
+    rationale: Merged into People and decisions. Shares the common ui state and authenticated user intent; never accepted facts or execution authority.
+  - learning_id: SB-SP-06
+    title: Use accessibility structure before OCR
+    origin: YC03-screenpipe
+    primary_layer: L04
+    delivery_stage: S6
+    disposition: Defer capability; retain boundary now
+    application: Build a modality ladder: connector fields first, accessibility next, OCR/vision only when needed, audio transcription when authorized. Preserve source type and uncertainty. Never project coordinates from a stale or different monitor snapshot onto a live action.
+    measurement: OCR calls, p95 latency, accuracy and device energy
+    original_decision: Adapt design; license gate for upstream code
+    source_evidence: YC03-screenpipe/findings.json#SP-06
+    status: Proposed; no implementation inferred
+    rationale: Merged into Media and evidence. Capability remains outside first pilot; authority/evidence constraints apply wherever the shared core uses this pattern.
+  - learning_id: SB-SP-07
+    title: Commit deduplication only after durable storage
+    origin: YC03-screenpipe
+    primary_layer: L03
+    delivery_stage: S1
+    disposition: Adopt principle; build domain-specific control
+    application: Use the same acknowledgement principle for WhatsApp/email cursors: do not mark an event processed before evidence and required records are durable. Use native event identity for business dedupe; identical text is not proof of the same order or payment.
+    measurement: Replay loss and duplicate business record rate
+    original_decision: Adapt design; license gate for upstream code
+    source_evidence: YC03-screenpipe/findings.json#SP-07
+    status: Proposed; no implementation inferred
+    rationale: Merged into Connections and durable intake. Shares the common source envelope, connection state, checkpoints and intake acknowledgements.
+  - learning_id: SB-SP-08
+    title: Bound background work and expose degraded ingestion
+    origin: YC03-screenpipe
+    primary_layer: L03
+    delivery_stage: S1
+    disposition: Adopt principle; build domain-specific control
+    application: Adopt bounded queues, per-device budgets and last-success/cursor-lag displays. Connected is not fresh. Static-screen dedupe heartbeats are useful liveness evidence but do not prove that every relevant business event was observed.
+    measurement: Source lag, dropped events, queue pressure and recovery time
+    original_decision: Adapt design; license gate for upstream code
+    source_evidence: YC03-screenpipe/findings.json#SP-08
+    status: Proposed; no implementation inferred
+    rationale: Merged into Connections and durable intake. Shares the common source envelope, connection state, checkpoints and intake acknowledgements.
+  - learning_id: SB-SP-09
+    title: Semantic records carry identity quality and clock context
+    origin: YC03-screenpipe
+    primary_layer: L05
+    delivery_stage: S2
+    disposition: Adopt principle; build domain-specific control
+    application: Carry identity quality, captured_at, occurred_at, timezone, precision, raw label and evidence reference into SupaBiz observations. Use native email/message IDs where available. Unknown matter or ambiguous hearing date needs clarification, not automatic assignment.
+    measurement: Matter matching, timezone errors and unresolved identities
+    original_decision: Adapt design; license gate for upstream code
+    source_evidence: YC03-screenpipe/findings.json#SP-09
+    status: Proposed; no implementation inferred
+    rationale: Merged into Business records and governed memory. Shares the common accepted domain records and revisions.
+  - learning_id: SB-SP-11
+    title: Small model context can still preserve original evidence
+    origin: YC03-screenpipe
+    primary_layer: L06
+    delivery_stage: S2
+    disposition: Adopt principle; build domain-specific control
+    application: Retrieve small snippets plus durable IDs, then fetch detail on demand. Enforce an aggregate token/byte budget outside per-hit limits. Treat all captured text as untrusted data. Reobserve the live target and reauthorize before any action.
+    measurement: Tokens per correct answer; source fidelity; historical-action rejection
+    original_decision: Adapt design; license gate for upstream code
+    source_evidence: YC03-screenpipe/findings.json#SP-11
+    status: Proposed; no implementation inferred
+    rationale: Merged into Bounded agent harness. Shares the common agent run and proposal state.
+  - learning_id: SB-SP-13
+    title: Selective capture and clear permission recovery
+    origin: YC03-screenpipe
+    primary_layer: L02
+    delivery_stage: S6
+    disposition: Defer capability; retain boundary now
+    application: Ask for the permission needed by the selected workflow, with a visible pause state and exclusion controls. Keep personal context private unless a specific business evidence item is released. Do not start with blanket keyboard, clipboard, microphone and full-desktop capture.
+    measurement: Capture exclusion success and consent recovery
+    original_decision: Adapt design; license gate for upstream code
+    source_evidence: YC03-screenpipe/findings.json#SP-13
+    status: Proposed; no implementation inferred
+    rationale: Merged into Identity, grants and secrets. Capability remains outside first pilot; authority/evidence constraints apply wherever the shared core uses this pattern.
+  - learning_id: SB-SP-16
+    title: Privacy release is a separate state from capture
+    origin: YC03-screenpipe
+    primary_layer: L02
+    delivery_stage: S6
+    disposition: Defer capability; retain boundary now
+    application: Use captured → classified → authorized for release as separate stages. Recheck business/matter grants and deletion state at retrieval/export boundaries. Give users a visible pending/revoked state. Data already transmitted cannot be recalled by a later local filter.
+    measurement: Revocation/deletion enforcement at release boundaries
+    original_decision: Adapt design; license gate for upstream code
+    source_evidence: YC03-screenpipe/findings.json#SP-16
+    status: Proposed; no implementation inferred
+    rationale: Merged into Identity, grants and secrets. Capability remains outside first pilot; authority/evidence constraints apply wherever the shared core uses this pattern.
+  - learning_id: SB-SP-18
+    title: Evidence-based timing instead of invented productivity percentages
+    origin: YC03-screenpipe
+    primary_layer: L10
+    delivery_stage: S0
+    disposition: Adopt principle; build domain-specific control
+    application: Measure end-to-end completion, correction effort, missed assignments and verified action success on the same task set before/after. Report sample count and uncertainty; do not turn observed elapsed intervals into claimed staff savings.
+    measurement: Baseline vs proposed workflow outcomes with sample count
+    original_decision: Adapt design; license gate for upstream code
+    source_evidence: YC03-screenpipe/findings.json#SP-18
+    status: Proposed; no implementation inferred
+    rationale: Merged into Evaluation and governed improvement. Shares the common experiment manifests, reviewed expected outcomes, release evidence and learned-rule lifecycle.
+  - learning_id: SB-AS-01
+    title: Meet people in their current workflow
+    origin: YC04-asakana
+    primary_layer: L01
+    delivery_stage: S2
+    disposition: Adapt UX; build SupaBiz implementation
+    application: Make WhatsApp/email intake useful before requiring an app migration. Use the SupaBiz app for unresolved decisions, evidence and control. A mobile-first confirmation can link to a specific task without moving an entire team into a new chat system. Distinguish watching approved sources from permission to act.
+    measurement: Activation-to-first-verified-workflow time; staff participation; weekly manual entries avoided.
+    original_decision: Independent design candidate from public product review
+    source_evidence: YC04-asakana/findings.json#AS-01
+    status: Proposed; no implementation inferred
+    rationale: Merged into People and decisions. Shares the common ui state and authenticated user intent; never accepted facts or execution authority.
+  - learning_id: SB-AS-02
+    title: Resolve business meaning, not only text
+    origin: YC04-asakana
+    primary_layer: L05
+    delivery_stage: S2
+    disposition: Adopt principle; build domain-specific control
+    application: Build an entity-resolution layer over customer, product, unit, outlet, matter and person IDs. Store aliases with tenant/customer scope, owner, evidence, valid dates and precedence. Current explicit instructions beat historical defaults; contradictory evidence opens a question. Retrieval must filter authorization before returning candidates.
+    measurement: SKU/unit/customer accuracy; ambiguous cases caught; cross-business leakage; correction effort.
+    original_decision: Independent design candidate from public product review
+    source_evidence: YC04-asakana/findings.json#AS-02
+    status: Proposed; no implementation inferred
+    rationale: Merged into Business records and governed memory. Shares the common accepted domain records and revisions.
+  - learning_id: SB-AS-03
+    title: Make staff knowledge durable and inspectable
+    origin: YC04-asakana
+    primary_layer: L05
+    delivery_stage: S2
+    disposition: Adopt principle; build domain-specific control
+    application: Offer What SupaBiz knows about this customer or matter. Separate observed habit, approved preference, operational rule and one-off exception. Give each a source, last-confirmed date and authorized editor. Staff departure should revoke access while retaining business-owned records under policy, not retain private unrelated chat.
+    measurement: New-staff ramp-up; stale-rule errors; correction propagation; unauthorized memory retrieval.
+    original_decision: Independent design candidate from public product review
+    source_evidence: YC04-asakana/findings.json#AS-03
+    status: Proposed; no implementation inferred
+    rationale: Merged into Business records and governed memory. Shares the common accepted domain records and revisions.
+  - learning_id: SB-AS-04
+    title: Prior orders are references, not unconditional templates
+    origin: YC04-asakana
+    primary_layer: L05
+    delivery_stage: S2
+    disposition: Adopt principle; build domain-specific control
+    application: Resolve the reference to one source record and display the proposed diff. Revalidate price, pack size, availability, date, outlet and substitutions. Never reuse an old payment instruction or court deadline because it appeared in similar work. Missing or multiple matching records require a targeted question.
+    measurement: Reference resolution precision; stale price/unit errors; ambiguity recall.
+    original_decision: Independent design candidate from public product review
+    source_evidence: YC04-asakana/findings.json#AS-04
+    status: Proposed; no implementation inferred
+    rationale: Merged into Business records and governed memory. Shares the common accepted domain records and revisions.
+  - learning_id: SB-AS-05
+    title: Ambiguity needs a focused human decision
+    origin: YC04-asakana
+    primary_layer: L01
+    delivery_stage: S2
+    disposition: Adapt UX; build SupaBiz implementation
+    application: Show the uncertain field, its source and a small candidate set. Preserve resolved lines without implying the whole order is approved. Represent extraction certainty, entity ambiguity and action permission independently. Approval must bind the exact revision and destination; any meaningful edit invalidates it.
+    measurement: Unsafe auto-accept rate, human minutes/order, exception recall and stale-approval rejection.
+    original_decision: Independent design candidate from public product review
+    source_evidence: YC04-asakana/findings.json#AS-05
+    status: Proposed; no implementation inferred
+    rationale: Merged into People and decisions. Shares the common ui state and authenticated user intent; never accepted facts or execution authority.
+  - learning_id: SB-AS-06
+    title: Keep evidence beside the proposed business record
+    origin: YC04-asakana
+    primary_layer: L01
+    delivery_stage: S2
+    disposition: Adapt UX; build SupaBiz implementation
+    application: For each extracted field, retain message ID, attachment page/crop or audio time range. Let an operator compare original and interpreted quantity/unit/date without opening five apps. Never fabricate a crop or quote when extraction failed. Deleted, expired or inaccessible media needs an explicit evidence state.
+    measurement: Review time, evidence availability and field-level correction rate.
+    original_decision: Independent design candidate from public product review
+    source_evidence: YC04-asakana/findings.json#AS-06
+    status: Proposed; no implementation inferred
+    rationale: Merged into People and decisions. Shares the common ui state and authenticated user intent; never accepted facts or execution authority.
+  - learning_id: SB-AS-07
+    title: Draft, approval and completion are different states
+    origin: YC04-asakana
+    primary_layer: L05
+    delivery_stage: S2
+    disposition: Adopt principle; build domain-specific control
+    application: Use received → interpreted → needs review / ready → approved → posting → posted → verified, with failed, superseded and uncertain branches. A drafted purchase order must not increase stock on hand; receiving goods is a different event. A draft credit must not become an automatic refund. Verify destination ID, account and revision after writes.
+    measurement: Duplicate writes; false completion; unauthorized posting; reconciliation time.
+    original_decision: Independent design candidate from public product review
+    source_evidence: YC04-asakana/findings.json#AS-07
+    status: Proposed; no implementation inferred
+    rationale: Merged into Business records and governed memory. Shares the common accepted domain records and revisions.
+  - learning_id: SB-AS-08
+    title: Make completion notifications useful and quiet
+    origin: YC04-asakana
+    primary_layer: L01
+    delivery_stage: S2
+    disposition: Adapt UX; build SupaBiz implementation
+    application: Send a compact receipt with outcome, destination record, unresolved items and evidence link. Batch routine successes where useful, but route urgent exceptions by deadline and accountable person. Use a durable notification outbox so a retry does not send repeated confirmations. Sending a receipt is not proof the recipient read it.
+    measurement: Notifications per completed task; actionable response time; duplicate sends; missed urgent exceptions.
+    original_decision: Independent design candidate from public product review
+    source_evidence: YC04-asakana/findings.json#AS-08
+    status: Proposed; no implementation inferred
+    rationale: Merged into People and decisions. Shares the common ui state and authenticated user intent; never accepted facts or execution authority.
+  - learning_id: SB-AS-09
+    title: Extend from a narrow workflow into related exceptions
+    origin: YC04-asakana
+    primary_layer: L05
+    delivery_stage: S2
+    disposition: Adopt principle; build domain-specific control
+    application: Start with one supported transaction type and destination. Expand using shared evidence/entity machinery but distinct domain schemas and action policies. Model order, shipment, goods receipt, stock adjustment, invoice, credit note and payment separately. A single generic task object cannot safely replace these lifecycles.
+    measurement: Verified outcomes by workflow; support burden; regression rate when adding a transaction type.
+    original_decision: Independent design candidate from public product review
+    source_evidence: YC04-asakana/findings.json#AS-09
+    status: Proposed; no implementation inferred
+    rationale: Merged into Business records and governed memory. Shares the common accepted domain records and revisions.
+  - learning_id: SB-AS-10
+    title: Integrate through explicit capability contracts
+    origin: YC04-asakana
+    primary_layer: L08
+    delivery_stage: S2
+    disposition: Adopt principle; build domain-specific control
+    application: Maintain a capability matrix per ERP/account: search, draft creation, update, post, cancel, idempotency support and read-back. Prefer typed APIs. Any browser fallback needs current observation, exclusive control and recovery. Begin with one destination; do not promise universal integration or assume a vendor logo proves coverage.
+    measurement: Connector conformance; recovery after timeout; drift failures; cost per supported destination.
+    original_decision: Independent design candidate from public product review
+    source_evidence: YC04-asakana/findings.json#AS-10
+    status: Proposed; no implementation inferred
+    rationale: Merged into Actions, browser and collaboration. Shares the common external action attempts, provider receipts, uncertainty and compensation.
+  - learning_id: SB-AS-11
+    title: Backtesting must include abstention and business outcomes
+    origin: YC04-asakana
+    primary_layer: L10
+    delivery_stage: S0
+    disposition: Adopt principle; build domain-specific control
+    application: Build a consented, de-identified evaluation set split by customer and time to limit leakage. Include messy media, aliases, mixed language and malicious instructions. Measure both accepted-case accuracy and how much work is rejected. A system can look accurate by escalating everything; measure retained human effort as well.
+    measurement: Field precision, unsafe auto-accept, escalation fraction, human effort, latency and verified outcomes.
+    original_decision: Independent design candidate from public product review
+    source_evidence: YC04-asakana/findings.json#AS-11
+    status: Proposed; no implementation inferred
+    rationale: Merged into Evaluation and governed improvement. Shares the common experiment manifests, reviewed expected outcomes, release evidence and learned-rule lifecycle.
+  - learning_id: SB-AS-12
+    title: Make data-use and cost promises precise
+    origin: YC04-asakana
+    primary_layer: L02
+    delivery_stage: S1
+    disposition: Adopt principle; build domain-specific control
+    application: Expose where evidence is stored, which model/tool receives it, retention, deletion and training use. Build least-privilege connection grants and scoped key storage. Price SupaBiz against verified workflow value and total service cost, including exceptions and support; evaluate predictable subscription plus usage rather than assuming transaction-value commission fits every business.
+    measurement: Revocation/deletion tests; total cost per verified workflow; pricing predictability; gross margin after support.
+    original_decision: Independent design candidate from public product review
+    source_evidence: YC04-asakana/findings.json#AS-12
+    status: Proposed; no implementation inferred
+    rationale: Merged into Identity, grants and secrets. Shares the common membership, policy, grants and authorization decisions.
+  - learning_id: SB-AS-13
+    title: Correction → scoped business memory → regression test
+    origin: YC04-asakana
+    primary_layer: L10
+    delivery_stage: S2
+    disposition: Adopt principle; build domain-specific control
+    application: Separate business memory, retrieval/workflow improvements and model-weight training. Capture the original proposal, correction, verified outcome and evidence. Ask whether a correction applies once, to one customer/matter, to one workflow or to an authorized firm-wide rule. Preserve human edit precedence, scope, approval, revision and expiry. Turn meaningful corrections into permissioned regression cases before changing models/prompts/rules. Business context stays outside any single model provider.
+    measurement: Unsafe learned generalizations; held-out field accuracy; correction effort; regression rate; knowledge portability
+    original_decision: Core SupaBiz design principle
+    source_evidence: YC04-asakana/important-learning.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into Evaluation and governed improvement. Shares the common experiment manifests, reviewed expected outcomes, release evidence and learned-rule lifecycle.
+  - learning_id: SB-AS-14
+    title: Make the limits of business knowledge visible
+    origin: YC04-asakana
+    primary_layer: L05
+    delivery_stage: S2
+    disposition: Adopt principle; build domain-specific control
+    application: Show confirmed facts, inferred patterns, conflicting evidence and missing context separately. On a new customer or matter, ask for the smallest missing fact rather than silently importing a similar customer’s habits. A high retrieval score is not proof of identity or permission.
+    measurement: Cold-start errors; ambiguity detection; unnecessary questions; cross-scope retrieval
+    original_decision: Additional independent design candidate
+    source_evidence: YC04-asakana/important-learning.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into Business records and governed memory. Shares the common accepted domain records and revisions.
+  - learning_id: SB-AS-15
+    title: Preview the impact of learned-rule changes
+    origin: YC04-asakana
+    primary_layer: L10
+    delivery_stage: S2
+    disposition: Adopt principle; build domain-specific control
+    application: Before activating a reusable rule, show scope and examples it would change. Version and roll back rules, retain the exact revision used by each proposal, and identify affected pending work. A new rule must not silently alter approved records or repeat completed actions.
+    measurement: Rule rollback recovery; affected-work coverage; stale approval rejection; duplicate actions
+    original_decision: Additional independent design candidate
+    source_evidence: YC04-asakana/important-learning.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into Evaluation and governed improvement. Shares the common experiment manifests, reviewed expected outcomes, release evidence and learned-rule lifecycle.
+  - learning_id: SB-PR-01
+    title: Organize work around the matter
+    origin: YC05-praxis
+    primary_layer: L05
+    delivery_stage: S4
+    disposition: Adopt principle; build domain-specific control
+    application: Give Ramya one operational record per matter with an evidence timeline, current verified hearing information, tasks, documents, ownership and blockers. Messages remain evidence linked to the record. An update to one matter must not create another chat-shaped island. Maintain related applications or appeals as linked records instead of merging everything with the same parties.
+    measurement: Time to reconstruct a matter; duplicate matters; missed updates; evidence coverage.
+    original_decision: Adapt product pattern; build SupaBiz implementation
+    source_evidence: YC05-praxis/findings.json#PR-01
+    status: Proposed; no implementation inferred
+    rationale: Merged into Business records and governed memory. Shares the common accepted domain records and revisions.
+  - learning_id: SB-PR-02
+    title: Put the decision and its evidence together
+    origin: YC05-praxis
+    primary_layer: L01
+    delivery_stage: S4
+    disposition: Adapt UX; build SupaBiz implementation
+    application: Create a decision inbox: original court notice beside extracted fields and a precise proposed change. Show what is known, uncertain and blocked. Permit correction of one field without losing the rest. Group related changes into a review packet but require explicit authority for each calendar write, assignment or outbound message. Approval binds the source version, record revision and exact action.
+    measurement: Human minutes per update; incorrect approvals; unresolved exception age; stale approvals rejected.
+    original_decision: Adapt product pattern; build SupaBiz implementation
+    source_evidence: YC05-praxis/findings.json#PR-02
+    status: Proposed; no implementation inferred
+    rationale: Merged into People and decisions. Shares the common ui state and authenticated user intent; never accepted facts or execution authority.
+  - learning_id: SB-PR-03
+    title: Measure document readiness, not attachment count
+    origin: YC05-praxis
+    primary_layer: L04
+    delivery_stage: S4
+    disposition: Adopt principle; build domain-specific control
+    application: Maintain expected document types and versions per work item. Separate received, readable, identified, complete, current-for-purpose and accepted-by-reviewer. A badge must say which checks passed; it must not imply legal validity or authenticity. A historic executed agreement does not expire because another document type has a freshness rule. Identify the missing page or wrong version precisely.
+    measurement: Work blocked by missing documents; mistaken readiness; repeated document requests; review time.
+    original_decision: Adapt product pattern; build SupaBiz implementation
+    source_evidence: YC05-praxis/findings.json#PR-03
+    status: Proposed; no implementation inferred
+    rationale: Merged into Media and evidence. Shares the common evidence objects, versions, locators, extraction provenance and access state.
+  - learning_id: SB-PR-04
+    title: Make waiting a first-class state
+    origin: YC05-praxis
+    primary_layer: L07
+    delivery_stage: S4
+    disposition: Adopt principle; build domain-specific control
+    application: Every blocked task records what is missing, who can supply it, next check time, escalation owner and stop conditions. Run durable reminders outside the LLM session. Before sending, recheck replies, new attachments, closure, permissions and cancellation. Combine repeated requests and respect firm-approved frequency limits. Human approval is required for the initial outbound policy and messages outside that authority.
+    measurement: Age of blockers; unnecessary chases; missed escalations; duplicate reminders.
+    original_decision: Adapt product pattern; build SupaBiz implementation
+    source_evidence: YC05-praxis/findings.json#PR-04
+    status: Proposed; no implementation inferred
+    rationale: Merged into Durable work and domain packs. Shares the common workflow progression/timers.
+  - learning_id: SB-PR-05
+    title: Publish a client-safe view of progress
+    origin: YC05-praxis
+    primary_layer: L01
+    delivery_stage: S4
+    disposition: Adapt UX; build SupaBiz implementation
+    application: Create an explicit publication projection: approved updates, documents requested, upcoming confirmed events and the client’s next action. Keep internal analysis, other clients, privileged notes and unapproved drafts out. For litigation use milestones and readiness, not a percentage suggesting the case is almost won. Each published item has a publisher, audience, evidence and revision.
+    measurement: Status enquiries avoided; disclosure errors; client task completion; outdated published updates.
+    original_decision: Adapt product pattern; build SupaBiz implementation
+    source_evidence: YC05-praxis/findings.json#PR-05
+    status: Proposed; no implementation inferred
+    rationale: Merged into People and decisions. Shares the common ui state and authenticated user intent; never accepted facts or execution authority.
+  - learning_id: SB-PR-06
+    title: Delegate calendar availability narrowly
+    origin: YC05-praxis
+    primary_layer: L07
+    delivery_stage: S4
+    disposition: Adopt principle; build domain-specific control
+    application: Let a principal release bookable windows and permitted meeting types. Read availability without exposing private event bodies. Treat proposing a time, placing a hold and committing an event as different operations. Court hearings are externally imposed events, not negotiable consultation slots. Track conflicts and let the authorized person resolve them.
+    measurement: Double bookings; inappropriate calendar access; scheduling effort; event verification failures.
+    original_decision: Adapt product pattern; build SupaBiz implementation
+    source_evidence: YC05-praxis/findings.json#PR-06
+    status: Proposed; no implementation inferred
+    rationale: Merged into Durable work and domain packs. Shares the common workflow progression/timers.
+  - learning_id: SB-PR-07
+    title: Separate new-client intake from existing-matter updates
+    origin: YC05-praxis
+    primary_layer: L05
+    delivery_stage: S4
+    disposition: Adopt principle; build domain-specific control
+    application: Use two front doors. Existing-matter notices go through identity and change review; new inquiries gather only needed initial facts and route possible conflicts to a lawyer. A search result is not a conflict clearance. An unmatched email is unresolved, not automatically a new matter. Do not make paid invoices a universal gate for handling urgent incoming work.
+    measurement: Misrouted updates; duplicate intake; unresolved identity age; urgent items overlooked.
+    original_decision: Adapt product pattern; build SupaBiz implementation
+    source_evidence: YC05-praxis/findings.json#PR-07
+    status: Proposed; no implementation inferred
+    rationale: Merged into Business records and governed memory. Shares the common accepted domain records and revisions.
+  - learning_id: SB-PR-08
+    title: Use AI to propose, code to enforce
+    origin: YC05-praxis
+    primary_layer: L08
+    delivery_stage: S4
+    disposition: Adopt principle; build domain-specific control
+    application: Use the model for extraction, summarization and candidate generation. Use typed schemas and server-side checks for tenant, grants, expected revision, allowed transition, idempotency and destination. Commit record changes with a transactional outbox; verify remote results. A sent email cannot be undone by an audit log. Model corrections and compensating actions explicitly.
+    measurement: Unauthorized actions; duplicate writes; uncertain outcomes reconciled; recovery after interruption.
+    original_decision: Adapt product pattern; build SupaBiz implementation
+    source_evidence: YC05-praxis/findings.json#PR-08
+    status: Proposed; no implementation inferred
+    rationale: Merged into Actions, browser and collaboration. Shares the common external action attempts, provider receipts, uncertainty and compensation.
+  - learning_id: SB-PR-09
+    title: Make assignment an acknowledged handoff
+    origin: YC05-praxis
+    primary_layer: L01
+    delivery_stage: S4
+    disposition: Adapt UX; build SupaBiz implementation
+    application: Give each assignee a compact packet: task, why it changed, required document versions, evidence, due-date basis, reviewer and next step. Distinguish assigned, delivered, accepted, in progress, submitted and reviewed. Delivery is not acceptance, and submission is not completion. Reassignment preserves history and cancels obsolete reminders.
+    measurement: Assignment-to-acceptance time; missing-context questions; unowned work; reviewed completion rate.
+    original_decision: Adapt product pattern; build SupaBiz implementation
+    source_evidence: YC05-praxis/findings.json#PR-09
+    status: Proposed; no implementation inferred
+    rationale: Merged into People and decisions. Shares the common ui state and authenticated user intent; never accepted facts or execution authority.
+  - learning_id: SB-PR-10
+    title: Keep firm instructions owned and portable
+    origin: YC05-praxis
+    primary_layer: L05
+    delivery_stage: S4
+    disposition: Adopt principle; build domain-specific control
+    application: Export approved business rules, matter aliases, templates, evidence references and revision history in documented formats. Keep permission checks on exported data. Connect this to SB-AS-13, the VERY IMPORTANT correction → scoped memory → regression-test loop. Ask whether a correction is one-off, matter-specific or an authorized reusable rule. Business memory is separate from model-weight training.
+    measurement: Provider-switch task quality; rule provenance; unsafe generalization; usable export completeness.
+    original_decision: Adapt product pattern; build SupaBiz implementation
+    source_evidence: YC05-praxis/findings.json#PR-10
+    status: Proposed; no implementation inferred
+    rationale: Merged into Business records and governed memory. Shares the common accepted domain records and revisions.
+  - learning_id: SB-PR-11
+    title: Onboard one painful workflow first
+    origin: YC05-praxis
+    primary_layer: L07
+    delivery_stage: S4
+    disposition: Adopt principle; build domain-specific control
+    application: Begin with Ramya’s existing-matter email triage and assignment. Import a reviewed matter list and staff directory; operate in shadow mode before external writes. Keep existing email, calendar and document tools during evaluation. Add billing, new-client acquisition and broad desktop awareness only when a measured workflow needs them.
+    measurement: Time to first verified workflow; setup effort; adoption; support cost; parallel-system reconciliation.
+    original_decision: Adapt product pattern; build SupaBiz implementation
+    source_evidence: YC05-praxis/findings.json#PR-11
+    status: Proposed; no implementation inferred
+    rationale: Merged into Durable work and domain packs. Shares the common workflow progression/timers.
+  - learning_id: SB-PR-12
+    title: Add an Indian court-event model explicitly
+    origin: YC05-praxis
+    primary_layer: L05
+    delivery_stage: S4
+    disposition: Adopt principle; build domain-specific control
+    application: When available, use a validated CNR; otherwise scope case type, number and year to the court and jurisdiction. Preserve original strings and aliases. Store notice date, publication date, hearing date, internal work deadline and reminder separately. Retain Asia/Kolkata and unknown times explicitly. New notices supersede specific prior facts only after review. Court integration and deadline rules need their own validation; never infer universal API coverage.
+    measurement: Wrong-matter attachments; date-type confusion; superseded dates left active; ambiguous dates correctly escalated.
+    original_decision: Adapt product pattern; build SupaBiz implementation
+    source_evidence: YC05-praxis/findings.json#PR-12
+    status: Proposed; no implementation inferred
+    rationale: Merged into Business records and governed memory. Shares the common accepted domain records and revisions.
+  - learning_id: SB-HU-01
+    title: Turn reviewed incidents into regression cases
+    origin: YC06-hue
+    primary_layer: L10
+    delivery_stage: S2
+    disposition: Adopt principle; build domain-specific control
+    application: Add Make this a test to an incident or correction. Preserve task, authorized initial context, original failure and reviewed desired outcome. Require a person to check generated assertions. Link SB-AS-13: a business correction and a new generalized rule remain different decisions. The failed output is diagnostic evidence, not automatically the correct answer.
+    measurement: Time from incident to reproducible case; repeated incident rate; reviewed assertion coverage.
+    original_decision: Adopt pattern; validate SDK reuse separately
+    source_evidence: YC06-hue/findings.json#HU-01
+    status: Proposed; no implementation inferred
+    rationale: Merged into Evaluation and governed improvement. Shares the common experiment manifests, reviewed expected outcomes, release evidence and learned-rule lifecycle.
+  - learning_id: SB-HU-02
+    title: Test a stateful world, not only a prompt
+    origin: YC06-hue
+    primary_layer: L10
+    delivery_stage: S0
+    disposition: Adopt principle; build domain-specific control
+    application: Model a minimal matter store, mailbox, task list, calendar and grants. Tools must read the state changed by earlier tools. Give every test a fresh world and record normalized effects. For restaurants, model stock receipt separately from purchase-order drafting. Recorded response playback can help reproduce a bug, but divergent actions need semantic tool behavior or an explicit coverage gap.
+    measurement: State invariant pass rate; unsupported operation rate; unintended effects; reset isolation.
+    original_decision: Adopt pattern; validate SDK reuse separately
+    source_evidence: YC06-hue/findings.json#HU-02
+    status: Proposed; no implementation inferred
+    rationale: Merged into Evaluation and governed improvement. Shares the common experiment manifests, reviewed expected outcomes, release evidence and learned-rule lifecycle.
+  - learning_id: SB-HU-03
+    title: Exercise the same agent and tool boundary
+    origin: YC06-hue
+    primary_layer: L10
+    delivery_stage: S0
+    disposition: Adopt principle; build domain-specific control
+    application: Keep SupaBiz orchestration, policy checks and tool schemas the same in evaluation. Inject fake service transports at a defined boundary. In test mode refuse missing world configuration, remove production credentials and deny production network destinations. A redirect variable alone is not sufficient: browser paths, code execution and remote tools also need isolation.
+    measurement: Production endpoint escapes; adapter contract drift; proportion of real tool paths exercised.
+    original_decision: Adopt pattern; validate SDK reuse separately
+    source_evidence: YC06-hue/findings.json#HU-03
+    status: Proposed; no implementation inferred
+    rationale: Merged into Evaluation and governed improvement. Shares the common experiment manifests, reviewed expected outcomes, release evidence and learned-rule lifecycle.
+  - learning_id: SB-HU-04
+    title: Pin the entire experiment
+    origin: YC06-hue
+    primary_layer: L10
+    delivery_stage: S0
+    disposition: Adopt principle; build domain-specific control
+    application: Version fixture data, virtual time, tool schemas, role grants, prompt, model settings, memory snapshot, harness commit and scorer definitions. Keep an immutable attempt manifest and state digest. Record provider version limitations: a seed or pinned name does not guarantee identical remote model output.
+    measurement: Reproduction success; unexplained version differences; stale-case execution.
+    original_decision: Adopt pattern; validate SDK reuse separately
+    source_evidence: YC06-hue/findings.json#HU-04
+    status: Proposed; no implementation inferred
+    rationale: Merged into Evaluation and governed improvement. Shares the common experiment manifests, reviewed expected outcomes, release evidence and learned-rule lifecycle.
+  - learning_id: SB-HU-05
+    title: Score effects and forbidden actions
+    origin: YC06-hue
+    primary_layer: L10
+    delivery_stage: S0
+    disposition: Adopt principle; build domain-specific control
+    application: For Ramya assert the correct matter changed, the hearing date retained its source, an authorized assignment exists, and no unapproved message was sent. Use deterministic assertions for IDs, revisions, grants and quantities. Use a calibrated model judge for explanation quality only where needed. A fluent Done message cannot compensate for missing work or a prohibited effect.
+    measurement: Verified outcome rate; unauthorized effects; false positive pass rate.
+    original_decision: Adopt pattern; validate SDK reuse separately
+    source_evidence: YC06-hue/findings.json#HU-05
+    status: Proposed; no implementation inferred
+    rationale: Merged into Evaluation and governed improvement. Shares the common experiment manifests, reviewed expected outcomes, release evidence and learned-rule lifecycle.
+  - learning_id: SB-HU-06
+    title: Preserve honest non-pass states
+    origin: YC06-hue
+    primary_layer: L10
+    delivery_stage: S0
+    disposition: Adopt principle; build domain-specific control
+    application: Report passed, failed, pending, inconclusive, evaluator_error, environment_incomplete and infrastructure_error separately. A missing judge or unsupported connector must never become green. Keep all scheduled cases in a coverage denominator; also show agent quality conditional on valid completed environments. Do not attribute every timeout to model quality.
+    measurement: Decision coverage; unresolved run count; infrastructure failure rate; conditional quality.
+    original_decision: Adopt pattern; validate SDK reuse separately
+    source_evidence: YC06-hue/findings.json#HU-06
+    status: Proposed; no implementation inferred
+    rationale: Merged into Evaluation and governed improvement. Shares the common experiment manifests, reviewed expected outcomes, release evidence and learned-rule lifecycle.
+  - learning_id: SB-HU-07
+    title: Freeze and advance business time
+    origin: YC06-hue
+    primary_layer: L10
+    delivery_stage: S2
+    disposition: Adopt principle; build domain-specific control
+    application: Inject a clock into SupaBiz deadline extraction, calendar logic and reminders. Test tomorrow in Asia/Kolkata, a rescheduled hearing, a delayed client reply and cancellation before a reminder fires. In evaluation require a valid clock instead of falling back to the real current date. Keep time-zone and calendar-rule versions explicit.
+    measurement: Date-type mistakes; stale reminder sends; repeatability across execution dates.
+    original_decision: Adopt pattern; validate SDK reuse separately
+    source_evidence: YC06-hue/findings.json#HU-07
+    status: Proposed; no implementation inferred
+    rationale: Merged into Evaluation and governed improvement. Shares the common experiment manifests, reviewed expected outcomes, release evidence and learned-rule lifecycle.
+  - learning_id: SB-HU-08
+    title: Recover evaluation delivery without repeating business work
+    origin: YC06-hue
+    primary_layer: L10
+    delivery_stage: S2
+    disposition: Adopt principle; build domain-specific control
+    application: Separate target execution, saved outcome, result upload and scoring. Retry idempotent uploads with stable keys. If an action may already have happened and the outcome is missing, stop and reconcile. A new attempt is explicit and gets a fresh isolated world. Do not market this as a universal exactly-once guarantee.
+    measurement: Duplicate effects after interruption; recoverable uploads; unresolved uncertain attempts.
+    original_decision: Adopt pattern; validate SDK reuse separately
+    source_evidence: YC06-hue/findings.json#HU-08
+    status: Proposed; no implementation inferred
+    rationale: Merged into Evaluation and governed improvement. Shares the common experiment manifests, reviewed expected outcomes, release evidence and learned-rule lifecycle.
+  - learning_id: SB-HU-09
+    title: Rescore existing evidence cheaply
+    origin: YC06-hue
+    primary_layer: L10
+    delivery_stage: S5
+    disposition: Adopt principle; build domain-specific control
+    application: When the rubric changes, evaluate saved permitted outputs and sealed journals without another agent run. When the model, harness or starting state changes, run a new experiment. Preserve old scores and scorer identities. Skip or mark inconclusive when retained evidence is insufficient rather than reconstructing it from guesses.
+    measurement: Agent/model calls avoided; rescore coverage; evidence retention cost.
+    original_decision: Adopt pattern; validate SDK reuse separately
+    source_evidence: YC06-hue/findings.json#HU-09
+    status: Proposed; no implementation inferred
+    rationale: Merged into Evaluation and governed improvement. Shares the common experiment manifests, reviewed expected outcomes, release evidence and learned-rule lifecycle.
+  - learning_id: SB-HU-10
+    title: Separate telemetry privacy from evaluation retention
+    origin: YC06-hue
+    primary_layer: L10
+    delivery_stage: S1
+    disposition: Adopt principle; build domain-specific control
+    application: Configure metadata-only capture explicitly by default for SupaBiz customer work. Use authorized minimized or synthetic evidence for debugging and cases. Decide content capture, result persistence, media copying and retention separately. Case copies, checkpoints, search indexes and backups need deletion lineage; deleting a trace may not delete its derived test case.
+    measurement: Sensitive-content escape tests; deletion coverage; useful reproduction under minimization.
+    original_decision: Adopt pattern; validate SDK reuse separately
+    source_evidence: YC06-hue/findings.json#HU-10
+    status: Proposed; no implementation inferred
+    rationale: Merged into Evaluation and governed improvement. Shares the common experiment manifests, reviewed expected outcomes, release evidence and learned-rule lifecycle.
+  - learning_id: SB-HU-11
+    title: Keep observability optional and loss visible
+    origin: YC06-hue
+    primary_layer: L10
+    delivery_stage: S0
+    disposition: Adopt principle; build domain-specific control
+    application: Bound queues and export deadlines. A telemetry outage must not repeat assignments or block unrelated user work. Alert through an independent health path. Distinguish exported, acknowledged, stored and complete traces. Mandatory audit/approval records belong in the transactional business system, not only a best-effort tracing queue.
+    measurement: Tracing overhead; dropped spans; unchanged business invocation count; audit completeness.
+    original_decision: Adopt pattern; validate SDK reuse separately
+    source_evidence: YC06-hue/findings.json#HU-11
+    status: Proposed; no implementation inferred
+    rationale: Merged into Evaluation and governed improvement. Shares the common experiment manifests, reviewed expected outcomes, release evidence and learned-rule lifecycle.
+  - learning_id: SB-HU-12
+    title: Verify media and protect evaluator references
+    origin: YC06-hue
+    primary_layer: L10
+    delivery_stage: S1
+    disposition: Adopt principle; build domain-specific control
+    application: Pin screenshots, voice clips, PDFs and video segments by bytes and digest; record extraction/model settings and explicit missing-media states. Keep answer keys and evaluator-only files outside the agent process/container permissions. A same-user filesystem convention does not isolate an untrusted coding agent. Validate visual/audio outcomes, not just transcript text.
+    measurement: Corrupted/missing media detection; answer-key leakage; modality-specific error rates.
+    original_decision: Adopt pattern; validate SDK reuse separately
+    source_evidence: YC06-hue/findings.json#HU-12
+    status: Proposed; no implementation inferred
+    rationale: Merged into Evaluation and governed improvement. Shares the common experiment manifests, reviewed expected outcomes, release evidence and learned-rule lifecycle.
+  - learning_id: SB-HU-13
+    title: Compare versions by case and risk slice
+    origin: YC06-hue
+    primary_layer: L10
+    delivery_stage: S5
+    disposition: Adopt principle; build domain-specific control
+    application: Show a release diff: fixed, regressed, unchanged, invalid and pending cases, grouped by workflow, severity, language, modality and permission boundary. Require critical invariants to pass independently of average quality. Repeat stochastic cases and retain a holdout set; the same incident used to tune a prompt is not independent proof of generalization.
+    measurement: Critical regressions; paired outcome changes; repeatability; latency and cost per verified workflow.
+    original_decision: Adopt pattern; validate SDK reuse separately
+    source_evidence: YC06-hue/findings.json#HU-13
+    status: Proposed; no implementation inferred
+    rationale: Merged into Evaluation and governed improvement. Shares the common experiment manifests, reviewed expected outcomes, release evidence and learned-rule lifecycle.
+  - learning_id: SB-HU-14
+    title: Track simulator coverage as a product
+    origin: YC06-hue
+    primary_layer: L10
+    delivery_stage: S5
+    disposition: Adopt principle; build domain-specific control
+    application: Maintain a matrix for each connector operation: captured, simulated, contract-tested against a controlled provider account, fault-tested and unknown. Prefer a small accurate SupaBiz fake service over a broad fictional clone. Compare representative response shapes and effects against real test accounts before interpreting simulator scores as production evidence.
+    measurement: Operation coverage; simulator/provider disagreements; environment-incomplete cases.
+    original_decision: Adopt pattern; validate SDK reuse separately
+    source_evidence: YC06-hue/findings.json#HU-14
+    status: Proposed; no implementation inferred
+    rationale: Merged into Evaluation and governed improvement. Shares the common experiment manifests, reviewed expected outcomes, release evidence and learned-rule lifecycle.
+  - learning_id: SB-SK-01
+    title: Keep the worker’s existing front door
+    origin: YC07-sidekick
+    primary_layer: L01
+    delivery_stage: S2
+    disposition: Adapt UX; build SupaBiz implementation
+    application: Let staff report through the authorized WhatsApp connection first. Add the SupaBiz app when it improves capture, offline queues or receipts. A low-friction interface still needs organization enrollment, current staff grants, business/outlet identity and revocation. A phone number or group membership alone is not sufficient authority for purchases, payroll or broad data access.
+    measurement: Report completion rate; time to first useful report; identity errors; onboarding effort.
+    original_decision: Adapt UX pattern; build and validate SupaBiz implementation
+    source_evidence: YC07-sidekick/findings.json#SK-01
+    status: Proposed; no implementation inferred
+    rationale: Merged into People and decisions. Shares the common ui state and authenticated user intent; never accepted facts or execution authority.
+  - learning_id: SB-SK-02
+    title: Capture now; ask the smallest missing question
+    origin: YC07-sidekick
+    primary_layer: L01
+    delivery_stage: S2
+    disposition: Adapt UX; build SupaBiz implementation
+    application: Acknowledge receipt without claiming resolution. Resolve the likely outlet and asset from authorized context, then ask one focused question if needed. During service, do not force staff through a long form. Let them answer by voice, text or a quick choice. Persist incomplete reports with a visible owner and status so unanswered questions do not erase the issue.
+    measurement: Time to report; clarification turns; abandoned reports; unresolved ambiguity age.
+    original_decision: Adapt UX pattern; build and validate SupaBiz implementation
+    source_evidence: YC07-sidekick/findings.json#SK-02
+    status: Proposed; no implementation inferred
+    rationale: Merged into People and decisions. Shares the common ui state and authenticated user intent; never accepted facts or execution authority.
+  - learning_id: SB-SK-03
+    title: Voice should preserve meaning across languages
+    origin: YC07-sidekick
+    primary_layer: L04
+    delivery_stage: S1
+    disposition: Adopt principle; build domain-specific control
+    application: Support the languages and code-switching actually used by Varun’s staff; test kitchen noise. Store original audio, time-aligned transcript and translation separately under retention policy. Confirm critical units, numbers, asset and negation, not every word. Offer short text acknowledgement and optional read-aloud; keep transcripts editable. Do not infer worker identity or emotion from voice.
+    measurement: Critical-field error rate; negation/unit errors; correction effort; language-specific task success.
+    original_decision: Adapt UX pattern; build and validate SupaBiz implementation
+    source_evidence: YC07-sidekick/findings.json#SK-03
+    status: Proposed; no implementation inferred
+    rationale: Merged into Media and evidence. Shares the common evidence objects, versions, locators, extraction provenance and access state.
+  - learning_id: SB-SK-04
+    title: Photos should anchor a report to visible evidence
+    origin: YC07-sidekick
+    primary_layer: L04
+    delivery_stage: S1
+    disposition: Adopt principle; build domain-specific control
+    application: Link each observation to the original image and relevant crop or box. A spill, damaged seal or delivery label can support a report, but a photo cannot establish hidden temperature, food safety or repair success. Ask for a wider view, close-up or readable label only when needed. Distinguish observed, worker-reported and model-inferred facts.
+    measurement: Correct issue/location identification; unsupported visual claims; requests for retakes; evidence availability.
+    original_decision: Adapt UX pattern; build and validate SupaBiz implementation
+    source_evidence: YC07-sidekick/findings.json#SK-04
+    status: Proposed; no implementation inferred
+    rationale: Merged into Media and evidence. Shares the common evidence objects, versions, locators, extraction provenance and access state.
+  - learning_id: SB-SK-05
+    title: Use video for sequence and movement
+    origin: YC07-sidekick
+    primary_layer: L04
+    delivery_stage: S6
+    disposition: Defer capability; retain boundary now
+    application: Use short clips for recurring leaks, moving equipment or a chef’s demonstration. Analyze audio and time-linked visual segments together; retain timestamps. Begin with bounded sampling and request closer examination for uncertain moments. Never infer absence of a brief event from sparse frames. Separate live issue evidence from tutorial capture, and require review before a demonstrated procedure becomes a published SOP.
+    measurement: Temporal-event recall; unsupported conclusions; reviewer effort; cost per useful clip.
+    original_decision: Adapt UX pattern; build and validate SupaBiz implementation
+    source_evidence: YC07-sidekick/findings.json#SK-05
+    status: Proposed; no implementation inferred
+    rationale: Merged into Media and evidence. Capability remains outside first pilot; authority/evidence constraints apply wherever the shared core uses this pattern.
+  - learning_id: SB-SK-06
+    title: Resolve the outlet, area and asset explicitly
+    origin: YC07-sidekick
+    primary_layer: L05
+    delivery_stage: S2
+    disposition: Adopt principle; build domain-specific control
+    application: Maintain Consu/ForeFathers → outlet → area → asset identifiers and scoped aliases. A QR label can prefill the asset in the SupaBiz app; it is a locator, not an access credential. Resolve fridge near the back using the current authorized outlet; ask when multiple assets match. Keep original worker wording and any inferred association.
+    measurement: Wrong-outlet routing; wrong-asset tasks; duplicate incidents; clarification frequency.
+    original_decision: Adapt UX pattern; build and validate SupaBiz implementation
+    source_evidence: YC07-sidekick/findings.json#SK-06
+    status: Proposed; no implementation inferred
+    rationale: Merged into Business records and governed memory. Shares the common accepted domain records and revisions.
+  - learning_id: SB-SK-07
+    title: Return a work receipt and close the loop
+    origin: YC07-sidekick
+    primary_layer: L01
+    delivery_stage: S2
+    disposition: Adapt UX; build SupaBiz implementation
+    application: Reply with a short issue ID, confirmed location, what was understood, current owner and next status. Track received, needs clarification, assigned, accepted, in progress, blocked, submitted and verified closed. A sent notification is not an accepted assignment. A before/after photo supports review but must not automatically prove physical repair or sanitation.
+    measurement: Report-to-acceptance time; unowned issues; verified resolution; reopen rate.
+    original_decision: Adapt UX pattern; build and validate SupaBiz implementation
+    source_evidence: YC07-sidekick/findings.json#SK-07
+    status: Proposed; no implementation inferred
+    rationale: Merged into People and decisions. Shares the common ui state and authenticated user intent; never accepted facts or execution authority.
+  - learning_id: SB-SK-08
+    title: Give managers an exception queue
+    origin: YC07-sidekick
+    primary_layer: L01
+    delivery_stage: S2
+    disposition: Adapt UX; build SupaBiz implementation
+    application: Give the outlet manager Needs attention, Unassigned, Waiting, Due this shift and Needs verification views. Varun receives a cross-business summary with a clear outlet label on every item. Bundle routine updates; escalate urgent issues under approved policies. Shift handover carries open work, accepted owner, blocker and evidence rather than another long chat recap.
+    measurement: Manager interruptions; age of blockers; handover omissions; alert acknowledgement.
+    original_decision: Adapt UX pattern; build and validate SupaBiz implementation
+    source_evidence: YC07-sidekick/findings.json#SK-08
+    status: Proposed; no implementation inferred
+    rationale: Merged into People and decisions. Shares the common ui state and authenticated user intent; never accepted facts or execution authority.
+  - learning_id: SB-SK-09
+    title: Answer from approved local procedures
+    origin: YC07-sidekick
+    primary_layer: L05
+    delivery_stage: S2
+    disposition: Adopt principle; build domain-specific control
+    application: Return a concise answer with the relevant approved SOP version and a link to the exact page or clip time. Use retrieval filters for outlet, asset model, role and validity dates. Do not mix a different business’s recipe, allergen procedure or maintenance instruction into a confident answer. Missing or contradictory guidance should go to the designated manager.
+    measurement: Evidence-backed answer rate; outdated-SOP answers; unsupported instructions; escalation precision.
+    original_decision: Adapt UX pattern; build and validate SupaBiz implementation
+    source_evidence: YC07-sidekick/findings.json#SK-09
+    status: Proposed; no implementation inferred
+    rationale: Merged into Business records and governed memory. Shares the common accepted domain records and revisions.
+  - learning_id: SB-SK-10
+    title: Capture a verified fix as candidate knowledge
+    origin: YC07-sidekick
+    primary_layer: L10
+    delivery_stage: S2
+    disposition: Adopt principle; build domain-specific control
+    application: After a verified resolution, draft a knowledge entry with problem, asset, symptoms, evidence, authorized resolver and conditions. Ask whether it applies once, to this asset, this outlet or an approved organization-wide pattern. Do not learn a general rule from every message or repeat an unsafe workaround. Link to SB-AS-13 and generate a reviewed Hue-style regression case.
+    measurement: Repeat incident rate; unsafe generalization; knowledge freshness; regression coverage.
+    original_decision: Adapt UX pattern; build and validate SupaBiz implementation
+    source_evidence: YC07-sidekick/findings.json#SK-10
+    status: Proposed; no implementation inferred
+    rationale: Merged into Evaluation and governed improvement. Shares the common experiment manifests, reviewed expected outcomes, release evidence and learned-rule lifecycle.
+  - learning_id: SB-SK-11
+    title: Version and retire procedures
+    origin: YC07-sidekick
+    primary_layer: L05
+    delivery_stage: S6
+    disposition: Defer capability; retain boundary now
+    application: Let an authorized chef or manager record a short training walkthrough. Produce a draft checklist with timestamped steps and missing-information flags. A reviewer approves scope, translations and version before publishing. Staff acknowledgement and demonstrated competence are separate events; video viewed is not certification. Retire superseded instructions while retaining historical provenance.
+    measurement: Training completion with checks; outdated content retrieval; reviewer correction rate; ramp-up time.
+    original_decision: Adapt UX pattern; build and validate SupaBiz implementation
+    source_evidence: YC07-sidekick/findings.json#SK-11
+    status: Proposed; no implementation inferred
+    rationale: Merged into Business records and governed memory. Capability remains outside first pilot; authority/evidence constraints apply wherever the shared core uses this pattern.
+  - learning_id: SB-SK-12
+    title: Share knowledge between outlets deliberately
+    origin: YC07-sidekick
+    primary_layer: L05
+    delivery_stage: S2
+    disposition: Adopt principle; build domain-specific control
+    application: Varun owning two businesses does not make all information interchangeable. Default to business/outlet scope. Offer an explicit approved template-sharing action with equipment/procedure applicability checks. Reuse generic issue categories or approved process templates while keeping customer, staff, supplier, financial and business-specific knowledge appropriately separated.
+    measurement: Cross-business leaks; wrong-equipment advice; useful approved reuse; template update propagation.
+    original_decision: Adapt UX pattern; build and validate SupaBiz implementation
+    source_evidence: YC07-sidekick/findings.json#SK-12
+    status: Proposed; no implementation inferred
+    rationale: Merged into Business records and governed memory. Shares the common accepted domain records and revisions.
+  - learning_id: SB-SK-13
+    title: Treat sensor evidence separately from visual inference
+    origin: YC07-sidekick
+    primary_layer: L04
+    delivery_stage: S6
+    disposition: Defer capability; retain boundary now
+    application: Later, ingest approved refrigerator/asset telemetry with device identity, calibrated units, timestamp and freshness. Distinguish measured temperature from a staff report and a photographed display. Missing sensor data is unknown, not normal. Do not copy predictive-maintenance claims without sufficient telemetry and validation. Start with issue reporting before buying hardware or promising prediction.
+    measurement: Sensor freshness; false alerts; missed events; measured downtime; review burden.
+    original_decision: Adapt UX pattern; build and validate SupaBiz implementation
+    source_evidence: YC07-sidekick/findings.json#SK-13
+    status: Proposed; no implementation inferred
+    rationale: Merged into Media and evidence. Capability remains outside first pilot; authority/evidence constraints apply wherever the shared core uses this pattern.
+  - learning_id: SB-SK-14
+    title: Make staff trust and operational value visible
+    origin: YC07-sidekick
+    primary_layer: L04
+    delivery_stage: S1
+    disposition: Adopt principle; build domain-specific control
+    application: Tell staff what is recorded, who can see reports and how to correct them. Use targeted operational capture, not continuous surveillance or inferred worker scoring. Minimize bystander/customer media, restrict sensitive details, and propagate retention/deletion to transcripts, thumbnails and test copies. Measure correct completed work and staff effort before claiming productivity gains.
+    measurement: Staff adoption; privacy incidents; verified completion cost; correction time; report quality.
+    original_decision: Adapt UX pattern; build and validate SupaBiz implementation
+    source_evidence: YC07-sidekick/findings.json#SK-14
+    status: Proposed; no implementation inferred
+    rationale: Merged into Media and evidence. Shares the common evidence objects, versions, locators, extraction provenance and access state.
+  - learning_id: SB-MB-01
+    title: Connect the business objects before automating the work
+    origin: YC08-marble
+    primary_layer: L05
+    delivery_stage: S3
+    disposition: Adopt principle; build domain-specific control
+    application: Build a restaurant workflow pack on the shared SupaBiz platform. Link business, outlet, storage location, ingredient, supplier item, unit conversion, recipe version, purchase order, receipt, invoice and settlement. Keep typed records as the operational authority; chat and embeddings help find and interpret evidence. A supplier invoice is not a receipt, a receipt is not a payment, and a count is not a purchase.
+    measurement: Missing links; wrong-entity writes; manual reconciliation time.
+    original_decision: Adapt restaurant workflow pattern; build and validate SupaBiz implementation
+    source_evidence: YC08-marble/findings.json#MB-01
+    status: Proposed; no implementation inferred
+    rationale: Merged into Business records and governed memory. Shares the common accepted domain records and revisions.
+  - learning_id: SB-MB-02
+    title: Onboard by showing what the system understood
+    origin: YC08-marble
+    primary_layer: L01
+    delivery_stage: S3
+    disposition: Adapt UX; build SupaBiz implementation
+    application: Import authorized menus, representative invoices, supplier lists, recipes and POS history into a reviewable draft. Show aliases, pack sizes, unresolved items and affected outlets. Ask Varun or the manager to approve mappings in small batches. Require a physical opening count and agreed cutover before calling balances reliable. Do not silently infer that every supplier uses the same crate size.
+    measurement: Time to verified first workflow; unresolved mappings; correction rate after onboarding.
+    original_decision: Adapt restaurant workflow pattern; build and validate SupaBiz implementation
+    source_evidence: YC08-marble/findings.json#MB-02
+    status: Proposed; no implementation inferred
+    rationale: Merged into People and decisions. Shares the common ui state and authenticated user intent; never accepted facts or execution authority.
+  - learning_id: SB-MB-03
+    title: Make counting a guided staff task
+    origin: YC08-marble
+    primary_layer: L01
+    delivery_stage: S3
+    disposition: Adapt UX; build SupaBiz implementation
+    application: Offer Count stock, Receive delivery and Report waste as distinct intents, with plain-language routing from WhatsApp. Walk staff through storage areas; show counted, skipped, uncertain and explicitly zero items. Preserve language, units, source media and count time. Read back critical quantities. Hidden stock, partially filled containers and duplicate views need measurement or confirmation, not visual certainty.
+    measurement: Time per accepted count; unit error rate; uncounted lines; noisy voice and occlusion accuracy.
+    original_decision: Adapt restaurant workflow pattern; build and validate SupaBiz implementation
+    source_evidence: YC08-marble/findings.json#MB-03
+    status: Proposed; no implementation inferred
+    rationale: Merged into People and decisions. Shares the common ui state and authenticated user intent; never accepted facts or execution authority.
+  - learning_id: SB-MB-04
+    title: Keep observations separate from stock movements
+    origin: YC08-marble
+    primary_layer: L05
+    delivery_stage: S3
+    disposition: Adopt principle; build domain-specific control
+    application: Maintain an append-only movement history and a current balance projection. Receipts, consumption, waste, returns and transfers have distinct event types. A stocktake proposes an adjustment relative to the balance at the count cutoff; subsequent movements must not be overwritten. Record event time, receipt time and posting time. Give stale estimates an as-of timestamp and coverage label.
+    measurement: Balance reconciliation; duplicate movements; late-event correctness; time to repair an incorrect posting.
+    original_decision: Adapt restaurant workflow pattern; build and validate SupaBiz implementation
+    source_evidence: YC08-marble/findings.json#MB-04
+    status: Proposed; no implementation inferred
+    rationale: Merged into Business records and governed memory. Shares the common accepted domain records and revisions.
+  - learning_id: SB-MB-05
+    title: Connect recipes and sales without pretending usage is measured
+    origin: YC08-marble
+    primary_layer: L05
+    delivery_stage: S6
+    disposition: Defer capability; retain boundary now
+    application: Version recipes, portions, yields and substitutions. Derive theoretical ingredient consumption from sold menu items; keep it distinct from observed stock depletion. Account for modifiers, voids, staff meals, prep batches and recorded waste. Do not deduct ingredients twice when prep consumes raw stock and sales consume prepared stock. Investigate unexplained variance rather than labeling it theft.
+    measurement: Theoretical-versus-observed usage; unmapped menu items; double-consumption incidents; prep waste.
+    original_decision: Adapt restaurant workflow pattern; build and validate SupaBiz implementation
+    source_evidence: YC08-marble/findings.json#MB-05
+    status: Proposed; no implementation inferred
+    rationale: Merged into Business records and governed memory. Capability remains outside first pilot; authority/evidence constraints apply wherever the shared core uses this pattern.
+  - learning_id: SB-MB-06
+    title: Make forecasts accountable to a baseline
+    origin: YC08-marble
+    primary_layer: L10
+    delivery_stage: S6
+    disposition: Defer capability; retain boundary now
+    application: Start with manager par levels and seasonal-naive demand baselines. Evaluate future periods using rolling-origin backtests, never random train/test leakage. Track bias, MAE/WAPE where defined, interval coverage, stockouts and waste by outlet/item. Zero sales may mean unavailable stock. Weather, reservations and event adjustments need provenance, ablations and manager overrides; an LLM explanation is not calibrated forecasting.
+    measurement: Error against baseline by horizon; service levels; waste; performance on low-volume and stockout days.
+    original_decision: Adapt restaurant workflow pattern; build and validate SupaBiz implementation
+    source_evidence: YC08-marble/findings.json#MB-06
+    status: Proposed; no implementation inferred
+    rationale: Merged into Evaluation and governed improvement. Capability remains outside first pilot; authority/evidence constraints apply wherever the shared core uses this pattern.
+  - learning_id: SB-MB-07
+    title: Explain an order using stock, demand and constraints
+    origin: YC08-marble
+    primary_layer: L05
+    delivery_stage: S6
+    disposition: Defer capability; retain boundary now
+    application: Calculate projected need from usable stock, expected demand and confirmed inbound arriving in time. Exclude quarantine, expired/unusable stock and uncertain deliveries. Show pack rounding, minimum order, lead time, cutoff, budget, storage capacity and shelf-life constraints. Compare landed cost and equivalent approved quality, not price alone. Keep a visible reason for each recommendation and rejected alternative.
+    measurement: Overbuying; missed cutoffs; constraint violations; manager override reasons; stockout incidence.
+    original_decision: Adapt restaurant workflow pattern; build and validate SupaBiz implementation
+    source_evidence: YC08-marble/findings.json#MB-07
+    status: Proposed; no implementation inferred
+    rationale: Merged into Business records and governed memory. Capability remains outside first pilot; authority/evidence constraints apply wherever the shared core uses this pattern.
+  - learning_id: SB-MB-08
+    title: Treat supplier communication as an order lifecycle
+    origin: YC08-marble
+    primary_layer: L07
+    delivery_stage: S3
+    disposition: Adopt principle; build domain-specific control
+    application: Keep one purchase-order ID/version across authorized channels. Separate approved, sending, send-unknown, sent, supplier-confirmed, partially fulfilled and cancelled states. A transport receipt is not supplier acceptance. Freeze the exact approved recipient, lines, amount and version; material changes require renewed approval. Use an outbox, idempotency and reconciliation before retrying ambiguous sends. Suppliers can reply in familiar channels without becoming app users.
+    measurement: Duplicate supplier orders; unconfirmed-order age; recovery from send timeout; approval mismatch rate.
+    original_decision: Adapt restaurant workflow pattern; build and validate SupaBiz implementation
+    source_evidence: YC08-marble/findings.json#MB-08
+    status: Proposed; no implementation inferred
+    rationale: Merged into Durable work and domain packs. Shares the common workflow progression/timers.
+  - learning_id: SB-MB-09
+    title: Make delivery receiving the first valuable workflow
+    origin: YC08-marble
+    primary_layer: L05
+    delivery_stage: S3
+    disposition: Adopt principle; build domain-specific control
+    application: Match a delivery to an order when possible, but support explicit emergency/no-PO receiving. Record actual arrived, accepted, rejected/quarantined and missing quantities with lot/expiry when relevant. Multiple deliveries may fulfill one order. Only accepted usable quantity increases available stock; rejected goods retained on site need a separate disposition record. A signature or invoice photo alone is insufficient.
+    measurement: Receiving completion time; unrecorded rejects; stock overstatement; disputed quantity recovery.
+    original_decision: Adapt restaurant workflow pattern; build and validate SupaBiz implementation
+    source_evidence: YC08-marble/findings.json#MB-09
+    status: Proposed; no implementation inferred
+    rationale: Merged into Business records and governed memory. Shares the common accepted domain records and revisions.
+  - learning_id: SB-MB-10
+    title: Reconcile the order, accepted receipt and invoice
+    origin: YC08-marble
+    primary_layer: L05
+    delivery_stage: S3
+    disposition: Adopt principle; build domain-specific control
+    application: Compare line-level authorized order terms, cumulative accepted receipts net of returns and supplier bill allocations. Normalize supplier aliases and units before matching. Preserve quantity, price, tax, freight, discount and rounding differences separately. Use configured tolerances with visible rationale; never auto-tolerate an unknown item or wrong legal entity. Support split receipts/invoices and avoid allocating the same receipt twice.
+    measurement: False matches; exception review time; duplicate bills; unallocated receipts; match rate with denominators.
+    original_decision: Adapt restaurant workflow pattern; build and validate SupaBiz implementation
+    source_evidence: YC08-marble/findings.json#MB-10
+    status: Proposed; no implementation inferred
+    rationale: Merged into Business records and governed memory. Shares the common accepted domain records and revisions.
+  - learning_id: SB-MB-11
+    title: Expose price changes on a comparable basis
+    origin: YC08-marble
+    primary_layer: L05
+    delivery_stage: S3
+    disposition: Adopt principle; build domain-specific control
+    application: Compare the same ingredient specification, pack size, base unit, currency and cost basis. Separate quoted price, ordered price and invoiced price with validity dates. A cheaper pack may contain less product or produce less usable yield. Show the specific changed lines and affected recipe costs; manager approval is needed for substitutions that affect the dish.
+    measurement: Normalized price variance; misleading price alerts; verified savings after credits and freight.
+    original_decision: Adapt restaurant workflow pattern; build and validate SupaBiz implementation
+    source_evidence: YC08-marble/findings.json#MB-11
+    status: Proposed; no implementation inferred
+    rationale: Merged into Business records and governed memory. Shares the common accepted domain records and revisions.
+  - learning_id: SB-MB-12
+    title: Give the accountant an evidence bundle and verified sync
+    origin: YC08-marble
+    primary_layer: L08
+    delivery_stage: S3
+    disposition: Adopt principle; build domain-specific control
+    application: Prepare supplier identity, original invoice, PO, receipt, adjustments, approvals, entity/outlet, account mapping and exception history. Label captured, reviewed, exported, remote-accepted, posted and reconciled separately. Record external voucher ID and verify read-back. Let the CA configure ledger/tax/valuation treatment and period controls. Begin with a reviewed export to the accountant’s existing system; do not claim Tally, Zoho or Indian GST support is already established.
+    measurement: Accountant touches per bill; rejected exports; duplicate vouchers; reconciliation completeness.
+    original_decision: Adapt restaurant workflow pattern; build and validate SupaBiz implementation
+    source_evidence: YC08-marble/findings.json#MB-12
+    status: Proposed; no implementation inferred
+    rationale: Merged into Actions, browser and collaboration. Shares the common external action attempts, provider receipts, uncertainty and compensation.
+  - learning_id: SB-MB-13
+    title: Keep disputes, credits and payments visible until resolved
+    origin: YC08-marble
+    primary_layer: L07
+    delivery_stage: S3
+    disposition: Adopt principle; build domain-specific control
+    application: Track disputed quantities and credit requests through supplier acknowledgment, received adjustment and allocation. A requested credit is not money recovered. An approved bill is not paid; partial payments and one payment covering multiple bills require allocations. Bank-detail changes require separate authorized verification. Preserve accounting history through approved adjustments rather than overwriting posted documents.
+    measurement: Unresolved dispute age; credits actually allocated; wrong/duplicate payment exposure; closed-period exceptions.
+    original_decision: Adapt restaurant workflow pattern; build and validate SupaBiz implementation
+    source_evidence: YC08-marble/findings.json#MB-13
+    status: Proposed; no implementation inferred
+    rationale: Merged into Durable work and domain packs. Shares the common workflow progression/timers.
+  - learning_id: SB-MB-14
+    title: Give each role a different view of the same evidence
+    origin: YC08-marble
+    primary_layer: L01
+    delivery_stage: S3
+    disposition: Adapt UX; build SupaBiz implementation
+    application: Staff receive short capture receipts; managers get receiving and purchase exceptions; Varun sees outlet-labeled shortages, spend commitments and recurring variance; the CA sees reconciliation and close status. Show source freshness and missing costs next to margin estimates. Operational estimates, accounting profit and cash are different views. A price explanation should link to evidence and offer a draft action, not assert a causal diagnosis without support.
+    measurement: Time to decision; unnecessary alerts; unresolved owner assignments; stale or misleading financial summaries.
+    original_decision: Adapt restaurant workflow pattern; build and validate SupaBiz implementation
+    source_evidence: YC08-marble/findings.json#MB-14
+    status: Proposed; no implementation inferred
+    rationale: Merged into People and decisions. Shares the common ui state and authenticated user intent; never accepted facts or execution authority.
+  - learning_id: SB-MB-15
+    title: Learn typed business rules with explicit scope
+    origin: YC08-marble
+    primary_layer: L10
+    delivery_stage: S3
+    disposition: Adopt principle; build domain-specific control
+    application: Classify a correction as extraction, alias mapping, unit conversion, recipe, supplier constraint, forecast override or workflow policy. Apply the change only at its approved scope and effective date. Measure its effect on replay tests before promotion. Preserve a rollback/version and invalidate stale derived views. Historical records keep the rules used at the time. Do not train on an unverified invoice or a manager’s accidental approval as unquestioned truth.
+    measurement: Repeat errors; harmful scope propagation; regression pass rate; correction reversibility.
+    original_decision: Adapt restaurant workflow pattern; build and validate SupaBiz implementation
+    source_evidence: YC08-marble/findings.json#MB-15
+    status: Proposed; no implementation inferred
+    rationale: Merged into Evaluation and governed improvement. Shares the common experiment manifests, reviewed expected outcomes, release evidence and learned-rule lifecycle.
+  - learning_id: SB-MB-16
+    title: Separate outlet access, business ownership and personal identity
+    origin: YC08-marble
+    primary_layer: L02
+    delivery_stage: S3
+    disposition: Adopt principle; build domain-specific control
+    application: Keep Consu and ForeFathers legal entities and outlets explicit; common ownership does not grant all staff cross-business access. Enforce supplier, amount, action and period grants server-side. Employee departure revokes access without erasing required business history. Apply separate retention to source media, personal identifiers, operational records and test copies. Obtain actual vendor terms before adopting cloud processing; a written no-training statement is not implementation verification.
+    measurement: Cross-entity leakage; revoked-user access; retention coverage; stale credential and connector isolation tests.
+    original_decision: Adapt restaurant workflow pattern; build and validate SupaBiz implementation
+    source_evidence: YC08-marble/findings.json#MB-16
+    status: Proposed; no implementation inferred
+    rationale: Merged into Identity, grants and secrets. Shares the common membership, policy, grants and authorization decisions.
+  - learning_id: SB-AR-01
+    title: Use a model-neutral communication layer
+    origin: YC09-agent-relay
+    primary_layer: L08
+    delivery_stage: S6
+    disposition: Defer capability; retain boundary now
+    application: Wrap Relaycast/SDK behind a SupaBiz transport interface. Swap model or harness without changing job identity, message contracts or business records. Do not make coding-agent terminal injection the default executor for restaurant transactions.
+    measurement: Model/adapter swap success; protocol compatibility failures.
+    original_decision: Reuse candidate
+    source_evidence: YC09-agent-relay/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into Actions, browser and collaboration. Capability remains outside first pilot; authority/evidence constraints apply wherever the shared core uses this pattern.
+  - learning_id: SB-AR-02
+    title: Create a room for a job, not an endless swarm chat
+    origin: YC09-agent-relay
+    primary_layer: L01
+    delivery_stage: S6
+    disposition: Defer capability; retain boundary now
+    application: One room follows a supplier quote, inventory transfer or accountant request. Show participating businesses, accountable person, requested result, deadline and evidence. Keep technical agent messages expandable.
+    measurement: Time to understand status; unresolved jobs; unnecessary notifications.
+    original_decision: Adapt UX
+    source_evidence: YC09-agent-relay/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into People and decisions. Capability remains outside first pilot; authority/evidence constraints apply wherever the shared core uses this pattern.
+  - learning_id: SB-AR-03
+    title: Bind agents to a business principal
+    origin: YC09-agent-relay
+    primary_layer: L02
+    delivery_stage: S1
+    disposition: Adopt principle; build domain-specific control
+    application: Use immutable agent and business IDs plus credential versions. A human-readable name is a label, not authority. Separate Consu, ForeFathers and supplier workspaces even when Varun owns two of them.
+    measurement: Wrong-business disclosure and action tests; credential rotation recovery.
+    original_decision: Build
+    source_evidence: YC09-agent-relay/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into Identity, grants and secrets. Shares the common membership, policy, grants and authorization decisions.
+  - learning_id: SB-AR-04
+    title: Separate delivery receipts from work receipts
+    origin: YC09-agent-relay
+    primary_layer: L08
+    delivery_stage: S2
+    disposition: Adopt principle; build domain-specific control
+    application: Retain transport accepted/delivered/deferred/failed separately from job accepted/in_progress/needs_approval/result_submitted/verified. A supplier agent receiving a PO does not confirm its commercial acceptance.
+    measurement: False completion rate; time in each state; unowned accepted work.
+    original_decision: Adapt and extend
+    source_evidence: YC09-agent-relay/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into Actions, browser and collaboration. Shares the common external action attempts, provider receipts, uncertainty and compensation.
+  - learning_id: SB-AR-05
+    title: Expose small typed capabilities
+    origin: YC09-agent-relay
+    primary_layer: L08
+    delivery_stage: S6
+    disposition: Defer capability; retain boundary now
+    application: Define request_quote, share_approved_availability and submit_reconciliation_result with schemas. Validate input, then current server-side permission and constraints before execution. Validate output and independently verify external effects.
+    measurement: Schema rejection quality; unauthorized handler invocations; invalid results after effects.
+    original_decision: Reuse candidate
+    source_evidence: YC09-agent-relay/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into Actions, browser and collaboration. Capability remains outside first pilot; authority/evidence constraints apply wherever the shared core uses this pattern.
+  - learning_id: SB-AR-06
+    title: Exchange minimum evidence, not whole memory
+    origin: YC09-agent-relay
+    primary_layer: L02
+    delivery_stage: S6
+    disposition: Defer capability; retain boundary now
+    application: Share a purpose-specific summary and authorized document references with scoped access and provenance. Do not copy all chat history into a partner context. Apply permission checks to search and dereferencing, including derived summaries.
+    measurement: Unnecessary fields disclosed; expired evidence access; retrieval permission failures.
+    original_decision: Build
+    source_evidence: YC09-agent-relay/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into Identity, grants and secrets. Capability remains outside first pilot; authority/evidence constraints apply wherever the shared core uses this pattern.
+  - learning_id: SB-AR-07
+    title: Make relationship grants explicit
+    origin: YC09-agent-relay
+    primary_layer: L02
+    delivery_stage: S6
+    disposition: Defer capability; retain boundary now
+    application: A relationship grant binds issuer, recipient business/agent, allowed capabilities and data, purpose, limits, expiry and delegation depth. Check at request acceptance, evidence access and action commit. Transport credentials never replace it.
+    measurement: Revoked or expired grant attempts blocked; cross-tenant negative tests.
+    original_decision: Build
+    source_evidence: YC09-agent-relay/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into Identity, grants and secrets. Capability remains outside first pilot; authority/evidence constraints apply wherever the shared core uses this pattern.
+  - learning_id: SB-AR-08
+    title: Use invitations with a reviewable access preview
+    origin: YC09-agent-relay
+    primary_layer: L01
+    delivery_stage: S6
+    disposition: Defer capability; retain boundary now
+    application: Let a manager invite a named accountant or supplier to one job or bounded relationship. Show identity, scope, expiry and changes before joining; include disconnect/revoke. Unsolicited requests remain in an inbox until accepted.
+    measurement: Onboarding completion; mistaken invitations; time to revoke.
+    original_decision: Adapt UX
+    source_evidence: YC09-agent-relay/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into People and decisions. Capability remains outside first pilot; authority/evidence constraints apply wherever the shared core uses this pattern.
+  - learning_id: SB-AR-09
+    title: Keep durable business idempotency above event dedupe
+    origin: YC09-agent-relay
+    primary_layer: L08
+    delivery_stage: S2
+    disposition: Adopt principle; build domain-specific control
+    application: Use a persistent business action key, payload hash, atomic claim and remote reconciliation. Same-source duplicates, reconnects and retries days later must not create duplicate purchase orders. Conflicting payloads for the same key require rejection.
+    measurement: Duplicate effects; ambiguous outcomes reconciled; conflicting retries blocked.
+    original_decision: Build over transport
+    source_evidence: YC09-agent-relay/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into Actions, browser and collaboration. Shares the common external action attempts, provider receipts, uncertainty and compensation.
+  - learning_id: SB-AR-10
+    title: Verify delegation proofs against trusted issuers
+    origin: YC09-agent-relay
+    primary_layer: L02
+    delivery_stage: S6
+    disposition: Defer capability; retain boundary now
+    application: Resolve issuer trust independently of the message; validate signature, audience, expiry, capability and current revocation. A proof cannot broaden the parent grant. Keep received text and tool instructions untrusted.
+    measurement: Forged, replayed or wrongly scoped proof rejection; grant-chain limits.
+    original_decision: Conditional pattern
+    source_evidence: YC09-agent-relay/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into Identity, grants and secrets. Capability remains outside first pilot; authority/evidence constraints apply wherever the shared core uses this pattern.
+  - learning_id: SB-AR-11
+    title: Recover work without skipping earlier messages
+    origin: YC09-agent-relay
+    primary_layer: L07
+    delivery_stage: S6
+    disposition: Defer capability; retain boundary now
+    application: Persist per-job progress and independent message acknowledgment. An out-of-order ack must not erase older work. Use deadlines, lease renewal, backoff, dead-letter handling and an owner for stuck jobs.
+    measurement: Recovery after restart; missing messages; dead-letter age.
+    original_decision: Adapt and test
+    source_evidence: YC09-agent-relay/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into Durable work and domain packs. Capability remains outside first pilot; authority/evidence constraints apply wherever the shared core uses this pattern.
+  - learning_id: SB-AR-12
+    title: Give people a collaboration console
+    origin: YC09-agent-relay
+    primary_layer: L01
+    delivery_stage: S6
+    disposition: Defer capability; retain boundary now
+    application: Show requested, shared, approved, committed and verified events as a compact timeline. Provide exact-action approval, pause, revoke, reassign and disputed-result paths. Label whether a button stops future work or requires compensating an existing effect.
+    measurement: Time to resolve an exception; accidental approvals; status comprehension.
+    original_decision: Build UX
+    source_evidence: YC09-agent-relay/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into People and decisions. Capability remains outside first pilot; authority/evidence constraints apply wherever the shared core uses this pattern.
+  - learning_id: SB-AR-13
+    title: Bound delegation and agent conversation
+    origin: YC09-agent-relay
+    primary_layer: L07
+    delivery_stage: S6
+    disposition: Defer capability; retain boundary now
+    application: Cap depth, participants, tool calls, spend, duration and message rate per job. Track parent job and causation IDs to detect loops. Prefer direct task routing; broadcast only to an authorized bounded audience.
+    measurement: Cost per verified job; loops; fan-out; budget-stop correctness.
+    original_decision: Build
+    source_evidence: YC09-agent-relay/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into Durable work and domain packs. Capability remains outside first pilot; authority/evidence constraints apply wherever the shared core uses this pattern.
+  - learning_id: SB-AR-14
+    title: Treat deployment topology as an adoption gate
+    origin: YC09-agent-relay
+    primary_layer: L09
+    delivery_stage: S6
+    disposition: Defer capability; retain boundary now
+    application: Pilot self-hosted Relaycast in a limited environment. Before production, validate version compatibility, durable recovery, isolation, backup/restore and connection limits; choose managed service or redesign shared state for replicas.
+    measurement: Restart data-loss tests; restore time; queue lag; peak-connection limits.
+    original_decision: Conditional reuse
+    source_evidence: YC09-agent-relay/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into Cloud, devices and operating limits. Capability remains outside first pilot; authority/evidence constraints apply wherever the shared core uses this pattern.
+  - learning_id: SB-AR-15
+    title: Make privacy and connection changes visible
+    origin: YC09-agent-relay
+    primary_layer: L02
+    delivery_stage: S6
+    disposition: Defer capability; retain boundary now
+    application: Present capture/sharing/telemetry settings and credential destinations separately. Track who connected which device and business. Explain temporary inbound permissions and how they expire or are restored.
+    measurement: Unexpected scope changes; stale device credentials; configuration restoration.
+    original_decision: Adapt UX
+    source_evidence: YC09-agent-relay/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into Identity, grants and secrets. Capability remains outside first pilot; authority/evidence constraints apply wherever the shared core uses this pattern.
+  - learning_id: SB-AR-16
+    title: Turn each boundary failure into a regression case
+    origin: YC09-agent-relay
+    primary_layer: L10
+    delivery_stage: S0
+    disposition: Adopt principle; build domain-specific control
+    application: Add empty-list denial, cross-business leakage, stale approvals, changed quotes and duplicate commits to the harness. Preserve Asakana’s scoped correction → approved rule → regression test loop. Never promote a policy based only on a successful happy path.
+    measurement: Regression coverage; false authorization; verified outcome rate and cost.
+    original_decision: Build with Hue pattern
+    source_evidence: YC09-agent-relay/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into Evaluation and governed improvement. Shares the common experiment manifests, reviewed expected outcomes, release evidence and learned-rule lifecycle.
+  - learning_id: SB-GL-01
+    title: Make business memory a shared platform service
+    origin: YC10-glen
+    primary_layer: L05
+    delivery_stage: S2
+    disposition: Adopt principle; build domain-specific control
+    application: Store evidence, records, decisions, procedures and preferences separately behind one scoped retrieval interface. Model swaps retain approved context.
+    measurement: Verified outcomes across model/harness changes
+    original_decision: Adopt architecture
+    source_evidence: YC10-glen/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into Business records and governed memory. Shares the common accepted domain records and revisions.
+  - learning_id: SB-GL-02
+    title: Retrieve for the task before asking users to repeat history
+    origin: YC10-glen
+    primary_layer: L06
+    delivery_stage: S2
+    disposition: Adopt principle; build domain-specific control
+    application: Offer a small relevant context package with citations, freshness and an explicit missing-memory fallback. Bound tokens and delay.
+    measurement: Context relevance, p95 latency, human re-explanation
+    original_decision: Experiment
+    source_evidence: YC10-glen/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into Bounded agent harness. Shares the common agent run and proposal state.
+  - learning_id: SB-GL-03
+    title: Keep live records authoritative
+    origin: YC10-glen
+    primary_layer: L05
+    delivery_stage: S2
+    disposition: Adopt principle; build domain-specific control
+    application: Read current stock, notice, assignment or payment state from its authoritative source. Use memory for rationale and history, and surface conflicts.
+    measurement: Stale-answer rate; authoritative-source coverage
+    original_decision: Adopt
+    source_evidence: YC10-glen/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into Business records and governed memory. Shares the common accepted domain records and revisions.
+  - learning_id: SB-GL-04
+    title: Resolve tenant and source permissions before retrieval
+    origin: YC10-glen
+    primary_layer: L02
+    delivery_stage: S1
+    disposition: Adopt principle; build domain-specific control
+    application: Derive business identity from authenticated context. Restrict candidates before content enters generation or external reranking; recheck selected evidence.
+    measurement: Wrong-business and wrong-matter disclosure
+    original_decision: Build
+    source_evidence: YC10-glen/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into Identity, grants and secrets. Shares the common membership, policy, grants and authorization decisions.
+  - learning_id: SB-GL-05
+    title: Make the answer audience part of authorization
+    origin: YC10-glen
+    primary_layer: L02
+    delivery_stage: S1
+    disposition: Adopt principle; build domain-specific control
+    application: A private owner view and a staff-group reply use different allowed context. Evaluate the intended destination before composing the answer.
+    measurement: Group-output leakage; audience-switch regression cases
+    original_decision: Build
+    source_evidence: YC10-glen/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into Identity, grants and secrets. Shares the common membership, policy, grants and authorization decisions.
+  - learning_id: SB-GL-06
+    title: Carry lineage and restrictions into derived memory
+    origin: YC10-glen
+    primary_layer: L02
+    delivery_stage: S1
+    disposition: Adopt principle; build domain-specific control
+    application: Require permission for all protected inputs by default. A broader redacted summary needs deliberate disclosure approval, not merely summarization.
+    measurement: Derived-summary access tests; lineage completeness
+    original_decision: Build
+    source_evidence: YC10-glen/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into Identity, grants and secrets. Shares the common membership, policy, grants and authorization decisions.
+  - learning_id: SB-GL-07
+    title: Invalidate memory when access or facts change
+    origin: YC10-glen
+    primary_layer: L02
+    delivery_stage: S1
+    disposition: Adopt principle; build domain-specific control
+    application: Track source and policy versions; evict stale caches and descendants. Reconstruct future agent context after revocation and explain prior transmissions cannot be recalled.
+    measurement: Revocation delay; stale cache hits; invalidated descendants
+    original_decision: Build
+    source_evidence: YC10-glen/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into Identity, grants and secrets. Shares the common membership, policy, grants and authorization decisions.
+  - learning_id: SB-GL-08
+    title: Separate recording, recall and transmission
+    origin: YC10-glen
+    primary_layer: L01
+    delivery_stage: S2
+    disposition: Adapt UX; build SupaBiz implementation
+    application: Show Save new memory, Use saved memory and Cloud processing separately, with business/device/session scope. A failed setting change remains unconfirmed.
+    measurement: Mode comprehension; transmission/retention mismatch
+    original_decision: Adapt UX
+    source_evidence: YC10-glen/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into People and decisions. Shares the common ui state and authenticated user intent; never accepted facts or execution authority.
+  - learning_id: SB-GL-09
+    title: Capture payloads deliberately
+    origin: YC10-glen
+    primary_layer: L02
+    delivery_stage: S1
+    disposition: Adopt principle; build domain-specific control
+    application: Inventory serialized prompts, tool output, metadata and media extracts. Redact or exclude before transmission where required; a truncated preview is insufficient.
+    measurement: Sensitive fields leaving allowed scope; capture completeness
+    original_decision: Adapt client pattern
+    source_evidence: YC10-glen/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into Identity, grants and secrets. Shares the common membership, policy, grants and authorization decisions.
+  - learning_id: SB-GL-10
+    title: Show why this context was used
+    origin: YC10-glen
+    primary_layer: L01
+    delivery_stage: S2
+    disposition: Adapt UX; build SupaBiz implementation
+    application: Expose permitted citations, source time, evidence status and relevance. Let users exclude an item for this task without deleting institutional history.
+    measurement: Citation correctness; irrelevant-context dismissals
+    original_decision: Build UX
+    source_evidence: YC10-glen/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into People and decisions. Shares the common ui state and authenticated user intent; never accepted facts or execution authority.
+  - learning_id: SB-GL-11
+    title: Separate correcting, suppressing and deleting
+    origin: YC10-glen
+    primary_layer: L05
+    delivery_stage: S2
+    disposition: Adopt principle; build domain-specific control
+    application: Use exact evidence references. Preserve audit history for correction; separately implement retention deletion and derived-index/cache handling.
+    measurement: Repeat stale claims; unintended suppression; deletion coverage
+    original_decision: Adapt UX
+    source_evidence: YC10-glen/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into Business records and governed memory. Shares the common accepted domain records and revisions.
+  - learning_id: SB-GL-12
+    title: Promote reviewed procedures from real work
+    origin: YC10-glen
+    primary_layer: L05
+    delivery_stage: S2
+    disposition: Adopt principle; build domain-specific control
+    application: Suggest procedures with owner, version, scope and dependencies. High-impact operational changes require review and replay tests before promotion.
+    measurement: Procedure success; harmful scope propagation
+    original_decision: Adapt with review
+    source_evidence: YC10-glen/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into Business records and governed memory. Shares the common accepted domain records and revisions.
+  - learning_id: SB-GL-13
+    title: Keep retrieved evidence below executable policy
+    origin: YC10-glen
+    primary_layer: L02
+    delivery_stage: S1
+    disposition: Adopt principle; build domain-specific control
+    application: Tag memory as evidence, not instructions. Retrieved claims cannot grant tools, share secrets or execute a suggested skill without normal authorization.
+    measurement: Prompt-injection and unapproved-skill tests
+    original_decision: Build
+    source_evidence: YC10-glen/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into Identity, grants and secrets. Shares the common membership, policy, grants and authorization decisions.
+  - learning_id: SB-GL-14
+    title: Use portable handoff packages with integrity checks
+    origin: YC10-glen
+    primary_layer: L05
+    delivery_stage: S2
+    disposition: Adopt principle; build domain-specific control
+    application: Transfer approved summary, records, pending work, sources and explicit permissions. Validate target capability/context budget and preserve provenance.
+    measurement: Handoff completeness; permission widening; lost task state
+    original_decision: Reuse candidate
+    source_evidence: YC10-glen/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into Business records and governed memory. Shares the common accepted domain records and revisions.
+  - learning_id: SB-GL-15
+    title: Give memory a visible owner and review date
+    origin: YC10-glen
+    primary_layer: L05
+    delivery_stage: S2
+    disposition: Adopt principle; build domain-specific control
+    application: Show who approved each reusable rule, where it applies and when to review it. Separate personal habits from organization policy.
+    measurement: Unowned/stale rules; correction turnaround
+    original_decision: Build UX
+    source_evidence: YC10-glen/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into Business records and governed memory. Shares the common accepted domain records and revisions.
+  - learning_id: SB-GL-16
+    title: Evaluate with time-correct memory and permissions
+    origin: YC10-glen
+    primary_layer: L10
+    delivery_stage: S0
+    disposition: Adopt principle; build domain-specific control
+    application: Replay dated cases with no future answers/corrections. Compare no memory, unstructured retrieval and scoped memory under equal quality and access constraints.
+    measurement: Verified quality, leakage, total cost and time
+    original_decision: Adopt evaluation method
+    source_evidence: YC10-glen/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into Evaluation and governed improvement. Shares the common experiment manifests, reviewed expected outcomes, release evidence and learned-rule lifecycle.
+  - learning_id: SB-GL-17
+    title: Budget the entire memory lifecycle
+    origin: YC10-glen
+    primary_layer: L10
+    delivery_stage: S0
+    disposition: Adopt principle; build domain-specific control
+    application: Count capture, extraction, embeddings, ranking, injected tokens, storage, invalidation and human review. Benchmark filters and update workloads.
+    measurement: Cost per verified task; cold-start and steady-state latency
+    original_decision: Build measurement
+    source_evidence: YC10-glen/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into Evaluation and governed improvement. Shares the common experiment manifests, reviewed expected outcomes, release evidence and learned-rule lifecycle.
+  - learning_id: SB-GL-18
+    title: Connect shared memory to bounded collaboration
+    origin: YC10-glen
+    primary_layer: L05
+    delivery_stage: S6
+    disposition: Defer capability; retain boundary now
+    application: Exchange purpose-scoped approved context through Relay. The receiving business keeps independent authority; shared memory never becomes a universal access grant.
+    measurement: Cross-business disclosure; recipient-scope enforcement
+    original_decision: Build with Relay
+    source_evidence: YC10-glen/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into Business records and governed memory. Capability remains outside first pilot; authority/evidence constraints apply wherever the shared core uses this pattern.
+  - learning_id: SB-DW-01
+    title: Put authorization outside the agent
+    origin: YC11-decawork
+    primary_layer: L02
+    delivery_stage: S1
+    disposition: Adopt principle; build domain-specific control
+    application: Mediate protected effects through a server-owned gateway and credential broker, outside model control.
+    measurement: Bypass attempts reaching protected tools
+    original_decision: Build
+    source_evidence: YC11-decawork/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into Identity, grants and secrets. Shares the common membership, policy, grants and authorization decisions.
+  - learning_id: SB-DW-02
+    title: Review the exact action in task context
+    origin: YC11-decawork
+    primary_layer: L02
+    delivery_stage: S1
+    disposition: Adopt principle; build domain-specific control
+    application: Combine trusted task, applicable policy and relevant verified prior receipts with a canonical proposed action.
+    measurement: Task relevance; unsafe proposal detection
+    original_decision: Adapt
+    source_evidence: YC11-decawork/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into Identity, grants and secrets. Shares the common membership, policy, grants and authorization decisions.
+  - learning_id: SB-DW-03
+    title: Keep deterministic authority above model judgment
+    origin: YC11-decawork
+    primary_layer: L02
+    delivery_stage: S1
+    disposition: Adopt principle; build domain-specific control
+    application: A model can restrict or escalate an otherwise permitted action; it cannot override tenant scope, hard limits or mandatory human review.
+    measurement: False allows and privilege widening
+    original_decision: Build
+    source_evidence: YC11-decawork/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into Identity, grants and secrets. Shares the common membership, policy, grants and authorization decisions.
+  - learning_id: SB-DW-04
+    title: Bind approval to one immutable proposal
+    origin: YC11-decawork
+    primary_layer: L02
+    delivery_stage: S1
+    disposition: Adopt principle; build domain-specific control
+    application: Bind business, recipient, arguments, file versions, amount/currency, policy and expiry. Material edits create a new approval request.
+    measurement: Changed-action and replay rejection
+    original_decision: Build
+    source_evidence: YC11-decawork/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into Identity, grants and secrets. Shares the common membership, policy, grants and authorization decisions.
+  - learning_id: SB-DW-05
+    title: Separate hold, deny and missing context
+    origin: YC11-decawork
+    primary_layer: L01
+    delivery_stage: S2
+    disposition: Adapt UX; build SupaBiz implementation
+    application: Show ready, denied, needs-context, awaiting-approval and review-unavailable with concrete next steps.
+    measurement: Recovery time; inappropriate retries
+    original_decision: Adapt UX
+    source_evidence: YC11-decawork/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into People and decisions. Shares the common ui state and authenticated user intent; never accepted facts or execution authority.
+  - learning_id: SB-DW-06
+    title: Make execution status explicit
+    origin: YC11-decawork
+    primary_layer: L01
+    delivery_stage: S2
+    disposition: Adapt UX; build SupaBiz implementation
+    application: Show not yet executed separately from approved, dispatched, verified and outcome unknown.
+    measurement: False completion reports
+    original_decision: Adapt UX
+    source_evidence: YC11-decawork/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into People and decisions. Shares the common ui state and authenticated user intent; never accepted facts or execution authority.
+  - learning_id: SB-DW-07
+    title: Give each agent an owner and bounded lifetime
+    origin: YC11-decawork
+    primary_layer: L06
+    delivery_stage: S2
+    disposition: Adopt principle; build domain-specific control
+    application: Registry includes business, responsibility, owner, capabilities, expiry, pending work, pause and retirement.
+    measurement: Orphaned responsibilities; revocation delay
+    original_decision: Adapt
+    source_evidence: YC11-decawork/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into Bounded agent harness. Shares the common agent run and proposal state.
+  - learning_id: SB-DW-08
+    title: Recheck authority at commit
+    origin: YC11-decawork
+    primary_layer: L02
+    delivery_stage: S1
+    disposition: Adopt principle; build domain-specific control
+    application: Revalidate current policy, membership, approver authority, task status and resource versions before dispatch.
+    measurement: Stale-grant and changed-resource races
+    original_decision: Build
+    source_evidence: YC11-decawork/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into Identity, grants and secrets. Shares the common membership, policy, grants and authorization decisions.
+  - learning_id: SB-DW-09
+    title: Cover browser and desktop execution paths
+    origin: YC11-decawork
+    primary_layer: L02
+    delivery_stage: S1
+    disposition: Adopt principle; build domain-specific control
+    application: A gateway cannot protect effects performed through unmediated browser sessions, shells or device automation. Restrict alternate capabilities.
+    measurement: Protected effects bypassing gateway
+    original_decision: Build
+    source_evidence: YC11-decawork/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into Identity, grants and secrets. Shares the common membership, policy, grants and authorization decisions.
+  - learning_id: SB-DW-10
+    title: Make approval a readable work card
+    origin: YC11-decawork
+    primary_layer: L01
+    delivery_stage: S2
+    disposition: Adapt UX; build SupaBiz implementation
+    application: Show effect, business/matter, recipient, cost/files, evidence, reason, expiry and next step. Keep payload details in a secondary view.
+    measurement: Comprehension; mistaken approval; human minutes
+    original_decision: Adapt UX
+    source_evidence: YC11-decawork/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into People and decisions. Shares the common ui state and authenticated user intent; never accepted facts or execution authority.
+  - learning_id: SB-DW-11
+    title: Turn natural-language rules into reviewed policy
+    origin: YC11-decawork
+    primary_layer: L02
+    delivery_stage: S1
+    disposition: Adopt principle; build domain-specific control
+    application: Version constraints and examples; resolve ambiguity before an authorized owner publishes changes.
+    measurement: Policy conflict detection; regression failures
+    original_decision: Build
+    source_evidence: YC11-decawork/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into Identity, grants and secrets. Shares the common membership, policy, grants and authorization decisions.
+  - learning_id: SB-DW-12
+    title: Persist approvals without holding workers
+    origin: YC11-decawork
+    primary_layer: L07
+    delivery_stage: S2
+    disposition: Adopt principle; build domain-specific control
+    application: Durable state and resumption let people review asynchronously without an active LLM session.
+    measurement: Lost approvals; wait-time compute cost
+    original_decision: Build
+    source_evidence: YC11-decawork/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into Durable work and domain packs. Shares the common workflow progression/timers.
+  - learning_id: SB-DW-13
+    title: Treat retries and uncertain outcomes explicitly
+    origin: YC11-decawork
+    primary_layer: L08
+    delivery_stage: S2
+    disposition: Adopt principle; build domain-specific control
+    application: Use execution claims, outbox, provider idempotency and reconciliation. A timeout is not proof that nothing happened.
+    measurement: Duplicate effects; unresolved outcome age
+    original_decision: Build
+    source_evidence: YC11-decawork/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into Actions, browser and collaboration. Shares the common external action attempts, provider receipts, uncertainty and compensation.
+  - learning_id: SB-DW-14
+    title: Enforce cumulative budgets and independent business scope
+    origin: YC11-decawork
+    primary_layer: L02
+    delivery_stage: S1
+    disposition: Adopt principle; build domain-specific control
+    application: Reserve aggregate purpose/time-window budgets and require separate authority for Consu and ForeFathers.
+    measurement: Split-order bypass; cross-business authorization
+    original_decision: Build
+    source_evidence: YC11-decawork/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into Identity, grants and secrets. Shares the common membership, policy, grants and authorization decisions.
+  - learning_id: SB-DW-15
+    title: Learn from adjudicated outcomes, not clicks alone
+    origin: YC11-decawork
+    primary_layer: L10
+    delivery_stage: S0
+    disposition: Adopt principle; build domain-specific control
+    application: Store policy/evidence versions, reviewer decisions, human judgment and actual outcomes separately; promote scoped corrections with regression tests.
+    measurement: Repeated errors; mislabeled training data
+    original_decision: Build
+    source_evidence: YC11-decawork/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into Evaluation and governed improvement. Shares the common experiment manifests, reviewed expected outcomes, release evidence and learned-rule lifecycle.
+  - learning_id: SB-DW-16
+    title: Evaluate contextual reviewers before specializing
+    origin: YC11-decawork
+    primary_layer: L10
+    delivery_stage: S6
+    disposition: Defer capability; retain boundary now
+    application: Compare deterministic rules alone, rules plus general reviewer, and rules plus specialized reviewer under equal hard rights and frozen cases.
+    measurement: False allows/blocks; abstention; cost and p95
+    original_decision: Experiment
+    source_evidence: YC11-decawork/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into Evaluation and governed improvement. Capability remains outside first pilot; authority/evidence constraints apply wherever the shared core uses this pattern.
+  - learning_id: SB-DW-17
+    title: Maintain permission-aware review evidence
+    origin: YC11-decawork
+    primary_layer: L02
+    delivery_stage: S1
+    disposition: Adopt principle; build domain-specific control
+    application: Reviewers and approvers see only authorized source context; task text and retrieved instructions cannot manufacture permission.
+    measurement: Approval-inbox and reviewer-context leakage
+    original_decision: Build with Glen
+    source_evidence: YC11-decawork/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into Identity, grants and secrets. Shares the common membership, policy, grants and authorization decisions.
+  - learning_id: SB-DW-18
+    title: Make delegation and emergency pause explicit
+    origin: YC11-decawork
+    primary_layer: L02
+    delivery_stage: S1
+    disposition: Adopt principle; build domain-specific control
+    application: Scope and expire delegated authority; pause acknowledges future/in-flight status. Receiving businesses retain independent authority.
+    measurement: Unauthorized delegation; effects after acknowledged pause
+    original_decision: Build
+    source_evidence: YC11-decawork/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into Identity, grants and secrets. Shares the common membership, policy, grants and authorization decisions.
+  - learning_id: SB-GR-01
+    title: Turn repeated work into governed procedures
+    origin: YC12-grepai
+    primary_layer: L06
+    delivery_stage: S5
+    disposition: Adopt principle; build domain-specific control
+    application: Suggest saving stable steps with variable inputs, business scope, owner, output contract and last verified run.
+    measurement: Procedure reuse; duplicated setup; verified outcomes
+    original_decision: High priority
+    source_evidence: YC12-grepai/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into Bounded agent harness. Shares the common agent run and proposal state.
+  - learning_id: SB-GR-02
+    title: Move predictable steps into code
+    origin: YC12-grepai
+    primary_layer: L06
+    delivery_stage: S5
+    disposition: Adopt principle; build domain-specific control
+    application: Use tested arithmetic, normalization, dedupe and exact lookups where applicable; retain uncertain interpretation as model work.
+    measurement: Cost and error rate by step
+    original_decision: High priority
+    source_evidence: YC12-grepai/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into Bounded agent harness. Shares the common agent run and proposal state.
+  - learning_id: SB-GR-03
+    title: Keep an explicit exception path
+    origin: YC12-grepai
+    primary_layer: L06
+    delivery_stage: S5
+    disposition: Adopt principle; build domain-specific control
+    application: Guard applicability and source quality; escalate unfamiliar or contradictory cases rather than forcing a cheap answer.
+    measurement: Missed exceptions; false fallback; resolution time
+    original_decision: Build
+    source_evidence: YC12-grepai/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into Bounded agent harness. Shares the common agent run and proposal state.
+  - learning_id: SB-GR-04
+    title: Separate learning from live execution
+    origin: YC12-grepai
+    primary_layer: L10
+    delivery_stage: S5
+    disposition: Adopt principle; build domain-specific control
+    application: Collect traces, propose changes and evaluate offline; publish versioned releases with canary and rollback.
+    measurement: Regression escape; rollback success
+    original_decision: Build
+    source_evidence: YC12-grepai/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into Evaluation and governed improvement. Shares the common experiment manifests, reviewed expected outcomes, release evidence and learned-rule lifecycle.
+  - learning_id: SB-GR-05
+    title: Distinguish memory, prompts, routing and training
+    origin: YC12-grepai
+    primary_layer: L06
+    delivery_stage: S5
+    disposition: Adopt principle; build domain-specific control
+    application: Label what changed. A saved correction or workflow does not imply model-weight training.
+    measurement: User understanding; reproducibility
+    original_decision: Adopt clarity
+    source_evidence: YC12-grepai/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into Bounded agent harness. Shares the common agent run and proposal state.
+  - learning_id: SB-GR-06
+    title: Package purpose, evidence, tools and output together
+    origin: YC12-grepai
+    primary_layer: L01
+    delivery_stage: S5
+    disposition: Adapt UX; build SupaBiz implementation
+    application: Give each responsibility an inspectable contract and sample case; expose business language before advanced configuration.
+    measurement: Setup completion; missing requirements
+    original_decision: Adapt UX
+    source_evidence: YC12-grepai/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into People and decisions. Shares the common ui state and authenticated user intent; never accepted facts or execution authority.
+  - learning_id: SB-GR-07
+    title: Make draft, tested and active separate states
+    origin: YC12-grepai
+    primary_layer: L06
+    delivery_stage: S5
+    disposition: Adopt principle; build domain-specific control
+    application: Require evaluation and authorized publication before production behavior changes; SDK build success alone is insufficient.
+    measurement: Untested activation; last-verified coverage
+    original_decision: Build
+    source_evidence: YC12-grepai/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into Bounded agent harness. Shares the common agent run and proposal state.
+  - learning_id: SB-GR-08
+    title: Persist run identity across devices and restarts
+    origin: YC12-grepai
+    primary_layer: L06
+    delivery_stage: S5
+    disposition: Adopt principle; build domain-specific control
+    application: Save input refs, procedure version, submission identity and progress before dispatch; reconnect to existing work.
+    measurement: Duplicate work; restart recovery
+    original_decision: Build
+    source_evidence: YC12-grepai/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into Bounded agent harness. Shares the common agent run and proposal state.
+  - learning_id: SB-GR-09
+    title: Make batches visible per business record
+    origin: YC12-grepai
+    primary_layer: L01
+    delivery_stage: S5
+    disposition: Adapt UX; build SupaBiz implementation
+    application: Show individual completed, pending, exception and failed records; retry selected unresolved rows.
+    measurement: Partial failures hidden; duplicate successful rows
+    original_decision: Adapt UX
+    source_evidence: YC12-grepai/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into People and decisions. Shares the common ui state and authenticated user intent; never accepted facts or execution authority.
+  - learning_id: SB-GR-10
+    title: Expose first-run and pause semantics
+    origin: YC12-grepai
+    primary_layer: L01
+    delivery_stage: S5
+    disposition: Adapt UX; build SupaBiz implementation
+    application: Show whether enabling starts immediately, timezone and next run; acknowledge in-flight work when pausing.
+    measurement: Unexpected runs; missed schedules; pause comprehension
+    original_decision: Adapt UX
+    source_evidence: YC12-grepai/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into People and decisions. Shares the common ui state and authenticated user intent; never accepted facts or execution authority.
+  - learning_id: SB-GR-11
+    title: Enforce cumulative budgets
+    origin: YC12-grepai
+    primary_layer: L02
+    delivery_stage: S1
+    disposition: Adopt principle; build domain-specific control
+    application: Combine per-run, per-batch, recurring and monthly/business reservations with concurrency fairness.
+    measurement: Overspend; noisy-tenant starvation
+    original_decision: Build
+    source_evidence: YC12-grepai/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into Identity, grants and secrets. Shares the common membership, policy, grants and authorization decisions.
+  - learning_id: SB-GR-12
+    title: Review exact multi-stage plans
+    origin: YC12-grepai
+    primary_layer: L02
+    delivery_stage: S1
+    disposition: Adopt principle; build domain-specific control
+    application: Bind plan approval to version/digest while separately authorizing each material external effect.
+    measurement: Stale-plan execution; effect authorization gaps
+    original_decision: Adapt with Decawork
+    source_evidence: YC12-grepai/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into Identity, grants and secrets. Shares the common membership, policy, grants and authorization decisions.
+  - learning_id: SB-GR-13
+    title: Validate outputs beyond JSON shape
+    origin: YC12-grepai
+    primary_layer: L06
+    delivery_stage: S2
+    disposition: Adopt principle; build domain-specific control
+    application: Check schema, domain arithmetic, source evidence and current records before posting or assigning.
+    measurement: Plausible-but-wrong records
+    original_decision: Build
+    source_evidence: YC12-grepai/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into Bounded agent harness. Shares the common agent run and proposal state.
+  - learning_id: SB-GR-14
+    title: Keep transport retry separate from business retry
+    origin: YC12-grepai
+    primary_layer: L08
+    delivery_stage: S2
+    disposition: Adopt principle; build domain-specific control
+    application: Use durable request identity, same-body idempotency where supported and outcome reconciliation before repeat effects.
+    measurement: Duplicate effects; unknown-outcome age
+    original_decision: Build
+    source_evidence: YC12-grepai/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into Actions, browser and collaboration. Shares the common external action attempts, provider receipts, uncertainty and compensation.
+  - learning_id: SB-GR-15
+    title: Pin clients and verify deployment contracts
+    origin: YC12-grepai
+    primary_layer: L11
+    delivery_stage: S0
+    disposition: Adopt principle; build domain-specific control
+    application: Test exact SDK/package versions against actual deployment capability and status contracts; resolve doc/source drift.
+    measurement: Integration regressions; failed upgrades
+    original_decision: Adopt engineering practice
+    source_evidence: YC12-grepai/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into Engineering and dependency governance. Shares the common code, schemas, release manifests, dependency decisions and engineering checks.
+  - learning_id: SB-GR-16
+    title: Retain raw and normalized statuses
+    origin: YC12-grepai
+    primary_layer: L06
+    delivery_stage: S5
+    disposition: Adopt principle; build domain-specific control
+    application: Show useful business states but retain provider state for diagnosis; unknown states need explicit handling.
+    measurement: False success; unsupported state loops
+    original_decision: Reuse pattern
+    source_evidence: YC12-grepai/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into Bounded agent harness. Shares the common agent run and proposal state.
+  - learning_id: SB-GR-17
+    title: Prove improvements at equal outcome quality
+    origin: YC12-grepai
+    primary_layer: L10
+    delivery_stage: S5
+    disposition: Adopt principle; build domain-specific control
+    application: Freeze normal/exception cohorts; compare full cost, accuracy, human minutes and tail latency without future leakage.
+    measurement: Verified task economics; safety failures
+    original_decision: Build with Hue
+    source_evidence: YC12-grepai/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into Evaluation and governed improvement. Shares the common experiment manifests, reviewed expected outcomes, release evidence and learned-rule lifecycle.
+  - learning_id: SB-GR-18
+    title: Keep traces, procedures and sharing permission-aware
+    origin: YC12-grepai
+    primary_layer: L02
+    delivery_stage: S1
+    disposition: Adopt principle; build domain-specific control
+    application: Apply business/matter/audience policy to evidence, logs and derived procedures; private reports by default.
+    measurement: Cross-business leakage; unsafe public links
+    original_decision: Build with Glen
+    source_evidence: YC12-grepai/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into Identity, grants and secrets. Shares the common membership, policy, grants and authorization decisions.
+  - learning_id: SB-GR-19
+    title: Preserve action controls after optimization
+    origin: YC12-grepai
+    primary_layer: L02
+    delivery_stage: S1
+    disposition: Adopt principle; build domain-specific control
+    application: Generated code and stronger models use the same credential broker, grants and exact approval checks.
+    measurement: Optimization-induced permission bypass
+    original_decision: Build with Decawork
+    source_evidence: YC12-grepai/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into Identity, grants and secrets. Shares the common membership, policy, grants and authorization decisions.
+  - learning_id: SB-GR-20
+    title: Offer a readable improvement comparison
+    origin: YC12-grepai
+    primary_layer: L01
+    delivery_stage: S5
+    disposition: Adapt UX; build SupaBiz implementation
+    application: Show changed steps, evidence, measured sample and costs; distinguish proposed, tested and released improvements.
+    measurement: Misleading savings claims; adoption and rollback comprehension
+    original_decision: Adapt UX
+    source_evidence: YC12-grepai/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into People and decisions. Shares the common ui state and authenticated user intent; never accepted facts or execution authority.
+  - learning_id: SB-HD-01
+    title: Separate running work from open screens
+    origin: YC13-herdr
+    primary_layer: L01
+    delivery_stage: S2
+    disposition: Adapt UX; build SupaBiz implementation
+    application: Phone and desktop reconnect to a durable run; cloud execution remains independent of their views.
+    measurement: Interrupted jobs; duplicate restart requests
+    original_decision: Adapt architecture
+    source_evidence: YC13-herdr/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into People and decisions. Shares the common ui state and authenticated user intent; never accepted facts or execution authority.
+  - learning_id: SB-HD-02
+    title: Put actionable work in an attention inbox
+    origin: YC13-herdr
+    primary_layer: L01
+    delivery_stage: S2
+    disposition: Adapt UX; build SupaBiz implementation
+    application: Show needs decision, waiting person, stale dependency and verified outcome; prioritize deadline and impact.
+    measurement: Time to identify and resolve blockers
+    original_decision: High priority UX
+    source_evidence: YC13-herdr/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into People and decisions. Shares the common ui state and authenticated user intent; never accepted facts or execution authority.
+  - learning_id: SB-HD-03
+    title: Keep seen, approved and complete distinct
+    origin: YC13-herdr
+    primary_layer: L01
+    delivery_stage: S2
+    disposition: Adapt UX; build SupaBiz implementation
+    application: Acknowledging a notification never approves an action or closes another person’s responsibility.
+    measurement: False closure; unread noise; approval mistakes
+    original_decision: High priority UX
+    source_evidence: YC13-herdr/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into People and decisions. Shares the common ui state and authenticated user intent; never accepted facts or execution authority.
+  - learning_id: SB-HD-04
+    title: Separate agent activity from business outcome
+    origin: YC13-herdr
+    primary_layer: L01
+    delivery_stage: S2
+    disposition: Adapt UX; build SupaBiz implementation
+    application: Idle or done is an observation; verify the stock record, assignment or provider effect independently.
+    measurement: False completions; verified workflow rate
+    original_decision: Build
+    source_evidence: YC13-herdr/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into People and decisions. Shares the common ui state and authenticated user intent; never accepted facts or execution authority.
+  - learning_id: SB-HD-05
+    title: Use scoped stable identities
+    origin: YC13-herdr
+    primary_layer: L07
+    delivery_stage: S2
+    disposition: Adopt principle; build domain-specific control
+    application: Persist business, record, run, attempt, effect and node IDs separately from pane names or device selection.
+    measurement: Cross-business mix-ups; duplicate identity
+    original_decision: Build
+    source_evidence: YC13-herdr/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into Durable work and domain packs. Shares the common workflow progression/timers.
+  - learning_id: SB-HD-06
+    title: Keep unknown and stale states visible
+    origin: YC13-herdr
+    primary_layer: L01
+    delivery_stage: S2
+    disposition: Adapt UX; build SupaBiz implementation
+    application: Record signal provenance and freshness; disable writes from stale views until current authority and state are checked.
+    measurement: Stale writes; misclassified states
+    original_decision: Adapt UX
+    source_evidence: YC13-herdr/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into People and decisions. Shares the common ui state and authenticated user intent; never accepted facts or execution authority.
+  - learning_id: SB-HD-07
+    title: Prefer explicit adapters; contain heuristic fallback
+    origin: YC13-herdr
+    primary_layer: L09
+    delivery_stage: S1
+    disposition: Adopt principle; build domain-specific control
+    application: Accept typed lifecycle signals when possible; isolate screen matching to compatibility adapters and regression-test it.
+    measurement: Detection precision and recall by provider version
+    original_decision: Adapt implementation
+    source_evidence: YC13-herdr/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into Cloud, devices and operating limits. Shares the common execution lifecycle and resource policy.
+  - learning_id: SB-HD-08
+    title: Preserve parent identity through child blockers
+    origin: YC13-herdr
+    primary_layer: L01
+    delivery_stage: S2
+    disposition: Adapt UX; build SupaBiz implementation
+    application: A helper’s question routes to the owning workflow without replacing its identity or leaking another session.
+    measurement: Misrouted questions; lost parent context
+    original_decision: Adapt implementation
+    source_evidence: YC13-herdr/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into People and decisions. Shares the common ui state and authenticated user intent; never accepted facts or execution authority.
+  - learning_id: SB-HD-09
+    title: Treat reconnect, restore and handoff separately
+    origin: YC13-herdr
+    primary_layer: L07
+    delivery_stage: S2
+    disposition: Adopt principle; build domain-specific control
+    application: Explain what survives; a restored conversation is not a recovered external action.
+    measurement: Recovery correctness; user comprehension
+    original_decision: High priority architecture
+    source_evidence: YC13-herdr/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into Durable work and domain packs. Shares the common workflow progression/timers.
+  - learning_id: SB-HD-10
+    title: Persist and reconcile business effects
+    origin: YC13-herdr
+    primary_layer: L08
+    delivery_stage: S2
+    disposition: Adopt principle; build domain-specific control
+    application: Write intent before dispatch; preserve request identity and reconcile unknown outcomes before retry.
+    measurement: Duplicate effects; uncertain-outcome age
+    original_decision: Build
+    source_evidence: YC13-herdr/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into Actions, browser and collaboration. Shares the common external action attempts, provider receipts, uncertainty and compensation.
+  - learning_id: SB-HD-11
+    title: Supervise nodes independently
+    origin: YC13-herdr
+    primary_layer: L09
+    delivery_stage: S1
+    disposition: Adopt principle; build domain-specific control
+    application: Use heartbeat, generation checks, jitter and retry budgets; one offline node does not block healthy workers.
+    measurement: p95 recovery time; retry storms
+    original_decision: Adapt with additions
+    source_evidence: YC13-herdr/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into Cloud, devices and operating limits. Shares the common execution lifecycle and resource policy.
+  - learning_id: SB-HD-12
+    title: Show where work runs and what it needs
+    origin: YC13-herdr
+    primary_layer: L01
+    delivery_stage: S2
+    disposition: Adapt UX; build SupaBiz implementation
+    application: Show cloud versus authorized device, capability dependencies, last online and permitted fallback.
+    measurement: Hidden dependencies; unexpected data movement
+    original_decision: Adapt UX
+    source_evidence: YC13-herdr/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into People and decisions. Shares the common ui state and authenticated user intent; never accepted facts or execution authority.
+  - learning_id: SB-HD-13
+    title: Separate viewing from controlling
+    origin: YC13-herdr
+    primary_layer: L02
+    delivery_stage: S6
+    disposition: Defer capability; retain boundary now
+    application: Show controller, scope and explicit takeover; fence old writes and authorize every mutation path.
+    measurement: Conflicting edits; unauthorized alternate-path actions
+    original_decision: Adapt with authorization
+    source_evidence: YC13-herdr/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into Identity, grants and secrets. Capability remains outside first pilot; authority/evidence constraints apply wherever the shared core uses this pattern.
+  - learning_id: SB-HD-14
+    title: Use mature transport with device enrollment
+    origin: YC13-herdr
+    primary_layer: L02
+    delivery_stage: S6
+    disposition: Defer capability; retain boundary now
+    application: Private local IPC and trusted transport plus SupaBiz node identity, business grants and revocation.
+    measurement: Revoked-node access; wrong-host connections
+    original_decision: Reuse principle
+    source_evidence: YC13-herdr/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into Identity, grants and secrets. Capability remains outside first pilot; authority/evidence constraints apply wherever the shared core uses this pattern.
+  - learning_id: SB-HD-15
+    title: Make plugin trust and capability grants explicit
+    origin: YC13-herdr
+    primary_layer: L02
+    delivery_stage: S1
+    disposition: Adopt principle; build domain-specific control
+    application: Review pinned packages; run extensions with minimal secrets, bounded resources and scoped tools.
+    measurement: Secret exposure; permission escalation
+    original_decision: Build isolation
+    source_evidence: YC13-herdr/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into Identity, grants and secrets. Shares the common membership, policy, grants and authorization decisions.
+  - learning_id: SB-HD-16
+    title: Keep code, config, secrets and state separate
+    origin: YC13-herdr
+    primary_layer: L09
+    delivery_stage: S1
+    disposition: Adopt principle; build domain-specific control
+    application: Immutable packages, scoped configuration, secret broker, durable state and independent retention.
+    measurement: Upgrade loss; secret copies; restore correctness
+    original_decision: Adapt lifecycle
+    source_evidence: YC13-herdr/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into Cloud, devices and operating limits. Shares the common execution lifecycle and resource policy.
+  - learning_id: SB-HD-17
+    title: Recover UI state after event gaps
+    origin: YC13-herdr
+    primary_layer: L09
+    delivery_stage: S1
+    disposition: Adopt principle; build domain-specific control
+    application: Detect cursor gaps, refresh an authorized snapshot and keep business history in a durable ledger.
+    measurement: Silent missing updates; replay-induced duplicates
+    original_decision: Adapt protocol
+    source_evidence: YC13-herdr/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into Cloud, devices and operating limits. Shares the common execution lifecycle and resource policy.
+  - learning_id: SB-HD-18
+    title: Send changes with version checks
+    origin: YC13-herdr
+    primary_layer: L09
+    delivery_stage: S1
+    disposition: Adopt principle; build domain-specific control
+    application: Use revisioned patches and full snapshot fallback; enforce audience permissions on both.
+    measurement: Bandwidth; stale patch rejection; p95 render time
+    original_decision: Adapt performance
+    source_evidence: YC13-herdr/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into Cloud, devices and operating limits. Shares the common execution lifecycle and resource policy.
+  - learning_id: SB-HD-19
+    title: Bound and measure capacity
+    origin: YC13-herdr
+    primary_layer: L09
+    delivery_stage: S1
+    disposition: Adopt principle; build domain-specific control
+    application: Set per-tenant concurrency, budgets, queue/output limits and deadlines; measure full worker and model costs.
+    measurement: Noisy-neighbor impact; cost per verified result
+    original_decision: Build operations
+    source_evidence: YC13-herdr/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into Cloud, devices and operating limits. Shares the common execution lifecycle and resource policy.
+  - learning_id: SB-HD-20
+    title: Start with an operator console; defer terminal complexity
+    origin: YC13-herdr
+    primary_layer: L01
+    delivery_stage: S6
+    disposition: Defer capability; retain boundary now
+    application: Evaluate herdr for engineering supervision; build a business UI and workflow durability before custom PTY migration.
+    measurement: Engineering overhead; business task completion
+    original_decision: Adoption decision
+    source_evidence: YC13-herdr/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into People and decisions. Capability remains outside first pilot; authority/evidence constraints apply wherever the shared core uses this pattern.
+  - learning_id: SB-TE-01
+    title: Give each business invariant one authoritative owner
+    origin: YC14-terse
+    primary_layer: L05
+    delivery_stage: S2
+    disposition: Adopt principle; build domain-specific control
+    application: Define stable stock/matter identities and route all protected mutations through one authoritative state boundary.
+    measurement: Lost updates; conflicting authorities
+    original_decision: High priority pattern
+    source_evidence: YC14-terse/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into Business records and governed memory. Shares the common accepted domain records and revisions.
+  - learning_id: SB-TE-02
+    title: Choose entity boundaries before choosing actor count
+    origin: YC14-terse
+    primary_layer: L05
+    delivery_stage: S2
+    disposition: Adopt principle; build domain-specific control
+    application: Test matter, stock-item/location and order boundaries; avoid one global business bottleneck or one unrelated actor per message.
+    measurement: Hot-key skew; cross-entity complexity
+    original_decision: Architecture decision
+    source_evidence: YC14-terse/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into Business records and governed memory. Shares the common accepted domain records and revisions.
+  - learning_id: SB-TE-03
+    title: Persist through explicit reviewed commands
+    origin: YC14-terse
+    primary_layer: L05
+    delivery_stage: S2
+    disposition: Adopt principle; build domain-specific control
+    application: Use assignment-safe updates or append-only SQL events; restore tests must catch in-memory-only edits.
+    measurement: Lost state after reload; mutation mistakes
+    original_decision: High priority engineering
+    source_evidence: YC14-terse/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into Business records and governed memory. Shares the common accepted domain records and revisions.
+  - learning_id: SB-TE-04
+    title: Make atomicity an explicit contract
+    origin: YC14-terse
+    primary_layer: L05
+    delivery_stage: S2
+    disposition: Adopt principle; build domain-specific control
+    application: Pin method transaction behavior; validate failure and rollback rather than relying on introductory documentation.
+    measurement: Partial business commits; incorrect rollback assumptions
+    original_decision: Adoption gate
+    source_evidence: YC14-terse/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into Business records and governed memory. Shares the common accepted domain records and revisions.
+  - learning_id: SB-TE-05
+    title: Keep slow AI work outside critical mutations
+    origin: YC14-terse
+    primary_layer: L05
+    delivery_stage: S2
+    disposition: Adopt principle; build domain-specific control
+    application: Save intent/version, perform bounded model work, then revalidate and apply through a short guarded command.
+    measurement: Queue wait; stale model results
+    original_decision: Build workflow pattern
+    source_evidence: YC14-terse/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into Business records and governed memory. Shares the common accepted domain records and revisions.
+  - learning_id: SB-TE-06
+    title: Separate durable records from ephemeral progress
+    origin: YC14-terse
+    primary_layer: L05
+    delivery_stage: S2
+    disposition: Adopt principle; build domain-specific control
+    application: Persist business decisions and evidence; keep disposable token/typing/cache state ephemeral.
+    measurement: Write amplification; lost final results
+    original_decision: Adapt data model
+    source_evidence: YC14-terse/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into Business records and governed memory. Shares the common accepted domain records and revisions.
+  - learning_id: SB-TE-07
+    title: Treat external outcomes as independently verified
+    origin: YC14-terse
+    primary_layer: L08
+    delivery_stage: S2
+    disposition: Adopt principle; build domain-specific control
+    application: Keep durable inbound dedupe and effect identities; reconcile provider outcome before repeating a write.
+    measurement: Duplicate effects; uncertainty age
+    original_decision: Build
+    source_evidence: YC14-terse/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into Actions, browser and collaboration. Shares the common external action attempts, provider receipts, uncertainty and compensation.
+  - learning_id: SB-TE-08
+    title: Expose uncertain outcomes honestly
+    origin: YC14-terse
+    primary_layer: L01
+    delivery_stage: S2
+    disposition: Adapt UX; build SupaBiz implementation
+    application: Show awaiting verification when a response is lost; do not quietly retry or claim failure/success.
+    measurement: Unsafe repeats; user comprehension
+    original_decision: Adapt UX
+    source_evidence: YC14-terse/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into People and decisions. Shares the common ui state and authenticated user intent; never accepted facts or execution authority.
+  - learning_id: SB-TE-09
+    title: Use shared committed views across devices
+    origin: YC14-terse
+    primary_layer: L01
+    delivery_stage: S2
+    disposition: Adapt UX; build SupaBiz implementation
+    application: Show permitted live state with pending/committed/verified distinctions and reconnect freshness.
+    measurement: Cross-device confusion; false success
+    original_decision: Adapt UX
+    source_evidence: YC14-terse/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into People and decisions. Shares the common ui state and authenticated user intent; never accepted facts or execution authority.
+  - learning_id: SB-TE-10
+    title: Show what changed and why
+    origin: YC14-terse
+    primary_layer: L01
+    delivery_stage: S2
+    disposition: Adapt UX; build SupaBiz implementation
+    application: Compare old/new values with request, source evidence, reviewer and version; preserve selected history while showing newer updates.
+    measurement: Time to resolve exceptions; traceability
+    original_decision: High priority UX
+    source_evidence: YC14-terse/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into People and decisions. Shares the common ui state and authenticated user intent; never accepted facts or execution authority.
+  - learning_id: SB-TE-11
+    title: Separate trace replay from action retry
+    origin: YC14-terse
+    primary_layer: L01
+    delivery_stage: S2
+    disposition: Adapt UX; build SupaBiz implementation
+    application: Label inspect history, evaluate change, retry unresolved action and compensate clearly.
+    measurement: Accidental duplicate effects; misleading replay controls
+    original_decision: Adapt UX
+    source_evidence: YC14-terse/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into People and decisions. Shares the common ui state and authenticated user intent; never accepted facts or execution authority.
+  - learning_id: SB-TE-12
+    title: Enforce authorization above project credentials
+    origin: YC14-terse
+    primary_layer: L02
+    delivery_stage: S1
+    disposition: Adopt principle; build domain-specific control
+    application: Authorize actor/method/evidence by business and matter; project session alone is too broad for end users.
+    measurement: Cross-business/matter access
+    original_decision: Build
+    source_evidence: YC14-terse/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into Identity, grants and secrets. Shares the common membership, policy, grants and authorization decisions.
+  - learning_id: SB-TE-13
+    title: Design each live view for its audience
+    origin: YC14-terse
+    primary_layer: L02
+    delivery_stage: S1
+    disposition: Adopt principle; build domain-specific control
+    application: Emit minimal allowed fields; tags are trusted routing data, not proof of permission.
+    measurement: Sensitive broadcast leakage
+    original_decision: Build
+    source_evidence: YC14-terse/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into Identity, grants and secrets. Shares the common membership, policy, grants and authorization decisions.
+  - learning_id: SB-TE-14
+    title: Revoke active connections as well as grants
+    origin: YC14-terse
+    primary_layer: L02
+    delivery_stage: S1
+    disposition: Adopt principle; build domain-specific control
+    application: Close or reauthorize established sockets after permission changes; expiry at admission is insufficient.
+    measurement: Revocation latency; post-revocation delivery
+    original_decision: Build
+    source_evidence: YC14-terse/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into Identity, grants and secrets. Shares the common membership, policy, grants and authorization decisions.
+  - learning_id: SB-TE-15
+    title: Use alarms as wake-up hints for durable deadlines
+    origin: YC14-terse
+    primary_layer: L07
+    delivery_stage: S2
+    disposition: Adopt principle; build domain-specific control
+    application: Store all deadlines/reminder IDs; reconcile one alarm slot with next due item and test separate commit behavior.
+    measurement: Missed or replaced reminders; duplicate notices
+    original_decision: Build scheduler layer
+    source_evidence: YC14-terse/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into Durable work and domain packs. Shares the common workflow progression/timers.
+  - learning_id: SB-TE-16
+    title: Bound admitted work independently of persistence
+    origin: YC14-terse
+    primary_layer: L07
+    delivery_stage: S2
+    disposition: Adopt principle; build domain-specific control
+    application: Use a durable work ledger, queue limits, tenant quotas and visible backpressure.
+    measurement: Crash-lost jobs; overload and memory growth
+    original_decision: Build operations
+    source_evidence: YC14-terse/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into Durable work and domain packs. Shares the common workflow progression/timers.
+  - learning_id: SB-TE-17
+    title: Adopt isolation with scoped tools and egress
+    origin: YC14-terse
+    primary_layer: L02
+    delivery_stage: S1
+    disposition: Adopt principle; build domain-specific control
+    application: Validate sandbox controls and restrict secrets/destinations; infrastructure isolation does not supply business roles.
+    measurement: Cross-tenant resource access; uncontrolled egress
+    original_decision: Adapt deployment
+    source_evidence: YC14-terse/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into Identity, grants and secrets. Shares the common membership, policy, grants and authorization decisions.
+  - learning_id: SB-TE-18
+    title: Measure end-to-end latency and idle cost
+    origin: YC14-terse
+    primary_layer: L09
+    delivery_stage: S1
+    disposition: Adopt principle; build domain-specific control
+    application: Separate model, queue, activation, commit, network and review time; include control-plane and warm-node baseline.
+    measurement: p95 completion; cost per verified outcome
+    original_decision: Build evaluation
+    source_evidence: YC14-terse/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into Cloud, devices and operating limits. Shares the common execution lifecycle and resource policy.
+  - learning_id: SB-TE-19
+    title: Keep storage authority and projections explicit
+    origin: YC14-terse
+    primary_layer: L05
+    delivery_stage: S2
+    disposition: Adopt principle; build domain-specific control
+    application: Choose one source of truth per invariant; derive search/reporting views with versions and lag repair.
+    measurement: Divergent balances; projection lag
+    original_decision: Architecture decision
+    source_evidence: YC14-terse/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into Business records and governed memory. Shares the common accepted domain records and revisions.
+  - learning_id: SB-TE-20
+    title: Compare against a simpler baseline before adopting
+    origin: YC14-terse
+    primary_layer: L11
+    delivery_stage: S6
+    disposition: Defer capability; retain boundary now
+    application: Evaluate a pinned Terse experiment against relational transactions plus durable jobs at equal outcomes and load.
+    measurement: Total cost; recovery quality; engineering effort
+    original_decision: Conditional reuse
+    source_evidence: YC14-terse/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into Engineering and dependency governance. Capability remains outside first pilot; authority/evidence constraints apply wherever the shared core uses this pattern.
+  - learning_id: SB-X8-01
+    title: Structured work after conversation
+    origin: YC07–YC14 synthesis
+    primary_layer: L11
+    delivery_stage: S0
+    disposition: Adopt principle; build domain-specific control
+    application: Turn input into accountable records and outcomes.
+    measurement: Workflow correctness, attention cost and implementation complexity
+    original_decision: Cross-project synthesis
+    source_evidence: cross-project-patterns-YC07-YC14.txt
+    status: Proposed; no implementation inferred
+    rationale: Merged into Engineering and dependency governance. Shares the common code, schemas, release manifests, dependency decisions and engineering checks.
+  - learning_id: SB-X8-02
+    title: Separate four kinds of continuity
+    origin: YC07–YC14 synthesis
+    primary_layer: L11
+    delivery_stage: S0
+    disposition: Adopt principle; build domain-specific control
+    application: Distinguish knowledge, business state, execution and external effects.
+    measurement: Workflow correctness, attention cost and implementation complexity
+    original_decision: Cross-project synthesis
+    source_evidence: cross-project-patterns-YC07-YC14.txt
+    status: Proposed; no implementation inferred
+    rationale: Merged into Engineering and dependency governance. Shares the common code, schemas, release manifests, dependency decisions and engineering checks.
+  - learning_id: SB-X8-03
+    title: Keep acknowledgement boundaries explicit
+    origin: YC07–YC14 synthesis
+    primary_layer: L11
+    delivery_stage: S0
+    disposition: Adopt principle; build domain-specific control
+    application: Delivery, viewing, approval and completion require different evidence.
+    measurement: Workflow correctness, attention cost and implementation complexity
+    original_decision: Cross-project synthesis
+    source_evidence: cross-project-patterns-YC07-YC14.txt
+    status: Proposed; no implementation inferred
+    rationale: Merged into Engineering and dependency governance. Shares the common code, schemas, release manifests, dependency decisions and engineering checks.
+  - learning_id: SB-X8-04
+    title: Make exceptions the manager interface
+    origin: YC07–YC14 synthesis
+    primary_layer: L01
+    delivery_stage: S2
+    disposition: Adapt UX; build SupaBiz implementation
+    application: Role-specific evidence and next actions should dominate the owner view.
+    measurement: Workflow correctness, attention cost and implementation complexity
+    original_decision: Cross-project synthesis
+    source_evidence: cross-project-patterns-YC07-YC14.txt
+    status: Proposed; no implementation inferred
+    rationale: Merged into People and decisions. Shares the common ui state and authenticated user intent; never accepted facts or execution authority.
+  - learning_id: SB-X8-05
+    title: Separate learning mechanisms
+    origin: YC07–YC14 synthesis
+    primary_layer: L10
+    delivery_stage: S0
+    disposition: Adopt principle; build domain-specific control
+    application: Reviewed knowledge, instructions, model choices and executable procedures are different changes.
+    measurement: Workflow correctness, attention cost and implementation complexity
+    original_decision: Cross-project synthesis
+    source_evidence: cross-project-patterns-YC07-YC14.txt
+    status: Proposed; no implementation inferred
+    rationale: Merged into Evaluation and governed improvement. Shares the common experiment manifests, reviewed expected outcomes, release evidence and learned-rule lifecycle.
+  - learning_id: SB-X8-06
+    title: Adopt responsibilities before platforms
+    origin: YC07–YC14 synthesis
+    primary_layer: L11
+    delivery_stage: S0
+    disposition: Adopt principle; build domain-specific control
+    application: Use small contracts and measured requirements rather than eight mandatory dependencies.
+    measurement: Workflow correctness, attention cost and implementation complexity
+    original_decision: Cross-project synthesis
+    source_evidence: cross-project-patterns-YC07-YC14.txt
+    status: Proposed; no implementation inferred
+    rationale: Merged into Engineering and dependency governance. Shares the common code, schemas, release manifests, dependency decisions and engineering checks.
+  - learning_id: SB-SH-01
+    title: Add observation-triggered work
+    origin: YC15-shire-intelligence
+    primary_layer: L04
+    delivery_stage: S6
+    disposition: Defer capability; retain boundary now
+    application: Route camera events and staff reports into the same evidence/task system.
+    measurement: Useful tasks discovered before manual reporting
+    original_decision: High priority pattern
+    source_evidence: YC15-shire-intelligence/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into Media and evidence. Capability remains outside first pilot; authority/evidence constraints apply wherever the shared core uses this pattern.
+  - learning_id: SB-SH-02
+    title: Keep observation, inference and action distinct
+    origin: YC15-shire-intelligence
+    primary_layer: L04
+    delivery_stage: S6
+    disposition: Defer capability; retain boundary now
+    application: Represent visual observations separately from business assertions and authorized changes.
+    measurement: Unsupported assertions; erroneous actions
+    original_decision: Build
+    source_evidence: YC15-shire-intelligence/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into Media and evidence. Capability remains outside first pilot; authority/evidence constraints apply wherever the shared core uses this pattern.
+  - learning_id: SB-SH-03
+    title: Start with one visible low-risk event
+    origin: YC15-shire-intelligence
+    primary_layer: L04
+    delivery_stage: S6
+    disposition: Defer capability; retain boundary now
+    application: Begin with table-reset checks under human confirmation.
+    measurement: Precision, recall and verified resolution
+    original_decision: Pilot
+    source_evidence: YC15-shire-intelligence/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into Media and evidence. Capability remains outside first pilot; authority/evidence constraints apply wherever the shared core uses this pattern.
+  - learning_id: SB-SH-04
+    title: Make camera health a first-class input
+    origin: YC15-shire-intelligence
+    primary_layer: L04
+    delivery_stage: S6
+    disposition: Defer capability; retain boundary now
+    application: Invalidate stale/obscured observations and keep manual work available.
+    measurement: Stale alerts; coverage time
+    original_decision: Build
+    source_evidence: YC15-shire-intelligence/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into Media and evidence. Capability remains outside first pilot; authority/evidence constraints apply wherever the shared core uses this pattern.
+  - learning_id: SB-SH-05
+    title: Scope state to a table visit
+    origin: YC15-shire-intelligence
+    primary_layer: L04
+    delivery_stage: S6
+    disposition: Defer capability; retain boundary now
+    application: Separate physical table identity from each occupancy episode; reject late prior-visit events.
+    measurement: Wrong-visit updates
+    original_decision: Build
+    source_evidence: YC15-shire-intelligence/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into Media and evidence. Capability remains outside first pilot; authority/evidence constraints apply wherever the shared core uses this pattern.
+  - learning_id: SB-SH-06
+    title: Reconcile sources by field authority
+    origin: YC15-shire-intelligence
+    primary_layer: L04
+    delivery_stage: S6
+    disposition: Defer capability; retain boundary now
+    application: Resolve host, POS, camera and staff evidence without declaring any source globally authoritative.
+    measurement: Unresolved conflicts; lost valid updates
+    original_decision: Build
+    source_evidence: YC15-shire-intelligence/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into Media and evidence. Capability remains outside first pilot; authority/evidence constraints apply wherever the shared core uses this pattern.
+  - learning_id: SB-SH-07
+    title: Route by current role and workload
+    origin: YC15-shire-intelligence
+    primary_layer: L07
+    delivery_stage: S6
+    disposition: Defer capability; retain boundary now
+    application: Use current shift assignments, permission and capacity; include named ownership and handoff.
+    measurement: Acceptance delay; unowned tasks
+    original_decision: Adapt UX
+    source_evidence: YC15-shire-intelligence/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into Durable work and domain packs. Capability remains outside first pilot; authority/evidence constraints apply wherever the shared core uses this pattern.
+  - learning_id: SB-SH-08
+    title: Separate acceptance from verified closure
+    origin: YC15-shire-intelligence
+    primary_layer: L07
+    delivery_stage: S6
+    disposition: Defer capability; retain boundary now
+    application: Use explicit accepted, ready-for-check and confirmed outcomes.
+    measurement: False completion; duplicate ownership
+    original_decision: Build
+    source_evidence: YC15-shire-intelligence/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into Durable work and domain packs. Capability remains outside first pilot; authority/evidence constraints apply wherever the shared core uses this pattern.
+  - learning_id: SB-SH-09
+    title: Pair a floor map with an accessible queue
+    origin: YC15-shire-intelligence
+    primary_layer: L01
+    delivery_stage: S6
+    disposition: Defer capability; retain boundary now
+    application: Give hosts spatial context and staff a short text-based actionable list.
+    measurement: Time to find the correct task
+    original_decision: Adapt UX
+    source_evidence: YC15-shire-intelligence/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into People and decisions. Capability remains outside first pilot; authority/evidence constraints apply wherever the shared core uses this pattern.
+  - learning_id: SB-SH-10
+    title: Budget attention as well as compute
+    origin: YC15-shire-intelligence
+    primary_layer: L01
+    delivery_stage: S6
+    disposition: Defer capability; retain boundary now
+    application: Deduplicate alerts and set cooldowns, priority and escalation rules.
+    measurement: False alerts per table-hour
+    original_decision: Build
+    source_evidence: YC15-shire-intelligence/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into People and decisions. Capability remains outside first pilot; authority/evidence constraints apply wherever the shared core uses this pattern.
+  - learning_id: SB-SH-11
+    title: Use reviewed correction categories
+    origin: YC15-shire-intelligence
+    primary_layer: L10
+    delivery_stage: S6
+    disposition: Defer capability; retain boundary now
+    application: Record incorrect location, occlusion, already handled and rule errors separately.
+    measurement: Useful labeled corrections; regression rate
+    original_decision: Build
+    source_evidence: YC15-shire-intelligence/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into Evaluation and governed improvement. Capability remains outside first pilot; authority/evidence constraints apply wherever the shared core uses this pattern.
+  - learning_id: SB-SH-12
+    title: Improve with evaluated versions
+    origin: YC15-shire-intelligence
+    primary_layer: L10
+    delivery_stage: S6
+    disposition: Defer capability; retain boundary now
+    application: Test calibration, temporal rules and candidate models on held-out shifts/sites before activation.
+    measurement: Event precision/recall and rollback success
+    original_decision: Build
+    source_evidence: YC15-shire-intelligence/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into Evaluation and governed improvement. Capability remains outside first pilot; authority/evidence constraints apply wherever the shared core uses this pattern.
+  - learning_id: SB-SH-13
+    title: Treat camera support as an optional module
+    origin: YC15-shire-intelligence
+    primary_layer: L04
+    delivery_stage: S6
+    disposition: Defer capability; retain boundary now
+    application: Add value alongside existing POS and communication channels; do not require replacement.
+    measurement: Onboarding time; time to first verified outcome
+    original_decision: High priority product
+    source_evidence: YC15-shire-intelligence/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into Media and evidence. Capability remains outside first pilot; authority/evidence constraints apply wherever the shared core uses this pattern.
+  - learning_id: SB-SH-14
+    title: Keep retention separate for each artifact
+    origin: YC15-shire-intelligence
+    primary_layer: L04
+    delivery_stage: S6
+    disposition: Defer capability; retain boundary now
+    application: Define independent raw-stream, clip, observation and business-record retention and deletion.
+    measurement: Bytes retained; deletion verification
+    original_decision: Build
+    source_evidence: YC15-shire-intelligence/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into Media and evidence. Capability remains outside first pilot; authority/evidence constraints apply wherever the shared core uses this pattern.
+  - learning_id: SB-SH-15
+    title: Give each audience a permitted view
+    origin: YC15-shire-intelligence
+    primary_layer: L02
+    delivery_stage: S6
+    disposition: Defer capability; retain boundary now
+    application: Separate task visibility from raw footage rights; scope every source to site and purpose.
+    measurement: Unauthorized disclosure attempts blocked
+    original_decision: Build
+    source_evidence: YC15-shire-intelligence/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into Identity, grants and secrets. Capability remains outside first pilot; authority/evidence constraints apply wherever the shared core uses this pattern.
+  - learning_id: SB-SH-16
+    title: Optimize the process before judging people
+    origin: YC15-shire-intelligence
+    primary_layer: L10
+    delivery_stage: S6
+    disposition: Defer capability; retain boundary now
+    application: Measure service queues and coverage; avoid automated personal ratings from ambiguous footage.
+    measurement: Disputed inferences; operational usefulness
+    original_decision: Scope decision
+    source_evidence: YC15-shire-intelligence/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into Evaluation and governed improvement. Capability remains outside first pilot; authority/evidence constraints apply wherever the shared core uses this pattern.
+  - learning_id: SB-SH-17
+    title: Measure real economics and coverage
+    origin: YC15-shire-intelligence
+    primary_layer: L10
+    delivery_stage: S6
+    disposition: Defer capability; retain boundary now
+    application: Compare cost per verified task and end-to-end delays against manual baseline; separate payment savings.
+    measurement: Incremental cost, attention load, task benefit
+    original_decision: Adoption gate
+    source_evidence: YC15-shire-intelligence/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into Evaluation and governed improvement. Capability remains outside first pilot; authority/evidence constraints apply wherever the shared core uses this pattern.
+  - learning_id: SB-SH-18
+    title: Scale with bounded fresh work
+    origin: YC15-shire-intelligence
+    primary_layer: L09
+    delivery_stage: S6
+    disposition: Defer capability; retain boundary now
+    application: Shard capture by camera/site and state by table/visit; explicitly handle stale backlog and overload.
+    measurement: p95 age, drop rate, recovery correctness
+    original_decision: Build
+    source_evidence: YC15-shire-intelligence/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into Cloud, devices and operating limits. Capability remains outside first pilot; authority/evidence constraints apply wherever the shared core uses this pattern.
+  - learning_id: SB-IB-01
+    title: Stable identity, scoped authority
+    origin: YC16-inkbox
+    primary_layer: L02
+    delivery_stage: S1
+    disposition: Adopt principle; build domain-specific control
+    application: Keep a provider-independent agent principal with separate Consu, ForeFathers and Arkaj memberships. Bind channel identities to it without merging business authority.
+    measurement: Wrong-business actions; identity continuity after model/provider changes
+    original_decision: Adopt principle
+    source_evidence: YC16-inkbox/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into Identity, grants and secrets. Shares the common membership, policy, grants and authorization decisions.
+  - learning_id: SB-IB-02
+    title: Observe without answering every message
+    origin: YC16-inkbox
+    primary_layer: L03
+    delivery_stage: S1
+    disposition: Adopt principle; build domain-specific control
+    application: Allow authorized quiet capture, then wake on an eligible mention, explicit request or approved workflow. Show listening versus working.
+    measurement: Model turns per 100 messages; missed actionable events; attention load
+    original_decision: High priority
+    source_evidence: YC16-inkbox/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into Connections and durable intake. Shares the common source envelope, connection state, checkpoints and intake acknowledgements.
+  - learning_id: SB-IB-03
+    title: Separate context, requests and actions
+    origin: YC16-inkbox
+    primary_layer: L02
+    delivery_stage: S1
+    disposition: Adopt principle; build domain-specific control
+    application: Evaluate observation permission, current sender admission, addressing and action authority separately. Earlier conversation is evidence, not a new command.
+    measurement: Unauthorized wake/action rate; useful recall
+    original_decision: Build
+    source_evidence: YC16-inkbox/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into Identity, grants and secrets. Shares the common membership, policy, grants and authorization decisions.
+  - learning_id: SB-IB-04
+    title: Conversation-specific activation
+    origin: YC16-inkbox
+    primary_layer: L03
+    delivery_stage: S1
+    disposition: Adopt principle; build domain-specific control
+    application: A manager selects a group, purpose, history window and reply mode. Record activation and membership versions; joining one group grants no unrelated history.
+    measurement: Onboarding time; cross-group retrieval denials
+    original_decision: Adapt
+    source_evidence: YC16-inkbox/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into Connections and durable intake. Shares the common source envelope, connection state, checkpoints and intake acknowledgements.
+  - learning_id: SB-IB-05
+    title: Make permissions understandable
+    origin: YC16-inkbox
+    primary_layer: L01
+    delivery_stage: S2
+    disposition: Adapt UX; build SupaBiz implementation
+    application: Show separate can-read, can-receive, can-reply, can-use-memory and can-change-records cards with concrete examples.
+    measurement: Permission comprehension; accidental grants
+    original_decision: Adapt UX
+    source_evidence: YC16-inkbox/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into People and decisions. Shares the common ui state and authenticated user intent; never accepted facts or execution authority.
+  - learning_id: SB-IB-06
+    title: Preserve the original audience
+    origin: YC16-inkbox
+    primary_layer: L02
+    delivery_stage: S1
+    disposition: Adopt principle; build domain-specific control
+    application: Store exact business, connector, conversation, thread and audience with each action. Recheck current entitlements; never silently redirect a failed group reply to a private chat.
+    measurement: Wrong audience and stale membership disclosures
+    original_decision: Build invariant
+    source_evidence: YC16-inkbox/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into Identity, grants and secrets. Shares the common membership, policy, grants and authorization decisions.
+  - learning_id: SB-IB-07
+    title: Bind approval to the actual proposal
+    origin: YC16-inkbox
+    primary_layer: L02
+    delivery_stage: S1
+    disposition: Adopt principle; build domain-specific control
+    application: Bind approver, business, action digest, record version and expiry. Changing quantity, recipient or amount invalidates approval.
+    measurement: Stale/replayed/wrong-person approvals blocked
+    original_decision: Build beyond source
+    source_evidence: YC16-inkbox/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into Identity, grants and secrets. Shares the common membership, policy, grants and authorization decisions.
+  - learning_id: SB-IB-08
+    title: Durable receipt, result and delivery stages
+    origin: YC16-inkbox
+    primary_layer: L03
+    delivery_stage: S1
+    disposition: Adopt principle; build domain-specific control
+    application: Persist accepted event, model result and external delivery intent separately. Recover saved results without automatically repeating reasoning or business effects.
+    measurement: Crash recovery correctness; avoidable reruns
+    original_decision: Adapt architecture
+    source_evidence: YC16-inkbox/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into Connections and durable intake. Shares the common source envelope, connection state, checkpoints and intake acknowledgements.
+  - learning_id: SB-IB-09
+    title: Make uncertainty visible
+    origin: YC16-inkbox
+    primary_layer: L08
+    delivery_stage: S2
+    disposition: Adopt principle; build domain-specific control
+    application: After a lost send acknowledgement, show outcome unknown and reconcile via provider receipt/key. Do not infer failure from an absent local response.
+    measurement: Duplicate orders/messages; time in uncertain state
+    original_decision: High priority
+    source_evidence: YC16-inkbox/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into Actions, browser and collaboration. Shares the common external action attempts, provider receipts, uncertainty and compensation.
+  - learning_id: SB-IB-10
+    title: Stop the exact worker
+    origin: YC16-inkbox
+    primary_layer: L08
+    delivery_stage: S2
+    disposition: Adopt principle; build domain-specific control
+    application: Fence a worker generation before replacing or cancelling work. A cancelled async wrapper does not prove a tool subprocess stopped. Explain already committed effects.
+    measurement: Overlapping attempts; orphan operations
+    original_decision: Adapt with compatibility tests
+    source_evidence: YC16-inkbox/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into Actions, browser and collaboration. Shares the common external action attempts, provider receipts, uncertainty and compensation.
+  - learning_id: SB-IB-11
+    title: Bound burst collection and history
+    origin: YC16-inkbox
+    primary_layer: L03
+    delivery_stage: S1
+    disposition: Adopt principle; build domain-specific control
+    application: Coalesce split staff messages with time, byte and source-count limits; preserve original evidence and expose pending processing. Set caps from measured language/media behavior.
+    measurement: Useful latency; truncation; task recall; retained bytes
+    original_decision: Experiment
+    source_evidence: YC16-inkbox/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into Connections and durable intake. Shares the common source envelope, connection state, checkpoints and intake acknowledgements.
+  - learning_id: SB-IB-12
+    title: Use a transactional work ledger
+    origin: YC16-inkbox
+    primary_layer: L03
+    delivery_stage: S1
+    disposition: Adopt principle; build domain-specific control
+    application: Replace growing whole-conversation checkpoints with durable event and job records, bounded hydration, retention and atomic queue-to-active transitions.
+    measurement: Recovery under injected faults; write amplification; queue age
+    original_decision: Build for production
+    source_evidence: YC16-inkbox/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into Connections and durable intake. Shares the common source envelope, connection state, checkpoints and intake acknowledgements.
+  - learning_id: SB-IB-13
+    title: Keep credentials out of model output
+    origin: YC16-inkbox
+    primary_layer: L02
+    delivery_stage: S1
+    disposition: Adopt principle; build domain-specific control
+    application: Let authorized connectors consume credentials inside the operation boundary. Return redacted receipts, never raw secrets in general model context.
+    measurement: Secret leakage in traces/tool outputs; rotation success
+    original_decision: Build broker
+    source_evidence: YC16-inkbox/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into Identity, grants and secrets. Shares the common membership, policy, grants and authorization decisions.
+  - learning_id: SB-IB-14
+    title: Authenticate ingress, then authorize effects
+    origin: YC16-inkbox
+    primary_layer: L02
+    delivery_stage: S1
+    disposition: Adopt principle; build domain-specific control
+    application: Verify source transport and tenant binding before admission. Signed messages can still contain malicious content; independent policy controls every effect.
+    measurement: Invalid event rejection; injection-triggered actions
+    original_decision: Build
+    source_evidence: YC16-inkbox/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into Identity, grants and secrets. Shares the common membership, policy, grants and authorization decisions.
+  - learning_id: SB-IB-15
+    title: Quarantine unknown event sources
+    origin: YC16-inkbox
+    primary_layer: L02
+    delivery_stage: S1
+    disposition: Adopt principle; build domain-specific control
+    application: Unverified events may be inspected in a restricted evidence flow, without the capability to request business changes.
+    measurement: Unverified-to-action escalation attempts
+    original_decision: Build
+    source_evidence: YC16-inkbox/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into Identity, grants and secrets. Shares the common membership, policy, grants and authorization decisions.
+  - learning_id: SB-IB-16
+    title: Show effective permissions and detect drift
+    origin: YC16-inkbox
+    primary_layer: L03
+    delivery_stage: S1
+    disposition: Adopt principle; build domain-specific control
+    application: Read back applied server settings and generate capability help from versioned contracts. Block readiness on differences between requested and effective scope.
+    measurement: Configuration mismatch detection; stale guidance incidents
+    original_decision: High priority
+    source_evidence: YC16-inkbox/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into Connections and durable intake. Shares the common source envelope, connection state, checkpoints and intake acknowledgements.
+  - learning_id: SB-IB-17
+    title: Separate voice caller from agent authority
+    origin: YC16-inkbox
+    primary_layer: L02
+    delivery_stage: S6
+    disposition: Defer capability; retain boundary now
+    application: Give each call a scoped capability set; step up identity checks for disclosures and approvals. Voice modality does not grant owner privileges.
+    measurement: Unauthorized disclosure/action rate; useful call resolution
+    original_decision: Build
+    source_evidence: YC16-inkbox/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into Identity, grants and secrets. Capability remains outside first pilot; authority/evidence constraints apply wherever the shared core uses this pattern.
+  - learning_id: SB-IB-18
+    title: Progress should show business truth
+    origin: YC16-inkbox
+    primary_layer: L01
+    delivery_stage: S2
+    disposition: Adapt UX; build SupaBiz implementation
+    application: Use one compact thread status: captured, assigned, waiting for approval, delivery unknown, verified. Agent finished is not purchase received or task completed.
+    measurement: Manager follow-ups; false completion; time to verified result
+    original_decision: Adapt UX
+    source_evidence: YC16-inkbox/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into People and decisions. Shares the common ui state and authenticated user intent; never accepted facts or execution authority.
+  - learning_id: SB-IB-19
+    title: A2A messages need bounded delegation
+    origin: YC16-inkbox
+    primary_layer: L02
+    delivery_stage: S6
+    disposition: Defer capability; retain boundary now
+    application: Treat a remote agent as an external principal with explicit purpose, data scope, task ID and expiry. Remote assertions never become local approval.
+    measurement: Cross-business leakage; duplicate delegated work
+    original_decision: Build SupaBiz contract
+    source_evidence: YC16-inkbox/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into Identity, grants and secrets. Capability remains outside first pilot; authority/evidence constraints apply wherever the shared core uses this pattern.
+  - learning_id: SB-IB-20
+    title: Keep communication behind replaceable adapters
+    origin: YC16-inkbox
+    primary_layer: L08
+    delivery_stage: S2
+    disposition: Adopt principle; build domain-specific control
+    application: Own canonical contacts, evidence, action ledger and exports. Evaluate vendor licensing, retention, regions, India channel availability and real unit economics before adoption.
+    measurement: Provider migration completeness; cost per verified workflow
+    original_decision: Adoption gate
+    source_evidence: YC16-inkbox/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into Actions, browser and collaboration. Shares the common external action attempts, provider receipts, uncertainty and compensation.
+  - learning_id: SB-RY-01
+    title: A repeatable practice business
+    origin: YC17-rystic
+    primary_layer: L10
+    delivery_stage: S0
+    disposition: Adopt principle; build domain-specific control
+    application: Create synthetic Consu and Arkaj worlds spanning conversations, people, permissions, files and business records. Keep identities and references coherent across services.
+    measurement: Workflow completion; fixture consistency
+    original_decision: High priority
+    source_evidence: YC17-rystic/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into Evaluation and governed improvement. Shares the common experiment manifests, reviewed expected outcomes, release evidence and learned-rule lifecycle.
+  - learning_id: SB-RY-02
+    title: Stateful transitions, not canned success
+    origin: YC17-rystic
+    primary_layer: L10
+    delivery_stage: S0
+    disposition: Adopt principle; build domain-specific control
+    application: A created stock entry must affect later totals; reassignment must change visibility and notifications. Keep fast unit mocks, then add stateful workflow tests.
+    measurement: Incorrect state transitions detected
+    original_decision: Adopt testing pattern
+    source_evidence: YC17-rystic/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into Evaluation and governed improvement. Shares the common experiment manifests, reviewed expected outcomes, release evidence and learned-rule lifecycle.
+  - learning_id: SB-RY-03
+    title: Grade effects and forbidden effects
+    origin: YC17-rystic
+    primary_layer: L10
+    delivery_stage: S0
+    disposition: Adopt principle; build domain-specific control
+    application: Judge records, versions, recipients and task ownership independently of the agent narrative. Include no duplicate order, no cross-business read and no stale approval.
+    measurement: Verified task success; forbidden-effect rate
+    original_decision: Build oracle
+    source_evidence: YC17-rystic/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into Evaluation and governed improvement. Shares the common experiment manifests, reviewed expected outcomes, release evidence and learned-rule lifecycle.
+  - learning_id: SB-RY-04
+    title: Deliberately broken controls
+    origin: YC17-rystic
+    primary_layer: L10
+    delivery_stage: S0
+    disposition: Adopt principle; build domain-specific control
+    application: Seed known failures such as doubled quantity, missing tenant filter, wrong recipient and stale approval. Require the intended failure reason, not any process error.
+    measurement: Mutation detection by defect class; false alarms
+    original_decision: High priority
+    source_evidence: YC17-rystic/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into Evaluation and governed improvement. Shares the common experiment manifests, reviewed expected outcomes, release evidence and learned-rule lifecycle.
+  - learning_id: SB-RY-05
+    title: Version the whole experiment
+    origin: YC17-rystic
+    primary_layer: L10
+    delivery_stage: S0
+    disposition: Adopt principle; build domain-specific control
+    application: Pin harness code, world data, simulator digest, connector schemas, model configuration, prompt, policy, oracle and random seed in every result.
+    measurement: Reproduction rate; attributable regressions
+    original_decision: Build manifest
+    source_evidence: YC17-rystic/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into Evaluation and governed improvement. Shares the common experiment manifests, reviewed expected outcomes, release evidence and learned-rule lifecycle.
+  - learning_id: SB-RY-06
+    title: Reset the whole episode
+    origin: YC17-rystic
+    primary_layer: L10
+    delivery_stage: S2
+    disposition: Adopt principle; build domain-specific control
+    application: Stop workers and sessions, reset state/cache/credentials/clock/faults, issue a new generation and reject late replies from the old episode.
+    measurement: Cross-episode contamination; stale callback rejection
+    original_decision: Build lifecycle
+    source_evidence: YC17-rystic/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into Evaluation and governed improvement. Shares the common experiment manifests, reviewed expected outcomes, release evidence and learned-rule lifecycle.
+  - learning_id: SB-RY-07
+    title: Keep the examiner outside the agent
+    origin: YC17-rystic
+    primary_layer: L10
+    delivery_stage: S0
+    disposition: Adopt principle; build domain-specific control
+    application: Protect grader files, hidden expected results and control-plane credentials. Agents receive task instructions and scoped tools, not the answer key or reset authority.
+    measurement: Unauthorized grader/control access attempts
+    original_decision: Build isolation
+    source_evidence: YC17-rystic/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into Evaluation and governed improvement. Shares the common experiment manifests, reviewed expected outcomes, release evidence and learned-rule lifecycle.
+  - learning_id: SB-RY-08
+    title: Test time as an input
+    origin: YC17-rystic
+    primary_layer: L10
+    delivery_stage: S2
+    disposition: Adopt principle; build domain-specific control
+    application: Separate business time, source time, arrival time and monotonic timeout clocks. Inject delayed notices, expiry and shift changes through a controlled scheduler.
+    measurement: Deadline errors; stale action prevention
+    original_decision: Build clock contract
+    source_evidence: YC17-rystic/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into Evaluation and governed improvement. Shares the common experiment manifests, reviewed expected outcomes, release evidence and learned-rule lifecycle.
+  - learning_id: SB-RY-09
+    title: Distinguish failure before and after commit
+    origin: YC17-rystic
+    primary_layer: L10
+    delivery_stage: S2
+    disposition: Adopt principle; build domain-specific control
+    application: Exercise request rejection, effect committed with lost acknowledgement, delayed webhook and partial multi-service completion separately.
+    measurement: Lost and duplicate effects; recovery time
+    original_decision: Build fault scenarios
+    source_evidence: YC17-rystic/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into Evaluation and governed improvement. Shares the common experiment manifests, reviewed expected outcomes, release evidence and learned-rule lifecycle.
+  - learning_id: SB-RY-10
+    title: Validate the observer before scoring
+    origin: YC17-rystic
+    primary_layer: L10
+    delivery_stage: S0
+    disposition: Adopt principle; build domain-specific control
+    application: A failed state read is unknown, not an empty order list. Classify infrastructure and observation failures separately from agent mistakes.
+    measurement: False green runs; ungradable episodes
+    original_decision: Build fail-closed grading
+    source_evidence: YC17-rystic/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into Evaluation and governed improvement. Shares the common experiment manifests, reviewed expected outcomes, release evidence and learned-rule lifecycle.
+  - learning_id: SB-RY-11
+    title: Measure fidelity on our workflows
+    origin: YC17-rystic
+    primary_layer: L10
+    delivery_stage: S5
+    disposition: Adopt principle; build domain-specific control
+    application: Maintain a route/semantics/permission matrix for each exact workflow. Compare selected synthetic-account traces against a real connector sandbox before relying on simulated results.
+    measurement: Critical-contract coverage; sim/live divergences
+    original_decision: Adoption gate
+    source_evidence: YC17-rystic/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into Evaluation and governed improvement. Shares the common experiment manifests, reviewed expected outcomes, release evidence and learned-rule lifecycle.
+  - learning_id: SB-RY-12
+    title: Bind actor identity explicitly
+    origin: YC17-rystic
+    primary_layer: L10
+    delivery_stage: S1
+    disposition: Adopt principle; build domain-specific control
+    application: Use synthetic roles for scenarios, but independently test token issuance, revocation, tenant routing and tool authorization in our actual boundary.
+    measurement: Wrong-actor/cross-tenant effects blocked
+    original_decision: Build security tests
+    source_evidence: YC17-rystic/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into Evaluation and governed improvement. Shares the common experiment manifests, reviewed expected outcomes, release evidence and learned-rule lifecycle.
+  - learning_id: SB-RY-13
+    title: One isolated world per concurrent run
+    origin: YC17-rystic
+    primary_layer: L10
+    delivery_stage: S5
+    disposition: Adopt principle; build domain-specific control
+    application: Share immutable assets while isolating mutable storage, credentials, sessions and clocks. Budget CPU, RAM, disk, model limits and tenant fairness.
+    measurement: Contamination; p95 duration; peak resources
+    original_decision: Build scaling rule
+    source_evidence: YC17-rystic/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into Evaluation and governed improvement. Shares the common experiment manifests, reviewed expected outcomes, release evidence and learned-rule lifecycle.
+  - learning_id: SB-RY-14
+    title: Make practice mode visible
+    origin: YC17-rystic
+    primary_layer: L10
+    delivery_stage: S2
+    disposition: Adopt principle; build domain-specific control
+    application: Let an owner preview a workflow on sample data with a persistent Practice badge, intended changes, simulated audience and explicit exit. Use a physically separate effect route.
+    measurement: Onboarding comprehension; accidental live effects
+    original_decision: Adapt product UX
+    source_evidence: YC17-rystic/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into Evaluation and governed improvement. Shares the common experiment manifests, reviewed expected outcomes, release evidence and learned-rule lifecycle.
+  - learning_id: SB-RY-15
+    title: Expose the replay and state difference
+    origin: YC17-rystic
+    primary_layer: L10
+    delivery_stage: S2
+    disposition: Adopt principle; build domain-specific control
+    application: Show input timeline, authorized tool calls, before/after records and the first violated invariant. Link the exact seed and versions for reproduction.
+    measurement: Debugging time; reproducible bug reports
+    original_decision: Adapt engineer UX
+    source_evidence: YC17-rystic/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into Evaluation and governed improvement. Shares the common experiment manifests, reviewed expected outcomes, release evidence and learned-rule lifecycle.
+  - learning_id: SB-RY-16
+    title: Separate learning from evaluation
+    origin: YC17-rystic
+    primary_layer: L10
+    delivery_stage: S5
+    disposition: Adopt principle; build domain-specific control
+    application: Use reviewed traces to change a prompt, tool, retrieval rule or policy; score against held-out scenarios before release. Fine-tuning/RL requires a separate data and reward program.
+    measurement: Held-out lift; regression rate; leakage
+    original_decision: Build improvement loop
+    source_evidence: YC17-rystic/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into Evaluation and governed improvement. Shares the common experiment manifests, reviewed expected outcomes, release evidence and learned-rule lifecycle.
+  - learning_id: SB-RY-17
+    title: Vary the world, not only the wording
+    origin: YC17-rystic
+    primary_layer: L10
+    delivery_stage: S5
+    disposition: Adopt principle; build domain-specific control
+    application: Vary suppliers, quantities, languages, memberships, media quality, timestamps and partial outages. Split by workflow/business/time rather than adjacent message fragments.
+    measurement: Unseen-world performance; overfitting gap
+    original_decision: Build generalization set
+    source_evidence: YC17-rystic/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into Evaluation and governed improvement. Shares the common experiment manifests, reviewed expected outcomes, release evidence and learned-rule lifecycle.
+  - learning_id: SB-RY-18
+    title: Separate media perception from orchestration
+    origin: YC17-rystic
+    primary_layer: L10
+    delivery_stage: S1
+    disposition: Adopt principle; build domain-specific control
+    application: Test transcript/OCR extraction against labeled audio/photos separately, then combine selected real processing with stateful workflow fixtures. API simulations do not validate vision quality.
+    measurement: Extraction accuracy; downstream error propagation
+    original_decision: Build SupaBiz fixtures
+    source_evidence: YC17-rystic/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into Evaluation and governed improvement. Shares the common experiment manifests, reviewed expected outcomes, release evidence and learned-rule lifecycle.
+  - learning_id: SB-RY-19
+    title: Discover effective capabilities
+    origin: YC17-rystic
+    primary_layer: L10
+    delivery_stage: S0
+    disposition: Adopt principle; build domain-specific control
+    application: Show actual installed versions, available operations, unmet entitlements and known gaps. A documentation page or reachable HTTP port is not proof the required workflow is ready.
+    measurement: Configuration drift; setup failure diagnosis
+    original_decision: Build readiness UX
+    source_evidence: YC17-rystic/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into Evaluation and governed improvement. Shares the common experiment manifests, reviewed expected outcomes, release evidence and learned-rule lifecycle.
+  - learning_id: SB-RY-20
+    title: Keep simulation replaceable and off the live path
+    origin: YC17-rystic
+    primary_layer: L10
+    delivery_stage: S0
+    disposition: Adopt principle; build domain-specific control
+    application: Use commercial twins where their fit and cost are proven; own WhatsApp/Gmail/domain fixtures and an adapter contract. Rystic is a test dependency candidate, not mandatory production infrastructure.
+    measurement: Cost per useful regression; replacement effort
+    original_decision: Architecture decision
+    source_evidence: YC17-rystic/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into Evaluation and governed improvement. Shares the common experiment manifests, reviewed expected outcomes, release evidence and learned-rule lifecycle.
+  - learning_id: SB-DF-01
+    title: One shared business model
+    origin: YC18-definite
+    primary_layer: L05
+    delivery_stage: S2
+    disposition: Adopt principle; build domain-specific control
+    application: Represent people, businesses, matters, orders, receipts, invoices and tasks as typed records with stable IDs. Chat, dashboards and agents consume the same authorized projections. Start with one workflow, not a universal ontology.
+    measurement: Record agreement across interfaces; incorrect joins
+    original_decision: High priority
+    source_evidence: YC18-definite/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into Business records and governed memory. Shares the common accepted domain records and revisions.
+  - learning_id: SB-DF-02
+    title: Align meaning before matching
+    origin: YC18-definite
+    primary_layer: L05
+    delivery_stage: S2
+    disposition: Adopt principle; build domain-specific control
+    application: Compare only compatible business, entity, unit, currency, period and fact type. Received quantity and invoiced quantity are distinct facts, even when they differ. Keep conversion rules and source ancestry explicit.
+    measurement: Wrong-entity and wrong-unit matches; unresolved match rate
+    original_decision: High priority
+    source_evidence: YC18-definite/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into Business records and governed memory. Shares the common accepted domain records and revisions.
+  - learning_id: SB-DF-03
+    title: Preserve observations and corrections
+    origin: YC18-definite
+    primary_layer: L05
+    delivery_stage: S2
+    disposition: Adopt principle; build domain-specific control
+    application: Keep immutable evidence revisions and a versioned current projection. Store occurred_at, observed_at, ingested_at and effective period. A corrected notice supersedes a claim without deleting the earlier evidence.
+    measurement: Reproducible as-of views; stale-source mistakes
+    original_decision: Build record history
+    source_evidence: YC18-definite/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into Business records and governed memory. Shares the common accepted domain records and revisions.
+  - learning_id: SB-DF-04
+    title: Three check outcomes, separate job states
+    origin: YC18-definite
+    primary_layer: L05
+    delivery_stage: S2
+    disposition: Adopt principle; build domain-specific control
+    application: A check can pass, fail, or remain unverified. Workflow completion, review decision and delivery status are independent dimensions. Display the reason and next responsible person.
+    measurement: False passes on missing data; correctly classified failures
+    original_decision: High priority
+    source_evidence: YC18-definite/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into Business records and governed memory. Shares the common accepted domain records and revisions.
+  - learning_id: SB-DF-05
+    title: Exact rules for exact questions
+    origin: YC18-definite
+    primary_layer: L05
+    delivery_stage: S2
+    disposition: Adopt principle; build domain-specific control
+    application: Use validated decimal/integer arithmetic, explicit units and versioned rules for quantities, totals, duplicate keys and permissions. OCR confidence, legal meaning and visual cleanliness need their own uncertainty or review path.
+    measurement: Arithmetic errors; rule coverage; perception errors kept separate
+    original_decision: Build deterministic kernel
+    source_evidence: YC18-definite/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into Business records and governed memory. Shares the common accepted domain records and revisions.
+  - learning_id: SB-DF-06
+    title: Approval records do not rewrite facts
+    origin: YC18-definite
+    primary_layer: L02
+    delivery_stage: S1
+    disposition: Adopt principle; build domain-specific control
+    application: Bind approval to tenant, actor, action digest, record version, policy version and expiry. A reviewer may authorize a permitted exception with a reason; preserve the failed check and original evidence. Recheck identity and grants at execution.
+    measurement: Stale approvals blocked; unexplained overrides
+    original_decision: High priority
+    source_evidence: YC18-definite/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into Identity, grants and secrets. Shares the common membership, policy, grants and authorization decisions.
+  - learning_id: SB-DF-07
+    title: A work item with an evidence drawer
+    origin: YC18-definite
+    primary_layer: L01
+    delivery_stage: S2
+    disposition: Adapt UX; build SupaBiz implementation
+    application: Show the proposed field change beside the original photo, audio timecode, email attachment or PDF page, with freshness and conflicts. Make every queue item lead to a resolution action and named owner.
+    measurement: Review time; evidence-open rate; orphaned exceptions
+    original_decision: Adapt UX
+    source_evidence: YC18-definite/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into People and decisions. Shares the common ui state and authenticated user intent; never accepted facts or execution authority.
+  - learning_id: SB-DF-08
+    title: Useful uncertainty rather than a dead end
+    origin: YC18-definite
+    primary_layer: L01
+    delivery_stage: S2
+    disposition: Adapt UX; build SupaBiz implementation
+    application: State exactly what is missing and request only the evidence needed: received weight, clearer invoice line, or confirmation of the matter. Limit reminders and use a single evolving work item.
+    measurement: Clarification count; exception age; unnecessary interruptions
+    original_decision: Adapt UX
+    source_evidence: YC18-definite/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into People and decisions. Shares the common ui state and authenticated user intent; never accepted facts or execution authority.
+  - learning_id: SB-DF-09
+    title: Rules and mappings are reviewed versions
+    origin: YC18-definite
+    primary_layer: L05
+    delivery_stage: S2
+    disposition: Adopt principle; build domain-specific control
+    application: Translate a plain-language SOP into a draft typed workflow. Show scope, trigger, data access, checks, approvals and effects; simulate it, publish a version, and support rollback. Staff corrections remain local proposals until reviewed.
+    measurement: Time to safe activation; rule regressions
+    original_decision: Build rule lifecycle
+    source_evidence: YC18-definite/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into Business records and governed memory. Shares the common accepted domain records and revisions.
+  - learning_id: SB-DF-10
+    title: Persistent state, replaceable workers
+    origin: YC18-definite
+    primary_layer: L06
+    delivery_stage: S2
+    disposition: Adopt principle; build domain-specific control
+    application: Keep records, evidence, runs and policy in SupaBiz-owned durable services. Give workers only bounded task context and short-lived capabilities. Persistent desktops may serve browser tasks but should not be the business system of record.
+    measurement: Context bytes per task; worker recovery; unauthorized fields exposed
+    original_decision: Architecture decision
+    source_evidence: YC18-definite/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into Bounded agent harness. Shares the common agent run and proposal state.
+  - learning_id: SB-DF-11
+    title: Read-only onboarding, separate action gateway
+    origin: YC18-definite
+    primary_layer: L08
+    delivery_stage: S2
+    disposition: Adopt principle; build domain-specific control
+    application: Begin a pilot with observation and drafts. Enable specific internal writes and external effects progressively through a policy-enforcing action service, scoped credentials and effect receipts. A read permission is not send permission.
+    measurement: Time to first reviewed value; unauthorized or duplicate effects
+    original_decision: High priority
+    source_evidence: YC18-definite/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into Actions, browser and collaboration. Shares the common external action attempts, provider receipts, uncertainty and compensation.
+  - learning_id: SB-DF-12
+    title: Telemetry is not authorization
+    origin: YC18-definite
+    primary_layer: L08
+    delivery_stage: S2
+    disposition: Adopt principle; build domain-specific control
+    application: Record intended action before an effect, but enforce grants independently. If completion logging fails after an upstream commit, mark outcome uncertain and reconcile before retrying. Never treat a logging gateway as a permission boundary.
+    measurement: Unrecorded intent; uncertain outcomes recovered without duplicates
+    original_decision: Do not confuse layers
+    source_evidence: YC18-definite/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into Actions, browser and collaboration. Shares the common external action attempts, provider receipts, uncertainty and compensation.
+  - learning_id: SB-DF-13
+    title: Independent, portable evidence
+    origin: YC18-definite
+    primary_layer: L05
+    delivery_stage: S2
+    disposition: Adopt principle; build domain-specific control
+    application: Make results exportable with input references, rule versions, decisions and hashes. Add signatures and external checkpoints when justified. Verify trusted keys independently; proof integrity does not establish factual truth or population completeness.
+    measurement: Offline verification; tamper detection; export completeness
+    original_decision: Stage carefully
+    source_evidence: YC18-definite/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into Business records and governed memory. Shares the common accepted domain records and revisions.
+  - learning_id: SB-DF-14
+    title: Freshness and completeness are first-class
+    origin: YC18-definite
+    primary_layer: L03
+    delivery_stage: S1
+    disposition: Adopt principle; build domain-specific control
+    application: Record source watermarks, lag, gaps, reconnect state and expected coverage. A disconnected WhatsApp session must visibly limit a summary. An empty successful fetch differs from a failed or partial fetch.
+    measurement: Missing-event detection; stale summaries; p95 ingestion lag
+    original_decision: Build source health
+    source_evidence: YC18-definite/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into Connections and durable intake. Shares the common source envelope, connection state, checkpoints and intake acknowledgements.
+  - learning_id: SB-DF-15
+    title: Replayable events, idempotent consumers
+    origin: YC18-definite
+    primary_layer: L07
+    delivery_stage: S2
+    disposition: Adopt principle; build domain-specific control
+    application: Use a transactional outbox and tenant-scoped event IDs; consumers record dedupe and object revisions. Out-of-order events cannot roll back current state. Delivery retries never mean the underlying business action should repeat.
+    measurement: Duplicate effects; out-of-order regressions; delivery lag
+    original_decision: Build delivery contract
+    source_evidence: YC18-definite/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into Durable work and domain packs. Shares the common workflow progression/timers.
+  - learning_id: SB-DF-16
+    title: Model choice is a measured substitution
+    origin: YC18-definite
+    primary_layer: L10
+    delivery_stage: S0
+    disposition: Adopt principle; build domain-specific control
+    application: Try a cheaper model for constrained extraction or explanation under the same input and rule contracts. Compare held-out complete workflows including corrections, review time and missed exceptions before routing production traffic.
+    measurement: Cost per correct completed workflow; false acceptance; abstention
+    original_decision: Evaluate, do not assume
+    source_evidence: YC18-definite/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into Evaluation and governed improvement. Shares the common experiment manifests, reviewed expected outcomes, release evidence and learned-rule lifecycle.
+  - learning_id: SB-DF-17
+    title: Tenant isolation extends into every output
+    origin: YC18-definite
+    primary_layer: L02
+    delivery_stage: S1
+    disposition: Adopt principle; build domain-specific control
+    application: Enforce business and matter grants in retrieval, object downloads, exports, notifications, caches and execution. Sign-in establishes identity; active membership and resource scope establish access. Keep model context and logs minimal.
+    measurement: Cross-business/matter disclosure; revocation latency
+    original_decision: Build and test
+    source_evidence: YC18-definite/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into Identity, grants and secrets. Shares the common membership, policy, grants and authorization decisions.
+  - learning_id: SB-DF-18
+    title: Bind approvals to current state
+    origin: YC18-definite
+    primary_layer: L02
+    delivery_stage: S1
+    disposition: Adopt principle; build domain-specific control
+    application: Use optimistic version checks so two reviewers cannot silently overwrite one another. If evidence or intended recipients change, invalidate the pending approval and explain the difference before another decision.
+    measurement: Lost updates; approval conflicts; action-version mismatch
+    original_decision: Build concurrency control
+    source_evidence: YC18-definite/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into Identity, grants and secrets. Shares the common membership, policy, grants and authorization decisions.
+  - learning_id: SB-DF-19
+    title: Verify package identity and compatibility
+    origin: YC18-definite
+    primary_layer: L11
+    delivery_stage: S0
+    disposition: Adopt principle; build domain-specific control
+    application: Pin publisher, registry, digest, API schema and tested capabilities. Prefer scoped package names. Block setup on identity mismatch, and retain the failure reason. Do not execute an arbitrary same-name package from documentation.
+    measurement: Incorrect package acceptance; SDK/API drift caught before rollout
+    original_decision: Immediate engineering gate
+    source_evidence: YC18-definite/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into Engineering and dependency governance. Shares the common code, schemas, release manifests, dependency decisions and engineering checks.
+  - learning_id: SB-DF-20
+    title: Start with a small record-and-verification core
+    origin: YC18-definite
+    primary_layer: L11
+    delivery_stage: S0
+    disposition: Adopt principle; build domain-specific control
+    application: Build one receipt/invoice workflow and one notice/task workflow using a relational record store, object storage and a job queue. Add advanced proof infrastructure, dedicated tenant deployments or generalized workflow builders only after measured demand.
+    measurement: Time to verified pilot; operational cost; migration burden
+    original_decision: Recommended sequence
+    source_evidence: YC18-definite/findings.json
+    status: Proposed; no implementation inferred
+    rationale: Merged into Engineering and dependency governance. Shares the common code, schemas, release manifests, dependency decisions and engineering checks.
+runtime_harness:
+  - id: H01
+    part: Context assembly and memory
+    reuse: Hermes context-engine patterns; evaluate Letta ideas only for a demonstrated gap.
+    build: Resolve current grants, accepted record versions, relevant source citations and token limits before model input. Separate approved business memory, live records and source observations; include intended answer audience.
+    solves: Prevents the model receiving unrelated, stale or forbidden business context.
+    gate: A revoked or superseded object is absent from new context packets, including cached retrieval paths.
+    added_evidence:
+      - YC01
+      - YC12
+    status: Existing implementation must be audited in S0
+  - id: H02
+    part: Run and step controller
+    reuse: Hermes bounded turn/tool-loop patterns.
+    build: Stable run/step IDs, cancellation, execution budgets and explicit handoff to durable workflows.
+    solves: Stops unbounded reasoning loops and makes interrupted work diagnosable.
+    gate: Cancel between proposal and dispatch; no new side effect starts after cancellation is accepted.
+    added_evidence:
+      - YC01
+      - YC12
+    status: Existing implementation must be audited in S0
+  - id: H03
+    part: Tool registry and schemas
+    reuse: Selected upstream tool implementations through our adapter contract.
+    build: Versioned input/output schemas, read/write classification, required grants and idempotency policy.
+    solves: Turns model suggestions into a constrained interface instead of arbitrary commands.
+    gate: Unknown tools, extra fields and invalid business object references are rejected.
+    added_evidence:
+      - YC01
+      - YC12
+    status: Existing implementation must be audited in S0
+  - id: H04
+    part: Policy and decision boundary
+    reuse: Identity-provider primitives; no researched agent replaces domain policy.
+    build: Current principal/resource checks, exact-payload approval and asynchronous review queue.
+    solves: Separates intent, authorization and actual execution.
+    gate: Changed recipient, payload or object version invalidates an approval when its scope no longer matches.
+    added_evidence:
+      - YC01
+      - YC12
+    status: Existing implementation must be audited in S0
+  - id: H05
+    part: Model and modality gateway
+    reuse: Hermes-style provider/media dispatch; Docling as an independent parser.
+    build: Capability profiles, redaction/data-region rules, request budgets, fallbacks and model-version recording.
+    solves: Keeps model choice replaceable while acknowledging different capabilities and costs.
+    gate: Fallback preserves data policy and output contract; unsupported modality returns an explicit limit.
+    added_evidence:
+      - YC01
+      - YC12
+    status: Existing implementation must be audited in S0
+  - id: H06
+    part: Evidence and result validators
+    reuse: Schema-validation libraries and deterministic test tooling.
+    build: Citation resolution, unit/date checks, record-version checks and business invariants; human decisions where rules cannot settle ambiguity. Return PASS, FAIL or CANNOT_VERIFY only for supported predicates; keep human review and job states separate.
+    solves: Prevents syntactically valid but unsupported output becoming business truth.
+    gate: Fluent wrong quantities, wrong matters and non-existent citations fail acceptance.
+    added_evidence:
+      - YC01
+      - YC12
+    status: Existing implementation must be audited in S0
+  - id: H07
+    part: Checkpoint and action reconciliation
+    reuse: Persisted-intent ideas from Hermes; durable progression from the chosen workflow engine.
+    build: Intent/attempt/receipt state, transactional outbox and provider-state reconciliation.
+    solves: Distinguishes a failed action from an action that may have succeeded before a crash.
+    gate: Crash after remote success yields reconciliation, not an automatic duplicate write.
+    added_evidence:
+      - YC01
+      - YC12
+    status: Existing implementation must be audited in S0
+  - id: H08
+    part: Skills and workflow-pack governance
+    reuse: Curated skills distribution patterns, not arbitrary runtime installation.
+    build: Pinned pack/schema versions, allowed tools, ownership, staged rollout and rollback. Corrections require explicit one-off/customer/matter/workflow/organization scope, effective date and review before promotion.
+    solves: Makes restaurant and legal behavior explicit and independently testable.
+    gate: An unreviewed skill cannot expand the worker’s authority or alter a released workflow silently.
+    added_evidence:
+      - YC01
+      - YC12
+    status: Existing implementation must be audited in S0
+  - id: H09
+    part: Telemetry and independent evaluation
+    reuse: Langfuse for permitted observability; focused security review procedures.
+    build: Correlation IDs, redacted traces, authoritative outcome fixtures and release reports. Use one case contract for Hue/Rystic adapters; grade state and forbidden effects with a protected evaluator.
+    solves: Explains failures and prevents the acting model from being the sole judge of success.
+    gate: The same run can be followed from source to accepted state and receipt without exposing unnecessary raw content.
+    added_evidence:
+      - YC01
+      - YC12
+    status: Existing implementation must be audited in S0
+contracts:
+  - id: C01
+    name: Source observation
+    fields:
+      - tenant_id
+      - business_id
+      - connection_id
+      - source_event_id
+      - source_revision
+      - source_kind
+      - actor_ref
+      - event_time
+      - observed_at
+      - ingested_at
+      - cursor
+      - media_refs
+      - payload_hash
+      - deletion_state
+    rule: Uniqueness includes the provider connection and stable event identity. Re-delivery does not create a new fact; edits and deletions remain traceable revisions. Commit durably before advancing the checkpoint.
+  - id: C02
+    name: Evidence asset / derivative
+    fields:
+      - asset_id
+      - tenant_id
+      - object_key
+      - content_hash
+      - mime_type
+      - source_ref
+      - parent_asset_id
+      - processor_version
+      - page_or_time_range
+      - coverage
+      - access_policy
+      - retention_class
+      - retention_until
+      - deletion_state
+      - access_delivery_mode
+    rule: Originals stay immutable. OCR, transcripts, sampled frames, thumbnails and redactions are derived objects with provenance. Signed access is short lived and scoped. Apply BP05/BP06 to issued links and authorized removal; immutable does not mean stored forever.
+  - id: C03
+    name: Candidate and admission decision
+    fields:
+      - candidate_id
+      - workflow_pack_version
+      - proposed_object_type
+      - proposed_fields
+      - evidence_refs
+      - uncertainties
+      - matcher_version
+      - decision_id
+      - reviewer_or_rule
+      - policy_version
+      - expected_record_version
+    rule: A candidate is not an accepted record. Admission requires a permitted human or a preconfigured bounded rule; conflicting versions return for review.
+  - id: C04
+    name: Business record revision
+    fields:
+      - record_id
+      - tenant_id
+      - business_id
+      - matter_id_optional
+      - record_type
+      - revision
+      - supersedes
+      - effective_at
+      - recorded_at
+      - accepted_by
+      - decision_id
+      - typed_values
+      - evidence_refs
+    rule: Keep operational event time separate from recording time. Corrections append revisions, recompute affected views and trace dependent tasks/exports; they do not erase history.
+  - id: C05
+    name: Grant and delegation
+    fields:
+      - grant_id
+      - principal_id
+      - tenant_id
+      - resource_scope
+      - allowed_action
+      - constraints
+      - valid_from
+      - expires_at
+      - revoked_at
+      - policy_version
+    rule: Source membership is not a grant. Re-evaluate at retrieval and dispatch. Approval binds the exact action payload, destination and object version; materially changed proposals need renewed approval.
+  - id: C06
+    name: Action intent and receipt
+    fields:
+      - action_id
+      - workflow_id
+      - causation_id
+      - tenant_id
+      - business_id
+      - tool_version
+      - payload_hash
+      - idempotency_key
+      - approval_ref
+      - status
+      - attempt_id
+      - provider_object_ref
+      - verification_evidence
+      - error_class
+      - lease_generation
+      - reconciliation_method
+      - retry_class
+    rule: Use prepared → authorized → dispatched → verified/failed/unknown. Unknown is reconciled by provider state or human decision before retrying a potentially completed side effect.
+  - id: C07
+    name: Task / matter / schedule
+    fields:
+      - task_id
+      - matter_id_optional
+      - assignee_id
+      - accepted_record_ref
+      - assignment_version
+      - status
+      - due_at
+      - timezone
+      - deadline_source
+      - acknowledged_at
+      - escalation_policy
+      - calendar_projection_ref
+    rule: Calendar and external task apps are projections of accepted SupaBiz state. A proposed hearing date is distinct from a validated date. Reassignment and corrections cancel or revise dependent reminders.
+  - id: C08
+    name: Workflow and outbox
+    fields:
+      - workflow_id
+      - workflow_type
+      - definition_version
+      - business_object_ref
+      - trigger_event_id
+      - current_state
+      - pending_decision_id
+      - timer_ref
+      - outbox_event_id
+      - lease_owner
+      - lease_expires_at
+      - attempt_count
+      - consumer_inbox_id
+      - object_sequence
+    rule: Commit business changes and their outbox entry in one database transaction. A relay starts/signals the workflow with stable IDs. The engine owns progression; the ledger owns accepted business facts. BP02 requires atomic consumer dedupe with local state changes.
+  - id: C09
+    name: Run / evaluation record
+    fields:
+      - run_id
+      - trace_id
+      - model_and_parameters
+      - prompt_version
+      - parser_version
+      - policy_version
+      - workflow_version
+      - fixture_id_optional
+      - input_refs
+      - outcome_refs
+      - review_minutes
+      - usage_cost
+      - latency
+      - redaction_profile
+    rule: Trace payloads are minimized and redacted. A release report distinguishes known tests, held-out tests, fault tests and real-pilot observations. Model scores are not authoritative business labels.
+  - id: C10
+    name: Projection freshness and coverage
+    fields:
+      - view_id
+      - tenant_id
+      - business_id
+      - accepted_ledger_revision
+      - last_projected_event
+      - source_checkpoints
+      - coverage_gaps
+      - computed_at
+      - policy_version
+    rule: Answers disclose freshness/gaps; a missed source interval cannot be represented as a zero total. Rebuild derived views from accepted records under current grants.
+  - id: C11
+    name: Check and reviewed exception
+    fields:
+      - check_id
+      - rule_id
+      - rule_version
+      - bound_input_revisions
+      - verdict
+      - reason_code
+      - missing_evidence
+      - review_decision_ref
+    rule: PASS/FAIL/CANNOT_VERIFY is independent of job completion and approval. Review preserves the historical result; corrected data triggers new evaluation.
+  - id: C12
+    name: Scoped correction and governed procedure
+    fields:
+      - correction_id
+      - original_proposal
+      - human_change
+      - verified_outcome
+      - scope
+      - owner
+      - evidence_refs
+      - effective_at
+      - expires_at
+      - version
+      - test_case_refs
+      - release_state
+    rule: One-off correction is not standing policy. Draft → reviewed → tested → active → superseded/rolled_back, with independent holdout evidence.
+  - id: C13
+    name: Evaluation world and oracle
+    fields:
+      - experiment_id
+      - episode_id
+      - generation
+      - fixture_digest
+      - clock
+      - grants
+      - tool_contract_versions
+      - harness_commit
+      - model_config
+      - oracle_version
+      - expected_effects
+      - forbidden_effects
+      - observer_health
+    rule: Isolate each mutable world; protect the oracle; failed observations mean ungradable, not pass. No production credentials or endpoints.
+  - id: C14
+    name: Relationship and delegated job
+    fields:
+      - job_id
+      - issuer_principal
+      - recipient_principal
+      - businesses
+      - purpose
+      - capabilities
+      - data_refs
+      - audience
+      - limits
+      - expires_at
+      - delegation_depth
+      - revocation_version
+    rule: Later capability: transport identity does not confer authority. Each business retains independent grants; minimum evidence crosses the boundary.
+workflows:
+  - id: W01
+    name: Restaurant photo → verified task
+    actors: Staff → manager → assignee → Varun
+    first_sprint: S2
+    steps:
+      - name: Capture
+        layers:
+          - L03
+          - L04
+        output: Photo/voice with outlet and source ID; receipt means captured, not solved.
+      - name: Interpret
+        layers:
+          - L05
+          - L06
+        output: Visible observation and candidate location; uncertainty stays explicit.
+      - name: Review
+        layers:
+          - L01
+          - L02
+        output: Manager accepts/corrects exact issue and assignee; current grants checked.
+      - name: Coordinate
+        layers:
+          - L07
+          - L08
+        output: Assign, verify delivery, await acknowledgement; escalation has owner and stop conditions.
+      - name: Close
+        layers:
+          - L04
+          - L05
+        output: Completion evidence plus configured reviewer confirms outcome.
+      - name: Improve
+        layers:
+          - L10
+        output: Classified correction can become a scoped rule and held-out test.
+    failure_cases: Wrong outlet, stale image, duplicated report, no acknowledgement, misleading completion photo and revoked staff.
+    status: Proposed; not executed here
+  - id: W02
+    name: Receiving → inventory → accountant evidence
+    actors: Receiving staff → manager → CA
+    first_sprint: S3
+    steps:
+      - name: Capture
+        layers:
+          - L03
+          - L04
+        output: Retain delivery report and invoice as separate evidence.
+      - name: Match
+        layers:
+          - L05
+          - L06
+        output: Business, supplier, delivery, item and units must align; no blind fuzzy merge.
+      - name: Check
+        layers:
+          - L05
+        output: 20 kg received and 22 kg billed remain distinct; discrepancy is 2 kg, not a new consensus value.
+      - name: Admit
+        layers:
+          - L02
+          - L05
+        output: Authorized accepted receiving quantity creates one movement; rejected/quarantined quantities handled separately.
+      - name: Resolve
+        layers:
+          - L01
+          - L07
+        output: Manager owns discrepancy; credits, returns and payment are separate lifecycles.
+      - name: Export
+        layers:
+          - L08
+          - L10
+        output: CA-approved mappings, source bundle and export receipt; posting only after separate verified integration.
+    failure_cases: No receiving evidence, duplicate forwards, unknown pack size, partial delivery, count cutoff, return, split invoice and late correction.
+    status: Proposed; not executed here
+  - id: W03
+    name: Court notice → reviewed matter work
+    actors: Arkaj email → Ramya → assigned lawyer/staff
+    first_sprint: S4
+    steps:
+      - name: Capture
+        layers:
+          - L03
+          - L04
+        output: Scoped email and exact attachment version; source authenticity remains an explicit check.
+      - name: Identify
+        layers:
+          - L05
+          - L06
+        output: Court + case type/number/year or reviewed CNR; unresolved is not automatically a new case.
+      - name: Propose
+        layers:
+          - L05
+        output: Separate notice/hearing/internal deadline; show old/new values and original page.
+      - name: Review
+        layers:
+          - L01
+          - L02
+        output: Ramya/responsible lawyer confirms intended change; task and document audience explicit.
+      - name: Execute
+        layers:
+          - L07
+          - L08
+        output: Recheck source/version/grants; update task/calendar projection and verify effect.
+      - name: Follow through
+        layers:
+          - L07
+          - L10
+        output: Acknowledgement, blockers and revised reminders; corrected notice supersedes pending work without deleting history.
+    failure_cases: Same case number in two courts, ambiguous date, missing page, later correction, calendar timeout and removed assignee.
+    status: Proposed; not executed here
+  - id: W04
+    name: Daily accounting handoff → exceptions → acknowledged packet
+    actor: Managers and CA for each authorized business.
+    outcome: A clear daily handoff shows accepted totals, missing evidence and unresolved questions.
+    steps:
+      - name: Close a reporting window
+        layers:
+          - L05
+          - L07
+        output: Use a declared business-day cutoff and timezone; the packet records an as-of time and source completeness.
+      - name: Build a deterministic packet
+        layers:
+          - L05
+          - L08
+        output: Export accepted movements/receipts plus unresolved exceptions. Model summaries explain the computed packet; they do not create totals.
+      - name: Review and deliver
+        layers:
+          - L01
+          - L02
+          - L08
+        output: Manager checks destination and disclosure scope. Send or grant access only to the authorized accountant and record the delivery outcome.
+      - name: Acknowledge and follow up
+        layers:
+          - L07
+          - L01
+        output: Track CA questions as object-linked tasks. Later corrections create a revised packet/adjustment with a visible relationship to the prior version.
+    failure_cases:
+      - Disconnected source → packet marked incomplete.
+      - CA supports both businesses → separate authorized scopes and labelled totals.
+      - Uncertain delivery → visible status and reconciliation.
+    acceptance:
+      - Totals equal accepted ledger state at the stated cutoff.
+      - Every missing item remains visible; “no data” is not reported as zero.
+      - Acknowledgement/follow-up survives restarts.
+    refinement: Treat the export as an operational handoff. A bookkeeping/accounting system integration can be added through the typed action boundary when requirements are known.
+    first_sprint: S5
+    status: Carried forward from v3.1; not implemented or verified by this update
+  - id: W05
+    name: Owner voice request → scoped answer or approved action
+    actor: Varun across two businesses, or a principal within permitted matters.
+    outcome: The owner receives a sourced answer or an explicit action preview with an accountable outcome.
+    steps:
+      - name: Capture intent
+        layers:
+          - L01
+          - L04
+        output: Transcribe voice with an editable transcript. Clarify ambiguous business, person, quantity or time before dispatch.
+      - name: Resolve authorized scope
+        layers:
+          - L02
+          - L05
+        output: Build separate authorized views for requested businesses/matters. Combine results only when permitted and label each contribution.
+      - name: Answer or propose
+        layers:
+          - L06
+          - L01
+        output: Answer from accepted state with freshness/citations; if an action is requested, render destination, payload, consequences and required approval.
+      - name: Execute and report
+        layers:
+          - L07
+          - L08
+        output: Recheck grants and payload/version, execute through a typed adapter, verify result and show receipt or unknown/failed status.
+    failure_cases:
+      - Wrong transcription changes a number → action preview catches it.
+      - “Send this to everyone” → resolve explicit authorized recipients.
+      - Access revoked after preview → dispatch denied.
+      - Stale inventory view → answer includes freshness and pending corrections.
+    acceptance:
+      - Approved payload equals executed payload.
+      - Unsupported certainty is rejected or qualified.
+      - No hidden cross-business content enters the prompt.
+    refinement: Launch voice notes/transcription before live real-time voice. Native chat should attach to accepted objects and reuse this action path; agent-to-agent exchange comes later with explicit delegated grants.
+    first_sprint: S5
+    status: Carried forward from v3.1; not implemented or verified by this update
+  - id: W06
+    name: Shift or leave message → coverage decision → staff update
+    actor: Staff member and authorized manager within one business.
+    outcome: A requested schedule change becomes an explicit manager decision, with acknowledged coverage and a traceable roster revision.
+    steps:
+      - name: Capture the request
+        layers:
+          - L03
+          - L04
+        output: Preserve message/voice note, sender, requested date and business. A message saying “starting now” is a reported event, not independently verified attendance.
+      - name: Resolve person and schedule
+        layers:
+          - L02
+          - L05
+          - L06
+        output: Match the staff identity and current roster; unclear dates, reused phone numbers or incomplete requests enter review.
+      - name: Manager decides
+        layers:
+          - L01
+          - L02
+          - L05
+        output: Present requested change and coverage conflicts. Manager accepts/rejects or requests clarification; no automated disciplinary, payroll or employment decision.
+      - name: Coordinate coverage
+        layers:
+          - L07
+          - L08
+        output: Propose a replacement only within approved eligibility rules, obtain acknowledgement, and then update the accepted roster/calendar projection.
+      - name: Notify and reconcile
+        layers:
+          - L08
+          - L05
+        output: Send only needed schedule information to authorized recipients. A later correction updates the roster version and cancels obsolete reminders.
+    failure_cases:
+      - Leave approval without replacement acknowledgement → visible uncovered shift.
+      - Personal leave reason → restricted record, not broadcast to the operations group.
+      - Two managers edit the same shift → version conflict and review.
+    acceptance:
+      - Accepted roster matches manager-approved decisions and acknowledgements.
+      - No private leave reason leaks through notifications or summaries.
+      - Replayed request does not create duplicate shifts or reminders.
+    refinement: Reuse the task, grant and workflow foundations; add a roster-specific state model and human decisions. Treat this as a demand-led expansion after the initial pilot, not a payroll product.
+    first_sprint: S6
+    status: Carried forward from v3.1; not implemented or verified by this update
+  - id: W07
+    name: Customer review → investigated issue → approved response
+    actor: Restaurant manager, responsible staff and authorized customer-contact owner.
+    outcome: A complaint or review becomes a traceable operational follow-up; any external response is explicitly authorized.
+    steps:
+      - name: Capture feedback
+        layers:
+          - L03
+          - L04
+        output: Preserve review/message, source and business. Separate the customer’s allegation from facts confirmed by staff or evidence.
+      - name: Triage and investigate
+        layers:
+          - L06
+          - L01
+          - L05
+        output: Propose category/severity and link possible related issues. Manager checks duplicate reports, assigns investigation and restricts personal details.
+      - name: Resolve the operational issue
+        layers:
+          - L07
+          - L05
+        output: Track acknowledgement, corrective action and evidence using the issue-task workflow. Completion is reviewed against the reported problem.
+      - name: Draft and approve a response
+        layers:
+          - L01
+          - L02
+          - L08
+        output: Present proposed wording, recipient/channel and any compensation commitment. Send only after the required business approval and record its outcome.
+      - name: Owner trend view
+        layers:
+          - L05
+          - L06
+          - L10
+        output: Report recurring accepted categories and unresolved complaints with denominators and sources; avoid treating a model sentiment label as a verified outcome.
+    failure_cases:
+      - Forwarded review with uncertain identity → do not contact an inferred person.
+      - Response timeout → reconcile before sending another reply.
+      - Draft promises refund/compensation → explicit authority required; payment execution is outside the initial workflow.
+    acceptance:
+      - Every sent response matches an authorized recipient and approved payload.
+      - Allegations and verified operational facts remain distinguishable.
+      - Issue closure and customer response are separate states.
+    refinement: Use the same issue/task core as photos, with additional privacy and outbound-communication approval. Keep automatic public posting and compensation outside the initial pilot.
+    first_sprint: S6
+    status: Carried forward from v3.1; not implemented or verified by this update
+roadmap:
+  - id: S0
+    name: Baseline, contracts and one test world
+    estimate: 1 week
+    depends:
+
+    owner: Platform lead + product owner
+    deliver:
+      - Locate and audit actual SupaBiz product code; reproduce the dossier’s fresh-intake failure.
+      - Pin source, record, grant, decision, action and evaluation contracts. Inventory actual implementation versus reported behavior.
+      - Create synthetic Consu/ForeFathers/Arkaj identities and a small stateful world; establish case manifest, clock and protected scorer.
+    gate: Every observed failure has a source/run/evidence ID and responsible layer. Wrong-tenant, duplicate and wrong-record controls demonstrably fail the test oracle.
+    not_yet: No framework migration, procurement or claim that prior 24/24 known cases represent general accuracy.
+  - id: S1
+    name: Reliable capture and protected evidence
+    estimate: 2 weeks
+    depends:
+      - S0
+    owner: Integration engineer + platform lead
+    deliver:
+      - Selected WhatsApp group and Gmail intake with durable journal/cursors, replay, gaps and edit/delete handling.
+      - Authentication, business/matter grants, credential broker, runtime-role DB isolation and object access.
+      - PDF/image/voice pipeline with bounded workers, provenance and missing-evidence states.
+    gate: Crash/reconnect/expired-cursor tests preserve events; seeded cross-scope reads fail; source lag and missing coverage visible. Originals and derivatives recover coherently.
+    not_yet: No autonomous external writes; no blanket desktop or microphone capture.
+  - id: S2
+    name: One complete photo-to-task workflow
+    estimate: 2–3 weeks
+    depends:
+      - S1
+    owner: Product engineer + platform lead + restaurant manager
+    deliver:
+      - Staff capture receipt, evidence drawer, manager correction, assignment, acknowledgement, reminders and verified closure.
+      - Typed action gateway, approval binding, uncertain-send reconciliation and current-permission recheck.
+      - Temporal-versus-existing-worker recovery spike; select one owner before live multi-day work.
+      - Very important correction loop v1: one-off versus scoped rule, reviewed promotion and regression case.
+    gate: A new unseen photo flows to a correct verified outcome through restart, correction and cancellation. No duplicate effects or unauthorized disclosures in the critical suite. Pilot starts read-only/shadow, then limited authorized actions.
+    not_yet: No full ERP, generic agent marketplace, automated accounting or native messenger.
+  - id: S3
+    name: Receiving, invoices and accountant handoff
+    estimate: 2 weeks
+    depends:
+      - S2
+    owner: Domain/integration engineer + manager/CA
+    deliver:
+      - Distinct order, receipt, stocktake, movement, invoice and credit records; explicit units and source authority.
+      - Opening-count/cutover procedure before reliable balances; split/partial receiving and duplicate allocations.
+      - Reviewed reconciliation packet for existing accountant system; exports and remote posting are distinct.
+    gate: Golden cases retain correct balances under late movements, returns, duplicate photos and corrections. Quantity/price mismatches stay visible; no unsupported GST/accounting treatment or automatic payment.
+    not_yet: No demand-forecast optimization, supplier auto-pay or POS replacement.
+  - id: S4
+    name: Ramya’s existing-matter workflow in shadow mode
+    estimate: 2 weeks; can overlap S3 only with a separate staffed lane
+    depends:
+      - S2
+    owner: Product/integration engineer + Ramya + responsible lawyer
+    deliver:
+      - Reviewed matter directory and compound identity; notice/hearing/work deadline types and source locators.
+      - Evidence-backed change packet, assignee acceptance, document readiness and controlled calendar projection.
+      - Superseded notices invalidate stale decisions/reminders; matter grants propagate to files and replies.
+    gate: Held-out notices match correct matters or abstain usefully; no unreviewed schedule-critical writes. Domain reviewer validates dates; revoked assignees cannot receive documents.
+    not_yet: No legal advice, inferred filing deadlines, automatic new-matter creation or automatic client updates.
+  - id: S5
+    name: Pilot economics, hardening and measured optimization
+    estimate: 2 weeks per released pilot; extends if gates fail
+    depends:
+      - S2
+    owner: Platform lead + QA + pilot owner
+    deliver:
+      - Only evaluate workflows whose own gates passed; S3/S4 are prerequisites for inventory/legal release respectively.
+      - Coherent restore, retention/deletion lineage, permission revocation, provider outages, quotas and unknown outcomes.
+      - Compare model/provider and governed-procedure candidates; costs include media, review/support and idle infrastructure.
+      - Add one API-less browser or short-video case only if it materially unblocks the pilot.
+    gate: Pre-agreed quality/review/cost thresholds pass on held-out and observed pilot work, with sample sizes and failure categories. Rollback and support runbooks exercised. No measured benefit is claimed before this evidence.
+    not_yet: No expanding scope to hide poor first-workflow completion.
+  - id: S6
+    name: Demand-led collaboration and device expansion
+    estimate: Later; separately scoped
+    depends:
+      - S5
+    owner: Product + platform
+    deliver:
+      - Object-linked app chat and partner job rooms with scoped invitations and revocation.
+      - Optional Agent Relay transport, limited desktop capture or Shire-style camera events after purpose/rights/cost validation.
+      - Evaluate Terse or dedicated tenant environments only for a measured scaling requirement; expand connector/domain packs independently.
+    gate: The added capability improves an existing workflow at acceptable total cost and passes the same authority/evidence/outcome controls.
+    not_yet: No automatic agent federation or mandatory migration from WhatsApp.
+default_stack:
+  - part: UI
+    choice: React + TypeScript responsive web application; Vite is a proposed build baseline
+    reason: One evidence/review interface for desktop and phone; native wrappers later for demonstrated OS capabilities.
+    gate: Keep an adequate existing UI stack after S0; do not rewrite merely to match this recommendation.
+    source: https://react.dev/learn/creating-a-react-app
+  - part: Control plane
+    choice: TypeScript modular service; Fastify is a proposed API baseline
+    reason: Shared typed contracts, clear domain modules, fewer deployments for a small team.
+    gate: Existing backend remains acceptable; choose one language/runtime per module and validate schemas at trust boundaries.
+    source: https://fastify.dev/docs/latest/Reference/TypeScript/
+  - part: Durable state
+    choice: Managed PostgreSQL + object storage + secret manager
+    reason: Transactions, revisions, grants, source metadata and outbox; media bytes stay outside database rows.
+    gate: Runtime role cannot own tables/bypass RLS. Test grants, encryption, backups, object retention and recovery.
+    source: https://www.postgresql.org/docs/18/ddl-rowsecurity.html
+  - part: Jobs and workflow
+    choice: Durable jobs initially; Temporal preferred candidate for multi-day work after S2 spike
+    reason: One owner of waits, signals and retries; SQL remains authoritative for domain facts.
+    gate: Recovery, worker upgrade, timer and timeout-after-effect tests; explicit managed-versus-self-operated cost decision.
+    source: https://docs.temporal.io/workflow-execution
+  - part: Media and model workers
+    choice: Retain current harness language; Python workers for Docling/processing where appropriate
+    reason: Replaceable bounded processing; no need to translate a useful Python harness into TypeScript.
+    gate: Versioned API/schema, resource limits, source provenance, data-policy-compatible provider fallbacks.
+    source: https://docling-project.github.io/docling/
+  - part: Evaluation and diagnostics
+    choice: Own cases/oracle; optional Hue adapter, Rystic twins and redacted trace backend
+    reason: Keep business correctness portable and avoid overlapping mandatory platforms.
+    gate: No production credentials in worlds; deliberate defects caught; logs cannot replace business audit.
+    source: research/YC06-hue.txt
+  - part: Development environment
+    choice: Monorepo with domain/adapter packages, containers and CI; isolated test/staging/production credentials
+    reason: Test changes across contracts together; reproducible environment and explicit migrations.
+    gate: Lockfiles/digests, license inventory, generated contract checks, expand/contract migrations, canary and rollback; no Kubernetes prerequisite.
+    source: research/YC12-grepai.txt
+changes_from_v31:
+  - before: v3.1 already had 11 layers, 9 harness parts and seven workflows.
+    after: Preserve those IDs; add explicit ownership, adoption decisions and 298 learning assignments.
+    why: Research strengthens existing boundaries; it does not justify a new stack for each company.
+  - before: Memory and evidence validation were broad responsibilities.
+    after: Make observation, candidate, accepted record, check, decision and effect separate contracts; add C11.
+    why: Definite/Marble/Terse expose distinct truth, verification and state concerns.
+  - before: Correction and evaluation were useful practices.
+    after: Promote Asakana’s very-important loop into C12/C13, sprint work and release gates.
+    why: Learning must be scoped, reviewed and tested before it changes future behavior.
+  - before: Integration and evaluation options were mostly general candidates.
+    after: Add exact code/pattern/service distinctions, package/license blockers and one common eval contract.
+    why: Public source or SDK documentation does not establish compatible, reusable production components.
+  - before: Cloud/device concepts could imply a persistent environment per owner.
+    after: Always-available intake and durable state; burst workers and scoped persistent sessions only where needed.
+    why: Continuity is a product property, not a requirement to pay for idle compute.
+  - before: Roadmap had stage gates without a comparison of all new projects.
+    after: Keep photo-to-task first; add role-owned sprint estimates, adoption spikes and conditional expansion.
+    why: One complete workflow provides stronger evidence than broad unfinished capability coverage.
+cost_and_scaling:
+  status: Analytical expectations and planning examples; no measured SupaBiz improvement
+  bounds:
+    - path: Exact entity lookup
+      without: O(N) scan per query; O(N²) all-pairs matching
+      with_approach: O(log N + k) indexed lookup, with bounded candidate k
+      space: O(N) indexes
+      caveat: Ambiguous/fuzzy joins can approach quadratic; cap candidates and escalate rather than silently miss.
+    - path: Incremental checks
+      without: O(NR) full evaluation for N records and R applicable rules
+      with_approach: O(VR) for affected dependency closure V
+      space: O(N + dependency edges)
+      caveat: V may equal N for global rules; retain full recompute reference and version invalidation.
+    - path: Model wake-up
+      without: M messages each trigger a model loop
+      with_approach: qM eligible triggers, plus bounded follow-up calls
+      space: Durable capture remains O(M) metadata plus media
+      caveat: q is measured; routing must be evaluated for missed work. Fewer calls are not automatically fewer errors.
+    - path: Media
+      without: Unbounded download/decoding and full history in context
+      with_approach: O(B) byte processing with per-job/concurrency caps; scoped evidence retrieval
+      space: O(B) retained evidence, bounded active working set
+      caveat: Sampling video reduces processed frames but loses coverage; no unobserved-event absence claims.
+    - path: Concurrency
+      without: Long model calls hold record locks
+      with_approach: Snapshot/version → slow work outside transaction → short guarded commit
+      space: O(active proposals) plus durable state
+      caveat: Hot records still serialize; measure conflicts and queue delay. Do not promise linear scaling.
+  cost_formula: Monthly total = allocated infrastructure + connector operations + media + model tokens/tool calls + storage/backups/egress + human review + support/recovery. Divide by correct completed workflows; also report cost per attempted workflow.
+  illustrative_inputs:
+    currency: USD; arbitrary sensitivity inputs, not quotes
+    messages: 10000
+    wake_fraction: 0.2
+    calls_per_wake: 2
+    input_tokens_per_call: 2500
+    output_tokens_per_call: 400
+    input_price_per_million: 1
+    output_price_per_million: 4
+    media_jobs: 400
+    media_price_each: 0.02
+    allocated_infrastructure: 150
+    review_items: 200
+    review_minutes_each: 2
+    review_cost_per_minute: 0.5
+    support: 50
+    correct_completed_workflows: 800
+  computed_example:
+    model_cost: 16.4
+    media_cost: 8
+    human_review_cost: 200
+    total: 424.4
+    cost_per_correct_completed_workflow: 0.5305
+  measurement:
+    - p50/p95 source-to-visible and source-to-completed latency; break out wait/review/model/queue time
+    - Correct completion among all eligible cases; abstention and unresolved coverage alongside conditional extraction accuracy
+    - False acceptance, wrong-tenant/matter disclosure, duplicate effects and unsupported certainty by risk slice
+    - Human correction/review minutes; staff interruptions and repeated questions
+    - Actual invoices/usage and all-in workflow cost, not model price alone
+  pilot_targets: Provisional, to freeze with pilot owner in S0: zero critical forbidden effects in the enumerated release suite; 100 representative shadow cases per released workflow before expanding autonomy; paired reviewer-effort/cost comparison with no quality regression. These sample targets do not establish rare-event safety.
+  scaling_triggers:
+    - Start with one control-plane deployment and separate worker pools; per-tenant quotas from day one.
+    - Scale workers when queue delay breaches the agreed p95 target; preserve provider-rate and review-capacity limits.
+    - Partition busy objects/tenants only after measured contention; avoid global serialization and avoid invented actor counts.
+    - Add retrieval indexing when measured search latency/quality requires it; ACL filtering precedes disclosure.
+    - Add dedicated tenant deployments only for contractual isolation/residency or measured noisy-neighbor requirements.
+hardening_controls:
+  - id: BP01
+    name: Enforce tenant isolation with the actual runtime database role
+    layers:
+      - L02
+      - L05
+      - L09
+    workflows:
+      - W02
+      - W03
+      - W05
+    finding: PostgreSQL documents that superusers and BYPASSRLS roles bypass row security; owners normally do too. Policies can also introduce race conditions when they consult changing authorization data.
+    decision: Use a non-owner, non-superuser application role without BYPASSRLS. Keep migrations and privileged recovery on separate credentials. Enable appropriate row policies and test USING/WITH CHECK behavior. Bind tenant context within each transaction and reject missing context; never trust a tenant ID supplied only by the browser.
+    implementation: Centralize the connection/transaction wrapper. Audit SECURITY DEFINER paths and views separately. Design membership checks with concurrency semantics rather than assuming every policy observes the newest grant. Pool reuse must not carry the previous request’s tenant context.
+    tests:
+      - Alternate two tenants through the same pooled connection; omitted tenant context must fail closed.
+      - Test reads, inserts, updates, exports and privileged helpers as the production role, not the migration owner.
+      - Revoke membership concurrently with retrieval and confirm the documented boundary.
+    sources:
+      - title: PostgreSQL row security policies
+        url: https://www.postgresql.org/docs/18/ddl-rowsecurity.html
+    evidence_kind: Documented mechanism; SupaBiz-specific design inference
+    implementation_status: Not implemented or tested here
+  - id: BP02
+    name: Pair the outbox with an atomic consumer inbox
+    layers:
+      - L03
+      - L05
+      - L07
+    workflows:
+      - W01
+      - W02
+      - W03
+      - W04
+    finding: AWS’s outbox guidance explicitly warns that a relay can deliver duplicate events and that ordering matters. A transactionally written outbox alone does not make downstream effects exactly once.
+    decision: Give every event a stable identity and each business object a revision/sequence. A database consumer records its inbox dedupe entry and its local state transition in the same transaction. External writes continue through the action-intent/receipt protocol.
+    implementation: Partition ordering by business object where required, not one global queue. Reject or park unexpected revisions; retry transient relay failures with bounded backoff. Poison events enter an inspectable failed queue with ownership and a replay plan. Do not acknowledge successful business processing merely because transport accepted a message.
+    tests:
+      - Crash after local state commit but before queue acknowledgement; replay must not apply the change twice.
+      - Deliver revisions out of order; no silent rollback of a newer accepted state.
+      - Replay a poison event after correction without dropping its original identity.
+    sources:
+      - title: AWS transactional outbox pattern
+        url: https://docs.aws.amazon.com/prescriptive-guidance/latest/cloud-design-patterns/transactional-outbox.html
+    evidence_kind: Documented mechanism; SupaBiz-specific design inference
+    implementation_status: Not implemented or tested here
+  - id: BP03
+    name: Separate business timers, activity limits and uncertain effects
+    layers:
+      - L06
+      - L07
+      - L08
+      - L09
+    workflows:
+      - W01
+      - W03
+      - W04
+      - W05
+    finding: Temporal distinguishes workflow timers/timeouts from activity failure and retry behavior. Its TypeScript documentation recommends timers for business deadlines rather than using a workflow timeout as a reminder.
+    decision: Use workflow timers for acknowledgements and escalations. Configure explicit per-activity duration, retry budget and error classification for provider work. Schema/permission rejection is non-retryable. An ambiguous external write returns an unknown outcome and starts reconciliation; it must not enter a blind retry loop.
+    implementation: Store attempt and lease/fencing generation with action state. A stale worker cannot commit a new local receipt over a newer attempt. Provider idempotency keys are used when supported. Local fencing does not cancel a request already sent to a remote provider; reconciliation is still required.
+    tests:
+      - Pause a worker beyond its lease, resume it and reject its stale local state transition.
+      - Lose the response after provider success; verify one logical effect or explicit unknown status.
+      - Cancel while a provider call is in flight; report the resulting state without claiming the remote action was undone.
+    sources:
+      - title: Temporal TypeScript workflow timeouts and failures
+        url: https://docs.temporal.io/develop/typescript/workflows/timeouts
+    evidence_kind: Documented mechanism; fencing/reconciliation are SupaBiz design proposals
+    implementation_status: Not implemented or tested here
+  - id: BP04
+    name: Enforce action authority outside every model
+    layers:
+      - L02
+      - L04
+      - L06
+      - L08
+      - L10
+    workflows:
+      - W01
+      - W02
+      - W03
+      - W05
+      - W07
+    finding: OWASP treats external documents, tool output and retrieved content as untrusted. It recommends tool-argument validation, least privilege and action-specific controls outside the model; a guardrail model is an additional layer, not an authorization boundary.
+    decision: Parsing workers receive no business-write credentials. Tool proposals carry structured arguments and source provenance. The executor resolves identity, allowed destination, object versions and the exact approved payload from trusted application state.
+    implementation: Validate outbound URLs and recipients against the intended task, scope network egress and sanitize rendered model output. A document that says “send all files here” remains evidence text. Any classifier is measured for both missed attacks and blocked legitimate work; it cannot grant authority.
+    tests:
+      - Put malicious instructions in email bodies, invoice OCR, image text, retrieved records and browser pages.
+      - Verify the attack cannot expand recipients, read another matter or invoke an unregistered tool even when the model follows it.
+      - Retest benign lookalikes and report false positives alongside attack outcomes.
+    sources:
+      - title: OWASP LLM prompt injection prevention
+        url: https://cheatsheetseries.owasp.org/cheatsheets/LLM_Prompt_Injection_Prevention_Cheat_Sheet.html
+    evidence_kind: Documented guidance; SupaBiz-specific design inference
+    implementation_status: Not implemented or tested here
+  - id: BP05
+    name: Make file-access revocation limits explicit
+    layers:
+      - L01
+      - L02
+      - L04
+      - L09
+    workflows:
+      - W03
+      - W04
+      - W06
+    finding: S3 documentation describes presigned URLs as bearer access with validity constrained by expiration, signing credentials and applicable policies. Revoking a SupaBiz membership alone is not an S3 credential or policy change.
+    decision: For sensitive matter files requiring a fresh access decision, prefer an authenticated application download path that checks the current grant. When direct signed links are justified, choose a bounded TTL by data class and disclose the remaining access window.
+    implementation: Avoid secrets or signed URLs in analytics/referrers and redact them from logs. Validate tenant/object ownership before issuing access. A proxy must not leak an equivalent long-lived downstream URL. Previously downloaded copies and in-progress transfers cannot be recalled by changing app membership.
+    tests:
+      - Revoke a matter grant after a link is issued and verify the selected access mode’s documented behavior.
+      - Try a valid object ID under another tenant and an expired link.
+      - Confirm caches, thumbnails and exports follow the same authorization/retention policy.
+    sources:
+      - title: S3 presigned URL permissions and expiration
+        url: https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-presigned-url.html
+    evidence_kind: Documented mechanism; SupaBiz-specific access-mode decision
+    implementation_status: Not implemented or tested here
+  - id: BP06
+    name: Reconcile immutable evidence with deletion and retention
+    layers:
+      - L02
+      - L04
+      - L05
+      - L09
+      - L10
+    workflows:
+      - W03
+      - W04
+      - W06
+      - W07
+    finding: Design review found that “immutable originals” did not describe retention expiry, deletion requests or copies in indexes and traces. This is a gap in our architecture, not a newly verified upstream defect.
+    decision: Immutability means no silent edits during authorized retention, not indefinite storage. Separate the minimum audit metadata from sensitive payloads and implement a retention/deletion state machine by data class. Retention exceptions need a recorded business policy and responsible owner; this reference sets no legal retention period.
+    implementation: Inventory originals, derivatives, embeddings, search/cache entries, exports, provider uploads and backups. A deletion/tombstone prevents normal reads and re-indexing immediately, while a tracked job removes eligible copies. Pending provider or backup expiry remains visible; do not claim physical deletion before verified completion.
+    tests:
+      - Delete a permitted test object and check every derivative/index path.
+      - Restore a backup containing a later-deleted object; replay deletion policy before exposing the tenant.
+      - Verify retained audit metadata does not preserve the sensitive content being removed.
+    sources:
+
+    evidence_kind: SupaBiz design walkthrough; policy and implementation verification still required
+    implementation_status: Not implemented or tested here
+  - id: BP07
+    name: Show freshness and constrain backlog cost per business
+    layers:
+      - L01
+      - L03
+      - L05
+      - L07
+      - L09
+      - L10
+    workflows:
+      - W01
+      - W02
+      - W04
+      - W05
+    finding: Design review found no explicit read-model freshness contract or per-business workload admission policy. A sourced answer can still be stale, and one large media backlog can delay another business.
+    decision: Attach source coverage, accepted-ledger revision, last projected event and as-of time to computed views. Separate pending/unknown data from zero. Apply per-tenant concurrency and cost budgets, fair queueing and an admission limit for expensive media processing.
+    implementation: Prioritize safety/critical deadlines and user-visible decision work using declared policy, while keeping bulk backfill separately bounded. Queue age and budget exhaustion are product states. Degrade optional video/enrichment first; preserve capture, evidence and audit integrity. Never silently switch to a provider prohibited by the business data policy.
+    tests:
+      - Stop one connector and verify the owner summary is visibly incomplete.
+      - Flood one tenant with media and measure the other tenant’s queue delay.
+      - Exhaust a workflow budget; confirm a resumable blocked state and no hidden expensive retries.
+    sources:
+
+    evidence_kind: SupaBiz operational design proposal; performance measurements pending
+    implementation_status: Not implemented or tested here
+  - id: BP08
+    name: Restore a coherent business state before enabling writes
+    layers:
+      - L05
+      - L07
+      - L08
+      - L09
+    workflows:
+      - W01
+      - W02
+      - W03
+      - W04
+    finding: Design review found that a database restore gate alone could miss mismatches with object versions, workflow progress and already completed provider actions.
+    decision: Define a recovery manifest linking the database recovery point, retained object versions and workflow/action identities. Restore first into an isolated, write-disabled environment. Reconcile external effects and apply deletion/revocation records before enabling dispatch.
+    implementation: Measure recovery time and data-loss exposure in drills before committing to RTO/RPO targets. A restored pending outbox must not automatically resend old customer messages or duplicate calendar entries. Test backup credentials and availability independently from the application credentials.
+    tests:
+      - Restore with a missing media object and expose an explicit evidence gap.
+      - Restore before an external action that already succeeded; reconcile its receipt before dispatch.
+      - Verify backup completeness, tenant boundaries and deletion tombstones before releasing access.
+    sources:
+
+    evidence_kind: SupaBiz recovery design proposal; restore drills pending
+    implementation_status: Not implemented or tested here
+baseline_evidence:
+  - id: T01
+    label: Known-answer composite
+    value: 24 / 24
+    status: demonstrated
+    detail: S2 combines 9 + 15 returned answers on known questions. Stopped batch runs remain failed. This is not a clean single production run or a generalised accuracy rate.
+    source: E01
+  - id: T02
+    label: Latest fresh-intake answers
+    value: 0 / 3
+    status: partial
+    detail: AUTO-INTAKE RUN03: ten calls completed, but par 20 and CC-224 were missed. One answer had a material error; the other two had strict gaps. Latest output was CLI, not app.
+    source: E01
+  - id: T03
+    label: Citation replay
+    value: 2 / 2
+    status: demonstrated
+    detail: Two known answers were strict-clean; 16/16 supporting native citations. $1.126136 total and 65.5 / 85.6 seconds. Tiny sample; not a latency or cost service guarantee.
+    source: E01
+  - id: T04
+    label: Context packet
+    value: 108.7 KB
+    status: partial
+    detail: Approximately 108.7 of a 120 KB packet budget. Evidence selection and growing-history tests are needed before scaling the history.
+    source: E01
+  - id: T05
+    label: Replay & correction behaviour
+    value: Narrow pass
+    status: demonstrated
+    detail: Accept / reject / correct and restart behaviour reported. Undated movement handling, identity authority, duplicates and ordering required fixes. No independent rerun here.
+    source: E01
+  - id: T06
+    label: Live connectors
+    value: Reported
+    status: reported
+    detail: WhatsApp online-session reading is founder-reported. Gmail is described as straightforward. Neither completeness nor recovery was independently verified.
+    source: E02
+baseline_components:
+  - id: owner-app
+    name: Owner & operator workspace
+    layer: experience
+    status: partial
+    purpose: Give the owner one place to understand the business and resolve uncertainty. Organise the product around Today, Work, Records and Assistant; expose evidence and action history in context.
+    inputs:
+      - Authenticated identity and workspace scope
+      - Fresh business views, tasks, proposals and source links
+    outputs:
+      - Questions, corrections and explicit decisions
+      - Visible task state, source freshness and action receipts
+    dependencies:
+      - identity
+      - views
+      - decision-queue
+      - answers
+    evidence: The dossier reports an offline replay app with pending-record acceptance, rejection and correction, including restart checks. Latest intake answers were CLI outputs, not proof of a complete app workflow.
+    remaining:
+      - Connect the app to fresh ingestion and persisted services
+      - Show connection gaps, unresolved facts, decision impact and last sync
+      - Support accessible mobile layout, notifications and a decision history
+    acceptance:
+      - A new delivery appears, is corrected and changes the owner view without CLI intervention
+      - A restart preserves decisions; stale or partial data is labelled
+    boundaries: Do not present an assistant response as an executed transaction. Owner, manager and accountant see different authorised objects.
+    sources:
+      - E01
+      - E02
+    sprint: S2
+    used_by:
+
+    search_terms:
+
+  - id: device-apps
+    name: Phone, desktop & voice
+    layer: experience
+    status: proposed
+    purpose: Provide convenient input and notifications across devices. A desktop connector is an optional bridge for local files or a linked session; the cloud remains the proposed workflow authority.
+    inputs:
+      - Typed or spoken owner requests
+      - Approved local folders or connector sessions
+    outputs:
+      - Authenticated commands
+      - Device status and notifications
+    dependencies:
+      - identity
+      - orchestrator
+      - secrets
+      - voice
+    evidence: Phone and desktop applications are founder requirements. No installed product client or voice pipeline has been inspected.
+    remaining:
+      - Start with a responsive web client
+      - Add desktop packaging only where a connector or local capability requires it
+      - Add speech transcription, confirmation of ambiguous names/dates, device revoke and notification preferences
+      - Voice-note transcription is an earlier S2 intake capability; full interactive voice UI remains conditional at S6.
+    acceptance:
+      - Two devices see the same committed task state
+      - A revoked or offline device cannot execute queued privileged work
+      - Voice corrections are reviewable before sensitive actions
+    boundaries: No universal cross-app awareness is assumed. Each operating system and source integration needs explicit capability testing.
+    sources:
+      - E02
+      - H01
+    sprint: S6
+    used_by:
+
+    search_terms:
+
+  - id: native-chat
+    name: Native object-linked collaboration
+    layer: experience
+    status: later
+    purpose: Gradually move useful operational discussion into conversations attached to a task, invoice or matter, while preserving WhatsApp participation during transition.
+    inputs:
+      - Authorised users and business-object references
+      - Messages and files
+    outputs:
+      - Scoped discussion events and acknowledgements
+    dependencies:
+      - identity
+      - observations
+      - tasks
+      - media
+    evidence: Founder direction only. There is no evidence of a built team-chat service.
+    remaining:
+      - First test comments and acknowledgements on work objects
+      - Add notification, search, retention and delivery behaviour
+      - Only expand to broad chat after users choose it for repeated workflows
+    acceptance:
+      - A task discussion is visible only to its authorised participants
+      - A removed staff member loses access to both object and conversation
+    boundaries: Do not make replacing WhatsApp a prerequisite for the first useful business loop.
+    sources:
+      - E02
+    sprint: S6
+    used_by:
+      - agent-exchange
+    search_terms:
+
+  - id: whatsapp
+    name: WhatsApp session connector
+    layer: intake
+    status: reported
+    purpose: Turn the already reported online-session access into a reliable, observable source of messages and media for approved business groups.
+    inputs:
+      - Authorised linked-session events and selected groups
+      - Backfill, new messages and available edit/revoke/reply metadata
+    outputs:
+      - Normalised observations with original source keys
+      - Connection checkpoints, gap states and media-fetch jobs
+    dependencies:
+      - secrets
+      - identity
+      - observations
+      - media
+    evidence: The founder reports that WhatsApp can be read through an online session and periodically supplied to the agent. The session implementation, completeness and failure recovery have not been inspected.
+    remaining:
+      - Audit the existing connector before choosing Baileys or whatsmeow
+      - Persist session credentials and key material securely and atomically
+      - Use one active worker lease per linked session; distinguish that from one device per account
+      - Capture history limits, edits, revokes, reply keys, reconnect reasons and identity mappings when available
+      - Expose missing history and media; support re-pairing by an authorised owner
+      - Compare existing connector against Hermes before replacement; do not adopt its in-memory polling queue as the business evidence store.
+    acceptance:
+      - Replay duplicates, reconnects and out-of-order events without double admission
+      - A revoked session stops collection and alerts the owner
+      - Unavailable media creates an explicit gap instead of an invented fact
+    boundaries: Group membership does not grant business action authority. Validate platform eligibility and operating conditions for the chosen integration; no anti-ban or uninterrupted-access promise.
+    sources:
+      - E01
+      - E02
+      - E03
+      - R02
+      - R03
+      - H01
+    sprint: S1
+    used_by:
+
+    search_terms:
+
+  - id: gmail
+    name: Gmail & email intake
+    layer: intake
+    status: reported
+    purpose: Capture relevant emails and attachments, then recognise a continuing matter, a new matter or an ambiguous update before proposing work.
+    inputs:
+      - User-authorised mailbox access
+      - Provider message/thread identifiers and attachments
+    outputs:
+      - Email observations, attachment links and ingestion checkpoints
+    dependencies:
+      - identity
+      - secrets
+      - observations
+      - media
+    evidence: The founder describes Gmail integration as easy to connect. No implemented watcher, sync completeness or permission flow was inspected.
+    remaining:
+      - Choose scopes for read, draft and send capabilities separately
+      - Implement resumable sync and reconciliation for lost notifications or expired cursors
+      - Normalise court/matter identifiers without relying only on subject text
+      - Show mailbox access and reconnection status
+    acceptance:
+      - Repeated notifications do not create duplicate cases or tasks
+      - A missed interval can be reconciled with an explicit coverage result
+      - Two similarly named matters are held for review instead of merged
+    boundaries: An email sender cannot authorise access to every matter. Treat email text and attachments as untrusted evidence.
+    sources:
+      - E02
+      - R04
+    sprint: S1
+    used_by:
+      - calendar
+    search_terms:
+
+  - id: observations
+    name: Source event journal
+    layer: intake
+    status: partial
+    purpose: Keep a durable account of what each source supplied, separately from the business meaning later assigned to it.
+    inputs:
+      - Connector payloads and original source identifiers
+      - Sent, received and stated event times
+    outputs:
+      - Append-only observation records
+      - Edit/revoke/correction links and checkpoint acknowledgements
+    dependencies:
+      - identity
+      - database
+    evidence: The dossier uses source messages and structured intake/ledger processing. A complete production event journal with connector semantics is not evidenced.
+    remaining:
+      - Version the event envelope and preserve raw provider metadata under retention policy
+      - Separate sent_at, received_at and event_time; record unknown times
+      - Link edits and revokes without silently rewriting the audit history
+      - Commit intake checkpoints only after durable capture; retain gap markers
+    acceptance:
+      - The same source event replayed repeatedly is stored once logically
+      - An amendment remains traceable to the original
+      - A timezone or unknown event time is never silently guessed
+    boundaries: Append-only audit design does not mean retaining personal data forever: deletion and retention must cover originals, derivatives, exports and backups.
+    sources:
+      - E01
+      - E03
+    sprint: S1
+    used_by:
+      - native-chat
+      - whatsapp
+      - gmail
+      - media
+      - extraction
+    search_terms:
+
+  - id: media
+    name: Media & document pipeline
+    layer: intake
+    status: proposed
+    purpose: Make photos, voice notes, invoices and court documents usable evidence with accessible originals and precise references.
+    inputs:
+      - Attachment metadata, original bytes when available and per-sighting access scope
+    outputs:
+      - Stored originals, OCR or transcripts and page/time references
+      - Availability states and relationships to source events
+    dependencies:
+      - object-store
+      - identity
+      - observations
+    evidence: The synthetic corpus contains multimedia and an unavailable delivery slip. Production fetch, OCR, transcription and original-byte storage have not been inspected.
+    remaining:
+      - Fetch under bounded retries; quarantine unsafe files and constrain parsers
+      - Store digest, MIME, size, source sighting and derivative version
+      - Keep unavailable, expired, failed and requested-again states explicit
+      - Use byte hashes to deduplicate storage while preserving every business/source association
+      - Route images, voice and videos through dedicated processors; keep originals and versioned derivatives with page/region/time evidence and coverage states.
+    acceptance:
+      - The same invoice forwarded to another outlet is not reassigned by hash equality
+      - Every extracted number can open the relevant original page or audio span
+      - Failed OCR cannot be mistaken for an empty or fully reviewed document
+    boundaries: A byte hash establishes byte identity, not business ownership, invoice authority or semantic equivalence. Derivatives inherit source restrictions.
+    sources:
+      - E01
+      - E03
+      - H01
+    sprint: S1
+    used_by:
+      - native-chat
+      - whatsapp
+      - gmail
+      - extraction
+      - retrieval
+      - tasks
+      - portability
+      - vision
+      - voice
+      - video
+    search_terms:
+      - Embeddings & vector index
+      - Multimodal perception
+  - id: identity
+    name: Directory, tenancy & roles
+    layer: records
+    status: proposed
+    purpose: Resolve who is speaking, which business or matter they belong to and what they may see or do. Keep stable internal identities separate from email addresses and messaging identifiers.
+    inputs:
+      - Workspace setup, memberships and explicit account-link decisions
+      - Source identifiers and role assignments
+    outputs:
+      - Actor IDs, organisation/outlet/matter scopes and revocation state
+    dependencies:
+      - database
+    evidence: The dossier demonstrates identity ambiguity with two Ravi accounts and treats other-sender confirmations as context rather than authority. A full directory and multi-tenant role implementation are not evidenced.
+    remaining:
+      - Create business, outlet, person, membership and source-account tables
+      - Make ambiguous identity links correctable and auditable
+      - Represent accountant access to selected businesses and lawyer access to selected matters
+      - Revoke memberships, sessions, queued actions and derived access consistently
+    acceptance:
+      - Two people with the same display name remain distinct
+      - Removing a staff member blocks retrieval, downloads and later queued execution
+      - An accountant sees only explicitly shared scopes
+    boundaries: Ownership of two businesses does not automatically make every staff member cross-business. Server checks must cover retrieval, APIs, media and exports.
+    sources:
+      - E01
+      - E02
+      - E03
+    sprint: S0–S1
+    used_by:
+      - owner-app
+      - device-apps
+      - native-chat
+      - whatsapp
+      - gmail
+      - observations
+      - media
+      - extraction
+      - retrieval
+      - policy
+      - decision-queue
+      - tasks
+      - agent-exchange
+      - object-store
+      - secrets
+      - portability
+      - browser
+      - voice
+    search_terms:
+      - Long-term memory
+      - Authentication versus authorisation
+  - id: extraction
+    name: Typed extraction & entity matching
+    layer: records
+    status: partial
+    purpose: Convert messages and documents into candidate business facts, preserving uncertainty rather than treating a plausible model answer as accepted state.
+    inputs:
+      - Scoped observations, attachments and known business entities
+      - Versioned extraction schemas
+    outputs:
+      - Candidate records with evidence references, unresolved fields and confidence signals
+    dependencies:
+      - observations
+      - media
+      - identity
+      - model-router
+      - vision
+      - voice
+      - video
+    evidence: Latest reported AUTO-INTAKE RUN03 completed ten calls and captured several corrections, but missed the potato par value and CC-224. It still produced one material error and 0/3 strict-clean answers.
+    remaining:
+      - Measure candidate recall separately from final answer quality
+      - Distinguish new entity, amendment, duplicate and wrong-business forward
+      - Extract units, currency, dates and unknown fields using typed validation
+      - Keep correction and replacement chains in selected evidence
+    acceptance:
+      - The 20 kg par value and CC-224 are captured in the regression set
+      - A statement of intent never creates a completed task
+      - Unseen paraphrases, voice notes and invoice variants pass held-out checks
+    boundaries: Confidence is not authority. A schema-valid record can still be semantically wrong and must pass domain and admission rules.
+    sources:
+      - E01
+    sprint: S2
+    used_by:
+      - ledger
+    search_terms:
+      - Multimodal perception
+  - id: ledger
+    name: Admission & business record ledger
+    layer: records
+    status: partial
+    purpose: Separate proposed observations from accepted business state. Version accepted records and preserve the decision and evidence that caused each change.
+    inputs:
+      - Typed candidates, correction links and valid decision/grant references
+    outputs:
+      - Pending, accepted, rejected or superseded record versions
+      - Causal links and durable change events
+    dependencies:
+      - extraction
+      - policy
+      - database
+    evidence: The dossier reports accept/reject/correct replay behaviour, R2 replacement handling and fixes for undated movements, ordering and duplicates. Current implementation was not independently inspected.
+    remaining:
+      - Formalise admissible transitions and database constraints
+      - Use optimistic concurrency for competing corrections
+      - Represent replacement, retraction and supersession explicitly
+      - Separate ingestion time from business event time in all derived calculations
+    acceptance:
+      - R2 supersedes the original invoice without a second liability
+      - An accepted undated stock movement blocks an exact stock answer until resolved
+      - Correcting a movement applies the adjustment exactly once
+    boundaries: The model may propose a record; admission is enforced by deterministic rules and authorised decisions.
+    sources:
+      - E01
+    sprint: S2
+    used_by:
+      - views
+      - retrieval
+      - output-validation
+      - decision-queue
+      - business-tools
+      - portability
+    search_terms:
+      - Long-term memory
+  - id: views
+    name: Computed state & reconciliation
+    layer: records
+    status: partial
+    purpose: Compute inventory, invoice state and outstanding work from admitted records. Return known, disputed and incomplete values distinctly.
+    inputs:
+      - Accepted record versions, cut-off times and unresolved dependencies
+    outputs:
+      - Inventory balances, discrepancies, payment states and freshness markers
+    dependencies:
+      - ledger
+      - database
+    evidence: The known corpus tests 17.6 kg net tomatoes, the 19.45 kg potato discrepancy and a 12.5 kg issue already included in the sheet. Generalised production projections are not demonstrated.
+    remaining:
+      - Define units and deterministic calculations outside the model
+      - Rebuild views from versioned records and record the projection version
+      - Invalidate dependent answers and tasks when upstream facts change
+      - Show the cut-off and unresolved inputs alongside numerical results
+    acceptance:
+      - 32.7 − 13.25 = 19.45 kg; the included 12.5 kg issue is not subtracted again
+      - The later-than-cutoff events do not leak into the answer
+      - Rebuilding the same ledger yields the same current state
+    boundaries: A materialised view is a convenience, not a second independent source of truth. Stale caches must be detectable.
+    sources:
+      - E01
+    sprint: S2
+    used_by:
+      - owner-app
+      - retrieval
+      - output-validation
+      - answers
+    search_terms:
+
+  - id: retrieval
+    name: Permission-aware evidence retrieval
+    layer: runtime
+    status: partial
+    purpose: Select the evidence needed for a specific business question while preserving amendments, holds and dependencies and excluding unauthorised content.
+    inputs:
+      - Question, actor scope, current business records and source index
+    outputs:
+      - Bounded context packet with source IDs and completeness flags
+    dependencies:
+      - identity
+      - ledger
+      - media
+      - views
+    evidence: The dossier context packet reached approximately 108.7 of 120 KB. Small citation tests passed, but no reliable large-history retrieval result is demonstrated.
+    remaining:
+      - Start with exact IDs, relational queries and full-text search
+      - Add semantic retrieval only for an observed recall need
+      - Retrieve dependency closure: original, replacement, correction, hold and latest state
+      - Filter permissions before retrieval and again before output; version caches
+    acceptance:
+      - Wrong-outlet evidence is excluded even when semantically similar
+      - A hold or retraction survives context reduction
+      - At three times history, compare critical-evidence recall and answer quality with full-history baseline
+    boundaries: A vector database is an optional index, never the authoritative record store or an access-control boundary.
+    sources:
+      - E01
+      - E04
+      - H01
+    sprint: S2–S5
+    used_by:
+      - orchestrator
+      - output-validation
+      - answers
+    search_terms:
+      - Short-term memory
+      - RAG / retrieval
+      - Embeddings & vector index
+  - id: orchestrator
+    name: Bounded agent orchestration
+    layer: runtime
+    status: partial
+    purpose: Run a finite reasoning/tool loop around a user request or workflow event, with explicit budgets, state and stop conditions.
+    inputs:
+      - Authenticated command or permitted trigger
+      - Evidence packet, workflow version and allowed capabilities
+    outputs:
+      - Answer, proposed business change or scheduled continuation
+      - Run trace and terminal/pending state
+    dependencies:
+      - policy
+      - retrieval
+      - model-router
+      - output-validation
+      - workflow-engine
+    evidence: The dossier has extraction and answering runs plus adapter repairs. A complete durable multi-user production orchestrator is not evidenced.
+    remaining:
+      - Define request, run, step and workflow identifiers
+      - Bound model calls, tool calls, time and cost
+      - Persist transitions so workers can resume safely
+      - Hold only work that depends on an unresolved decision; let independent work continue
+    acceptance:
+      - A timeout produces a visible run state rather than a false success
+      - A pending payment approval does not stop unrelated inventory capture
+      - A resumed run cannot execute a completed side effect again
+    boundaries: Evaluation-run rules and production recovery rules are different contracts. Historical no-retry evaluation runs remain failed even if production could recover.
+    sources:
+      - E01
+      - E03
+      - H01
+    sprint: S2–S3
+    used_by:
+      - device-apps
+    search_terms:
+      - Short-term memory
+      - Planning
+      - Multi-agent coordination
+  - id: model-router
+    name: Model gateway & cost routing
+    layer: runtime
+    status: proposed
+    purpose: Make model providers replaceable through typed requests, capability checks and consistent outcomes. Use expensive reasoning only when measured task quality requires it.
+    inputs:
+      - Task type, sensitivity, budget and model capability requirements
+    outputs:
+      - Normalised model responses, usage and error categories
+    dependencies:
+      - secrets
+      - observability
+      - output-validation
+    evidence: Several models were evaluated in the dossier. This shows comparative experiments, not a production routing layer or provider-independent quality.
+    remaining:
+      - Create provider adapters and normalise tool/JSON/streaming/error behaviour
+      - Version prompts and model configuration per run
+      - Benchmark routing on held-out episodes before enabling cheaper routes
+      - Define fallback rules that respect residency, sensitivity and budget constraints
+    acceptance:
+      - Switching a provider preserves the application contract and reruns the release suite
+      - Failures never appear as successful empty outputs
+      - Cost is measured per completed correct business outcome, including retries and review
+    boundaries: LLM-independent means substitutable providers with tested contracts, not equal performance or zero provider dependence.
+    sources:
+      - E01
+      - E02
+      - H01
+    sprint: S3–S5
+    used_by:
+      - extraction
+      - orchestrator
+      - answers
+      - browser
+      - vision
+      - voice
+      - video
+    search_terms:
+      - Multi-agent coordination
+  - id: output-validation
+    name: Output, evidence & invariant checks
+    layer: runtime
+    status: partial
+    purpose: Check structure, arithmetic, evidence links, business invariants and completion state before presenting or admitting a model result.
+    inputs:
+      - Model response and selected source packet
+      - Domain invariants and expected output schema
+    outputs:
+      - Validated result or actionable failure/hold reason
+    dependencies:
+      - ledger
+      - views
+      - retrieval
+    evidence: The dossier reports an error:null adapter fix, strict/material grading differences and a citation mismatch later repaired on two tested answers.
+    remaining:
+      - Make parse failure, unsupported evidence and business conflict distinct errors
+      - Validate citations resolve to the exact supporting source version
+      - Check currency, unit and date consistency
+      - Require postcondition evidence for claims that an action completed
+    acceptance:
+      - A processing payment cannot be labelled paid
+      - A syntactically valid but unsupported answer is rejected or qualified
+      - Source citations remain valid after amendments and export
+    boundaries: Passing JSON validation alone is not correctness. Model self-review cannot replace deterministic checks or held-out evaluation.
+    sources:
+      - E01
+    sprint: S2
+    used_by:
+      - orchestrator
+      - model-router
+      - workflow-packs
+      - answers
+      - eval-harness
+      - vision
+      - voice
+      - video
+    search_terms:
+      - RAG / retrieval
+  - id: workflow-packs
+    name: Versioned business workflow packs
+    layer: runtime
+    status: proposed
+    purpose: Package repeatable domain rules, schemas, prompts and tests without allowing production agents to silently change operating policy.
+    inputs:
+      - Restaurant or legal process definition
+      - Approved configuration and schemas
+    outputs:
+      - Versioned extraction, validation, action and evaluation bundles
+    dependencies:
+      - policy
+      - output-validation
+      - eval-harness
+    evidence: The conversation recommends reusable workflows. No reviewed workflow-pack registry or deployment mechanism is evidenced.
+    remaining:
+      - Define a manifest with version, schema, allowed tools and test suite
+      - Start with restaurant delivery/reconciliation and legal intake as distinct packs
+      - Record the pack version on every run
+      - Review, stage and roll back updates; use the project’s existing reviewer policy when confirmed
+    acceptance:
+      - A pack upgrade can replay the same fixtures and expose changed behaviour
+      - A proposed self-generated skill cannot become live without release review
+    boundaries: Shared core does not mean identical business semantics. Court deadlines and restaurant stock rules require separate validation.
+    sources:
+      - E02
+      - E03
+      - E05
+      - H01
+    sprint: S2–S4
+    used_by:
+      - eval-harness
+    search_terms:
+      - Long-term memory
+      - Planning
+  - id: answers
+    name: Grounded answers & owner briefs
+    layer: runtime
+    status: partial
+    purpose: Explain current state in plain language with traceable evidence, relevant uncertainty and a clear next action for the owner.
+    inputs:
+      - Question, authorised current view and selected evidence
+    outputs:
+      - Answer or brief with source references, cut-off and limitations
+    dependencies:
+      - retrieval
+      - views
+      - output-validation
+      - model-router
+    evidence: S2 achieved a 24/24 composite on returned known-test answers; later citation replay was 2/2. Fresh AUTO-INTAKE RUN03 remained 0/3 strict-clean, including one material error.
+    remaining:
+      - Keep the wording separate from deterministic quantities and status
+      - Let the owner open originals and correct the underlying record
+      - Build briefs from deltas and exceptions rather than retranscribing every chat
+      - Label missing media, incomplete intake and stale connectors
+    acceptance:
+      - An owner can trace every material number to a source or calculation
+      - The answer does not imply a task is complete from a promise to do it
+      - A brief reflects newly accepted corrections and preserves payment holds
+    boundaries: The known-answer score is not an end-to-end reliability claim. Answer quality cannot compensate for missed intake.
+    sources:
+      - E01
+    sprint: S2
+    used_by:
+      - owner-app
+    search_terms:
+      - RAG / retrieval
+  - id: policy
+    name: Authority & grants engine
+    layer: actions
+    status: partial
+    purpose: Decide whether an actor may read, propose, approve or execute a specific action on a specific resource under current conditions.
+    inputs:
+      - Actor, tenant, object, action, exact parameters and resource version
+      - Current grants and standing policies
+    outputs:
+      - Allow, deny or hold decision with reason and policy revision
+    dependencies:
+      - identity
+      - database
+    evidence: The dossier describes grants and tests source authority boundaries. Multi-tenant enforcement at every API/tool/storage boundary is not proven.
+    remaining:
+      - Define scoped grants and limited standing rules for routine work
+      - Enforce policy in services outside the model loop
+      - Recheck actor, object version, amount/recipient and grant validity at execution
+      - Deny by default when identity or authority is ambiguous
+    acceptance:
+      - An instruction embedded in an invoice cannot change grants
+      - A revoked approver cannot release an old queued action
+      - Changing a recipient or amount invalidates the old approval
+    boundaries: A chat instruction, tool hook or group admin role is not a complete security boundary. Collection permission and execution permission are separate.
+    sources:
+      - E01
+      - E02
+      - E03
+      - R07
+      - H01
+    sprint: S0–S3
+    used_by:
+      - ledger
+      - orchestrator
+      - workflow-packs
+      - decision-queue
+      - tasks
+      - calendar
+      - business-tools
+      - action-executor
+      - agent-exchange
+      - sandbox
+      - browser
+    search_terms:
+      - MCP / tool protocol
+      - Authentication versus authorisation
+  - id: decision-queue
+    name: Asynchronous decision queue
+    layer: actions
+    status: partial
+    purpose: Ask for human judgement only where a fact, scope or consequence needs it. Keep each decision understandable, bounded and attached to its evidence.
+    inputs:
+      - Held proposals, conflicting candidates and sensitive action requests
+    outputs:
+      - Accept, reject, correct or expired decisions
+      - Resumable dependency signals and audit events
+    dependencies:
+      - policy
+      - ledger
+      - identity
+    evidence: The replay app reports pending-record decisions. A production queue with expiry, concurrency and action-specific revalidation is not evidenced.
+    remaining:
+      - Show what will change, why, exact scope and supporting originals
+      - Group related low-risk reviews without concealing per-item consequences
+      - Expire stale decisions and handle two reviewers acting concurrently
+      - Revalidate at execution and notify only the relevant person
+    acceptance:
+      - Changing an invoice after approval requires a fresh valid decision
+      - One held matter does not stall other workflows
+      - Two simultaneous accepts produce one committed result
+    boundaries: Approval is scoped to an action and version. It is not a permanent blanket authorisation for future similar actions.
+    sources:
+      - E01
+      - E03
+    sprint: S2–S3
+    used_by:
+      - owner-app
+    search_terms:
+      - Authentication versus authorisation
+  - id: tasks
+    name: Tasks, assignments & acknowledgements
+    layer: actions
+    status: proposed
+    purpose: Turn a verified operational need into owned work with a due date, attachments, dependencies and an explicit completion signal.
+    inputs:
+      - Admitted records and authorised assignment decisions
+    outputs:
+      - Task records, assignees, reminders, acknowledgements and completion evidence
+    dependencies:
+      - identity
+      - policy
+      - workflow-engine
+      - media
+    evidence: The dossier tests that an intention such as “I’ll ask the chef” is not completion. No integrated task lifecycle is demonstrated.
+    remaining:
+      - Define proposed, assigned, acknowledged, in-progress, blocked and completed states
+      - Connect tasks to source record versions and matter/outlet scopes
+      - Update or review tasks when source facts or deadlines change
+      - Keep reminder preferences and escalation authority explicit
+    acceptance:
+      - An assignment contains the correct files and scoped access
+      - Completion needs an explicit permitted transition with evidence when required
+      - A changed hearing date flags dependent tasks and calendar entries
+    boundaries: A task notification delivered is not the same as assignee acknowledgement or finished work.
+    sources:
+      - E01
+      - E02
+    sprint: S3
+    used_by:
+      - native-chat
+      - calendar
+      - portability
+    search_terms:
+      - Planning
+  - id: calendar
+    name: Calendar & deadline coordination
+    layer: actions
+    status: proposed
+    purpose: Reflect verified operational dates in calendars and reminders while tracking later amendments and the source of every date.
+    inputs:
+      - Verified event time, timezone, matter/task and assignee availability when relevant
+    outputs:
+      - Proposed or created event, provider ID and linked revision
+    dependencies:
+      - tasks
+      - policy
+      - action-executor
+      - gmail
+    evidence: Required by the Arkaj workflow. No calendar integration or court-date validation is evidenced.
+    remaining:
+      - Separate hearing dates from filing deadlines and internal preparation dates
+      - Require review for ambiguous or consequential legal dates
+      - Persist provider IDs and revision links for updates
+      - Handle timezone, rescheduling, cancellation and revoked calendar access
+    acceptance:
+      - An amended court email updates the right event after valid review
+      - A duplicate notice does not create a second hearing
+      - A partial task/calendar update remains visibly incomplete and recoverable
+    boundaries: Do not infer binding legal deadlines from general knowledge or silently override the responsible lawyer’s review.
+    sources:
+      - E02
+    sprint: S4
+    used_by:
+
+    search_terms:
+
+  - id: business-tools
+    name: PDF, inventory & export tools
+    layer: actions
+    status: proposed
+    purpose: Provide narrow, reliable common actions over accepted records so the business does not depend on a single assistant ecosystem for everyday outputs.
+    inputs:
+      - Typed action request, selected record versions and template
+    outputs:
+      - PDF, stock entry, task change or structured export plus receipt
+    dependencies:
+      - policy
+      - action-executor
+      - ledger
+      - object-store
+    evidence: These are founder requirements and proposed capabilities. A complete tool service is not evidenced.
+    remaining:
+      - Implement PDF generation from validated structured data
+      - Expose typed stock adjustment and task operations rather than arbitrary shell access
+      - Start accounting exports with explicit field mapping and review
+      - Validate generated files and attach provenance and access restrictions
+    acceptance:
+      - A PDF total matches the admitted invoice version and opens correctly
+      - A repeated stock-entry request produces one logical entry
+      - An export excludes unauthorised fields and never includes credentials
+    boundaries: Do not build a full accounting suite or claim compliance from a bookkeeping export. Payment execution is outside the first pilot.
+    sources:
+      - E02
+    sprint: S3
+    used_by:
+
+    search_terms:
+      - MCP / tool protocol
+  - id: action-executor
+    name: Typed execution & causal receipts
+    layer: actions
+    status: proposed
+    purpose: Execute approved actions through constrained adapters, record what caused them and distinguish requested, successful, failed and uncertain outcomes.
+    inputs:
+      - Action type, exact arguments, grant/decision, idempotency key and preconditions
+    outputs:
+      - Provider result, verified postcondition and receipt
+      - Retry, reconciliation or compensation requirement
+    dependencies:
+      - policy
+      - secrets
+      - workflow-engine
+      - database
+    evidence: The other discussion recommends causal action receipts. Production action execution and uncertain-outcome reconciliation are not evidenced.
+    remaining:
+      - Use an outbox or equivalent durable handoff with idempotent consumers
+      - Store cause record IDs, decision, policy version, arguments and result
+      - After a timeout, inspect provider state before retrying side effects
+      - Define compensating actions where reversal is possible; surface non-reversible outcomes
+    acceptance:
+      - A timeout after sending does not trigger an automatic duplicate send
+      - Every claimed success has a receipt and appropriate postcondition check
+      - A partial multi-step workflow is resumed or visibly escalated
+    boundaries: Database transactions do not make remote services exactly-once. A queued request is not proof of an external effect.
+    sources:
+      - E03
+      - R01
+      - R06
+    sprint: S3
+    used_by:
+      - calendar
+      - business-tools
+      - agent-exchange
+      - browser
+    search_terms:
+      - MCP / tool protocol
+  - id: workflow-engine
+    name: Durable jobs, timers & recovery
+    layer: actions
+    status: proposed
+    purpose: Persist long-running workflow state and scheduled work across restarts, worker crashes and delayed owner decisions.
+    inputs:
+      - Committed events, action outbox, timers and continuation requests
+    outputs:
+      - Leased jobs, attempts, next wake time and workflow state
+    dependencies:
+      - database
+      - observability
+    evidence: The dossier reports network failures and restart tests of the replay app, not a complete background workflow service.
+    remaining:
+      - Begin with persisted jobs and leases if adequate
+      - Define retry/backoff budgets, dead-letter handling and operator replay
+      - Use timezones and business calendars explicitly
+      - Evaluate Temporal only when workflow complexity justifies operating it
+    acceptance:
+      - A worker killed between steps resumes without lost state or duplicate effects
+      - Overdue reminders remain visible and catch up predictably
+      - Failures have an owner and actionable recovery path
+    boundaries: Do not copy a benchmark’s no-retry rule into all production operations. Safe recovery still needs side-effect protection.
+    sources:
+      - E01
+      - R06
+      - H01
+    sprint: S3
+    used_by:
+      - orchestrator
+      - tasks
+      - action-executor
+    search_terms:
+      - Short-term memory
+  - id: agent-exchange
+    name: Cross-business agent exchange
+    layer: actions
+    status: later
+    purpose: Eventually let two explicitly authorised business workspaces exchange a bounded request or record, with receiving-side validation and human accountability.
+    inputs:
+      - Scoped delegation, object reference and approved recipient
+    outputs:
+      - Authenticated request, acknowledgement and causal receipt
+    dependencies:
+      - identity
+      - policy
+      - action-executor
+      - native-chat
+    evidence: Founder vision; the CA distribution idea is a hypothesis from the second conversation, not validated demand or a built protocol.
+    remaining:
+      - First test accountant collaboration and exports without agent-to-agent infrastructure
+      - Define per-message capabilities, tenancy boundaries and revocation
+      - Add loop, budget and delegation-depth limits
+      - Validate commercial value before building a broad protocol
+    acceptance:
+      - A receiving agent rejects out-of-scope requests despite trusting the sender identity
+      - No agent can expand a delegated permission
+      - Repeated replies cannot create an unbounded action loop
+    boundaries: Trust and privileges do not transfer automatically across organisations.
+    sources:
+      - E02
+      - E03
+    sprint: Later
+    used_by:
+
+    search_terms:
+      - Multi-agent coordination
+  - id: database
+    name: Transactional business database
+    layer: assurance
+    status: proposed
+    purpose: Store identities, records, decisions, task state and durable jobs with constraints and reproducible migrations.
+    inputs:
+      - Validated transactional writes and versioned schemas
+    outputs:
+      - Consistent queries, committed versions and audit references
+    dependencies:
+
+    evidence: A prototype ledger exists in the dossier. The current production storage technology and migrations are unknown.
+    remaining:
+      - Inspect and preserve the existing database when suitable
+      - For a new service, evaluate PostgreSQL as the default relational store
+      - Enforce tenant scope and uniqueness at storage and service boundaries
+      - Define migrations, backup retention and recovery objectives
+    acceptance:
+      - Concurrent writes cannot violate record or idempotency invariants
+      - A backup is restored and the resulting state reconciles
+      - Service roles cannot bypass tenant boundaries unintentionally
+    boundaries: Do not migrate just to match a diagram. Row policies require correct roles and tests; backups are not useful until restoration works.
+    sources:
+      - E01
+      - R05
+    sprint: S0–S1
+    used_by:
+      - observations
+      - identity
+      - ledger
+      - views
+      - policy
+      - action-executor
+      - workflow-engine
+      - object-store
+      - observability
+    search_terms:
+      - Embeddings & vector index
+  - id: object-store
+    name: Originals, derivatives & artefact storage
+    layer: assurance
+    status: proposed
+    purpose: Keep durable media and generated files separate from transactional rows while retaining ownership, provenance and access control.
+    inputs:
+      - Original files, OCR/transcript derivatives and generated artefacts
+    outputs:
+      - Versioned object IDs and short-lived authorised download references
+    dependencies:
+      - identity
+      - secrets
+      - database
+    evidence: Production object storage is not evidenced in the reviewed material.
+    remaining:
+      - Choose a managed object store with encryption and lifecycle rules
+      - Store relational metadata and scoped associations to each object
+      - Control signed-link lifetime and revocation behaviour
+      - Include originals and required derivatives in backup and portability design
+    acceptance:
+      - A user cannot fetch another matter’s attachment by guessing its object ID
+      - Retention jobs cover derived copies
+      - An export can resolve every included record’s authorised original
+    boundaries: A file URL should not become a permanent bearer credential or a way around source permissions.
+    sources:
+      - E02
+      - E03
+    sprint: S1
+    used_by:
+      - media
+      - business-tools
+      - portability
+    search_terms:
+
+  - id: secrets
+    name: Authentication, sessions & secrets
+    layer: assurance
+    status: proposed
+    purpose: Separate login, third-party account consent, linked-device keys and model/service credentials so one surface cannot expose every integration.
+    inputs:
+      - User sign-in, OAuth callbacks, connector pairing and service credentials
+    outputs:
+      - Short-lived sessions, encrypted credential references and revocation events
+    dependencies:
+      - identity
+    evidence: Founder requests easier authentication management. No inspected implementation establishes token handling or device revocation.
+    remaining:
+      - Select an identity provider and use supported secure session patterns
+      - Validate OAuth state and supported PKCE flows; store refresh credentials server-side
+      - Store WhatsApp key material atomically with restricted encrypted access
+      - Rotate service credentials, redact logs and revoke on disconnect or offboarding
+    acceptance:
+      - Tokens do not appear in prompts, browser exports, traces or downloadable references
+      - An expired or revoked grant fails closed with a recoverable UX
+      - Reconnect cannot silently expand scopes
+    boundaries: Encryption at rest is one control; access paths, logs, backups, runtime exposure and key ownership also matter.
+    sources:
+      - E02
+      - R04
+      - R07
+    sprint: S0–S1
+    used_by:
+      - device-apps
+      - whatsapp
+      - gmail
+      - model-router
+      - action-executor
+      - object-store
+      - sandbox
+      - browser
+    search_terms:
+      - Authentication versus authorisation
+  - id: sandbox
+    name: Execution isolation & repair workflow
+    layer: assurance
+    status: proposed
+    purpose: Contain parsers, connector jobs and optional code execution so a malicious document or faulty repair cannot reach unrelated business data or credentials.
+    inputs:
+      - Scoped typed job and explicitly provided data
+    outputs:
+      - Limited result, logs and optional proposed patch
+    dependencies:
+      - policy
+      - secrets
+      - observability
+    evidence: Sandboxing and connector repair are recommendations from the second discussion. No production isolation or automated repair flow is evidenced.
+    remaining:
+      - Prefer narrow APIs over general shell/browser control
+      - Apply least-privilege network and filesystem access with resource budgets
+      - Test connector changes against fixtures in an isolated environment
+      - Promote reviewed patches through release gates rather than self-repairing production
+      - Isolate the whole worker process tree, including browser, plugins and MCP; terminal-only isolation does not cover all execution paths.
+    acceptance:
+      - A hostile attachment cannot invoke tools or read unrelated tenant files
+      - An unreviewed repair cannot receive production secrets or deploy itself
+      - The required provider endpoints work without broad unrestricted egress
+    boundaries: A simplistic one-domain allowlist may break legitimate provider auth/CDN flows; scope tested endpoints deliberately. Containers alone are not a complete boundary.
+    sources:
+      - E03
+      - R01
+      - R07
+      - H01
+    sprint: S1–S3
+    used_by:
+      - browser
+    search_terms:
+
+  - id: observability
+    name: Operational health & cost accounting
+    layer: assurance
+    status: proposed
+    purpose: Make missing intake, stuck approvals, uncertain actions, latency and unit cost visible to operators before the owner loses trust.
+    inputs:
+      - Connector checkpoints, run traces, action receipts and resource usage
+    outputs:
+      - Health dashboard, scoped alerts and per-workflow cost/latency metrics
+    dependencies:
+      - database
+    evidence: The dossier has per-run scores, timing, costs and failure notes. Production monitoring, alert response and operational objectives are not evidenced.
+    remaining:
+      - Track connector lag and coverage, media failures and queue age
+      - Measure end-to-end completion and human review time
+      - Correlate observation, record, run, decision and action IDs
+      - Redact sensitive trace content; define operator access and incident response
+    acceptance:
+      - A disconnected source is visible before its stale data is described as current
+      - An alert can be traced to a specific recoverable job
+      - Unit cost includes model calls, failed attempts, storage, infrastructure and review effort
+    boundaries: Low token cost is not low cost per correct completed workflow. Avoid logging private content just to simplify debugging.
+    sources:
+      - E01
+      - E03
+    sprint: S1–S5
+    used_by:
+      - model-router
+      - workflow-engine
+      - sandbox
+      - eval-harness
+    search_terms:
+
+  - id: eval-harness
+    name: Evaluation harness & release gates
+    layer: assurance
+    status: partial
+    purpose: Measure whether changes improve the whole workflow, preserve invariants and work on unseen cases, independently of the production agent’s self-assessment.
+    inputs:
+      - Versioned fixtures, hidden expected outcomes and build/model/config versions
+    outputs:
+      - Stage scores, material errors, traces, regression comparison and release decision
+    dependencies:
+      - workflow-packs
+      - output-validation
+      - observability
+    evidence: A meaningful synthetic harness exists: multiple model runs, strict/material grading, replay checks and citation tests. Fresh intake still fails; held-out production reliability is not established.
+    remaining:
+      - Freeze reproducible fixtures and receipt paths before changes
+      - Add stage-level evaluation, adversarial sequence tests and held-out episodes
+      - Keep answer quality separate from intake and execution completeness
+      - Define explicit gates and require the existing reviewer process when confirmed
+    acceptance:
+      - A release reproduces the known baseline before claiming an improvement
+      - Held-out episodes include identities, corrections, unknown times, revokes and side-effect uncertainty
+      - Run failures remain failures in reported denominators
+    boundaries: Do not train to the 24 known questions and call it generalisation. Composite answered subsets are not successful end-to-end runs.
+    sources:
+      - E01
+      - R10
+    sprint: S0–S5
+    used_by:
+      - workflow-packs
+    search_terms:
+
+  - id: portability
+    name: Export, retention & restoration
+    layer: assurance
+    status: proposed
+    purpose: Give the business a usable way to recover or leave: export records, evidence relationships, originals, tasks and decisions in open documented formats.
+    inputs:
+      - Authorised export scope and consistent data snapshot
+    outputs:
+      - Versioned archive, manifest, checksums and restoration report
+    dependencies:
+      - identity
+      - ledger
+      - media
+      - tasks
+      - object-store
+    evidence: Portability is an adopted recommendation, not an inspected capability.
+    remaining:
+      - Design a versioned export manifest and stable IDs
+      - Exclude credentials and identify unavailable originals
+      - Define retention and deletion per data category and contractual need
+      - Test restore into a clean environment, including relationships and permissions
+    acceptance:
+      - Exported totals and relationships reconcile after restoration
+      - Secrets are absent from all archive entries
+      - Deletion follows the documented lifecycle for originals, derivatives and backups
+    boundaries: A CSV of balances alone is not a portable business record. An immutable journal still needs lawful lifecycle controls.
+    sources:
+      - E02
+      - E03
+    sprint: S3–S5
+    used_by:
+
+    search_terms:
+
+  - id: browser
+    name: Browser control
+    layer: actions
+    status: proposed
+    purpose: Open an approved supplier portal and retrieve an invoice. Confirm the invoice identity; a successful click is not proof of a completed business transaction.
+    inputs:
+      - Approved URL
+      - Authenticated source scope and analysis question
+    outputs:
+      - Candidate observations with original-media/page/time references
+      - Explicit processing status, model/version and coverage
+    dependencies:
+      - identity
+      - policy
+      - sandbox
+      - secrets
+      - model-router
+      - action-executor
+    evidence: Observed in Hermes source: Local or remote browser backends expose page structure and element references. Screenshot vision is available when structural inspection is insufficient. No SupaBiz implementation or runtime verification is evidenced.
+    remaining:
+      - Observe–act–observe loop, browser provider interface, per-task sessions and screenshot fallback.
+      - Isolate browser identities by workspace; constrain sites and actions; keep credentials out of model context; route consequential writes through policy and verify resulting state.
+    acceptance:
+      - Requires access to the site. Logins, MFA, unavailable controls and site changes can require user action. A screenshot sees the current view, not every hidden page.
+      - Test source fidelity, denied access, ambiguous input and failure handling on held-out examples before release.
+    boundaries: Requires access to the site. Logins, MFA, unavailable controls and site changes can require user action. A screenshot sees the current view, not every hidden page.
+    sources:
+      - H01
+    sprint: S3
+    used_by:
+
+    search_terms:
+      - Multimodal perception
+  - id: vision
+    name: Image & document vision
+    layer: intake
+    status: proposed
+    purpose: Extract invoice number and net weight from a delivery photo, preserving the original region for owner review.
+    inputs:
+      - Photo / scan / screenshot
+      - Authenticated source scope and analysis question
+    outputs:
+      - Candidate observations with original-media/page/time references
+      - Explicit processing status, model/version and coverage
+    dependencies:
+      - media
+      - model-router
+      - output-validation
+    evidence: Observed in Hermes source: Images can be supplied to a vision-capable main model or analyzed by an auxiliary vision model. Image preparation and size controls exist. No SupaBiz implementation or runtime verification is evidenced.
+    remaining:
+      - Separate image preparation from inference, route by model capability and avoid repeating oversized images in context.
+      - Page/region citations, source permissions, derivative versions, uncertainty and checks for dates, quantities, totals and business identity.
+    acceptance:
+      - Blur, occlusion, small text and ambiguous handwriting can produce errors. A plausible description is not a verified record.
+      - Test source fidelity, denied access, ambiguous input and failure handling on held-out examples before release.
+    boundaries: Blur, occlusion, small text and ambiguous handwriting can produce errors. A plausible description is not a verified record.
+    sources:
+      - H01
+    sprint: S2
+    used_by:
+      - extraction
+      - video
+    search_terms:
+      - Multimodal perception
+  - id: voice
+    name: Voice & transcription
+    layer: intake
+    status: proposed
+    purpose: A chef says stock is low. Extract the item and quantity, then ask for clarification if the number or unit is unclear.
+    inputs:
+      - Voice note
+      - Authenticated source scope and analysis question
+    outputs:
+      - Candidate observations with original-media/page/time references
+      - Explicit processing status, model/version and coverage
+    dependencies:
+      - media
+      - model-router
+      - identity
+      - output-validation
+    evidence: Observed in Hermes source: A transcription dispatcher supports local and cloud providers and returns transcript, status and provider information. No SupaBiz implementation or runtime verification is evidenced.
+    remaining:
+      - Provider abstraction, audio preparation and bounded processing; evaluate local transcription for suitable workloads.
+      - Hindi/English/code-switching tests, timestamps, names/units confirmation and tenant-aware routing. Source sender identity is separate from voice-based speaker guesses.
+    acceptance:
+      - Transcription is not proof of speaker identity. Noise and language mixing require evaluation. Voice-note intake can precede a full voice-conversation UI.
+      - Test source fidelity, denied access, ambiguous input and failure handling on held-out examples before release.
+    boundaries: Transcription is not proof of speaker identity. Noise and language mixing require evaluation. Voice-note intake can precede a full voice-conversation UI.
+    sources:
+      - H01
+    sprint: S2
+    used_by:
+      - device-apps
+      - extraction
+      - video
+    search_terms:
+      - Multimodal perception
+  - id: video
+    name: Video understanding
+    layer: intake
+    status: proposed
+    purpose: A kitchen clip shows water beneath a sink at a cited timestamp. Propose a maintenance task without inventing the cause or claiming repair completion.
+    inputs:
+      - Clip
+      - Authenticated source scope and analysis question
+    outputs:
+      - Candidate observations with original-media/page/time references
+      - Explicit processing status, model/version and coverage
+    dependencies:
+      - media
+      - vision
+      - voice
+      - model-router
+      - output-validation
+    evidence: Observed in Hermes source: The opt-in video_analyze tool materializes a file, base64-encodes it and sends it to an auxiliary model. The inspected path does not itself extract frames. A separate YouTube skill reads transcripts. No SupaBiz implementation or runtime verification is evidenced.
+    remaining:
+      - Separate video analysis from transcript summarization; capability routing and bounded media handling.
+      - Long-video segmentation, timestamp verification, audio alignment, cost limits and missing-coverage reporting. Frame sampling is a proposed SupaBiz extension, not an observed Hermes feature in this path.
+    acceptance:
+      - The encoded payload has a 50 MiB cap; actual raw capacity is lower because base64 expands data. A YouTube page is not a direct video file. Transcript-only analysis cannot establish visual events; sampled frames may miss short events.
+      - Test source fidelity, denied access, ambiguous input and failure handling on held-out examples before release.
+    boundaries: The encoded payload has a 50 MiB cap; actual raw capacity is lower because base64 expands data. A YouTube page is not a direct video file. Transcript-only analysis cannot establish visual events; sampled frames may miss short events.
+    sources:
+      - H01
+    sprint: S3
+    used_by:
+      - extraction
+    search_terms:
+      - Multimodal perception
+baseline_status_definitions:
+  demonstrated:
+    label: Demonstrated in dossier
+    description: A narrow behaviour has a reported test or replay result. This does not establish production readiness.
+  partial:
+    label: Partial / gaps observed
+    description: Some behaviour is reported working, with known failures or missing integration.
+  reported:
+    label: Founder-reported
+    description: The founder reports access or functionality; implementation and reliability were not inspected.
+  proposed:
+    label: Proposed / verify build
+    description: Required or recommended in the target design; implementation is not evidenced in this review.
+  later:
+    label: Later / conditional
+    description: A deliberate later stage or optional dependency, gated by a demonstrated need.
+prior_project_decisions:
+  - id: P01-hermes
+    layers:
+      - L06
+      - L03
+      - L04
+    decision: Adapt patterns
+    take: Context, tools, model/media routing and persisted intent.
+    build: Tenant/matter grants, durable channel intake, ledger and action receipts.
+    why: Its personal-agent assumptions do not supply enterprise isolation.
+    gate: Retain existing harness unless a measured seam improves; test bridge replay and intent recovery.
+    status: Proposed; not integrated
+    name: Hermes Agent
+    source:
+      repository: NousResearch/hermes-agent
+      revision: 848fc0ad8be766b9dc10fe42bd80b5fc2d45d95c
+      url: https://github.com/NousResearch/hermes-agent
+    research_path: research/P01-hermes.txt
+  - id: P02-activepieces
+    layers:
+      - L03
+      - L08
+      - L07
+    decision: Conditional reuse
+    take: Selected connector/action code; optional non-core workflow UI.
+    build: SupaBiz typed adapter, policy and external-effect receipts.
+    why: Avoid installing a second core workflow owner or inheriting an unrestricted flow executor.
+    gate: Review exact piece dependencies and enterprise exclusions; verify token isolation and retry semantics.
+    status: Proposed; not integrated
+    name: Activepieces
+    source:
+      repository: activepieces/activepieces
+      revision: 82300fe8029390e614f63eeac079ccc6db60eba6
+      url: https://github.com/activepieces/activepieces
+    research_path: research/P02-activepieces.txt
+  - id: P03-nango
+    layers:
+      - L03
+      - L02
+    decision: Conditional reuse
+    take: OAuth, connection lifecycle and sync patterns; managed service if suitable.
+    build: Business-to-connection mapping, consent, event contracts and refresh-failure UX.
+    why: Useful integration infrastructure, but the pinned server uses Elastic License 2.0 and adds operational surface.
+    gate: Resolve intended deployment terms/package licenses; compare one Gmail integration against a thin direct adapter before adoption.
+    status: Proposed; not integrated
+    name: Nango
+    source:
+      repository: NangoHQ/nango
+      revision: 244fac3eb035f0d423aa16b4cc8563de7066f941
+      url: https://github.com/NangoHQ/nango
+    research_path: research/P03-nango.txt
+  - id: P04-docling
+    layers:
+      - L04
+    decision: Pilot reuse
+    take: Document conversion, layout and OCR behind a worker API.
+    build: Evidence page/region mapping, secure intake, admission and review.
+    why: Parsing is reusable; business interpretation and acceptance are our responsibility.
+    gate: Benchmark representative invoices and court PDFs, including poor scans, in a bounded worker.
+    status: Proposed; not integrated
+    name: Docling
+    source:
+      repository: docling-project/docling
+      revision: 0e54294231b69bc2cf7a39873235495788f76b57
+      url: https://github.com/docling-project/docling
+    research_path: research/P04-docling.txt
+  - id: P05-temporal
+    layers:
+      - L07
+    decision: Pilot reuse
+    take: Durable workflow progression, activities, waits and timers.
+    build: Domain workflows, action idempotency and reconciliation.
+    why: Waiting and recovery should survive agent and web sessions.
+    gate: Prove restart, worker upgrade, timeout-after-write and approval-wait cases; choose hosted/self-hosted operations explicitly.
+    status: Proposed; not integrated
+    name: Temporal
+    source:
+      repository: temporalio/temporal
+      revision: acd40d635bb3ebd0fde29f59d8c6ff6ef0b33231
+      url: https://github.com/temporalio/temporal
+    research_path: research/P05-temporal.txt
+  - id: P06-browser-use
+    layers:
+      - L08
+    decision: Bounded pilot
+    take: Structured browser observations and actions.
+    build: Session grants, domain limits, browser job adapter and post-action checks.
+    why: Useful where no adequate API exists; not the default ingestion mechanism.
+    gate: One scoped portal workflow with adversarial page content, stale login and changed UI.
+    status: Proposed; not integrated
+    name: Browser Use
+    source:
+      repository: browser-use/browser-use
+      revision: ccd22fef47a1a36e0c4596fef5db73a5117b9d06
+      url: https://github.com/browser-use/browser-use
+    research_path: research/P06-browser-use.txt
+  - id: P07-langfuse
+    layers:
+      - L10
+    decision: Pilot reuse
+    take: Redacted traces, evaluation experiments and prompt/model comparisons.
+    build: Business outcome checks, audit receipts and cost allocation.
+    why: Observability helps diagnose failures but cannot be the system of record.
+    gate: Verify redaction, tenant access, retention and actual deployment footprint/edition.
+    status: Proposed; not integrated
+    name: Langfuse
+    source:
+      repository: langfuse/langfuse
+      revision: 358f6237dded88571ce55cbd6db8836f433a4635
+      url: https://github.com/langfuse/langfuse
+    research_path: research/P07-langfuse.txt
+  - id: P08-letta
+    layers:
+      - L06
+      - L05
+    decision: Defer competing runtime
+    take: Versioned memory and context management ideas from current Letta Code.
+    build: Memory policy tied to accepted business records.
+    why: No demonstrated need for a second primary harness or duplicated authoritative memory.
+    gate: Revisit only if held-out long-history tests reveal a gap the current runtime cannot solve economically.
+    status: Proposed; not integrated
+    name: Letta / Letta Code
+    source:
+      repository: letta-ai/letta
+      revision: 5bcdd177d70fa2b31a754cfcd801e77b2e1ab16a
+      url: https://github.com/letta-ai/letta
+    research_path: research/P08-letta.txt
+  - id: P09-security-audit
+    layers:
+      - L10
+      - L11
+    decision: Development use
+    take: Structured threat review and evidence/reporting method.
+    build: SupaBiz-specific auth, connector, prompt-injection and isolation tests.
+    why: It is a procedure for finding problems, not a production security layer.
+    gate: Require reproduced findings and independent verification of fixes; no blanket security certification.
+    status: Proposed; not integrated
+    name: Cloudflare Security Audit Skill
+    source:
+      repository: cloudflare/security-audit-skill
+      revision: c1c8a8c1471069fb0e188eeaff69b8e8db6564a8
+      url: https://github.com/cloudflare/security-audit-skill
+    research_path: research/P09-security-audit.txt
+  - id: P10-skills
+    layers:
+      - L11
+    decision: Curated development use
+    take: Discovery/distribution and pinned skill packages.
+    build: Reviewed allowlist, capability declaration and update checks.
+    why: Installing instructions does not authorize their scripts or tools.
+    gate: No production install-on-demand; inspect provenance, license and executable content.
+    status: Proposed; not integrated
+    name: Vercel Skills / Find Skills
+    source:
+      repository: vercel-labs/skills
+      revision: 13e4063a1cf913f5606d57d42ab83a86f5001e04
+      url: https://github.com/vercel-labs/skills
+    research_path: research/P10-skills.txt
+  - id: P11-ego-lite
+    layers:
+      - L01
+      - L08
+    decision: Defer
+    take: Study browser/task-space UX and SDK contracts.
+    build: SupaBiz device identity, session isolation and explicit browser handoff.
+    why: Public SDK does not establish the separately delivered native browser’s internals or portability.
+    gate: Revisit only after supported-platform and isolation tests against a real need.
+    status: Proposed; not integrated
+    name: Ego Lite / ego-browser
+    source:
+      repository: citrolabs/ego-lite
+      revision: 4cf79356509bccdead17863250b442f60a881c25
+      url: https://github.com/citrolabs/ego-lite
+    research_path: research/P11-ego-lite.txt
+  - id: P12-zapier-mcp
+    layers:
+      - L08
+      - L03
+    decision: Optional customer gateway
+    take: Customer-approved long-tail app actions.
+    build: Managed tool allowlist, policy wrapper and receipts.
+    why: Hosted service dependence, usage cost and opaque internals conflict with making it mandatory.
+    gate: Confirm account-specific capabilities, data policy and pricing; simulate unknown result and revoked connection.
+    status: Proposed; not integrated
+    name: Zapier MCP
+    source:
+      repository: zapier/zapier-mcp
+      revision: 5360f152b96735712e5f925ad728732cb86888df
+      url: https://github.com/zapier/zapier-mcp
+    research_path: research/P12-zapier-mcp.txt
+  - id: P13-arena
+    layers:
+      - L10
+      - L11
+    decision: Offline experiment only
+    take: Small budgeted candidate comparisons.
+    build: Reviewed benchmark answers and deterministic outcome checks.
+    why: Large tournaments amplify cost and judge error; no need for customer-time competitions.
+    gate: Compare at equal total budget against a single attempt; never infer quality from the winner label.
+    status: Proposed; not integrated
+    name: Arena Skill
+    source:
+      repository: Jakeschincariol/arena-skill
+      revision: df07b8e518e10cdecd8cd7712d9958b6f396250e
+      url: https://github.com/Jakeschincariol/arena-skill
+    research_path: research/P13-arena.txt
+  - id: P14-orca
+    layers:
+      - L11
+    decision: Development use
+    take: Agent/worktree/review UX for engineers.
+    build: Our test/release process and secure development credentials.
+    why: It coordinates engineering work, not enterprise task assignments.
+    gate: Test isolated checkouts and restart behavior; worktree isolation is not an OS sandbox.
+    status: Proposed; not integrated
+    name: Orca
+    source:
+      repository: stablyai/orca
+      revision: e65e0bd1e6f2858d267c6fc682abaf69b2436bd6
+      url: https://github.com/stablyai/orca
+    research_path: research/P14-orca.txt
+  - id: P15-rea
+    layers:
+      - L11
+    decision: Development use
+    take: Pinned artifact inspection and evidence ledgers.
+    build: Our research index and source-backed decisions.
+    why: Appropriate for understanding dependencies; it is not a customer runtime service.
+    gate: Select engine by artifact, retain evidence and limitations; static analysis cannot establish runtime performance.
+    status: Proposed; not integrated
+    name: REA — Reverse Engineer Anything
+    source:
+      repository: morluto/rea
+      revision: 5eaef92e5b3f9b15b23f2e4aea6a32a867b89dd0
+      url: https://github.com/morluto/rea
+    research_path: research/P15-rea.txt
+  - id: P16-magic
+    layers:
+      - L11
+      - L01
+    decision: Optional design aid
+    take: UI/component ideation through the current 21st.dev service.
+    build: Accessible, tested SupaBiz UI and design consistency.
+    why: The inspected package is a proxy, not a self-hosted generation engine.
+    gate: Review generated code and asset terms; no customer data in design prompts.
+    status: Proposed; not integrated
+    name: 21st.dev / Magic MCP compatibility package
+    source:
+      repository: 21st-dev/magic-mcp
+      revision: 6b5299e8a83ceffa73d4fc4e148905bb3eeeeb55
+      url: https://github.com/21st-dev/magic-mcp
+    research_path: research/P16-magic.txt
+  - id: P17-photocraft
+    layers:
+      - L04
+      - L08
+    decision: Defer optional tool
+    take: Typed image commands and immutable derivative/export patterns.
+    build: Evidence preservation and approved transformation history.
+    why: Initial photos need understanding, not a full image editor.
+    gate: Add only for a validated markup/redaction/export need; compare output fidelity and verify original retention.
+    status: Proposed; not integrated
+    name: PhotoCraft
+    source:
+      repository: storytold/photocraft
+      revision: 2a952f164c0b4cf936b1c6497db10dd095341c00
+      url: https://github.com/storytold/photocraft
+    research_path: research/P17-photocraft.txt
+  - id: P18-compositor
+    layers:
+      - L11
+    decision: Defer
+    take: File-based document contract and atomic update patterns.
+    build: Cross-platform artifact contracts where needed.
+    why: macOS image editing is not the core business workflow.
+    gate: Only revisit if a native creative-editor use case appears; validate file-version compatibility.
+    status: Proposed; not integrated
+    name: Compositor
+    source:
+      repository: robbietilton/Compositor
+      revision: 365b5745eda537f984f3d5bed1e53c361dbc9c91
+      url: https://github.com/robbietilton/Compositor
+    research_path: research/P18-compositor.txt
+  - id: P19-universal-modder
+    layers:
+      - L11
+    decision: Pattern inspiration only
+    take: Domain packs, backups, knowledge notes and verification sequence.
+    build: Versioned restaurant/legal workflow packs with business-specific validators.
+    why: Game-modification tools are unrelated to core business operations.
+    gate: Reuse concepts, not game executors; validate each business pack independently.
+    status: Proposed; not integrated
+    name: Universal Modder
+    source:
+      repository: rehan-remade/universal-modder
+      revision: 23902ef42e8ea9b077bfbbf6911eb8ea0348e55a
+      url: https://github.com/rehan-remade/universal-modder
+    research_path: research/P19-universal-modder.txt
+  - id: P20-slopmonster
+    layers:
+      - L11
+    decision: Optional editorial aid
+    take: Deterministic prose checks for documentation.
+    build: Human review of accuracy and business terminology.
+    why: A clean style score does not verify facts or agent outputs.
+    gate: Use only where editorial value is demonstrated; keep it outside business decision gates.
+    status: Proposed; not integrated
+    name: SlopMonster
+    source:
+      repository: ItsssssJack/SlopMonster
+      revision: 3fc9787d9337b57c599a80afbefbbb3be5a8eb0b
+      url: https://github.com/ItsssssJack/SlopMonster
+    research_path: research/P20-slopmonster.txt
+  - id: P21-openhands
+    layers:
+      - L11
+      - L09
+    decision: Development use / study SDK
+    take: Development-agent interfaces and selected runtime boundary patterns.
+    build: Production worker policy, secrets and tenant isolation.
+    why: Current Canvas and separate SDK are not a drop-in enterprise assistant backend.
+    gate: Test a disposable repo/runtime before use; no production secrets or inferred sandbox guarantees.
+    status: Proposed; not integrated
+    name: OpenHands / Agent Canvas
+    source:
+      repository: OpenHands/OpenHands
+      revision: 950ee95fda862dd8b12e741698e43ca4fc4fa6ac
+      url: https://github.com/OpenHands/OpenHands
+    research_path: research/P21-openhands.txt
+references:
+  - id: P-RLS
+    url: https://www.postgresql.org/docs/18/ddl-rowsecurity.html
+    checked: 2026-10-18
+    note: RLS is not sufficient when the runtime owns tables or can bypass policies; test actual roles and privileged paths.
+  - id: P-OUTBOX
+    url: https://docs.aws.amazon.com/prescriptive-guidance/latest/cloud-design-patterns/transactional-outbox.html
+    checked: 2026-10-18
+    note: Outbox resolves local dual-write consistency; consumers still handle duplicate delivery and order.
+  - id: P-GMAIL
+    url: https://developers.google.com/workspace/gmail/api/guides/sync
+    checked: 2026-10-18
+    note: Unavailable history cursor returns 404; a bounded full-sync recovery and dedupe are required.
+  - id: P-WORKFLOW
+    url: https://docs.temporal.io/workflow-execution
+    checked: 2026-10-18
+    note: Durable progression is a reusable primitive; external-write idempotency remains our responsibility.
+  - id: P-REACT
+    url: https://react.dev/learn/creating-a-react-app
+    checked: 2026-10-18
+    note: UI framework reference; proposed build baseline is a design choice, not an implementation fact.
+  - id: P-FASTIFY
+    url: https://fastify.dev/docs/latest/Reference/TypeScript/
+    checked: 2026-10-18
+    note: Typed API tooling reference; existing adequate backend should not be rewritten for preference alone.
+  - id: P-DOCLING
+    url: https://docling-project.github.io/docling/
+    checked: 2026-10-18
+    note: Document parsing candidate; accuracy and region/page evidence require our corpus tests.
+open_questions:
+  - Actual SupaBiz product implementation and prior results need S0 audit; research reports are not product code.
+  - WhatsApp session completeness, account conditions and reconnection remain unverified.
+  - Pilot staffing, data access, chosen region, provider contract and operational costs are not established.
+  - Conditional dependency adoption requires exact-version rights, capability and recovery tests.
+next_action: S0: audit existing code and build the first protected synthetic photo-to-task world; do not add another vendor by default.

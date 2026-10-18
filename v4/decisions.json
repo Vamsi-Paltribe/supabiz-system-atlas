@@ -1,0 +1,255 @@
+[
+  {
+    "id": "A01",
+    "title": "One product, replaceable components",
+    "decision": "Build a modular control-plane application with isolated workers. Preserve the existing harness behind an interface.",
+    "tradeoff": "Avoid 18 mandatory dependencies or a framework rewrite without a baseline.",
+    "layers": [
+      "L06",
+      "L09",
+      "L11"
+    ],
+    "projects": [
+      "YC01",
+      "YC02",
+      "YC12",
+      "YC13"
+    ],
+    "reopen": "Reopen if a measured module needs independent scaling or replacement.",
+    "status": "Architecture recommendation; not a completed implementation"
+  },
+  {
+    "id": "A02",
+    "title": "One authority for business facts",
+    "decision": "PostgreSQL transactions own accepted facts and revisions; object storage owns evidence bytes. Search, memory and calendar are projections.",
+    "tradeoff": "Terse entity ownership is a useful design principle; its runtime is not selected. No second authoritative ledger.",
+    "layers": [
+      "L05",
+      "L07"
+    ],
+    "projects": [
+      "YC08",
+      "YC10",
+      "YC14",
+      "YC18"
+    ],
+    "reopen": "Reopen actor runtime only after workload-specific durability/latency/cost comparison.",
+    "status": "Architecture recommendation; not a completed implementation"
+  },
+  {
+    "id": "A03",
+    "title": "One owner of durable progression",
+    "decision": "Run S2 recovery spike; prefer Temporal for live multi-day workflows if the team can operate it. A persisted worker is the baseline, not an in-memory scheduler.",
+    "tradeoff": "A durable engine coordinates work but cannot make remote effects exactly once. Do not introduce Activepieces as a second core state owner.",
+    "layers": [
+      "L07",
+      "L08"
+    ],
+    "projects": [
+      "YC02",
+      "YC05",
+      "YC13",
+      "YC14"
+    ],
+    "reopen": "Choose before multi-day pilot expansion; do not implement two production engines.",
+    "status": "Architecture recommendation; not a completed implementation"
+  },
+  {
+    "id": "A04",
+    "title": "Authorization outside all models",
+    "decision": "A mandatory SupaBiz gateway controls every protected effect, including generated code and browser/device routes.",
+    "tradeoff": "Executor is conditional code; Decawork supplies a review pattern. A review model may escalate or deny, never grant extra rights.",
+    "layers": [
+      "L02",
+      "L08"
+    ],
+    "projects": [
+      "YC01",
+      "YC11",
+      "YC16",
+      "YC18"
+    ],
+    "reopen": "Specialized contextual reviewer requires lower risk or review burden at equal hard policy.",
+    "status": "Architecture recommendation; not a completed implementation"
+  },
+  {
+    "id": "A05",
+    "title": "Selective awareness",
+    "decision": "Connect selected sources, groups, history and purpose. Show listening, working and missing coverage separately.",
+    "tradeoff": "Maximum permissions and desktop surveillance are unnecessary for the initial workflows. Quiet capture still requires permission.",
+    "layers": [
+      "L02",
+      "L03",
+      "L04"
+    ],
+    "projects": [
+      "YC03",
+      "YC07",
+      "YC16"
+    ],
+    "reopen": "Add a device capability only when a concrete workflow cannot use a safer structured source.",
+    "status": "Architecture recommendation; not a completed implementation"
+  },
+  {
+    "id": "A06",
+    "title": "Correction is governed learning",
+    "decision": "VERY IMPORTANT: correction → classified scope → reviewed rule or memory → regression case → held-out test → release/rollback.",
+    "tradeoff": "Saved memory, prompt/tool changes, routing and model-weight training are different changes. Do not silently generalize an approval click.",
+    "layers": [
+      "L05",
+      "L10"
+    ],
+    "projects": [
+      "YC04",
+      "YC06",
+      "YC08",
+      "YC12",
+      "YC18"
+    ],
+    "reopen": "Fine-tuning requires a separate consent, dataset and measurable benefit decision.",
+    "status": "Architecture recommendation; not a completed implementation"
+  },
+  {
+    "id": "A07",
+    "title": "One evaluation contract",
+    "decision": "Own the world/trace/oracle manifest; optionally use Hue for orchestration and Rystic for specific service semantics.",
+    "tradeoff": "These tools overlap in evaluation but neither owns our business definition of success. Keep graders and real credentials outside the agent world.",
+    "layers": [
+      "L10",
+      "L11"
+    ],
+    "projects": [
+      "YC06",
+      "YC17"
+    ],
+    "reopen": "Buy an adapter only when it reduces maintained fixture work at validated fidelity and total cost.",
+    "status": "Architecture recommendation; not a completed implementation"
+  },
+  {
+    "id": "A08",
+    "title": "A narrow initial product",
+    "decision": "Keep v3.1’s photo issue → accepted assignment → verified closure as first vertical slice. Follow with receiving/invoice; legal starts in shadow mode.",
+    "tradeoff": "The reviews broaden the design, not the first release. Staff should gain value before migrating chat or accounting.",
+    "layers": [
+      "L01",
+      "L05",
+      "L07"
+    ],
+    "projects": [
+      "YC04",
+      "YC05",
+      "YC07",
+      "YC08"
+    ],
+    "reopen": "If pilot access is only Arkaj, swap vertical order while keeping shared gates; do not build both fully at once.",
+    "status": "Architecture recommendation; not a completed implementation"
+  },
+  {
+    "id": "A09",
+    "title": "Facts, checks and decisions remain distinct",
+    "decision": "Use typed evidence, candidate, accepted record, check, decision and effect records with independent states.",
+    "tradeoff": "A completed run can contain failed checks; human exception authorization preserves the historical verdict.",
+    "layers": [
+      "L05",
+      "L06",
+      "L08"
+    ],
+    "projects": [
+      "YC08",
+      "YC14",
+      "YC18"
+    ],
+    "reopen": "Add new domain predicates explicitly; do not label subjective interpretation deterministically verified.",
+    "status": "Architecture recommendation; not a completed implementation"
+  },
+  {
+    "id": "A10",
+    "title": "Cheap compute follows useful work",
+    "decision": "Separate always-available intake/control state from burst model/media workers. Reserve spend and capacity by business.",
+    "tradeoff": "Agent37’s persistent workspace UX does not require an always-on VM for every tenant. Do not wake an LLM on every group message.",
+    "layers": [
+      "L03",
+      "L06",
+      "L09"
+    ],
+    "projects": [
+      "YC02",
+      "YC13",
+      "YC16"
+    ],
+    "reopen": "Persistent browser/device sessions are scoped exceptions with measured idle cost.",
+    "status": "Architecture recommendation; not a completed implementation"
+  },
+  {
+    "id": "A11",
+    "title": "Collaboration grows around business objects",
+    "decision": "First build shared task/evidence views; later add job rooms and relationship-scoped agent requests.",
+    "tradeoff": "Agent Relay/Inkbox transport identity is not cross-business authority. Native chat is an optional path toward WhatsApp independence.",
+    "layers": [
+      "L01",
+      "L02",
+      "L08"
+    ],
+    "projects": [
+      "YC09",
+      "YC10",
+      "YC16"
+    ],
+    "reopen": "Requires audited relationship grants, revocation, audience checks and a paying workflow need.",
+    "status": "Architecture recommendation; not a completed implementation"
+  },
+  {
+    "id": "A12",
+    "title": "Dependencies require provenance and contracts",
+    "decision": "Verify publisher, exact version, integrity, license, required routes and deployment behavior before enabling an adapter.",
+    "tradeoff": "Definite’s package collision, Inkbox’s missing license and several SDK/doc mismatches block blind reuse.",
+    "layers": [
+      "L11"
+    ],
+    "projects": [
+      "YC01",
+      "YC12",
+      "YC16",
+      "YC18"
+    ],
+    "reopen": "Reopen on vendor-confirmed artifacts and passing compatibility/security gates.",
+    "status": "Architecture recommendation; not a completed implementation"
+  },
+  {
+    "id": "A13",
+    "title": "Audit evidence is distinct from telemetry",
+    "decision": "Durable decisions and action intent commit transactionally. Diagnostic traces are bounded, redacted and may be best-effort with visible loss.",
+    "tradeoff": "A telemetry outage must not duplicate work; missing mandatory audit data can block a new action. Strong signatures do not establish factual truth.",
+    "layers": [
+      "L05",
+      "L08",
+      "L10"
+    ],
+    "projects": [
+      "YC06",
+      "YC18"
+    ],
+    "reopen": "Add signed packs/external witnessing for a concrete verification requirement.",
+    "status": "Architecture recommendation; not a completed implementation"
+  },
+  {
+    "id": "A14",
+    "title": "Adapt patterns without copying their whole products",
+    "decision": "Build domain knowledge and operator UX; reuse narrow infrastructure primitives and compatible adapters.",
+    "tradeoff": "Public demos reveal workflows, not backend quality or code rights. Selected source checks are not full security audits.",
+    "layers": [
+      "L01",
+      "L11"
+    ],
+    "projects": [
+      "YC04",
+      "YC05",
+      "YC07",
+      "YC08",
+      "YC15",
+      "YC18"
+    ],
+    "reopen": "Any new adoption is a bounded experiment with a rollback/replacement path.",
+    "status": "Architecture recommendation; not a completed implementation"
+  }
+]

@@ -1,0 +1,241 @@
+[
+  {
+    "id": "DF-01",
+    "title": "One shared business model",
+    "evidence_refs": [
+      "DF-S02",
+      "DF-S03"
+    ],
+    "decision": "High priority",
+    "supabiz_proposal": "Represent people, businesses, matters, orders, receipts, invoices and tasks as typed records with stable IDs. Chat, dashboards and agents consume the same authorized projections. Start with one workflow, not a universal ontology.",
+    "measure": "Record agreement across interfaces; incorrect joins",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "DF-02",
+    "title": "Align meaning before matching",
+    "evidence_refs": [
+      "DF-S16"
+    ],
+    "decision": "High priority",
+    "supabiz_proposal": "Compare only compatible business, entity, unit, currency, period and fact type. Received quantity and invoiced quantity are distinct facts, even when they differ. Keep conversion rules and source ancestry explicit.",
+    "measure": "Wrong-entity and wrong-unit matches; unresolved match rate",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "DF-03",
+    "title": "Preserve observations and corrections",
+    "evidence_refs": [
+      "DF-S03",
+      "DF-S07"
+    ],
+    "decision": "Build record history",
+    "supabiz_proposal": "Keep immutable evidence revisions and a versioned current projection. Store occurred_at, observed_at, ingested_at and effective period. A corrected notice supersedes a claim without deleting the earlier evidence.",
+    "measure": "Reproducible as-of views; stale-source mistakes",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "DF-04",
+    "title": "Three check outcomes, separate job states",
+    "evidence_refs": [
+      "DF-S04",
+      "DF-S07"
+    ],
+    "decision": "High priority",
+    "supabiz_proposal": "A check can pass, fail, or remain unverified. Workflow completion, review decision and delivery status are independent dimensions. Display the reason and next responsible person.",
+    "measure": "False passes on missing data; correctly classified failures",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "DF-05",
+    "title": "Exact rules for exact questions",
+    "evidence_refs": [
+      "DF-S03",
+      "DF-S04"
+    ],
+    "decision": "Build deterministic kernel",
+    "supabiz_proposal": "Use validated decimal/integer arithmetic, explicit units and versioned rules for quantities, totals, duplicate keys and permissions. OCR confidence, legal meaning and visual cleanliness need their own uncertainty or review path.",
+    "measure": "Arithmetic errors; rule coverage; perception errors kept separate",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "DF-06",
+    "title": "Approval records do not rewrite facts",
+    "evidence_refs": [
+      "DF-S04",
+      "DF-S06"
+    ],
+    "decision": "High priority",
+    "supabiz_proposal": "Bind approval to tenant, actor, action digest, record version, policy version and expiry. A reviewer may authorize a permitted exception with a reason; preserve the failed check and original evidence. Recheck identity and grants at execution.",
+    "measure": "Stale approvals blocked; unexplained overrides",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "DF-07",
+    "title": "A work item with an evidence drawer",
+    "evidence_refs": [
+      "DF-S05"
+    ],
+    "decision": "Adapt UX",
+    "supabiz_proposal": "Show the proposed field change beside the original photo, audio timecode, email attachment or PDF page, with freshness and conflicts. Make every queue item lead to a resolution action and named owner.",
+    "measure": "Review time; evidence-open rate; orphaned exceptions",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "DF-08",
+    "title": "Useful uncertainty rather than a dead end",
+    "evidence_refs": [
+      "DF-S04",
+      "DF-S05"
+    ],
+    "decision": "Adapt UX",
+    "supabiz_proposal": "State exactly what is missing and request only the evidence needed: received weight, clearer invoice line, or confirmation of the matter. Limit reminders and use a single evolving work item.",
+    "measure": "Clarification count; exception age; unnecessary interruptions",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "DF-09",
+    "title": "Rules and mappings are reviewed versions",
+    "evidence_refs": [
+      "DF-S06",
+      "DF-S16"
+    ],
+    "decision": "Build rule lifecycle",
+    "supabiz_proposal": "Translate a plain-language SOP into a draft typed workflow. Show scope, trigger, data access, checks, approvals and effects; simulate it, publish a version, and support rollback. Staff corrections remain local proposals until reviewed.",
+    "measure": "Time to safe activation; rule regressions",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "DF-10",
+    "title": "Persistent state, replaceable workers",
+    "evidence_refs": [
+      "DF-S03",
+      "DF-S08"
+    ],
+    "decision": "Architecture decision",
+    "supabiz_proposal": "Keep records, evidence, runs and policy in SupaBiz-owned durable services. Give workers only bounded task context and short-lived capabilities. Persistent desktops may serve browser tasks but should not be the business system of record.",
+    "measure": "Context bytes per task; worker recovery; unauthorized fields exposed",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "DF-11",
+    "title": "Read-only onboarding, separate action gateway",
+    "evidence_refs": [
+      "DF-S13",
+      "DF-S19"
+    ],
+    "decision": "High priority",
+    "supabiz_proposal": "Begin a pilot with observation and drafts. Enable specific internal writes and external effects progressively through a policy-enforcing action service, scoped credentials and effect receipts. A read permission is not send permission.",
+    "measure": "Time to first reviewed value; unauthorized or duplicate effects",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "DF-12",
+    "title": "Telemetry is not authorization",
+    "evidence_refs": [
+      "DF-S11"
+    ],
+    "decision": "Do not confuse layers",
+    "supabiz_proposal": "Record intended action before an effect, but enforce grants independently. If completion logging fails after an upstream commit, mark outcome uncertain and reconcile before retrying. Never treat a logging gateway as a permission boundary.",
+    "measure": "Unrecorded intent; uncertain outcomes recovered without duplicates",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "DF-13",
+    "title": "Independent, portable evidence",
+    "evidence_refs": [
+      "DF-S09",
+      "DF-S17"
+    ],
+    "decision": "Stage carefully",
+    "supabiz_proposal": "Make results exportable with input references, rule versions, decisions and hashes. Add signatures and external checkpoints when justified. Verify trusted keys independently; proof integrity does not establish factual truth or population completeness.",
+    "measure": "Offline verification; tamper detection; export completeness",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "DF-14",
+    "title": "Freshness and completeness are first-class",
+    "evidence_refs": [
+      "DF-S05",
+      "DF-S13"
+    ],
+    "decision": "Build source health",
+    "supabiz_proposal": "Record source watermarks, lag, gaps, reconnect state and expected coverage. A disconnected WhatsApp session must visibly limit a summary. An empty successful fetch differs from a failed or partial fetch.",
+    "measure": "Missing-event detection; stale summaries; p95 ingestion lag",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "DF-15",
+    "title": "Replayable events, idempotent consumers",
+    "evidence_refs": [
+      "DF-S06",
+      "DF-S12"
+    ],
+    "decision": "Build delivery contract",
+    "supabiz_proposal": "Use a transactional outbox and tenant-scoped event IDs; consumers record dedupe and object revisions. Out-of-order events cannot roll back current state. Delivery retries never mean the underlying business action should repeat.",
+    "measure": "Duplicate effects; out-of-order regressions; delivery lag",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "DF-16",
+    "title": "Model choice is a measured substitution",
+    "evidence_refs": [
+      "DF-S01",
+      "DF-S22"
+    ],
+    "decision": "Evaluate, do not assume",
+    "supabiz_proposal": "Try a cheaper model for constrained extraction or explanation under the same input and rule contracts. Compare held-out complete workflows including corrections, review time and missed exceptions before routing production traffic.",
+    "measure": "Cost per correct completed workflow; false acceptance; abstention",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "DF-17",
+    "title": "Tenant isolation extends into every output",
+    "evidence_refs": [
+      "DF-S08",
+      "DF-S10"
+    ],
+    "decision": "Build and test",
+    "supabiz_proposal": "Enforce business and matter grants in retrieval, object downloads, exports, notifications, caches and execution. Sign-in establishes identity; active membership and resource scope establish access. Keep model context and logs minimal.",
+    "measure": "Cross-business/matter disclosure; revocation latency",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "DF-18",
+    "title": "Bind approvals to current state",
+    "evidence_refs": [
+      "DF-S05",
+      "DF-S06"
+    ],
+    "decision": "Build concurrency control",
+    "supabiz_proposal": "Use optimistic version checks so two reviewers cannot silently overwrite one another. If evidence or intended recipients change, invalidate the pending approval and explain the difference before another decision.",
+    "measure": "Lost updates; approval conflicts; action-version mismatch",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "DF-19",
+    "title": "Verify package identity and compatibility",
+    "evidence_refs": [
+      "DF-S14",
+      "DF-S15",
+      "DF-S20",
+      "DF-S21"
+    ],
+    "decision": "Immediate engineering gate",
+    "supabiz_proposal": "Pin publisher, registry, digest, API schema and tested capabilities. Prefer scoped package names. Block setup on identity mismatch, and retain the failure reason. Do not execute an arbitrary same-name package from documentation.",
+    "measure": "Incorrect package acceptance; SDK/API drift caught before rollout",
+    "status": "Design candidate; not implemented"
+  },
+  {
+    "id": "DF-20",
+    "title": "Start with a small record-and-verification core",
+    "evidence_refs": [
+      "DF-S03",
+      "DF-S13"
+    ],
+    "decision": "Recommended sequence",
+    "supabiz_proposal": "Build one receipt/invoice workflow and one notice/task workflow using a relational record store, object storage and a job queue. Add advanced proof infrastructure, dedicated tenant deployments or generalized workflow builders only after measured demand.",
+    "measure": "Time to verified pilot; operational cost; migration burden",
+    "status": "Design candidate; not implemented"
+  }
+]

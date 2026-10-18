@@ -1,0 +1,194 @@
+{
+  "id": "YC12-grepai",
+  "date": "2026-10-17",
+  "name": "Grep AI",
+  "identity": "grep.ai / Parcha Labs; unrelated grepai code-search projects excluded",
+  "scope": "Selected public skills source and shipped SDK artifact; no private backend audit",
+  "sources": [
+    {
+      "id": "GR-S01",
+      "url": "https://www.ycombinator.com/companies/grep-ai",
+      "kind": "Official YC profile",
+      "observation": "Identity: Parcha Labs / grep.ai, not the unrelated semantic-code-search project. Product and customer outcomes are vendor claims."
+    },
+    {
+      "id": "GR-S02",
+      "url": "https://www.youtube.com/watch?v=s9NEm6rRcCA",
+      "kind": "Official founder video; auto-generated captions",
+      "observation": "Reviewed captions through 1:17; repeated-work optimization and exception fallback described. No frame-by-frame product audit."
+    },
+    {
+      "id": "GR-S03",
+      "url": "https://grep.ai/",
+      "kind": "Official product page and illustrative template",
+      "observation": "Read public product UX, document template and reported comparison. Animations and demo costs are not runtime evidence; performance not reproduced."
+    },
+    {
+      "id": "GR-S04",
+      "url": "https://grep.ai/developers",
+      "kind": "Official developer overview",
+      "observation": "Documents separate agents, runs, skills, batches, loops and campaigns."
+    },
+    {
+      "id": "GR-S05",
+      "url": "https://github.com/Parcha-ai/grepai-skills/tree/66ab879c5cc44640edccc236d4621a122fd7afdc",
+      "kind": "Pinned public skills repository",
+      "observation": "Source version 0.3.0; package declares MIT. Selected skills/scripts inspected as target data; six upstream mocked checks passed."
+    },
+    {
+      "id": "GR-S06",
+      "url": "https://grep.ai/developers/sdks/batches",
+      "kind": "Official batch documentation",
+      "observation": "Per-input results, partial failures, concurrency/credit controls and explicit retry semantics described."
+    },
+    {
+      "id": "GR-S07",
+      "url": "https://registry.npmjs.org/@parcha/agentrun/-/agentrun-0.2.1.tgz",
+      "kind": "Official published SDK artifact",
+      "observation": "Integrity verified; REA seven selected paths; selected manual inspection and 24 isolated checks. No license field/file in inspected package."
+    },
+    {
+      "id": "GR-S08",
+      "url": "https://grep.ai/developers/api/quickstart",
+      "kind": "Official quickstart",
+      "observation": "Object-form Agent.create example differs from published SDK 0.2.1 string-plus-options signature. Explicit baseURL examples differ from automatic environment naming."
+    },
+    {
+      "id": "GR-S09",
+      "url": "https://grep.ai/developers/sdks/loops",
+      "kind": "Official loop documentation",
+      "observation": "Immediate first occurrence, frozen inputs, per-occurrence cap and pause/in-flight distinction."
+    },
+    {
+      "id": "GR-S10",
+      "url": "https://grep.ai/developers/sdks/campaigns",
+      "kind": "Official campaign documentation",
+      "observation": "Draft plan review/digest and direct configured-template execution are separate lifecycle paths."
+    },
+    {
+      "id": "GR-S11",
+      "url": "https://grep.ai/developers/api/auth",
+      "kind": "Official authentication documentation",
+      "observation": "Tenant key and delegated token contracts; public job identifier acts as read capability. Server enforcement not tested."
+    },
+    {
+      "id": "GR-S12",
+      "url": "https://grep.ai/privacy",
+      "kind": "Published privacy policy",
+      "observation": "Broad service processing, retention criteria and international processing; deployment-specific controls unverified."
+    },
+    {
+      "id": "GR-S13",
+      "url": "https://grep.ai/developers/api/idempotency",
+      "kind": "Official research idempotency documentation",
+      "observation": "Describes request replay for research endpoint. Do not assume all routes share identical TTL/body-matching semantics."
+    },
+    {
+      "id": "GR-S14",
+      "url": "https://api.grep.ai/api/v2/openapi.json",
+      "kind": "Live schema access attempt",
+      "observation": "Unauthenticated read returned HTTP 403; deployment schema not obtained, no bypass attempted."
+    },
+    {
+      "id": "GR-S15",
+      "url": "https://registry.npmjs.org/grep-research-skills/latest",
+      "kind": "npm release metadata",
+      "observation": "Published 0.2.0 differs from reviewed repository 0.3.0; no skills installed."
+    }
+  ],
+  "repository_commit": "66ab879c5cc44640edccc236d4621a122fd7afdc",
+  "sdk_version": "0.2.1",
+  "skills_source_version": "0.3.0",
+  "skills_published_version": "0.2.0",
+  "sdk_file_sha256": "43644fffa6ef5c4ded54baaf7a1423cbe6e988722f5aa0218677cd1857b66abd",
+  "sdk_evidence": [
+    {
+      "path": "dist/index.js",
+      "start_line": 1,
+      "end_line": 76,
+      "observation": "CSV parsing and input limits"
+    },
+    {
+      "path": "dist/index.js",
+      "start_line": 189,
+      "end_line": 242,
+      "observation": "Terminal sets and status aliases"
+    },
+    {
+      "path": "dist/index.js",
+      "start_line": 306,
+      "end_line": 318,
+      "observation": "Run parsing is not output-schema validation"
+    },
+    {
+      "path": "dist/index.js",
+      "start_line": 475,
+      "end_line": 543,
+      "observation": "Config, HTTPS, redirect denial, one request"
+    },
+    {
+      "path": "dist/index.js",
+      "start_line": 614,
+      "end_line": 635,
+      "observation": "Direct agent create sends active status"
+    },
+    {
+      "path": "dist/index.js",
+      "start_line": 655,
+      "end_line": 681,
+      "observation": "Build and run wire contracts"
+    },
+    {
+      "path": "dist/index.js",
+      "start_line": 692,
+      "end_line": 718,
+      "observation": "Batch/loop limits and request body"
+    },
+    {
+      "path": "dist/index.js",
+      "start_line": 779,
+      "end_line": 804,
+      "observation": "Campaign creation, direct execution and approval digest"
+    },
+    {
+      "path": "dist/index.js",
+      "start_line": 827,
+      "end_line": 845,
+      "observation": "Polling returns terminal states; deadline is local"
+    },
+    {
+      "path": "dist/index.js",
+      "start_line": 1038,
+      "end_line": 1090,
+      "observation": "Static create signature; build readiness activates agent"
+    },
+    {
+      "path": "dist/index.js",
+      "start_line": 1091,
+      "end_line": 1104,
+      "observation": "Lazy save and cached creation promise"
+    },
+    {
+      "path": "dist/index.js",
+      "start_line": 1114,
+      "end_line": 1137,
+      "observation": "Batch, loop and direct campaign methods"
+    }
+  ],
+  "rea_summary": "rea-summary.json",
+  "source_findings": "skills-source-review.json",
+  "tests": {
+    "sdk": 24,
+    "upstream_mocked_client": 6,
+    "total": 30,
+    "live_vendor": 0
+  },
+  "limits": [
+    "No authentication, paid execution or customer data",
+    "Live API schema returned 403",
+    "Private optimizer, evaluator, sandbox and authorization unverified",
+    "SDK license not established by package contents",
+    "No measured SupaBiz improvement",
+    "No unrelated same-name project substituted"
+  ]
+}

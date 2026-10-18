@@ -1,0 +1,444 @@
+{
+  "revision": "906bee5efc9b2bfc0d9341cd471a701314136144",
+  "date": "2026-10-17",
+  "findings": [
+    {
+      "id": "EX-01",
+      "kind": "source_and_isolated_check",
+      "title": "Organization rules remain restrictive",
+      "claim": "The first matching rule per owner is combined by action restriction. Explicit approve can override plugin approval annotations; missing rules/annotations default to approve.",
+      "supabiz_inference": "Use explicit capability allowlists; keep immutable business/resource gates outside model control.",
+      "evidence": [
+        {
+          "path": "packages/core/sdk/src/policies.ts",
+          "lines": [
+            237,
+            326
+          ],
+          "url": "https://github.com/UsefulSoftwareCo/executor/blob/906bee5efc9b2bfc0d9341cd471a701314136144/packages/core/sdk/src/policies.ts#L237-L326"
+        },
+        {
+          "path": "packages/core/sdk/src/executor.ts",
+          "lines": [
+            6364,
+            6398
+          ],
+          "url": "https://github.com/UsefulSoftwareCo/executor/blob/906bee5efc9b2bfc0d9341cd471a701314136144/packages/core/sdk/src/executor.ts#L6364-L6398"
+        }
+      ],
+      "full_application_verified": false
+    },
+    {
+      "id": "EX-02",
+      "kind": "source",
+      "title": "Execution gate before credentials",
+      "claim": "Dynamic invocation checks policy and awaits required approval before resolving credential values. Independent reads are started concurrently.",
+      "supabiz_inference": "Useful adapter pattern; benchmark whole path and revalidate grants after waiting.",
+      "evidence": [
+        {
+          "path": "packages/core/sdk/src/executor.ts",
+          "lines": [
+            6510,
+            6780
+          ],
+          "url": "https://github.com/UsefulSoftwareCo/executor/blob/906bee5efc9b2bfc0d9341cd471a701314136144/packages/core/sdk/src/executor.ts#L6510-L6780"
+        }
+      ],
+      "full_application_verified": false
+    },
+    {
+      "id": "EX-03",
+      "kind": "source",
+      "title": "Memory-only general continuation",
+      "claim": "Engine pause/fiber/result maps are in memory; caches are bounded by counts. Durable artifact fallback reconstructs only one recorded call and recording is best effort.",
+      "supabiz_inference": "Keep durable business workflow state and operation ledger separately.",
+      "evidence": [
+        {
+          "path": "packages/core/execution/src/engine.ts",
+          "lines": [
+            573,
+            625
+          ],
+          "url": "https://github.com/UsefulSoftwareCo/executor/blob/906bee5efc9b2bfc0d9341cd471a701314136144/packages/core/execution/src/engine.ts#L573-L625"
+        },
+        {
+          "path": "packages/core/api/src/handlers/executions.ts",
+          "lines": [
+            102,
+            176
+          ],
+          "url": "https://github.com/UsefulSoftwareCo/executor/blob/906bee5efc9b2bfc0d9341cd471a701314136144/packages/core/api/src/handlers/executions.ts#L102-L176"
+        },
+        {
+          "path": "packages/core/api/src/handlers/executions.ts",
+          "lines": [
+            228,
+            240
+          ],
+          "url": "https://github.com/UsefulSoftwareCo/executor/blob/906bee5efc9b2bfc0d9341cd471a701314136144/packages/core/api/src/handlers/executions.ts#L228-L240"
+        }
+      ],
+      "full_application_verified": false
+    },
+    {
+      "id": "EX-04",
+      "kind": "reproduced_component_race",
+      "title": "Approval consume is not atomic",
+      "claim": "Unmodified consume performs separate get then delete. Two controlled async readers both returned the same approval. Production HTTP reachability was not tested.",
+      "supabiz_inference": "Require an atomic claim plus persistent action identity before consequential writes.",
+      "evidence": [
+        {
+          "path": "packages/core/sdk/src/pending-approval.ts",
+          "lines": [
+            84,
+            109
+          ],
+          "url": "https://github.com/UsefulSoftwareCo/executor/blob/906bee5efc9b2bfc0d9341cd471a701314136144/packages/core/sdk/src/pending-approval.ts#L84-L109"
+        },
+        {
+          "path": "packages/core/sdk/src/blob.ts",
+          "lines": [
+            186,
+            257
+          ],
+          "url": "https://github.com/UsefulSoftwareCo/executor/blob/906bee5efc9b2bfc0d9341cd471a701314136144/packages/core/sdk/src/blob.ts#L186-L257"
+        },
+        {
+          "path": "packages/core/api/src/handlers/executions.ts",
+          "lines": [
+            132,
+            161
+          ],
+          "url": "https://github.com/UsefulSoftwareCo/executor/blob/906bee5efc9b2bfc0d9341cd471a701314136144/packages/core/api/src/handlers/executions.ts#L132-L161"
+        }
+      ],
+      "full_application_verified": false
+    },
+    {
+      "id": "EX-05",
+      "kind": "source",
+      "title": "SDK ownership differs from product tenancy",
+      "claim": "SDK provides tenant plus org/user ownership predicates; stock selfhost is explicitly one organization.",
+      "supabiz_inference": "Add business/matter grants and choose shared versus isolated hosting explicitly.",
+      "evidence": [
+        {
+          "path": "packages/core/sdk/src/owner-policy.ts",
+          "lines": [
+            102,
+            119
+          ],
+          "url": "https://github.com/UsefulSoftwareCo/executor/blob/906bee5efc9b2bfc0d9341cd471a701314136144/packages/core/sdk/src/owner-policy.ts#L102-L119"
+        },
+        {
+          "path": "apps/host-selfhost/src/auth/better-auth.ts",
+          "lines": [
+            149,
+            168
+          ],
+          "url": "https://github.com/UsefulSoftwareCo/executor/blob/906bee5efc9b2bfc0d9341cd471a701314136144/apps/host-selfhost/src/auth/better-auth.ts#L149-L168"
+        }
+      ],
+      "full_application_verified": false
+    },
+    {
+      "id": "EX-06",
+      "kind": "source_and_primitive_timing",
+      "title": "Per-construction synchronous KDF",
+      "claim": "Encrypted provider derives key with scryptSync; selfhost builds plugins per request. Primitive p50 was 14.293 ms on this test host. Full-request cost was not measured.",
+      "supabiz_inference": "Evaluate process-level derived-key reuse with rotation, while keeping owner-bound storage separate.",
+      "evidence": [
+        {
+          "path": "packages/plugins/encrypted-secrets/src/index.ts",
+          "lines": [
+            38,
+            76
+          ],
+          "url": "https://github.com/UsefulSoftwareCo/executor/blob/906bee5efc9b2bfc0d9341cd471a701314136144/packages/plugins/encrypted-secrets/src/index.ts#L38-L76"
+        },
+        {
+          "path": "packages/plugins/encrypted-secrets/src/index.ts",
+          "lines": [
+            135,
+            146
+          ],
+          "url": "https://github.com/UsefulSoftwareCo/executor/blob/906bee5efc9b2bfc0d9341cd471a701314136144/packages/plugins/encrypted-secrets/src/index.ts#L135-L146"
+        },
+        {
+          "path": "apps/host-selfhost/src/execution.ts",
+          "lines": [
+            30,
+            48
+          ],
+          "url": "https://github.com/UsefulSoftwareCo/executor/blob/906bee5efc9b2bfc0d9341cd471a701314136144/apps/host-selfhost/src/execution.ts#L30-L48"
+        },
+        {
+          "path": "apps/host-selfhost/executor.config.ts",
+          "lines": [
+            42,
+            48
+          ],
+          "url": "https://github.com/UsefulSoftwareCo/executor/blob/906bee5efc9b2bfc0d9341cd471a701314136144/apps/host-selfhost/executor.config.ts#L42-L48"
+        }
+      ],
+      "full_application_verified": false
+    },
+    {
+      "id": "EX-07",
+      "kind": "source",
+      "title": "Refresh gate is per process/root handle",
+      "claim": "OAuth single-flight map is keyed by root DB handle; implementation explicitly limits coordination to one process.",
+      "supabiz_inference": "Horizontal replicas require distributed coordination and crash-window tests.",
+      "evidence": [
+        {
+          "path": "packages/core/sdk/src/executor.ts",
+          "lines": [
+            235,
+            272
+          ],
+          "url": "https://github.com/UsefulSoftwareCo/executor/blob/906bee5efc9b2bfc0d9341cd471a701314136144/packages/core/sdk/src/executor.ts#L235-L272"
+        },
+        {
+          "path": "packages/core/sdk/src/executor.ts",
+          "lines": [
+            2771,
+            2798
+          ],
+          "url": "https://github.com/UsefulSoftwareCo/executor/blob/906bee5efc9b2bfc0d9341cd471a701314136144/packages/core/sdk/src/executor.ts#L2771-L2798"
+        },
+        {
+          "path": "packages/core/sdk/src/executor.ts",
+          "lines": [
+            2948,
+            2983
+          ],
+          "url": "https://github.com/UsefulSoftwareCo/executor/blob/906bee5efc9b2bfc0d9341cd471a701314136144/packages/core/sdk/src/executor.ts#L2948-L2983"
+        }
+      ],
+      "full_application_verified": false
+    },
+    {
+      "id": "EX-08",
+      "kind": "source_risk_unexecuted",
+      "title": "Compute deadline suspends during tools",
+      "claim": "QuickJS deadline is null while any tool invocation is outstanding and is renewed on return.",
+      "supabiz_inference": "Test unawaited slow tool plus CPU loop in disposable process; add external total budget.",
+      "evidence": [
+        {
+          "path": "packages/kernel/runtime-quickjs/src/index.ts",
+          "lines": [
+            138,
+            166
+          ],
+          "url": "https://github.com/UsefulSoftwareCo/executor/blob/906bee5efc9b2bfc0d9341cd471a701314136144/packages/kernel/runtime-quickjs/src/index.ts#L138-L166"
+        },
+        {
+          "path": "packages/kernel/runtime-quickjs/src/index.ts",
+          "lines": [
+            312,
+            340
+          ],
+          "url": "https://github.com/UsefulSoftwareCo/executor/blob/906bee5efc9b2bfc0d9341cd471a701314136144/packages/kernel/runtime-quickjs/src/index.ts#L312-L340"
+        }
+      ],
+      "full_application_verified": false
+    },
+    {
+      "id": "EX-09",
+      "kind": "source_risk_unexecuted",
+      "title": "Heap cap is not a process/output cap",
+      "claim": "QuickJS has a heap cap but host logs, JSON serialization and raw result caches allocate outside it; preview truncation follows serialization.",
+      "supabiz_inference": "Cap host log/result bytes and use media references.",
+      "evidence": [
+        {
+          "path": "packages/kernel/runtime-quickjs/src/index.ts",
+          "lines": [
+            295,
+            300
+          ],
+          "url": "https://github.com/UsefulSoftwareCo/executor/blob/906bee5efc9b2bfc0d9341cd471a701314136144/packages/kernel/runtime-quickjs/src/index.ts#L295-L300"
+        },
+        {
+          "path": "packages/kernel/runtime-quickjs/src/index.ts",
+          "lines": [
+            443,
+            470
+          ],
+          "url": "https://github.com/UsefulSoftwareCo/executor/blob/906bee5efc9b2bfc0d9341cd471a701314136144/packages/kernel/runtime-quickjs/src/index.ts#L443-L470"
+        },
+        {
+          "path": "packages/core/execution/src/engine.ts",
+          "lines": [
+            143,
+            208
+          ],
+          "url": "https://github.com/UsefulSoftwareCo/executor/blob/906bee5efc9b2bfc0d9341cd471a701314136144/packages/core/execution/src/engine.ts#L143-L208"
+        }
+      ],
+      "full_application_verified": false
+    },
+    {
+      "id": "EX-10",
+      "kind": "source",
+      "title": "Adapters differ in parallel tool scheduling",
+      "claim": "Deno host takes one queued tool call to completion; QuickJS begins each bridge invocation independently.",
+      "supabiz_inference": "Run adapter conformance and workload tests before expecting Promise.all speedups.",
+      "evidence": [
+        {
+          "path": "packages/kernel/runtime-deno-subprocess/src/index.ts",
+          "lines": [
+            300,
+            347
+          ],
+          "url": "https://github.com/UsefulSoftwareCo/executor/blob/906bee5efc9b2bfc0d9341cd471a701314136144/packages/kernel/runtime-deno-subprocess/src/index.ts#L300-L347"
+        },
+        {
+          "path": "packages/kernel/runtime-quickjs/src/index.ts",
+          "lines": [
+            312,
+            340
+          ],
+          "url": "https://github.com/UsefulSoftwareCo/executor/blob/906bee5efc9b2bfc0d9341cd471a701314136144/packages/kernel/runtime-quickjs/src/index.ts#L312-L340"
+        }
+      ],
+      "full_application_verified": false
+    },
+    {
+      "id": "EX-11",
+      "kind": "source",
+      "title": "Search loads before ranking/pagination",
+      "claim": "Default search loads visible tools, prepares/scans text, sorts matches and then slices the result. Tool list can await stale catalog sync.",
+      "supabiz_inference": "Small search result limits do not bound backend work. Index only after measuring catalog size and staleness.",
+      "evidence": [
+        {
+          "path": "packages/core/execution/src/tool-invoker.ts",
+          "lines": [
+            599,
+            740
+          ],
+          "url": "https://github.com/UsefulSoftwareCo/executor/blob/906bee5efc9b2bfc0d9341cd471a701314136144/packages/core/execution/src/tool-invoker.ts#L599-L740"
+        },
+        {
+          "path": "packages/core/sdk/src/executor.ts",
+          "lines": [
+            5821,
+            5822
+          ],
+          "url": "https://github.com/UsefulSoftwareCo/executor/blob/906bee5efc9b2bfc0d9341cd471a701314136144/packages/core/sdk/src/executor.ts#L5821-L5822"
+        }
+      ],
+      "full_application_verified": false
+    },
+    {
+      "id": "EX-12",
+      "kind": "source",
+      "title": "Trusted plugins and master-key boundary",
+      "claim": "Credential providers are host extensions. Encrypted selfhost uses a configured key or persisted key file; local file provider is plaintext.",
+      "supabiz_inference": "Separate host code trust, tenant grants and key lifecycle; do not treat a script sandbox as plugin isolation.",
+      "evidence": [
+        {
+          "path": "packages/core/sdk/src/executor.ts",
+          "lines": [
+            5988,
+            6032
+          ],
+          "url": "https://github.com/UsefulSoftwareCo/executor/blob/906bee5efc9b2bfc0d9341cd471a701314136144/packages/core/sdk/src/executor.ts#L5988-L6032"
+        },
+        {
+          "path": "apps/host-selfhost/src/config.ts",
+          "lines": [
+            111,
+            130
+          ],
+          "url": "https://github.com/UsefulSoftwareCo/executor/blob/906bee5efc9b2bfc0d9341cd471a701314136144/apps/host-selfhost/src/config.ts#L111-L130"
+        },
+        {
+          "path": "packages/plugins/file-secrets/src/index.ts",
+          "lines": [
+            108,
+            162
+          ],
+          "url": "https://github.com/UsefulSoftwareCo/executor/blob/906bee5efc9b2bfc0d9341cd471a701314136144/packages/plugins/file-secrets/src/index.ts#L108-L162"
+        }
+      ],
+      "full_application_verified": false
+    },
+    {
+      "id": "EX-13",
+      "kind": "source",
+      "title": "Current-policy freshness needs a resume test",
+      "claim": "General dynamic tool path resolves policy before waiting for approval, then proceeds to credentials/invocation; org-write context refresh is a separate control.",
+      "supabiz_inference": "Recheck current business grants/policy version before consequential dispatch.",
+      "evidence": [
+        {
+          "path": "packages/core/sdk/src/executor.ts",
+          "lines": [
+            6601,
+            6664
+          ],
+          "url": "https://github.com/UsefulSoftwareCo/executor/blob/906bee5efc9b2bfc0d9341cd471a701314136144/packages/core/sdk/src/executor.ts#L6601-L6664"
+        },
+        {
+          "path": "packages/core/execution/src/engine.ts",
+          "lines": [
+            805,
+            827
+          ],
+          "url": "https://github.com/UsefulSoftwareCo/executor/blob/906bee5efc9b2bfc0d9341cd471a701314136144/packages/core/execution/src/engine.ts#L805-L827"
+        }
+      ],
+      "full_application_verified": false
+    },
+    {
+      "id": "EX-14",
+      "kind": "source",
+      "title": "Cancellation of external effects remains unverified",
+      "claim": "QuickJS tryPromise does not pass the abort signal into evaluation and host dispatch uses independently run promises.",
+      "supabiz_inference": "Cancel must retain an uncertain-outcome state until external effects are reconciled.",
+      "evidence": [
+        {
+          "path": "packages/kernel/runtime-quickjs/src/index.ts",
+          "lines": [
+            550,
+            560
+          ],
+          "url": "https://github.com/UsefulSoftwareCo/executor/blob/906bee5efc9b2bfc0d9341cd471a701314136144/packages/kernel/runtime-quickjs/src/index.ts#L550-L560"
+        },
+        {
+          "path": "packages/core/execution/src/engine.ts",
+          "lines": [
+            890,
+            896
+          ],
+          "url": "https://github.com/UsefulSoftwareCo/executor/blob/906bee5efc9b2bfc0d9341cd471a701314136144/packages/core/execution/src/engine.ts#L890-L896"
+        }
+      ],
+      "full_application_verified": false
+    },
+    {
+      "id": "EX-15",
+      "kind": "source_and_isolated_benchmark",
+      "title": "Sorting is removable work, not the whole latency",
+      "claim": "General resolver copies/sorts rules; the sorted helper scans preordered rules. At 1,000 unmatched rules microbenchmark medians were 0.178625 and 0.115625 ms.",
+      "supabiz_inference": "Use versioned preparation if justified; preserve equivalence and invalidate on policy changes.",
+      "evidence": [
+        {
+          "path": "packages/core/sdk/src/policies.ts",
+          "lines": [
+            237,
+            326
+          ],
+          "url": "https://github.com/UsefulSoftwareCo/executor/blob/906bee5efc9b2bfc0d9341cd471a701314136144/packages/core/sdk/src/policies.ts#L237-L326"
+        },
+        {
+          "path": "packages/core/sdk/src/executor.ts",
+          "lines": [
+            5456,
+            5512
+          ],
+          "url": "https://github.com/UsefulSoftwareCo/executor/blob/906bee5efc9b2bfc0d9341cd471a701314136144/packages/core/sdk/src/executor.ts#L5456-L5512"
+        }
+      ],
+      "full_application_verified": false
+    }
+  ]
+}

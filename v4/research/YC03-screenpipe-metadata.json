@@ -1,0 +1,694 @@
+{
+  "id": "YC03-screenpipe",
+  "date": "2026-10-17",
+  "repository": "https://github.com/screenpipe/screenpipe",
+  "revision": "5ce7edfcda145fa1bb074574925b290a1356bf2c",
+  "license": "Screenpipe Commercial License; current source-available, not unrestricted open source",
+  "scope": "Selected public source with 12 synthetic helper checks; no installed runtime, Rust build, live capture, exploit or performance benchmark",
+  "evidence_files": [
+    {
+      "path": "LICENSE.md",
+      "sha256": "107b145d7e3927cb1320e76e5f7a2691f7ecd26a29486c3df3605c58fb46ab1f",
+      "bytes": 3723,
+      "url": "https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/LICENSE.md",
+      "coverage": "Selected sections inspected; not full-file audit"
+    },
+    {
+      "path": "apps/screenpipe-app-tauri/app/permission-recovery/page.tsx",
+      "sha256": "3a39c38a748391e600c31b2e82ac49c54d4a863d79ecf9538b3829384420cbe0",
+      "bytes": 15241,
+      "url": "https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/apps/screenpipe-app-tauri/app/permission-recovery/page.tsx",
+      "coverage": "Selected sections inspected; not full-file audit"
+    },
+    {
+      "path": "apps/screenpipe-app-tauri/components/chat/source-citation-footer.tsx",
+      "sha256": "6680839d901a37921e7b586c55aa96ad7568fa196c120d7a4de98b2f89a0401e",
+      "bytes": 10977,
+      "url": "https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/apps/screenpipe-app-tauri/components/chat/source-citation-footer.tsx",
+      "coverage": "Selected sections inspected; not full-file audit"
+    },
+    {
+      "path": "apps/screenpipe-app-tauri/components/onboarding/permissions-step.tsx",
+      "sha256": "6d8358c083b145a3df2b308e3eaa892dd1acadcbe9ec9e7f6ba73c92214a51d4",
+      "bytes": 17119,
+      "url": "https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/apps/screenpipe-app-tauri/components/onboarding/permissions-step.tsx",
+      "coverage": "Selected sections inspected; not full-file audit"
+    },
+    {
+      "path": "apps/screenpipe-app-tauri/components/settings/live-view-item-controls.tsx",
+      "sha256": "158b66402647e9786f41290c53c18aa9b553e1880891c2a674497c3db29ce75f",
+      "bytes": 11416,
+      "url": "https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/apps/screenpipe-app-tauri/components/settings/live-view-item-controls.tsx",
+      "coverage": "Selected sections inspected; not full-file audit"
+    },
+    {
+      "path": "apps/screenpipe-app-tauri/lib/workflows/scheduled-discovery.ts",
+      "sha256": "9035b016718fc1636f4aafa74d0e15d102a4ecbec35363a0c2c72607ceab6bd1",
+      "bytes": 17443,
+      "url": "https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/apps/screenpipe-app-tauri/lib/workflows/scheduled-discovery.ts",
+      "coverage": "Selected sections inspected; not full-file audit"
+    },
+    {
+      "path": "apps/screenpipe-app-tauri/src-tauri/src/enterprise/export_filter.rs",
+      "sha256": "cd4c32b2e816a979e98f2c304dc0ebe50e28a0cb4608fb376cbdff479d405f1f",
+      "bytes": 22518,
+      "url": "https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/apps/screenpipe-app-tauri/src-tauri/src/enterprise/export_filter.rs",
+      "coverage": "Selected sections inspected; not full-file audit"
+    },
+    {
+      "path": "apps/screenpipe-app-tauri/src-tauri/src/enterprise/upload.rs",
+      "sha256": "779db6678de8eaacddd05cd081e8661da404cb4f7ffd5c3ad4faf2954f398032",
+      "bytes": 33922,
+      "url": "https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/apps/screenpipe-app-tauri/src-tauri/src/enterprise/upload.rs",
+      "coverage": "Selected sections inspected; not full-file audit"
+    },
+    {
+      "path": "crates/screenpipe-a11y/src/url_filter.rs",
+      "sha256": "dc2577eeedd5866751bda49aa393a89ffe4d4334694857a310ba29e8b9b030c2",
+      "bytes": 19881,
+      "url": "https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/crates/screenpipe-a11y/src/url_filter.rs",
+      "coverage": "Selected sections inspected; not full-file audit"
+    },
+    {
+      "path": "crates/screenpipe-audio/src/audio_manager/builder.rs",
+      "sha256": "00dbec5e622c0c3ed5f002ae00dbf42c118a9e86f1019c2f3f36bc27e7834919",
+      "bytes": 15977,
+      "url": "https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/crates/screenpipe-audio/src/audio_manager/builder.rs",
+      "coverage": "Selected sections inspected; not full-file audit"
+    },
+    {
+      "path": "crates/screenpipe-audio/src/core/engine.rs",
+      "sha256": "4bbf03a3d63c17219e0d15bd80781158a6d59e9de65a6612823d279c9ac79407",
+      "bytes": 6769,
+      "url": "https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/crates/screenpipe-audio/src/core/engine.rs",
+      "coverage": "Selected sections inspected; not full-file audit"
+    },
+    {
+      "path": "crates/screenpipe-capture/src/ocr_gate.rs",
+      "sha256": "58bc4016bc082e71e227b93b474203bdb0dcbde5611a6e406dabf367b64691e9",
+      "bytes": 10276,
+      "url": "https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/crates/screenpipe-capture/src/ocr_gate.rs",
+      "coverage": "Selected sections inspected; not full-file audit"
+    },
+    {
+      "path": "crates/screenpipe-capture/src/paired_capture.rs",
+      "sha256": "8a5dccca979c366d738eae35efdd8c1795b24d16d12a553f542316cae0569bc7",
+      "bytes": 98606,
+      "url": "https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/crates/screenpipe-capture/src/paired_capture.rs",
+      "coverage": "Selected sections inspected; not full-file audit"
+    },
+    {
+      "path": "crates/screenpipe-db/src/db/search.rs",
+      "sha256": "fc0b86ae7492657aa09815baf45a213a9d9f6e0a66fe7ab6a8c11d4caef3e3d1",
+      "bytes": 101896,
+      "url": "https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/crates/screenpipe-db/src/db/search.rs",
+      "coverage": "Selected sections inspected; not full-file audit"
+    },
+    {
+      "path": "crates/screenpipe-db/src/db/source_identity.rs",
+      "sha256": "4a16610db2811ae8d11e031b675916951e69a9faf6e42605f20f2f2fef3bb37e",
+      "bytes": 10404,
+      "url": "https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/crates/screenpipe-db/src/db/source_identity.rs",
+      "coverage": "Selected sections inspected; not full-file audit"
+    },
+    {
+      "path": "crates/screenpipe-db/src/write_queue.rs",
+      "sha256": "42ca7253cd02630dc71ec8b26cf96a041fdec0e6559f6d4eb05406a75361439f",
+      "bytes": 159246,
+      "url": "https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/crates/screenpipe-db/src/write_queue.rs",
+      "coverage": "Selected sections inspected; not full-file audit"
+    },
+    {
+      "path": "crates/screenpipe-engine/src/event_driven_capture.rs",
+      "sha256": "b9aba98b34ae033b00b2523c97aee54ca2cdde6a100b0503db0ce3ba4b29d830",
+      "bytes": 253728,
+      "url": "https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/crates/screenpipe-engine/src/event_driven_capture.rs",
+      "coverage": "Selected sections inspected; not full-file audit"
+    },
+    {
+      "path": "crates/screenpipe-engine/src/focus_aware_controller.rs",
+      "sha256": "e9f7400fc6b0f7a320ce2f7b5a65e15bf0ea0fa414a49f22af53caa499741a01",
+      "bytes": 26315,
+      "url": "https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/crates/screenpipe-engine/src/focus_aware_controller.rs",
+      "coverage": "Selected sections inspected; not full-file audit"
+    },
+    {
+      "path": "crates/screenpipe-engine/src/pipe_permissions_middleware.rs",
+      "sha256": "87a9025f9adbe123db2be45fd30aa2753fbdd6535c0693b5c261fc7ec154688c",
+      "bytes": 16917,
+      "url": "https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/crates/screenpipe-engine/src/pipe_permissions_middleware.rs",
+      "coverage": "Selected sections inspected; not full-file audit"
+    },
+    {
+      "path": "crates/screenpipe-engine/src/privacy_filter.rs",
+      "sha256": "7966d1f260a30a88884f94852821b71ad85eae5cb976a0382708e56f03fecc8d",
+      "bytes": 11127,
+      "url": "https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/crates/screenpipe-engine/src/privacy_filter.rs",
+      "coverage": "Selected sections inspected; not full-file audit"
+    },
+    {
+      "path": "crates/screenpipe-engine/src/recording_config.rs",
+      "sha256": "2ea8e54740a95e241fa72ee3031537a4f782de58946d07b6526b2caf07d35a55",
+      "bytes": 45797,
+      "url": "https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/crates/screenpipe-engine/src/recording_config.rs",
+      "coverage": "Selected sections inspected; not full-file audit"
+    },
+    {
+      "path": "crates/screenpipe-engine/src/recording_coverage.rs",
+      "sha256": "c00b3f05eb4417a105da8facd2175690b5d7fc3db605c0fa8c2a7cd5a2bacb4a",
+      "bytes": 11892,
+      "url": "https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/crates/screenpipe-engine/src/recording_coverage.rs",
+      "coverage": "Selected sections inspected; not full-file audit"
+    },
+    {
+      "path": "crates/screenpipe-engine/src/retention.rs",
+      "sha256": "4bd5c59f269c74995a5a6b13939059e7fa668c702dd3d89471d0aec00aa060a9",
+      "bytes": 35708,
+      "url": "https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/crates/screenpipe-engine/src/retention.rs",
+      "coverage": "Selected sections inspected; not full-file audit"
+    },
+    {
+      "path": "crates/screenpipe-engine/src/routes/privacy_release.rs",
+      "sha256": "624e2dc526323744878a63c63e7684bcdc7115d949f40ff2375d2b15e8f83af0",
+      "bytes": 20727,
+      "url": "https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/crates/screenpipe-engine/src/routes/privacy_release.rs",
+      "coverage": "Selected sections inspected; not full-file audit"
+    },
+    {
+      "path": "crates/screenpipe-engine/src/routes/search.rs",
+      "sha256": "502b763134f6fc96dcaaa9f1a5403e7f6a526e1d91748ee619972611e68709c2",
+      "bytes": 110246,
+      "url": "https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/crates/screenpipe-engine/src/routes/search.rs",
+      "coverage": "Selected sections inspected; not full-file audit"
+    },
+    {
+      "path": "crates/screenpipe-engine/src/routes/workflow_catalog.rs",
+      "sha256": "fd873d1028b8e0ecbc54cd9de438833ce23fa406e29116144b2ee892c449e946",
+      "bytes": 33706,
+      "url": "https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/crates/screenpipe-engine/src/routes/workflow_catalog.rs",
+      "coverage": "Selected sections inspected; not full-file audit"
+    },
+    {
+      "path": "crates/screenpipe-engine/src/server.rs",
+      "sha256": "d9bcd451d749e7db7ad3bb6e3858658d4725107f183138fa78bb1b83c41b3583",
+      "bytes": 95428,
+      "url": "https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/crates/screenpipe-engine/src/server.rs",
+      "coverage": "Selected sections inspected; not full-file audit"
+    },
+    {
+      "path": "crates/screenpipe-engine/src/structured_outputs.rs",
+      "sha256": "620229aa15e35d93515c2651b396a6601e844c6d196a5446f6bba2756738b48c",
+      "bytes": 61066,
+      "url": "https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/crates/screenpipe-engine/src/structured_outputs.rs",
+      "coverage": "Selected sections inspected; not full-file audit"
+    },
+    {
+      "path": "crates/screenpipe-gateway/src/auth.rs",
+      "sha256": "4e4e355e1fca7aeb64d5d6257d983feb8683623285b52e4257327379d757430b",
+      "bytes": 38979,
+      "url": "https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/crates/screenpipe-gateway/src/auth.rs",
+      "coverage": "Selected sections inspected; not full-file audit"
+    },
+    {
+      "path": "crates/screenpipe-screen/src/capture_screenshot_by_window.rs",
+      "sha256": "75e5b30af3f1760bdd8192c7e00b55304a669d4bb0f1dfe091ead83db1b6610c",
+      "bytes": 85016,
+      "url": "https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/crates/screenpipe-screen/src/capture_screenshot_by_window.rs",
+      "coverage": "Selected sections inspected; not full-file audit"
+    },
+    {
+      "path": "crates/screenpipe-semantic/src/messaging.rs",
+      "sha256": "4921155d6b1e0403030be006017832ea0134ede71c26cb7f1aa3958cfd08951b",
+      "bytes": 30812,
+      "url": "https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/crates/screenpipe-semantic/src/messaging.rs",
+      "coverage": "Selected sections inspected; not full-file audit"
+    },
+    {
+      "path": "crates/screenpipe-semantic/src/model.rs",
+      "sha256": "14457169710d5510e49922e39d6e504b30f773b91a369351988e5526928a2f85",
+      "bytes": 13529,
+      "url": "https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/crates/screenpipe-semantic/src/model.rs",
+      "coverage": "Selected sections inspected; not full-file audit"
+    },
+    {
+      "path": "crates/screenpipe-semantic/src/parsers/catalog.rs",
+      "sha256": "abb4000a8a27341ec2bc0bf008441742623a26c6bdba48c04485202a0fed3448",
+      "bytes": 20428,
+      "url": "https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/crates/screenpipe-semantic/src/parsers/catalog.rs",
+      "coverage": "Selected sections inspected; not full-file audit"
+    },
+    {
+      "path": "crates/screenpipe-vault/src/manager.rs",
+      "sha256": "aebbe6697878fd434153fdaac90296cced005b3aa63c1cfe9e2d95cccd534c94",
+      "bytes": 18613,
+      "url": "https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/crates/screenpipe-vault/src/manager.rs",
+      "coverage": "Selected sections inspected; not full-file audit"
+    },
+    {
+      "path": "packages/screenpipe-mcp/src/search-result.ts",
+      "sha256": "05a034a4d008af5a2ed6986deb8137e918083d76081a43b04941eccc31716f71",
+      "bytes": 3621,
+      "url": "https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/packages/screenpipe-mcp/src/search-result.ts",
+      "coverage": "Selected sections inspected; not full-file audit"
+    },
+    {
+      "path": "packages/screenpipe-mcp/src/workflow-tools.ts",
+      "sha256": "96fb791e34a366cd3ea9c85d284747fb10917e89a370371c74674681b3be6ddc",
+      "bytes": 5739,
+      "url": "https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/packages/screenpipe-mcp/src/workflow-tools.ts",
+      "coverage": "Selected sections inspected; not full-file audit"
+    },
+    {
+      "path": "packages/workflows-ui/src/guide-source-review.tsx",
+      "sha256": "9571d93a7cc8afaa6c5b1f06ec2466588692e9f1418f118206d1b7fb0b3fa69b",
+      "bytes": 3416,
+      "url": "https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/packages/workflows-ui/src/guide-source-review.tsx",
+      "coverage": "Selected sections inspected; not full-file audit"
+    },
+    {
+      "path": "packages/workflows-ui/src/timing.ts",
+      "sha256": "b665fa66990cd4d3415a3a64436f369b19847cff23d4046eca7fc9380d5a4b1f",
+      "bytes": 1963,
+      "url": "https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/packages/workflows-ui/src/timing.ts",
+      "coverage": "Selected sections inspected; not full-file audit"
+    },
+    {
+      "path": "packages/workflows-ui/src/use-source-screenshot.ts",
+      "sha256": "17766c02981dc7e81bd797c846c58e47710644d4fa39b37dbf970584993270b7",
+      "bytes": 3132,
+      "url": "https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/packages/workflows-ui/src/use-source-screenshot.ts",
+      "coverage": "Selected sections inspected; not full-file audit"
+    },
+    {
+      "path": "packages/workflows-ui/src/workflow-questions.tsx",
+      "sha256": "69781c4375f5eccfb3152574d3fd8cd6b1562adc2b8ab6c5de815294d18a93b7",
+      "bytes": 11453,
+      "url": "https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/packages/workflows-ui/src/workflow-questions.tsx",
+      "coverage": "Selected sections inspected; not full-file audit"
+    },
+    {
+      "path": "packages/workflows-ui/src/workflow-step-evidence.tsx",
+      "sha256": "d01d4ba3aaa9e2efa85c040f4a4a3c38e84d7f1a391b0048d12b2decf7010b52",
+      "bytes": 8366,
+      "url": "https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/packages/workflows-ui/src/workflow-step-evidence.tsx",
+      "coverage": "Selected sections inspected; not full-file audit"
+    }
+  ],
+  "evidence_ranges": [
+    {
+      "path": "LICENSE.md",
+      "lines": [
+        1,
+        90
+      ],
+      "url": "https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/LICENSE.md#L1-L90"
+    },
+    {
+      "path": "apps/screenpipe-app-tauri/components/settings/live-view-item-controls.tsx",
+      "lines": [
+        118,
+        234
+      ],
+      "url": "https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/apps/screenpipe-app-tauri/components/settings/live-view-item-controls.tsx#L118-L234"
+    },
+    {
+      "path": "crates/screenpipe-engine/src/structured_outputs.rs",
+      "lines": [
+        753,
+        869
+      ],
+      "url": "https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/crates/screenpipe-engine/src/structured_outputs.rs#L753-L869"
+    },
+    {
+      "path": "apps/screenpipe-app-tauri/components/chat/source-citation-footer.tsx",
+      "lines": [
+        100,
+        179
+      ],
+      "url": "https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/apps/screenpipe-app-tauri/components/chat/source-citation-footer.tsx#L100-L179"
+    },
+    {
+      "path": "packages/workflows-ui/src/workflow-step-evidence.tsx",
+      "lines": [
+        28,
+        102
+      ],
+      "url": "https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/packages/workflows-ui/src/workflow-step-evidence.tsx#L28-L102"
+    },
+    {
+      "path": "packages/workflows-ui/src/use-source-screenshot.ts",
+      "lines": [
+        12,
+        48
+      ],
+      "url": "https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/packages/workflows-ui/src/use-source-screenshot.ts#L12-L48"
+    },
+    {
+      "path": "apps/screenpipe-app-tauri/lib/workflows/scheduled-discovery.ts",
+      "lines": [
+        9,
+        92
+      ],
+      "url": "https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/apps/screenpipe-app-tauri/lib/workflows/scheduled-discovery.ts#L9-L92"
+    },
+    {
+      "path": "crates/screenpipe-engine/src/routes/workflow_catalog.rs",
+      "lines": [
+        393,
+        505
+      ],
+      "url": "https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/crates/screenpipe-engine/src/routes/workflow_catalog.rs#L393-L505"
+    },
+    {
+      "path": "packages/workflows-ui/src/workflow-questions.tsx",
+      "lines": [
+        19,
+        98
+      ],
+      "url": "https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/packages/workflows-ui/src/workflow-questions.tsx#L19-L98"
+    },
+    {
+      "path": "packages/workflows-ui/src/guide-source-review.tsx",
+      "lines": [
+        13,
+        48
+      ],
+      "url": "https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/packages/workflows-ui/src/guide-source-review.tsx#L13-L48"
+    },
+    {
+      "path": "crates/screenpipe-capture/src/paired_capture.rs",
+      "lines": [
+        52,
+        77
+      ],
+      "url": "https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/crates/screenpipe-capture/src/paired_capture.rs#L52-L77"
+    },
+    {
+      "path": "crates/screenpipe-capture/src/paired_capture.rs",
+      "lines": [
+        285,
+        383
+      ],
+      "url": "https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/crates/screenpipe-capture/src/paired_capture.rs#L285-L383"
+    },
+    {
+      "path": "crates/screenpipe-capture/src/ocr_gate.rs",
+      "lines": [
+        93,
+        147
+      ],
+      "url": "https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/crates/screenpipe-capture/src/ocr_gate.rs#L93-L147"
+    },
+    {
+      "path": "crates/screenpipe-capture/src/paired_capture.rs",
+      "lines": [
+        741,
+        787
+      ],
+      "url": "https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/crates/screenpipe-capture/src/paired_capture.rs#L741-L787"
+    },
+    {
+      "path": "crates/screenpipe-engine/src/event_driven_capture.rs",
+      "lines": [
+        1,
+        55
+      ],
+      "url": "https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/crates/screenpipe-engine/src/event_driven_capture.rs#L1-L55"
+    },
+    {
+      "path": "crates/screenpipe-engine/src/focus_aware_controller.rs",
+      "lines": [
+        20,
+        43
+      ],
+      "url": "https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/crates/screenpipe-engine/src/focus_aware_controller.rs#L20-L43"
+    },
+    {
+      "path": "crates/screenpipe-db/src/write_queue.rs",
+      "lines": [
+        1,
+        85
+      ],
+      "url": "https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/crates/screenpipe-db/src/write_queue.rs#L1-L85"
+    },
+    {
+      "path": "crates/screenpipe-engine/src/recording_coverage.rs",
+      "lines": [
+        5,
+        64
+      ],
+      "url": "https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/crates/screenpipe-engine/src/recording_coverage.rs#L5-L64"
+    },
+    {
+      "path": "crates/screenpipe-semantic/src/model.rs",
+      "lines": [
+        187,
+        284
+      ],
+      "url": "https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/crates/screenpipe-semantic/src/model.rs#L187-L284"
+    },
+    {
+      "path": "crates/screenpipe-semantic/src/messaging.rs",
+      "lines": [
+        25,
+        54
+      ],
+      "url": "https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/crates/screenpipe-semantic/src/messaging.rs#L25-L54"
+    },
+    {
+      "path": "crates/screenpipe-db/src/db/source_identity.rs",
+      "lines": [
+        21,
+        100
+      ],
+      "url": "https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/crates/screenpipe-db/src/db/source_identity.rs#L21-L100"
+    },
+    {
+      "path": "crates/screenpipe-semantic/src/parsers/catalog.rs",
+      "lines": [
+        618,
+        635
+      ],
+      "url": "https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/crates/screenpipe-semantic/src/parsers/catalog.rs#L618-L635"
+    },
+    {
+      "path": "packages/screenpipe-mcp/src/search-result.ts",
+      "lines": [
+        1,
+        69
+      ],
+      "url": "https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/packages/screenpipe-mcp/src/search-result.ts#L1-L69"
+    },
+    {
+      "path": "packages/screenpipe-mcp/src/workflow-tools.ts",
+      "lines": [
+        1,
+        85
+      ],
+      "url": "https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/packages/screenpipe-mcp/src/workflow-tools.ts#L1-L85"
+    },
+    {
+      "path": "crates/screenpipe-db/src/db/search.rs",
+      "lines": [
+        238,
+        290
+      ],
+      "url": "https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/crates/screenpipe-db/src/db/search.rs#L238-L290"
+    },
+    {
+      "path": "crates/screenpipe-db/src/db/search.rs",
+      "lines": [
+        591,
+        597
+      ],
+      "url": "https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/crates/screenpipe-db/src/db/search.rs#L591-L597"
+    },
+    {
+      "path": "crates/screenpipe-db/src/db/search.rs",
+      "lines": [
+        790,
+        900
+      ],
+      "url": "https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/crates/screenpipe-db/src/db/search.rs#L790-L900"
+    },
+    {
+      "path": "apps/screenpipe-app-tauri/components/onboarding/permissions-step.tsx",
+      "lines": [
+        164,
+        215
+      ],
+      "url": "https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/apps/screenpipe-app-tauri/components/onboarding/permissions-step.tsx#L164-L215"
+    },
+    {
+      "path": "apps/screenpipe-app-tauri/app/permission-recovery/page.tsx",
+      "lines": [
+        142,
+        185
+      ],
+      "url": "https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/apps/screenpipe-app-tauri/app/permission-recovery/page.tsx#L142-L185"
+    },
+    {
+      "path": "crates/screenpipe-a11y/src/url_filter.rs",
+      "lines": [
+        94,
+        112
+      ],
+      "url": "https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/crates/screenpipe-a11y/src/url_filter.rs#L94-L112"
+    },
+    {
+      "path": "crates/screenpipe-screen/src/capture_screenshot_by_window.rs",
+      "lines": [
+        1003,
+        1100
+      ],
+      "url": "https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/crates/screenpipe-screen/src/capture_screenshot_by_window.rs#L1003-L1100"
+    },
+    {
+      "path": "crates/screenpipe-engine/src/server.rs",
+      "lines": [
+        365,
+        374
+      ],
+      "url": "https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/crates/screenpipe-engine/src/server.rs#L365-L374"
+    },
+    {
+      "path": "crates/screenpipe-engine/src/server.rs",
+      "lines": [
+        1631,
+        1668
+      ],
+      "url": "https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/crates/screenpipe-engine/src/server.rs#L1631-L1668"
+    },
+    {
+      "path": "crates/screenpipe-engine/src/pipe_permissions_middleware.rs",
+      "lines": [
+        54,
+        118
+      ],
+      "url": "https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/crates/screenpipe-engine/src/pipe_permissions_middleware.rs#L54-L118"
+    },
+    {
+      "path": "crates/screenpipe-engine/src/recording_config.rs",
+      "lines": [
+        452,
+        464
+      ],
+      "url": "https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/crates/screenpipe-engine/src/recording_config.rs#L452-L464"
+    },
+    {
+      "path": "crates/screenpipe-engine/src/privacy_filter.rs",
+      "lines": [
+        122,
+        184
+      ],
+      "url": "https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/crates/screenpipe-engine/src/privacy_filter.rs#L122-L184"
+    },
+    {
+      "path": "crates/screenpipe-engine/src/routes/search.rs",
+      "lines": [
+        1630,
+        1639
+      ],
+      "url": "https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/crates/screenpipe-engine/src/routes/search.rs#L1630-L1639"
+    },
+    {
+      "path": "apps/screenpipe-app-tauri/src-tauri/src/enterprise/upload.rs",
+      "lines": [
+        5,
+        26
+      ],
+      "url": "https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/apps/screenpipe-app-tauri/src-tauri/src/enterprise/upload.rs#L5-L26"
+    },
+    {
+      "path": "crates/screenpipe-engine/src/routes/privacy_release.rs",
+      "lines": [
+        18,
+        61
+      ],
+      "url": "https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/crates/screenpipe-engine/src/routes/privacy_release.rs#L18-L61"
+    },
+    {
+      "path": "apps/screenpipe-app-tauri/src-tauri/src/enterprise/export_filter.rs",
+      "lines": [
+        53,
+        109
+      ],
+      "url": "https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/apps/screenpipe-app-tauri/src-tauri/src/enterprise/export_filter.rs#L53-L109"
+    },
+    {
+      "path": "crates/screenpipe-gateway/src/auth.rs",
+      "lines": [
+        421,
+        451
+      ],
+      "url": "https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/crates/screenpipe-gateway/src/auth.rs#L421-L451"
+    },
+    {
+      "path": "crates/screenpipe-gateway/src/auth.rs",
+      "lines": [
+        483,
+        518
+      ],
+      "url": "https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/crates/screenpipe-gateway/src/auth.rs#L483-L518"
+    },
+    {
+      "path": "crates/screenpipe-engine/src/retention.rs",
+      "lines": [
+        56,
+        90
+      ],
+      "url": "https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/crates/screenpipe-engine/src/retention.rs#L56-L90"
+    },
+    {
+      "path": "crates/screenpipe-vault/src/manager.rs",
+      "lines": [
+        101,
+        102
+      ],
+      "url": "https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/crates/screenpipe-vault/src/manager.rs#L101-L102"
+    },
+    {
+      "path": "crates/screenpipe-vault/src/manager.rs",
+      "lines": [
+        289,
+        311
+      ],
+      "url": "https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/crates/screenpipe-vault/src/manager.rs#L289-L311"
+    },
+    {
+      "path": "packages/workflows-ui/src/timing.ts",
+      "lines": [
+        6,
+        18
+      ],
+      "url": "https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/packages/workflows-ui/src/timing.ts#L6-L18"
+    },
+    {
+      "path": "crates/screenpipe-audio/src/core/engine.rs",
+      "lines": [
+        8,
+        22
+      ],
+      "url": "https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/crates/screenpipe-audio/src/core/engine.rs#L8-L22"
+    },
+    {
+      "path": "crates/screenpipe-audio/src/audio_manager/builder.rs",
+      "lines": [
+        67,
+        80
+      ],
+      "url": "https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/crates/screenpipe-audio/src/audio_manager/builder.rs#L67-L80"
+    }
+  ],
+  "appendices": [
+    "ux-review.txt",
+    "privacy-review.txt"
+  ],
+  "checks": "probes/results.json",
+  "web_sources": [
+    "https://github.com/screenpipe/screenpipe",
+    "https://screenpipe.com/",
+    "https://github.com/screenpipe/screenpipe/blob/5ce7edfcda145fa1bb074574925b290a1356bf2c/LICENSE.md"
+  ],
+  "status": "Research complete within stated scope; production adoption not approved or implemented"
+}

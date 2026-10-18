@@ -1,0 +1,156 @@
+INKBOX → SUPABIZ
+Research date: 2026-10-18
+
+DECISION
+Inkbox supplies a valuable communication and identity pattern for SupaBiz. Adopt the boundaries: stable identity, conversation-scoped context, selective wake-up, explicit authority and recoverable replies. Do not treat the inspected Hermes plugin as the entire SupaBiz backend or as a verified WhatsApp integration. Keep business records, approvals and outcome verification under SupaBiz ownership.
+
+WHAT WAS ACTUALLY REVIEWED
+Pinned Hermes plugin 0.2.20 at 78b962151bc68cab6ee405bd9e977a596565f60e; selected source modules, two specialist source reviews with 24 findings, official documentation and public homepage setup UX. Twenty offline tests executed unchanged conversation.py and a2a_context.py using synthetic inputs. All passed, including a test that demonstrates a failure window. No account, plugin installation, SDK, hosted service, phone call or message was exercised. Public source is available, but no explicit root license/package license was found. Copying code requires resolving reuse permission.
+
+HOW THE INSPECTED SYSTEM FITS TOGETHER
+An agent identity binds channels to a runtime. Provider-specific ingress verifies events, then routes them to ordinary, Companion, voice or other paths. Group handling distinguishes sender access from addressing. Quiet messages can be retained without model submission. Eligible events acquire bounded conversation context and a stable reply route. Local journals preserve receipt and response stages. Delivery recovery distinguishes known failure from uncertain outcome. Some paths have specialized persistence; generic webhook deduplication is a separate finite in-memory mechanism. These are different guarantees and must not be collapsed into one durability claim.
+
+MOST EXCITING UX: PRESENT WITHOUT BEING NOISY
+For busy staff groups, a helpful assistant should follow permitted context without replying after every message. Proposed SupaBiz copy: Listening in Consu Operations. I respond when addressed or when an approved workflow needs attention. Show a compact status card with source health, last successful sync, mode and pending work. Use listening, working, needs approval and outcome unknown as distinct states. Inkbox source demonstrates quiet context and admission gates; this wording and business workflow UX are SupaBiz proposals. The inspected plugin defaults auto addressing and safe sender admission; mention-first is our proposed default for busy groups.
+
+VARUN: OPERATIONS AND PROCUREMENT
+A chef posts a voice note about low stock and an invoice photo follows. In authorized listening mode, preserve the source messages and media references. A configured stock-extraction workflow can propose a record; otherwise a later manager question wakes reasoning. Resolve supplier, units, outlet and document identity before suggesting a purchase. Show Consu, quantity, estimated amount, evidence and recipient on one review card. Approval binds that exact proposal and current record version. Persist purchase action and outbound intent; reconcile uncertain supplier delivery. A supplier acknowledgement is separate from receipt of goods, and receiving goods is separate from approved invoice/payment. ForeFathers data remains outside this context unless separately granted.
+
+RAMYA: COURT NOTICE TO ASSIGNED WORK
+The notice enters through an authenticated mailbox connector; sender authenticity alone does not establish the correctness of extracted legal dates. Match matter identifiers and attachments to permitted records, preserve source evidence and route ambiguities to Ramya. Produce a matter-specific change card: existing date, proposed date, source notice and affected tasks. Ramya confirms unresolved conflicts and assignment. Staff see only their entitled matter context and documents. Status updates stay linked to the original matter/thread. A shared email address or group membership never grants access to every client file. This is an administrative workflow proposal, not a legal deadline interpretation service.
+
+WHAT TO REUSE VERSUS BUILD
+Reuse the design boundaries and testable behavior first. Evaluate the plugin only after license permission, Hermes-version compatibility and channel fit are established. Build SupaBiz tenant/business principals, connector authorization, evidence records, structured domain state, proposal-bound approvals, durable inbox/outbox, action gateway, media lifecycle and outcome verification. Wrap communication providers behind contracts so model independence does not become dependence on one identity/messaging vendor. Keep the existing WhatsApp approach behind the same interface; validate its actual permissions, delivery semantics and recovery separately.
+
+RELIABILITY FINDINGS THAT CHANGE THE DESIGN
+The A2A helper removes or rewrites the queued item before saving active context. An injected active-context write failure left the tested sole item absent from both files. This proves a helper-level failure window, not that the full service necessarily loses work: external recovery was not established. Use an atomic ledger transition or explicit reconciliation. Companion has richer single-owner receipt/result journals and uncertain-send handling; do not generalize the helper result to every path. Conversely, do not generalize Companion recovery to every webhook. Native worker fencing is valuable but coupled to Hermes internals. Cancelling a coroutine is not proof the underlying tool stopped.
+
+SECURITY AND PERMISSION LESSONS
+Make observation, contact visibility, inbound admission, outbound communication, memory use and business actions separate concepts. The source review records stale agent-facing contact guidance and a difference between plugin voice defaults and documented unconfigured hosted behavior. Read back effective settings before activation. Encrypted vault storage does not prevent credentials appearing in model-visible tool results; prefer connector-side injection. Unknown-event warnings belong in prompts only as a supplement to deterministic effect authorization. Production ingress must authenticate before routing. A2A delegation needs an explicit external principal, business scope, purpose and expiry.
+
+LIMITS OF REVOCATION AND DELIVERY
+Saved-route email deliberately avoids a final remote authorization read after reasoning, while selected other paths perform additional checks. Do not promise universal immediate remote revocation from this plugin. SupaBiz should re-evaluate current permissions at effect time and on retries, while documenting cached-policy and disconnected-device limits. The send documentation describes explicit idempotency and replay behavior; wire a stable key to each intended send, preserve payload identity and reconcile uncertain results. A missing local result or provider lookup is not automatically proof of no send. A queued acknowledgement is not a verified business outcome.
+
+PERFORMANCE AND COST
+Quiet capture can reduce model turns but does not remove later context, storage or media costs. In a synthetic 100-message stream with 20 wakes, model invocation count falls 80%; total cost and accuracy must be measured separately. Whole-row JSON journals incur O(B) writes and O(n) scans, with quadratic cumulative rewrite bytes as retained history grows. The proposed indexed ledger and bounded hydration reduce that growth pattern, at the cost of transactional database operations, migrations and operational complexity. No measured speedup, throughput or savings is claimed. See cost-complexity.json for variables, prices, baseline and measurement plan.
+
+IMPLEMENTATION SEQUENCE AND RELEASE GATES
+Stage 1: define principal, conversation, admission and action contracts; run fixtures for Consu and one synthetic legal matter. Stage 2: implement durable ingestion and quiet/mention modes with read-only summaries; require correct business boundaries and no duplicate captured events. Stage 3: add draft records and proposal-bound approvals with controlled connector actions; require wrong-actor, changed-proposal, revocation and lost-acknowledgement checks. Stage 4: fault-inject queue transitions and fence worker attempts; require no unexplained lost/duplicate effects across declared scenarios. Stage 5: pilot voice and A2A separately after capability, region and unit-economics checks. Promote only on agreed quality/latency/cost thresholds measured against manual and every-message baselines. Forty acceptance cases are proposed, not executed.
+
+WHAT REMAINS UNKNOWN
+Hosted backend implementation, signing/replay enforcement, deployment isolation, live revocation timing, full media retention/deletion, all subprocessors, India channel availability and pricing, production performance and model quality remain unverified. Public homepage illustrations are not evidence that controls were exercised. No full audit or implementation completion is claimed. Current recommendation is to adopt the patterns and validate a small workflow before choosing a dependency.
+
+20 SAVED DESIGN LEARNINGS
+
+IB-01 — Stable identity, scoped authority
+Keep a provider-independent agent principal with separate Consu, ForeFathers and Arkaj memberships. Bind channel identities to it without merging business authority.
+Measure: Wrong-business actions; identity continuity after model/provider changes
+Evidence: INK-GR-04
+
+IB-02 — Observe without answering every message
+Allow authorized quiet capture, then wake on an eligible mention, explicit request or approved workflow. Show listening versus working.
+Measure: Model turns per 100 messages; missed actionable events; attention load
+Evidence: INK-GR-02
+
+IB-03 — Separate context, requests and actions
+Evaluate observation permission, current sender admission, addressing and action authority separately. Earlier conversation is evidence, not a new command.
+Measure: Unauthorized wake/action rate; useful recall
+Evidence: INK-GR-01
+
+IB-04 — Conversation-specific activation
+A manager selects a group, purpose, history window and reply mode. Record activation and membership versions; joining one group grants no unrelated history.
+Measure: Onboarding time; cross-group retrieval denials
+Evidence: INK-GR-04
+
+IB-05 — Make permissions understandable
+Show separate can-read, can-receive, can-reply, can-use-memory and can-change-records cards with concrete examples.
+Measure: Permission comprehension; accidental grants
+Evidence: INK-SEC-08
+
+IB-06 — Preserve the original audience
+Store exact business, connector, conversation, thread and audience with each action. Recheck current entitlements; never silently redirect a failed group reply to a private chat.
+Measure: Wrong audience and stale membership disclosures
+Evidence: INK-GR-05
+
+IB-07 — Bind approval to the actual proposal
+Bind approver, business, action digest, record version and expiry. Changing quantity, recipient or amount invalidates approval.
+Measure: Stale/replayed/wrong-person approvals blocked
+Evidence: INK-GR-03
+
+IB-08 — Durable receipt, result and delivery stages
+Persist accepted event, model result and external delivery intent separately. Recover saved results without automatically repeating reasoning or business effects.
+Measure: Crash recovery correctness; avoidable reruns
+Evidence: INK-GR-06
+
+IB-09 — Make uncertainty visible
+After a lost send acknowledgement, show outcome unknown and reconcile via provider receipt/key. Do not infer failure from an absent local response.
+Measure: Duplicate orders/messages; time in uncertain state
+Evidence: INK-GR-07
+
+IB-10 — Stop the exact worker
+Fence a worker generation before replacing or cancelling work. A cancelled async wrapper does not prove a tool subprocess stopped. Explain already committed effects.
+Measure: Overlapping attempts; orphan operations
+Evidence: INK-GR-08
+
+IB-11 — Bound burst collection and history
+Coalesce split staff messages with time, byte and source-count limits; preserve original evidence and expose pending processing. Set caps from measured language/media behavior.
+Measure: Useful latency; truncation; task recall; retained bytes
+Evidence: INK-GR-11
+
+IB-12 — Use a transactional work ledger
+Replace growing whole-conversation checkpoints with durable event and job records, bounded hydration, retention and atomic queue-to-active transitions.
+Measure: Recovery under injected faults; write amplification; queue age
+Evidence: INK-GR-12
+
+IB-13 — Keep credentials out of model output
+Let authorized connectors consume credentials inside the operation boundary. Return redacted receipts, never raw secrets in general model context.
+Measure: Secret leakage in traces/tool outputs; rotation success
+Evidence: INK-SEC-06
+
+IB-14 — Authenticate ingress, then authorize effects
+Verify source transport and tenant binding before admission. Signed messages can still contain malicious content; independent policy controls every effect.
+Measure: Invalid event rejection; injection-triggered actions
+Evidence: INK-SEC-01
+
+IB-15 — Quarantine unknown event sources
+Unverified events may be inspected in a restricted evidence flow, without the capability to request business changes.
+Measure: Unverified-to-action escalation attempts
+Evidence: INK-SEC-03
+
+IB-16 — Show effective permissions and detect drift
+Read back applied server settings and generate capability help from versioned contracts. Block readiness on differences between requested and effective scope.
+Measure: Configuration mismatch detection; stale guidance incidents
+Evidence: INK-SEC-09
+
+IB-17 — Separate voice caller from agent authority
+Give each call a scoped capability set; step up identity checks for disclosures and approvals. Voice modality does not grant owner privileges.
+Measure: Unauthorized disclosure/action rate; useful call resolution
+Evidence: INK-SEC-07
+
+IB-18 — Progress should show business truth
+Use one compact thread status: captured, assigned, waiting for approval, delivery unknown, verified. Agent finished is not purchase received or task completed.
+Measure: Manager follow-ups; false completion; time to verified result
+Evidence: INK-GR-10
+
+IB-19 — A2A messages need bounded delegation
+Treat a remote agent as an external principal with explicit purpose, data scope, task ID and expiry. Remote assertions never become local approval.
+Measure: Cross-business leakage; duplicate delegated work
+Evidence: INK-GR-05
+
+IB-20 — Keep communication behind replaceable adapters
+Own canonical contacts, evidence, action ledger and exports. Evaluate vendor licensing, retention, regions, India channel availability and real unit economics before adoption.
+Measure: Provider migration completeness; cost per verified workflow
+Evidence: INK-SEC-12
+
+SOURCE DIRECTORY
+https://www.ycombinator.com/companies/inkbox — Company identity
+https://inkbox.ai/ — Public homepage and Hermes setup tab; illustrations, not authenticated product
+https://inkbox.ai/docs/api/contacts/communication-policy — Permissions and hosted voice documented defaults
+https://inkbox.ai/docs/api/message-sends — Send idempotency/replay contract
+https://inkbox.ai/docs/capabilities/companion-mode — Group activation contract
+https://inkbox.ai/docs/api/a2a/authentication — A2A authentication and public card visibility
+https://inkbox.ai/pricing — Published USD pricing; geography matters
+https://inkbox.ai/privacy-policy — Website/service data distinction
+https://inkbox.ai/dpa — Contractual data handling terms
+Pinned source: https://github.com/inkbox-ai/hermes-agent-plugin/tree/78b962151bc68cab6ee405bd9e977a596565f60e
+Detailed line references: group-recovery-source-review.json and security-source-review.json
