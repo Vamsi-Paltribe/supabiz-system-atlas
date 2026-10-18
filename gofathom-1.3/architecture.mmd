@@ -1,0 +1,22 @@
+flowchart LR
+  Sources[Selected messages and media] --> Capture[Journal and source coverage]
+  Owner[Owner text or voice command] --> Intent[Scoped intent and authority]
+  Capture --> Read[Extract and retrieve context]
+  Read --> Interpret[Interpret and propose relationships]
+  Interpret --> Episode[Versioned episode membership]
+  Episode --> Admit[Validate and admit records]
+  Intent --> Admit
+  Admit --> State[(Typed records and decisions)]
+  State --> Calc[Exact calculations and critical answer fields]
+  Calc --> Report[Versioned answers and artifacts]
+  State --> Work[Assignment and acknowledged work]
+  Work --> Close[Evidence reviewed closure]
+  Capture --> Change[Correction and new evidence]
+  Change --> Impact[Affected dependencies and query scopes]
+  Impact --> Episode
+  Impact --> Work
+  Impact --> Report
+  Close --> Eval[Protected evaluation and measured effort]
+  Grants[Current grants and policy] -.-> Read
+  Grants -.-> Admit
+  Grants -.-> Work

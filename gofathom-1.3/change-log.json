@@ -1,0 +1,110 @@
+[
+  {
+    "id": "D01",
+    "kind": "Clarify",
+    "title": "Understanding becomes an explicit mechanism",
+    "why": "The controls were more concrete than the way fragmented conversations become business meaning.",
+    "mechanism": "Contextual retrieval, typed observations, competing interpretations, scoped identity resolution and versioned episode membership. Episodes group evidence and records; they do not own truth.",
+    "test": "Two crates short → remaining came → photo → other outlet → revised invoice. Retract the wrong relationship, reopen the shortage and retain history.",
+    "sprint": "S1–S2"
+  },
+  {
+    "id": "D02",
+    "kind": "Add",
+    "title": "Normal work gets a quiet path",
+    "why": "An exception-only assistant would miss most daily work and turn the app into an alarm panel.",
+    "mechanism": "Process ordinary receipts, counts and bills alongside exceptions. Quiet extraction is not silent acceptance: admission still follows the agreed business policy.",
+    "test": "A normal complete delivery is correctly reflected without a false discrepancy or unnecessary clarification.",
+    "sprint": "S1"
+  },
+  {
+    "id": "D03",
+    "kind": "Add",
+    "title": "Owner commands and voice notes arrive early",
+    "why": "The original product promise includes speaking or typing useful work, not only asking questions.",
+    "mechanism": "Typed intent with scope, authority, progress and outcome; voice-note transcription with critical-number and negation checks. Consequential effects use the applicable preview/review.",
+    "test": "Prepare a pending report, assign a follow-up and correct a quantity through the app. Duplicate submissions create one logical request.",
+    "sprint": "S2"
+  },
+  {
+    "id": "D04",
+    "kind": "Add",
+    "title": "Documents become versioned outputs",
+    "why": "A PDF can remain in circulation after its source quantity or status changes.",
+    "mechanism": "Record template version, input record versions, file hash, audience and supersession. Keep historical files and label their freshness; sharing is a separate authorized action.",
+    "test": "Correct a quantity after generating the PDF. Mark the tracked report stale/superseded and generate a new version. Do not pretend downloaded copies can be recalled.",
+    "sprint": "S2"
+  },
+  {
+    "id": "D05",
+    "kind": "Add",
+    "title": "Choose the acknowledgement channel",
+    "why": "We promised assigned work and acknowledgement without choosing how staff receive it while outbound WhatsApp stays deferred.",
+    "mechanism": "Trial an enrolled manager on the responsive GoFathom app early. Optional enrolled staff see scoped tasks. Manual relay is labelled and counted; external sends need the appropriate gateway.",
+    "test": "A manager receives and accepts a specific task version. A message view or manual relay is not automatically acknowledgement.",
+    "sprint": "S1 trial · S3 complete loop"
+  },
+  {
+    "id": "D06",
+    "kind": "Clarify",
+    "title": "Authentication includes recovery and departure",
+    "why": "Permission checks alone do not cover expired connections, shared phones, staff leaving or orphaned assignments.",
+    "mechanism": "Enrollment, scoped grants, connector recovery ownership, device revocation and authorized task reassignment. Recheck current access on pending effects.",
+    "test": "Revoke a manager while a review is open; reconnect a source without broadening access; leave an assignment pending authorized reassignment.",
+    "sprint": "S0 boundaries · S3 recovery"
+  },
+  {
+    "id": "D07",
+    "kind": "Clarify",
+    "title": "Phone and desktop share one durable state",
+    "why": "The assistant must continue across devices and survive intermittent connectivity.",
+    "mechanism": "Responsive first surface, durable request IDs, version checks and queued/synced/conflicted states. Full native installers and ambient capture remain later.",
+    "test": "Start on phone, continue on desktop, reconnect an offline device after access is revoked. No duplicate or stale privileged action.",
+    "sprint": "S2–S3"
+  },
+  {
+    "id": "D08",
+    "kind": "Clarify",
+    "title": "Memory must change when evidence changes",
+    "why": "Remembering more is not useful if corrections leave stale tasks, answers or PDFs behind.",
+    "mechanism": "Track consequential derivations, including model interpretations, plus scoped queries and watermarks for absence claims. Invalidate affected results; revalidate tasks and approvals.",
+    "test": "A late credit note invalidates a prior no-credit-note result. A correction reaches a closed episode even without an exact reply or document number.",
+    "sprint": "S2"
+  },
+  {
+    "id": "D09",
+    "kind": "Add",
+    "title": "Budget exhaustion is a visible product state",
+    "why": "Affordability was a formula without a clear user experience when capacity runs out.",
+    "mechanism": "Per-tenant budgets, bounded retrieval/retries, queue age and operational recovery. Do not silently drop work or route every overflow to the owner.",
+    "test": "Exhaust the configured processing budget. Pending work and its consequences stay visible; recovery is deduplicated and policy-qualified.",
+    "sprint": "S1 visibility · S4 load"
+  },
+  {
+    "id": "D10",
+    "kind": "Clarify",
+    "title": "Put safeguards and demand evidence before expansion",
+    "why": "Late security tests or late buyer feedback can invalidate an otherwise polished build.",
+    "mechanism": "Isolation tests before real data, plain source/group transparency, a named buyer/reviewer and price hypothesis. Early acknowledgement trial and protected fresh cases.",
+    "test": "Deny cross-business retrieval and revoked access before intake. Record actual reviewer effort and demand evidence rather than assumed willingness to pay.",
+    "sprint": "S0 onward"
+  },
+  {
+    "id": "D11",
+    "kind": "Clarify",
+    "title": "Keep Ramya in the foundation tests",
+    "why": "A restaurant-only implementation could embed assumptions that make matter confidentiality and notice revisions expensive later.",
+    "mechanism": "Small synthetic or consented legal identity, permission and revision fixtures. Full Gmail/matter operations follow separate domain qualification.",
+    "test": "Two matters for one client remain separated; a revised notice changes the right matter only. No inferred statutory deadline.",
+    "sprint": "S0 fixtures · later legal pack"
+  },
+  {
+    "id": "D12",
+    "kind": "Retain",
+    "title": "Keep the core; earn each expansion",
+    "why": "A new framework or more services does not repair wrong identities, dropped instructions or stale conclusions.",
+    "mechanism": "Retain useful TS/Postgres code after inspection. Use modules, isolated parsers and a bounded runner. Preserve the external authority for stock/accounting fields.",
+    "test": "Replay the same real app path and source-pinned defects. Replace a component only when a measured gap and comparison justify it.",
+    "sprint": "All sprints"
+  }
+]

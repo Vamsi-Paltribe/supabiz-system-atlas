@@ -1,0 +1,106 @@
+[
+  {
+    "id": "S0",
+    "title": "Establish the real baseline",
+    "owner": "Engineering lead + business reviewer + product owner",
+    "depends": "Before any real pilot data",
+    "demo": "Trace one fresh intake through the real UI, worker and saved records; show the selected-source and permission boundary.",
+    "build": [
+      "Pin current code, entrypoints and migrations; distinguish diagnostic paths from the actual app.",
+      "Create a source-pinned register of known defects and reproduction outcomes.",
+      "Run cross-business/matter denial, revocation, non-enrolled-source filtering and relevant parser isolation checks before real data; otherwise use synthetic fixtures.",
+      "Name the buyer, reviewer, existing record authority, communication route and connector recovery owner. Record a price hypothesis, buyer relationship and graded demand evidence.",
+      "Prepare protected fresh cases, raw-context/summary/manual comparison plans and small legal foundation fixtures."
+    ],
+    "exit": [
+      "Enabled capabilities have source evidence or an explicit gap.",
+      "Real-data access and isolation gates pass; no completeness claim exceeds source coverage.",
+      "Known failures, baseline effort and first-workflow scope are recorded."
+    ],
+    "stop": "Block unsafe real-data intake or reliance; fix divergent app paths before treating diagnostic results as product proof."
+  },
+  {
+    "id": "S1",
+    "title": "Understand routine and ambiguous intake",
+    "owner": "Application engineer + domain reviewer",
+    "depends": "S0 boundaries and baseline",
+    "demo": "One normal delivery and one ambiguous mixed-media delivery produce evidence-linked records or explicit uncertainty.",
+    "build": [
+      "Repair applicable numeric normalization, time/instruction handling, parent-child admission, identity/unit links, repeated approval and calculation context defects.",
+      "Introduce lightweight episode membership and candidate alternatives using existing records.",
+      "Evaluate required voice/image capability early; show processing budgets, queued work and source/processing freshness.",
+      "Run a low-fidelity manager acknowledgement trial now, before building the full work loop. Count manual relay effort.",
+      "Test fresh variations alongside historical regressions; keep every reproduced defect fixed or explicitly deferred with impact and reason."
+    ],
+    "exit": [
+      "Routine processing does not create a false exception or unauthorized silent acceptance.",
+      "Ambiguous links are preserved and clarification is focused.",
+      "No blocking defect for an enabled capability is hidden by deferral.",
+      "The acknowledgement route shows credible adoption; budget exhaustion is visible."
+    ],
+    "stop": "Restrict the affected capability if interpretation or clarification burden exceeds the agreed budget. Revise the route if it simply adds a second inbox."
+  },
+  {
+    "id": "S2",
+    "title": "Handle change and deliver useful outputs",
+    "owner": "Application engineer + independent QA",
+    "depends": "S1 source-grounded interpretation",
+    "demo": "Correct an outlet or quantity days later, ask for current status by voice/text and generate a corrected pending report.",
+    "build": [
+      "Track consequential derivations, scoped absence queries and watermarks. Revisit open and closed situations.",
+      "Revalidate affected record admission, tasks, approvals and calculations after corrections or new evidence.",
+      "Validate and render critical answer quantities/statuses from saved versions; evaluate explanatory prose too.",
+      "Execute a scoped typed/voice-note command through the same product path.",
+      "Generate one versioned PDF/report with input versions, template, audience, hash and supersession."
+    ],
+    "exit": [
+      "The fragment/correction case produces the right current state without rewriting history.",
+      "A newly arriving credit note invalidates the relevant absence claim.",
+      "Stale artifacts are labelled; a new report references the corrected records.",
+      "Commands have visible scope/progress/outcome and duplicate requests are handled."
+    ],
+    "stop": "Suspend affected outputs when a correction leaves unsupported statements, stale approvals or concealed dependencies."
+  },
+  {
+    "id": "S3",
+    "title": "Complete work across people and devices",
+    "owner": "Workflow engineer + manager + QA",
+    "depends": "Validated acknowledgement trial and S2 state semantics",
+    "demo": "Manager accepts a task, records a blocker, survives a restart, verifies closure and reopens it on contradictory evidence.",
+    "build": [
+      "Implement the chosen actual acknowledgement route and version-specific task acceptance.",
+      "Persist assignment, due times, reminders, blockers, completion report and closure conditions.",
+      "Show manual relays honestly; external communications require the relevant effect gateway.",
+      "Exercise phone-to-desktop continuity, offline queued requests, current authorization on reconnect and version conflicts.",
+      "Handle departing staff, revoked devices, connector re-linking and authorized reassignment."
+    ],
+    "exit": [
+      "Restart and duplicate delivery do not lose or duplicate work.",
+      "Viewing a message is never automatically task acceptance or completion.",
+      "Revoked access and stale device submissions cannot create unauthorized effects.",
+      "The manager can finish the workflow with measured effort."
+    ],
+    "stop": "Pause affected reliance on wrong-audience access, lost work, unsupported closure or adoption failure; repair before expansion."
+  },
+  {
+    "id": "S4",
+    "title": "Prove value, reliability and economics",
+    "owner": "Engineering lead + independent evaluator + buyer",
+    "depends": "Complete bounded workflow and applicable prior gates",
+    "demo": "Run protected fresh episodes and a bounded consented one-outlet shadow beside the existing process.",
+    "build": [
+      "Compare governed path, strong raw-context and summary baselines and manual work using the same eligible cases.",
+      "Measure stage-level interpretation, links, omissions, answers, closure, false alarms and total review/clarification effort.",
+      "Benchmark history growth, affected-graph fan-out, tenant concurrency, tail latency, queue age, storage and total processing cost.",
+      "Rehearse restore/rollback, source recovery and incidents; broaden security/fault tests without postponing earlier safeguards.",
+      "Record residual risks, scoped reliance authorizer, reviewer capacity, demand evidence and economics before expansion."
+    ],
+    "exit": [
+      "Risk-specific evidence and an explicit reliance decision support the bounded use.",
+      "Assisted work reduces total burden at acceptable correctness; abstaining on all clear cases cannot pass.",
+      "Support, processing and reviewer costs fit a credible offer.",
+      "Remaining limitations and unsupported slices remain visible."
+    ],
+    "stop": "Suspend affected reliance on critical failures or unsustainable effort; preserve results and diagnose. This does not mean stopping every unrelated development task."
+  }
+]

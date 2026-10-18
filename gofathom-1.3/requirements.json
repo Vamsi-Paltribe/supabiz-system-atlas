@@ -1,0 +1,114 @@
+[
+  {
+    "id": "R01",
+    "title": "Familiar channels",
+    "mechanism": "selected WhatsApp sources plus uploads; Gmail added for legal workflow. Preserve source coverage and connector health separately from processing status.",
+    "test": "disconnect, replay, expired media, edited/deleted messages, partial backfill. No silent completeness claim.",
+    "phase": "First bounded workflow; qualify before enabling"
+  },
+  {
+    "id": "R02",
+    "title": "Business understanding",
+    "mechanism": "contextual interpretation, identities, versioned episode membership, alternative interpretations, correction dependencies.",
+    "test": "two crates short / remaining came / other outlet / revised invoice; ordinary complete delivery; two same-name people.",
+    "phase": "First bounded workflow; qualify before enabling"
+  },
+  {
+    "id": "R03",
+    "title": "Owner commands",
+    "mechanism": "explicit request record, authority, intended scope, progress, cancellation and outcome; read/question/create/update operations share business context.",
+    "test": "ask status, assign work, correct quantity, create a document, supersede an instruction; duplicate client submission creates one logical request.",
+    "phase": "First bounded workflow; qualify before enabling"
+  },
+  {
+    "id": "R04",
+    "title": "Ordinary work and proactive attention",
+    "mechanism": "quiet successful processing under policy; attention only for decisions, exceptions and relevant changes. Unlinked evidence remains discoverable.",
+    "test": "normal delivery needs no unnecessary clarification; no fabricated exception; unanswered useful request remains visible.",
+    "phase": "First bounded workflow; qualify before enabling"
+  },
+  {
+    "id": "R05",
+    "title": "Voice and mixed media",
+    "mechanism": "original assets, transcript/translation/regions/timestamps; critical-number and negation validation; modality-specific capability checks.",
+    "test": "actual staff languages, code-switching, background noise, blurry photos, conflicting audio and invoice; no hidden inference that a photo proves payment.",
+    "phase": "First bounded workflow; qualify before enabling"
+  },
+  {
+    "id": "R06",
+    "title": "Phone and desktop continuity",
+    "mechanism": "shared server state, pending local requests, durable request IDs, version checks, visible offline/queued/synced/conflicted states.",
+    "test": "request on phone, continue desktop, disconnect, edit on both, revoke access before reconnect. No automatic stale privileged action.",
+    "phase": "First bounded workflow; qualify before enabling"
+  },
+  {
+    "id": "R07",
+    "title": "Authentication and permissions",
+    "mechanism": "enrollment, selected sources, scoped grants, expired-credential recovery, staff removal, device revocation, credential isolation.",
+    "test": "remove manager while a review card is open; reconnect source without silently broadening scope; CA sees only authorized businesses.",
+    "phase": "First bounded workflow; qualify before enabling"
+  },
+  {
+    "id": "R08",
+    "title": "Useful tools and artifacts",
+    "mechanism": "narrow tools with input/output schemas, provenance, versioned artifacts and private delivery. Existing stock/accounting field authority preserved.",
+    "test": "generate receiving report/PDF; verify fields against saved records; inspect corrected source after generation; sharing is a separate authorized action.",
+    "phase": "First bounded workflow; qualify before enabling"
+  },
+  {
+    "id": "R09",
+    "title": "Work completion",
+    "mechanism": "assignment, acknowledgement, blockers, timers, completion report, closure evidence and reopening.",
+    "test": "restart before reminder; duplicate completion message; unauthorized closure; later evidence contradicts closure.",
+    "phase": "First bounded workflow; qualify before enabling"
+  },
+  {
+    "id": "R10",
+    "title": "Learning",
+    "mechanism": "separate case corrections, identity aliases, approved business policies and product changes.",
+    "test": "exception for one delivery does not alter supplier-wide policy; correction invalidates affected results without exposing other tenants.",
+    "phase": "First bounded workflow; qualify before enabling"
+  },
+  {
+    "id": "R11",
+    "title": "Secure cloud and model portability",
+    "mechanism": "durable shared records, private assets, isolated untrusted parsing, capability/data-policy-qualified model adapters.",
+    "test": "tenant boundaries, prompt injection in attachment, prohibited parser egress, fallback refusal when model lacks required capability.",
+    "phase": "First bounded workflow; qualify before enabling"
+  },
+  {
+    "id": "R12",
+    "title": "Cost and scale",
+    "mechanism": "per-tenant queues/budgets, bounded retrieval and retries, cached unchanged extraction, selective invalidation, overload visibility.",
+    "test": "growing history and tenant concurrency; record retrieval recall, correction quality, tail latency, tokens, asset bytes, queue lag and total human effort.",
+    "phase": "First bounded workflow; qualify before enabling"
+  },
+  {
+    "id": "R13",
+    "title": "Legal workflow",
+    "mechanism": "Gmail notice ingestion, matter identifiers, confidentiality, explicit date provenance, assignment and document follow-through.",
+    "test": "amended notice, same client with two matters, wrong attachment, revoked matter access, missing explicit deadline. Add after first workflow proof; do not assume restaurant success validates it.",
+    "phase": "Later capability; foundation tests early"
+  },
+  {
+    "id": "R14",
+    "title": "Browser, video and native access",
+    "mechanism": "scoped browser worker; timestamped video observations; device bridge only where needed. Avoid making these prerequisites for the first slice.",
+    "test": "session leakage, uncertain external action outcomes, temporal video ambiguity, local bridge disconnection and permission withdrawal.",
+    "phase": "Later capability; foundation tests early"
+  },
+  {
+    "id": "R15",
+    "title": "Own collaboration and agent exchange",
+    "mechanism": "future app collaboration and explicitly delegated cross-business jobs with audience limits and receipts.",
+    "test": "recipient revocation, replay, conflicting agent instructions and disclosure boundaries.",
+    "phase": "Later capability; foundation tests early"
+  },
+  {
+    "id": "R16",
+    "title": "Development and commercial proof",
+    "mechanism": "same real-app execution path for test and product; pinned source evidence; protected fresh cases; baseline work observation; buyer/reviewer ownership; versioned human and LLM docs.",
+    "test": "clean setup and migration/restore, replay historical defects, compare assisted/manual effort and support cost, distinguish retained evidence from reviewer agreement.",
+    "phase": "First bounded workflow; qualify before enabling"
+  }
+]

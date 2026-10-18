@@ -1,13 +1,25 @@
 GOFATHOM — COMPLETE BLUEPRINT, IMPLEMENTATION AUDIT AND SPRINT PLAN
-Single-link edition: 19 October 2026
+Single-link edition: 19 October 2026 — updated through GoFathom 1.3
 Canonical share URL: https://vamsi-paltribe.github.io/supabiz-system-atlas/gofathom-complete.txt
 
 PURPOSE AND READING GUIDE
-This document embeds the complete Foundation 1.1 architecture and Edition 1.2
-implementation evidence audit, including all five proposed sprints and the
-other-Mac source-code audit prompt. You do not need another link to read those
-documents. The two editable architecture diagrams are also included below.
+This document embeds the complete Foundation 1.1 architecture, historical 1.2
+implementation evidence audit, and current GoFathom 1.3 approach refinements,
+revised sprints, requirements-to-tests checklist and source-code audit prompt.
+You do not need another link for those documents. Editable architecture diagrams
+are included below. Start with SECTION E for the current approach, then use A-D
+for the full baseline and historical evidence. Sections F-G accompany 1.3.
 The product was previously called SupaBiz; its current name is GoFathom.
+
+VERSION PRECEDENCE — IMPORTANT
+GoFathom 1.3 is titled FROM UNDERSTANDING TO COMPLETED WORK. It explains why
+changes were introduced after implementation-team feedback and a product-intent
+cross-check. Its S0-S4 delivery sequence and explicitly refined choices supersede
+earlier proposed plans. Unchanged Foundation 1.1 controls remain applicable.
+Edition 1.2 is preserved verbatim as a historical audit; its sprint estimates,
+source snapshot and other-Mac prompt are not the latest delivery instructions.
+Use Section G for the current code-audit prompt. The original edition directories
+remain unchanged. None of these documents establishes a runtime implementation.
 
 EVIDENCE BOUNDARY
 Architecture 1.1 specifies the intended product and its controls. Audit 1.2
@@ -28,6 +40,13 @@ C. Enforcement/control-boundary diagram source.
 D. Current evidence audit: all 27 harness/contract rows, known failures,
    recommended first Varun workflow, five gated sprints, measurements and the
    complete prompt for auditing code on the implementation Mac.
+   This is the unchanged historical 1.2 audit, not a fresh code inspection.
+E. Current approach 1.3: reasons for the changes, 12 design decisions, explicit
+   understanding mechanisms, Varun and Ramya workflows, revised S0-S4 sprints,
+   all 16 original-intent requirements, reuse/build/defer choices, adjudication,
+   evidence boundaries and performance/cost assumptions.
+F. Updated architecture flow diagram source.
+G. Updated other-Mac audit prompt aligned to 1.3.
 
 HOW TO INTERPRET THE EMBEDDED SOURCES
 Each section is included in full, without shortening or changing its content.
@@ -7808,5 +7827,903 @@ Finish with an honest answer to: What works now? What is broken? What is missing
 
 
 END EMBEDDED SOURCE D
+
+
+==============================================================================
+SECTION E: CURRENT APPROACH: FROM UNDERSTANDING TO COMPLETED WORK — EDITION 1.3
+SOURCE: https://vamsi-paltribe.github.io/supabiz-system-atlas/gofathom-1.3/llms-full.txt
+SOURCE SHA-256: 9d28ae10afee8b2b01f268234256ea8c0d98ff8cf622ac4475fd7d53a7e90c0f
+BEGIN EMBEDDED SOURCE E
+==============================================================================
+
+GOFATHOM 1.3 — FROM UNDERSTANDING TO COMPLETED WORK
+Read this current refinement with the full 1.1 baseline and historical 1.2 audit. The single complete link embeds all three.
+
+metadata:
+  title:
+    GoFathom 1.3 — From Understanding to Completed Work
+  subtitle:
+    Why the approach changed, how the system works, and what each sprint must prove
+  version:
+    1.3
+  date:
+    2026-10-19
+  status:
+    Proposed architecture and delivery refinement; not an implementation release
+  runtime_verified:
+    False
+  baseline:
+    Foundation 1.1
+  historical_audit:
+    Edition 1.2
+  precedence:
+    1.3 supersedes the delivery sequence and identified design choices in earlier editions. Unchanged 1.1 controls remain applicable. 1.2 implementation findings remain historical reported evidence, not newly verified code.
+thesis:
+  Understand evolving business situations, maintain evidence-backed state, and carry authorized work to verified outcomes while reducing total business effort.
+why_now:
+  Implementation-team feedback exposed an imbalance: controls were specified more precisely than conversation understanding. A second review against the original user vision exposed missing product demonstrations: normal work, direct commands, artifacts, acknowledgement routes and lifecycle recovery. The revisions connect these mechanisms to explicit sprint exits.
+changes:
+  id:
+    D01
+  kind:
+    Clarify
+  title:
+    Understanding becomes an explicit mechanism
+  why:
+    The controls were more concrete than the way fragmented conversations become business meaning.
+  mechanism:
+    Contextual retrieval, typed observations, competing interpretations, scoped identity resolution and versioned episode membership. Episodes group evidence and records; they do not own truth.
+  test:
+    Two crates short → remaining came → photo → other outlet → revised invoice. Retract the wrong relationship, reopen the shortage and retain history.
+  sprint:
+    S1–S2
+
+  id:
+    D02
+  kind:
+    Add
+  title:
+    Normal work gets a quiet path
+  why:
+    An exception-only assistant would miss most daily work and turn the app into an alarm panel.
+  mechanism:
+    Process ordinary receipts, counts and bills alongside exceptions. Quiet extraction is not silent acceptance: admission still follows the agreed business policy.
+  test:
+    A normal complete delivery is correctly reflected without a false discrepancy or unnecessary clarification.
+  sprint:
+    S1
+
+  id:
+    D03
+  kind:
+    Add
+  title:
+    Owner commands and voice notes arrive early
+  why:
+    The original product promise includes speaking or typing useful work, not only asking questions.
+  mechanism:
+    Typed intent with scope, authority, progress and outcome; voice-note transcription with critical-number and negation checks. Consequential effects use the applicable preview/review.
+  test:
+    Prepare a pending report, assign a follow-up and correct a quantity through the app. Duplicate submissions create one logical request.
+  sprint:
+    S2
+
+  id:
+    D04
+  kind:
+    Add
+  title:
+    Documents become versioned outputs
+  why:
+    A PDF can remain in circulation after its source quantity or status changes.
+  mechanism:
+    Record template version, input record versions, file hash, audience and supersession. Keep historical files and label their freshness; sharing is a separate authorized action.
+  test:
+    Correct a quantity after generating the PDF. Mark the tracked report stale/superseded and generate a new version. Do not pretend downloaded copies can be recalled.
+  sprint:
+    S2
+
+  id:
+    D05
+  kind:
+    Add
+  title:
+    Choose the acknowledgement channel
+  why:
+    We promised assigned work and acknowledgement without choosing how staff receive it while outbound WhatsApp stays deferred.
+  mechanism:
+    Trial an enrolled manager on the responsive GoFathom app early. Optional enrolled staff see scoped tasks. Manual relay is labelled and counted; external sends need the appropriate gateway.
+  test:
+    A manager receives and accepts a specific task version. A message view or manual relay is not automatically acknowledgement.
+  sprint:
+    S1 trial · S3 complete loop
+
+  id:
+    D06
+  kind:
+    Clarify
+  title:
+    Authentication includes recovery and departure
+  why:
+    Permission checks alone do not cover expired connections, shared phones, staff leaving or orphaned assignments.
+  mechanism:
+    Enrollment, scoped grants, connector recovery ownership, device revocation and authorized task reassignment. Recheck current access on pending effects.
+  test:
+    Revoke a manager while a review is open; reconnect a source without broadening access; leave an assignment pending authorized reassignment.
+  sprint:
+    S0 boundaries · S3 recovery
+
+  id:
+    D07
+  kind:
+    Clarify
+  title:
+    Phone and desktop share one durable state
+  why:
+    The assistant must continue across devices and survive intermittent connectivity.
+  mechanism:
+    Responsive first surface, durable request IDs, version checks and queued/synced/conflicted states. Full native installers and ambient capture remain later.
+  test:
+    Start on phone, continue on desktop, reconnect an offline device after access is revoked. No duplicate or stale privileged action.
+  sprint:
+    S2–S3
+
+  id:
+    D08
+  kind:
+    Clarify
+  title:
+    Memory must change when evidence changes
+  why:
+    Remembering more is not useful if corrections leave stale tasks, answers or PDFs behind.
+  mechanism:
+    Track consequential derivations, including model interpretations, plus scoped queries and watermarks for absence claims. Invalidate affected results; revalidate tasks and approvals.
+  test:
+    A late credit note invalidates a prior no-credit-note result. A correction reaches a closed episode even without an exact reply or document number.
+  sprint:
+    S2
+
+  id:
+    D09
+  kind:
+    Add
+  title:
+    Budget exhaustion is a visible product state
+  why:
+    Affordability was a formula without a clear user experience when capacity runs out.
+  mechanism:
+    Per-tenant budgets, bounded retrieval/retries, queue age and operational recovery. Do not silently drop work or route every overflow to the owner.
+  test:
+    Exhaust the configured processing budget. Pending work and its consequences stay visible; recovery is deduplicated and policy-qualified.
+  sprint:
+    S1 visibility · S4 load
+
+  id:
+    D10
+  kind:
+    Clarify
+  title:
+    Put safeguards and demand evidence before expansion
+  why:
+    Late security tests or late buyer feedback can invalidate an otherwise polished build.
+  mechanism:
+    Isolation tests before real data, plain source/group transparency, a named buyer/reviewer and price hypothesis. Early acknowledgement trial and protected fresh cases.
+  test:
+    Deny cross-business retrieval and revoked access before intake. Record actual reviewer effort and demand evidence rather than assumed willingness to pay.
+  sprint:
+    S0 onward
+
+  id:
+    D11
+  kind:
+    Clarify
+  title:
+    Keep Ramya in the foundation tests
+  why:
+    A restaurant-only implementation could embed assumptions that make matter confidentiality and notice revisions expensive later.
+  mechanism:
+    Small synthetic or consented legal identity, permission and revision fixtures. Full Gmail/matter operations follow separate domain qualification.
+  test:
+    Two matters for one client remain separated; a revised notice changes the right matter only. No inferred statutory deadline.
+  sprint:
+    S0 fixtures · later legal pack
+
+  id:
+    D12
+  kind:
+    Retain
+  title:
+    Keep the core; earn each expansion
+  why:
+    A new framework or more services does not repair wrong identities, dropped instructions or stale conclusions.
+  mechanism:
+    Retain useful TS/Postgres code after inspection. Use modules, isolated parsers and a bounded runner. Preserve the external authority for stock/accounting fields.
+  test:
+    Replay the same real app path and source-pinned defects. Replace a component only when a measured gap and comparison justify it.
+  sprint:
+    All sprints
+pipeline:
+  id:
+    P01
+  name:
+    Connect & capture
+  purpose:
+    Know what was observed and what may be missing.
+  inside:
+    Selected sources and current grants
+
+    Source IDs, revisions, reply chains and original media
+
+    Connection health, source coverage and processing lag
+  output:
+    Durable source observations, not yet business facts
+
+  id:
+    P02
+  name:
+    Read & understand
+  purpose:
+    Recover meaning from fragmented text and media.
+  inside:
+    Text/table extraction, image regions and timestamped transcripts
+
+    Exact-key context first, then bounded text/entity/time/semantic retrieval
+
+    Observations, intent, references and alternative interpretations
+  output:
+    Evidence-linked candidate interpretations
+
+  id:
+    P03
+  name:
+    Relate & validate
+  purpose:
+    Maintain a changing account of the situation.
+  inside:
+    Stable episode IDs and proposed/accepted/retracted membership edges
+
+    Scope, units, times, parent-child admission and authority checks
+
+    Split/merge lineage and dependency invalidation
+  output:
+    Versioned records plus explicit uncertainty
+
+  id:
+    P04
+  name:
+    Answer & prepare
+  purpose:
+    Turn reliable state into useful assistance.
+  inside:
+    Code calculations and version-bound critical answer fields
+
+    Typed/voice commands with scope and progress
+
+    Versioned PDF/report outputs with private audience
+  output:
+    Supported answer or authorized proposed effect
+
+  id:
+    P05
+  name:
+    Assign & follow
+  purpose:
+    Make responsibility and progress durable.
+  inside:
+    Chosen human acknowledgement route
+
+    Owner, due time, blocker and restart-safe timers
+
+    Current grants and effect checks at execution
+  output:
+    Acknowledged work with visible next steps
+
+  id:
+    P06
+  name:
+    Verify & improve
+  purpose:
+    Close only when the outcome is supported.
+  inside:
+    Completion evidence and authorized closure
+
+    Corrections can reopen work and supersede outputs
+
+    Scoped corrections, approved rules and protected product evaluation
+  output:
+    Verified outcome and measured effort
+mechanisms:
+  title:
+    Episode identity
+  description:
+    Stable ID plus versioned membership edges to evidence and typed records. Tasks reference specific records and task versions. Matching document keys retrieve candidates; they do not authorize merge. Split/merge keeps lineage and revalidates affected approvals.
+
+  title:
+    Retrieval and routing
+  description:
+    Use reply chains, scoped identities and document identifiers first. Expand through bounded lexical, entity, time and semantic search where useful, including closed situations. Log search-or-skip reasons; audit skipped events independently. SQL candidates do not replace language interpretation.
+
+  title:
+    Changing evidence
+  description:
+    Positive dependencies cover accepted records, calculations and consequential model-derived interpretations. Negative results retain selector scope and observation watermark. New matching evidence can invalidate a conclusion without correcting any earlier record.
+
+  title:
+    Temporal meaning
+  description:
+    Keep event time, source/document time, effective time and decision time distinct. Unknown dates remain unknown. A current instruction must not be silently dropped because no historical effective date was supplied; activation follows scoped instruction policy.
+
+  title:
+    Authority and concurrency
+  description:
+    Evidence, interpretation, accepted state and authority remain distinct. Current grants and relevant source/effect/policy versions are checked at admission or execution. Re-review is necessary when those change; otherwise avoid redundant approval.
+
+  title:
+    Owner experience
+  description:
+    Needs attention, Work in progress, Ask GoFathom and What GoFathom knows remain proposed surfaces. Cards show evidence, uncertainty, recommended action and exact effect. Investigate first, route to the best-placed authorized person, batch nonurgent questions and expose aging.
+
+  title:
+    Tool and harness boundary
+  description:
+    The harness supplies context, model routing, schema-checked tools, budgets, checkpoints and validators. Code owns exact calculations, state transitions and durable waits. Tools create records or artifacts through authorized interfaces; raw source text never grants authority.
+
+  title:
+    Learning
+  description:
+    Separate case correction, scoped identity/alias, approved conversion or operating rule, and product/model changes. Do not silently generalize exceptions. Shared improvements require appropriate permission and minimization; no cross-tenant memory leakage.
+
+  title:
+    Security and recovery
+  description:
+    Run tenant/matter isolation, revocation and source-filter tests before real data. Give untrusted parsers only scoped assets and restricted capabilities. Define credential recovery, retention/deletion of derivatives and caches, backup handling, and incident/restore ownership.
+
+  title:
+    Modalities and deployment
+  description:
+    Phone/desktop responsive access and voice notes belong in the first useful experience. Cloud workers preserve durable state. Vision supports evidence with locators. Live voice, native bridges, browser workers and video receive workflow-specific entry gates; none is assumed reliable from a provider feature list.
+sprints:
+  id:
+    S0
+  title:
+    Establish the real baseline
+  owner:
+    Engineering lead + business reviewer + product owner
+  depends:
+    Before any real pilot data
+  demo:
+    Trace one fresh intake through the real UI, worker and saved records; show the selected-source and permission boundary.
+  build:
+    Pin current code, entrypoints and migrations; distinguish diagnostic paths from the actual app.
+
+    Create a source-pinned register of known defects and reproduction outcomes.
+
+    Run cross-business/matter denial, revocation, non-enrolled-source filtering and relevant parser isolation checks before real data; otherwise use synthetic fixtures.
+
+    Name the buyer, reviewer, existing record authority, communication route and connector recovery owner. Record a price hypothesis, buyer relationship and graded demand evidence.
+
+    Prepare protected fresh cases, raw-context/summary/manual comparison plans and small legal foundation fixtures.
+  exit:
+    Enabled capabilities have source evidence or an explicit gap.
+
+    Real-data access and isolation gates pass; no completeness claim exceeds source coverage.
+
+    Known failures, baseline effort and first-workflow scope are recorded.
+  stop:
+    Block unsafe real-data intake or reliance; fix divergent app paths before treating diagnostic results as product proof.
+
+  id:
+    S1
+  title:
+    Understand routine and ambiguous intake
+  owner:
+    Application engineer + domain reviewer
+  depends:
+    S0 boundaries and baseline
+  demo:
+    One normal delivery and one ambiguous mixed-media delivery produce evidence-linked records or explicit uncertainty.
+  build:
+    Repair applicable numeric normalization, time/instruction handling, parent-child admission, identity/unit links, repeated approval and calculation context defects.
+
+    Introduce lightweight episode membership and candidate alternatives using existing records.
+
+    Evaluate required voice/image capability early; show processing budgets, queued work and source/processing freshness.
+
+    Run a low-fidelity manager acknowledgement trial now, before building the full work loop. Count manual relay effort.
+
+    Test fresh variations alongside historical regressions; keep every reproduced defect fixed or explicitly deferred with impact and reason.
+  exit:
+    Routine processing does not create a false exception or unauthorized silent acceptance.
+
+    Ambiguous links are preserved and clarification is focused.
+
+    No blocking defect for an enabled capability is hidden by deferral.
+
+    The acknowledgement route shows credible adoption; budget exhaustion is visible.
+  stop:
+    Restrict the affected capability if interpretation or clarification burden exceeds the agreed budget. Revise the route if it simply adds a second inbox.
+
+  id:
+    S2
+  title:
+    Handle change and deliver useful outputs
+  owner:
+    Application engineer + independent QA
+  depends:
+    S1 source-grounded interpretation
+  demo:
+    Correct an outlet or quantity days later, ask for current status by voice/text and generate a corrected pending report.
+  build:
+    Track consequential derivations, scoped absence queries and watermarks. Revisit open and closed situations.
+
+    Revalidate affected record admission, tasks, approvals and calculations after corrections or new evidence.
+
+    Validate and render critical answer quantities/statuses from saved versions; evaluate explanatory prose too.
+
+    Execute a scoped typed/voice-note command through the same product path.
+
+    Generate one versioned PDF/report with input versions, template, audience, hash and supersession.
+  exit:
+    The fragment/correction case produces the right current state without rewriting history.
+
+    A newly arriving credit note invalidates the relevant absence claim.
+
+    Stale artifacts are labelled; a new report references the corrected records.
+
+    Commands have visible scope/progress/outcome and duplicate requests are handled.
+  stop:
+    Suspend affected outputs when a correction leaves unsupported statements, stale approvals or concealed dependencies.
+
+  id:
+    S3
+  title:
+    Complete work across people and devices
+  owner:
+    Workflow engineer + manager + QA
+  depends:
+    Validated acknowledgement trial and S2 state semantics
+  demo:
+    Manager accepts a task, records a blocker, survives a restart, verifies closure and reopens it on contradictory evidence.
+  build:
+    Implement the chosen actual acknowledgement route and version-specific task acceptance.
+
+    Persist assignment, due times, reminders, blockers, completion report and closure conditions.
+
+    Show manual relays honestly; external communications require the relevant effect gateway.
+
+    Exercise phone-to-desktop continuity, offline queued requests, current authorization on reconnect and version conflicts.
+
+    Handle departing staff, revoked devices, connector re-linking and authorized reassignment.
+  exit:
+    Restart and duplicate delivery do not lose or duplicate work.
+
+    Viewing a message is never automatically task acceptance or completion.
+
+    Revoked access and stale device submissions cannot create unauthorized effects.
+
+    The manager can finish the workflow with measured effort.
+  stop:
+    Pause affected reliance on wrong-audience access, lost work, unsupported closure or adoption failure; repair before expansion.
+
+  id:
+    S4
+  title:
+    Prove value, reliability and economics
+  owner:
+    Engineering lead + independent evaluator + buyer
+  depends:
+    Complete bounded workflow and applicable prior gates
+  demo:
+    Run protected fresh episodes and a bounded consented one-outlet shadow beside the existing process.
+  build:
+    Compare governed path, strong raw-context and summary baselines and manual work using the same eligible cases.
+
+    Measure stage-level interpretation, links, omissions, answers, closure, false alarms and total review/clarification effort.
+
+    Benchmark history growth, affected-graph fan-out, tenant concurrency, tail latency, queue age, storage and total processing cost.
+
+    Rehearse restore/rollback, source recovery and incidents; broaden security/fault tests without postponing earlier safeguards.
+
+    Record residual risks, scoped reliance authorizer, reviewer capacity, demand evidence and economics before expansion.
+  exit:
+    Risk-specific evidence and an explicit reliance decision support the bounded use.
+
+    Assisted work reduces total burden at acceptable correctness; abstaining on all clear cases cannot pass.
+
+    Support, processing and reviewer costs fit a credible offer.
+
+    Remaining limitations and unsupported slices remain visible.
+  stop:
+    Suspend affected reliance on critical failures or unsustainable effort; preserve results and diagnose. This does not mean stopping every unrelated development task.
+requirements:
+  id:
+    R01
+  title:
+    Familiar channels
+  mechanism:
+    selected WhatsApp sources plus uploads; Gmail added for legal workflow. Preserve source coverage and connector health separately from processing status.
+  test:
+    disconnect, replay, expired media, edited/deleted messages, partial backfill. No silent completeness claim.
+  phase:
+    First bounded workflow; qualify before enabling
+
+  id:
+    R02
+  title:
+    Business understanding
+  mechanism:
+    contextual interpretation, identities, versioned episode membership, alternative interpretations, correction dependencies.
+  test:
+    two crates short / remaining came / other outlet / revised invoice; ordinary complete delivery; two same-name people.
+  phase:
+    First bounded workflow; qualify before enabling
+
+  id:
+    R03
+  title:
+    Owner commands
+  mechanism:
+    explicit request record, authority, intended scope, progress, cancellation and outcome; read/question/create/update operations share business context.
+  test:
+    ask status, assign work, correct quantity, create a document, supersede an instruction; duplicate client submission creates one logical request.
+  phase:
+    First bounded workflow; qualify before enabling
+
+  id:
+    R04
+  title:
+    Ordinary work and proactive attention
+  mechanism:
+    quiet successful processing under policy; attention only for decisions, exceptions and relevant changes. Unlinked evidence remains discoverable.
+  test:
+    normal delivery needs no unnecessary clarification; no fabricated exception; unanswered useful request remains visible.
+  phase:
+    First bounded workflow; qualify before enabling
+
+  id:
+    R05
+  title:
+    Voice and mixed media
+  mechanism:
+    original assets, transcript/translation/regions/timestamps; critical-number and negation validation; modality-specific capability checks.
+  test:
+    actual staff languages, code-switching, background noise, blurry photos, conflicting audio and invoice; no hidden inference that a photo proves payment.
+  phase:
+    First bounded workflow; qualify before enabling
+
+  id:
+    R06
+  title:
+    Phone and desktop continuity
+  mechanism:
+    shared server state, pending local requests, durable request IDs, version checks, visible offline/queued/synced/conflicted states.
+  test:
+    request on phone, continue desktop, disconnect, edit on both, revoke access before reconnect. No automatic stale privileged action.
+  phase:
+    First bounded workflow; qualify before enabling
+
+  id:
+    R07
+  title:
+    Authentication and permissions
+  mechanism:
+    enrollment, selected sources, scoped grants, expired-credential recovery, staff removal, device revocation, credential isolation.
+  test:
+    remove manager while a review card is open; reconnect source without silently broadening scope; CA sees only authorized businesses.
+  phase:
+    First bounded workflow; qualify before enabling
+
+  id:
+    R08
+  title:
+    Useful tools and artifacts
+  mechanism:
+    narrow tools with input/output schemas, provenance, versioned artifacts and private delivery. Existing stock/accounting field authority preserved.
+  test:
+    generate receiving report/PDF; verify fields against saved records; inspect corrected source after generation; sharing is a separate authorized action.
+  phase:
+    First bounded workflow; qualify before enabling
+
+  id:
+    R09
+  title:
+    Work completion
+  mechanism:
+    assignment, acknowledgement, blockers, timers, completion report, closure evidence and reopening.
+  test:
+    restart before reminder; duplicate completion message; unauthorized closure; later evidence contradicts closure.
+  phase:
+    First bounded workflow; qualify before enabling
+
+  id:
+    R10
+  title:
+    Learning
+  mechanism:
+    separate case corrections, identity aliases, approved business policies and product changes.
+  test:
+    exception for one delivery does not alter supplier-wide policy; correction invalidates affected results without exposing other tenants.
+  phase:
+    First bounded workflow; qualify before enabling
+
+  id:
+    R11
+  title:
+    Secure cloud and model portability
+  mechanism:
+    durable shared records, private assets, isolated untrusted parsing, capability/data-policy-qualified model adapters.
+  test:
+    tenant boundaries, prompt injection in attachment, prohibited parser egress, fallback refusal when model lacks required capability.
+  phase:
+    First bounded workflow; qualify before enabling
+
+  id:
+    R12
+  title:
+    Cost and scale
+  mechanism:
+    per-tenant queues/budgets, bounded retrieval and retries, cached unchanged extraction, selective invalidation, overload visibility.
+  test:
+    growing history and tenant concurrency; record retrieval recall, correction quality, tail latency, tokens, asset bytes, queue lag and total human effort.
+  phase:
+    First bounded workflow; qualify before enabling
+
+  id:
+    R13
+  title:
+    Legal workflow
+  mechanism:
+    Gmail notice ingestion, matter identifiers, confidentiality, explicit date provenance, assignment and document follow-through.
+  test:
+    amended notice, same client with two matters, wrong attachment, revoked matter access, missing explicit deadline. Add after first workflow proof; do not assume restaurant success validates it.
+  phase:
+    Later capability; foundation tests early
+
+  id:
+    R14
+  title:
+    Browser, video and native access
+  mechanism:
+    scoped browser worker; timestamped video observations; device bridge only where needed. Avoid making these prerequisites for the first slice.
+  test:
+    session leakage, uncertain external action outcomes, temporal video ambiguity, local bridge disconnection and permission withdrawal.
+  phase:
+    Later capability; foundation tests early
+
+  id:
+    R15
+  title:
+    Own collaboration and agent exchange
+  mechanism:
+    future app collaboration and explicitly delegated cross-business jobs with audience limits and receipts.
+  test:
+    recipient revocation, replay, conflicting agent instructions and disclosure boundaries.
+  phase:
+    Later capability; foundation tests early
+
+  id:
+    R16
+  title:
+    Development and commercial proof
+  mechanism:
+    same real-app execution path for test and product; pinned source evidence; protected fresh cases; baseline work observation; buyer/reviewer ownership; versioned human and LLM docs.
+  test:
+    clean setup and migration/restore, replay historical defects, compare assisted/manual effort and support cost, distinguish retained evidence from reviewer agreement.
+  phase:
+    First bounded workflow; qualify before enabling
+reuse_build_defer:
+  area:
+    Existing TS/Postgres core
+  decision:
+    Retain after source verification
+  reason:
+    Evidence, exact calculations, owner decisions and replay are reported useful. New framework adoption must solve a measured gap.
+
+  area:
+    Asakana + Sidekick patterns
+  decision:
+    Adapt to GoFathom
+  reason:
+    Familiar-channel capture, business terminology, scoped corrections, voice/media and focused clarification. Public product evidence does not establish their backend implementation.
+
+  area:
+    Marble + Definite patterns
+  decision:
+    Adapt selectively
+  reason:
+    Separate receipt, invoice, stock and payment meanings; verify reconciliation. Do not duplicate the external accounting authority.
+
+  area:
+    Glen + Hermes + Executor patterns
+  decision:
+    Reuse suitable components; build business controls
+  reason:
+    Task-specific context and portable tool/model boundaries. GoFathom still owns tenant grants, accepted state, evidence semantics and action policy.
+
+  area:
+    Hue + Rystic patterns
+  decision:
+    Adapt evaluation methods
+  reason:
+    Protected scenarios, replay, independent outcomes and production failures becoming regression cases. Reviewer agreement is not an oracle.
+
+  area:
+    Episode understanding + correction graph
+  decision:
+    Build over the existing domain core
+  reason:
+    Our differentiation: meaning across changing conversations, correct relationships and propagation into operational work.
+
+  area:
+    Workflow engine / always-on VM per customer
+  decision:
+    Defer by default
+  reason:
+    Keep a bounded runner and isolated workers. Consider replacements when measured recovery, isolation, load or cost justifies them.
+
+  area:
+    Native capture / browser / agent exchange
+  decision:
+    Later, gated
+  reason:
+    Maintain the product vision; add when the use case and authorization/recovery mechanism are proven. The full earlier 18-project mapping remains in the baseline.
+scenarios:
+  id:
+    varun
+  title:
+    Varun: normal receipt → shortage → correction → closure
+  steps:
+    A normal delivery is captured and matched without an unnecessary alert.
+
+    A different delivery is reported two crates short. The assistant links evidence and preserves unresolved outlet ambiguity.
+
+    “Remaining came” and a photo propose a resolution. “No, other outlet” retracts that link and reopens the original shortage.
+
+    A revised invoice updates billing evidence; it does not prove goods arrived or payment is eligible.
+
+    The enrolled manager acknowledges the specific follow-up. Manual supplier contact is labelled as manual.
+
+    A valid later receipt or credit note supports reviewed closure. The pending report is regenerated; earlier artifacts keep their history.
+  boundary:
+    First slice: one outlet, receipt/bill evidence, matches, discrepancies, follow-up and reports. No automatic payments, purchasing, supplier sends or external ledger writeback.
+
+  id:
+    ramya
+  title:
+    Ramya: court notice → correct matter → acknowledged work
+  steps:
+    An authorized Gmail notice is matched to a matter using scoped identifiers and document evidence.
+
+    A second matter for the same client remains separate. Conflicting or incomplete identifiers create a focused question.
+
+    An amended notice revises the relevant date/document and marks affected assignments for revalidation.
+
+    An authorized staff member receives the correct documents and acknowledges the task version.
+
+    Explicit notice dates remain distinct from inferred legal deadlines. Confidentiality follows the matter.
+
+    Completion requires appropriate evidence and review; forwarding a document is not proof the work is complete.
+  boundary:
+    Later domain release with its own Gmail, privacy and legal-workflow tests. Early synthetic/consented fixtures check shared identity, revision and grant assumptions only.
+review_decisions:
+  GOFATHOM PRODUCT, TECHNOLOGY AND SPRINT CROSS-CHECK
+Date: 2026-10-19
+Scope: review of the latest proposal against the user's original requirements.
+Evidence: proposal, prior research and reported implementation history. Neither reviewer inspected or executed the other MacBook's current runtime in this review.
+
+CORE DIRECTION RETAINED
+Keep verified existing TypeScript/PostgreSQL components. Build context-sensitive interpretation, changing business state and persistent follow-through through the actual application. First outlet workflow covers receiving/bill evidence, ordinary matches, discrepancies, assignment, follow-up, closure and a pending report. Existing stock/accounting authority remains external unless explicitly changed. Do not expand this into a complete payable-approval system.
+
+ADDITIONS ACCEPTED
+1. Decide and test the acknowledgement route before claiming end-to-end work. Default pilot candidate: enrolled manager on responsive GoFathom; scoped staff task view where enrolled. Manual manager relay is labelled and its effort counted. External sends and notifications require the appropriate effect boundary. Opening a message is not accepting a task.
+2. Quiet normal-work processing alongside exceptions. Extraction and matching do not silently admit business facts outside policy. Preserve discoverability and appropriate sampled quality review.
+3. Direct typed and voice-note commands in the first useful vertical slice. Interpret intent, scope, authority and effect; expose progress and cancel/failure state. Avoid redundant confirmation for expressly preauthorized low-risk effects, while consequential changes need the applicable review.
+4. One generated report/PDF with template/input versions, provenance, private audience, hash and freshness/supersession. A downloaded file cannot be recalled; mark tracked artifact status and notify authorized recipients where configured, without pretending to revoke outside copies.
+5. Account/connector recovery, staff departure, changed phone numbers/shared devices, revoked sessions and orphaned work. Reassignment is authorized, not automatic disclosure to a replacement.
+6. Cross-device and reconnect behavior: durable request IDs, stale-version detection, queued/pending/synced/conflict states and current authorization at execution.
+7. Visible tenant budgets, bounded retries and retrieval, queue aging and operator recovery. No silent dropping or automatic model fallback that violates data/capability policy.
+8. Plain group/source transparency: explain what is read, who can see it, source limitations and recovery. Exact jurisdiction-specific legal obligations require a separate sourced review.
+9. Small synthetic or consented legal architecture cases from the start: matter identity, separation and notice revision. These prevent restaurant-specific foundation assumptions; they are not a full legal-pack pilot gate.
+10. Observe whether the product moves work to another inbox or causes relevant reporting to leave the selected sources. An absence of source messages does not establish absence of business events.
+
+RECOMMENDATIONS CHALLENGED
+A. No automatic episode merge merely because document numbers match. A PO may have several deliveries; invoice identifiers recur by supplier/year/business; a matter has multiple hearings. Scoped keys retrieve candidates. Relationship type, cardinality, temporal compatibility and conflicts govern linking. Merge/split lineage must revalidate affected tasks and approvals.
+B. No exact-key/reply-only access to closed episodes. A correction such as 'last week's issue was never resolved' needs bounded search by text, time and entities, potentially semantic retrieval. SQL candidate discovery does not replace interpretation.
+C. No provenance restricted to code outputs. Persisted interpretations used for tasks, approvals, answers, summaries or artifacts also need evidence and version dependencies. Track operationally consequential derivations, not every prose sentence or hidden reasoning step.
+D. No 'ready to pay' label from receipt matching. Payment eligibility requires separately defined authority, terms and checks. Keep reported payment, verified payment and unassessed eligibility distinct.
+E. No owner queue as automatic overflow destination. Retry within budget, expose aging, provide operational recovery, then ask a person only when their knowledge or authority is needed.
+F. No broad exact-key-only fallback presented as successful understanding. It may support a clearly restricted mode, but missed recall and unsupported cases remain measured and visible.
+G. No claim that retrieval cost depends only on open episodes. Index size, history distribution, media, query selectivity and correction fan-out also matter.
+H. No universal stop-all-development rule for every fresh failure. Suspend the affected reliance/release scope, preserve failures, diagnose and repair. Required critical checks still gate use.
+
+FINAL CLAUDE RESPONSE AND ADJUDICATION
+Claude accepted the seven challenged qualifications and withdrew the exact-key automatic-merge, closed-episode retrieval restriction, code-output-only dependency, receipt-match payment-readiness and unverified legal-duty prescriptions. It retained five sequencing objections and a budget-visibility timing point. Adopt these as follows:
+1. S0 creates a source-pinned failure register. S1 must show each reproduced defect fixed through the app or explicitly deferred with impact and reason; no required capability can pass its gate while its blocking defect is deferred. The feedback calls these eight classes but groups several together, so the register must enumerate actual distinct defects rather than repeat an unverified count. Named reported defects include rule effective-time handling, numeric normalization, parent-child admission consistency, stale/repeated approval, missing deterministic comparisons, outlet/item/unit linking and gross/net/payable/payment semantics.
+2. Run a low-fidelity manager acknowledgement trial in S1 or S2 before implementing the complete S3 work loop. Count manual relay and whether users feel they acquired a second inbox. The full S3 route is conditional on this evidence.
+3. S0 records buyer relationship, stated value, named reviewer capacity and a priced pilot proposition or price hypothesis. Do not invent willingness to pay. Record graded demand evidence and revise at sprint exits; payment is not a prerequisite for bounded discovery.
+4. Run cross-business/matter-scope denial, revocation, non-enrolled-content filtering and relevant parser isolation tests BEFORE real data enters. S4 broadens verification; it is not the first security gate. If S0 is not ready, use synthetic data.
+5. Log decisions to search or skip historical/closed episodes, with concise operational reason codes, retrieval scope and outcomes. Audit skipped routes using independently labelled examples so the evaluation measures missed searches as well as bad results. Reason logs are not proof that a skip was correct.
+6. Make budget exhaustion, pending work and queue age visible in S1. S4 load testing checks sustained behavior.
+
+REVISED SPRINT DEMONSTRATIONS
+S0: Pin source and real app entrypoints; reproduce known failures; establish grants/source boundaries, buyer/reviewer baseline and chosen communication route; prepare protected cases. Exit: clear reusable components, known blockers and truthful data access. Do not use real data before relevant authorization/isolation controls.
+S1: Process one routine and one ambiguous multimedia receiving case through the app. Fix relevant normalization, time, identity, parent/child admission and arithmetic defects; retain original evidence and proposed membership. Exit: source-grounded records and explicit uncertainty; fresh variations included.
+S2: Process a late outlet/quantity/document correction. Revisit affected records, tasks and answers. Demonstrate a typed/voice-note command and versioned pending report in the same app. Exit: corrected state, version-bound critical answers and stale/superseded artifact status without rewriting history.
+S3: Demonstrate the chosen real acknowledgement route, blockers, restart-safe timers, completion evidence, reopening, device consistency and offboarding recovery. Exit: actual uptake and correct state recovery, not merely rows created by a diagnostic script.
+S4: Run protected new cases and raw-context/summary/manual comparisons; measure security, restore, history growth, concurrency, cost and net effort; enter consented one-outlet shadow only after applicable gates. Exit: explicit bounded reliance decision and sustainable user/reviewer effort. This sprint label is a work package, not a promise that every activity fits a fixed calendar interval.
+Any sprint that exceeds a manageable implementation timebox is split by user-visible outcome, keeping prerequisite controls. Dates and staffing estimates follow the source audit.
+
+LATER, WITH EXPLICIT ENTRY CONDITIONS
+Ramya's Gmail/matter workflow after the core proves useful, with separate legal-domain evaluation. One authorized external effect after its own effect/reconciliation gate. Native installers, ambient desktop awareness, live conversational voice, video-specific workflows, browser execution, own collaborative chat and agent exchange follow demonstrated demand and their respective access/reliability gates. Responsive phone/desktop access, voice notes and essential recovery are not deferred with those larger features.
+
+PERFORMANCE AND COST CHECK
+Symbols: N indexed records, K retrieved candidates, B newly observed asset bytes, V_a affected derived records, E_a affected dependency edges.
+Intake work includes O(B) reading of new bytes plus index/storage operations. Normal balanced-tree lookup is approximately O(log N + K) under suitable indexes; broad filters may scan O(N). These are data-structure bounds, not measured application latency.
+Dependency traversal with visited-node deduplication is O(V_a + E_a) for the affected graph; worst-case changes can affect the full graph. Cycles need controlled handling and idempotent processing. Selective invalidation is a goal to measure, not an O(1) guarantee.
+Store source revisions, assets and dependency relationships with declared retention; storage is driven by retained bytes and relationships, not just message count. Deletion must address derivatives, indexes, caches and backups under a defined policy.
+Measure tokens and model time separately from database complexity. Track intake plus extraction plus retrieval plus answering plus retries, not just query cost. Benchmark realistic history lengths and tenant concurrency, including tail latency, queue lag, correction recall, memory/storage and reviewer minutes. Do not invent a performance improvement percentage.
+Vendor cash cost, customer human effort and combined cost remain separate; the subscription is not counted twice as combined resource cost. Add support/reconnect effort and failed/abandoned work to the business-value assessment.
+
+SUCCESS CRITERION
+Correctly maintain changing business understanding, perform useful authorized work and reduce total business effort. Agreement between models is design feedback; passing current-source tests and observed workflow outcomes supply implementation evidence.
+delivery_note:
+  Sprints are work packages, not guaranteed calendar intervals. Split oversized packages by user-visible outcome; estimate dates/staffing after S0. No performance or savings percentage is established.
+evidence_boundary:
+  The actual implementation remains on another MacBook. Reported capabilities and historical failures have not been independently rerun here. Model agreement is review feedback, not runtime verification. This edition publishes curated design decisions without private conversation transcripts or workstation paths.
+
+END EMBEDDED SOURCE E
+
+
+==============================================================================
+SECTION F: CURRENT ARCHITECTURE FLOW — EDITION 1.3
+SOURCE: https://vamsi-paltribe.github.io/supabiz-system-atlas/gofathom-1.3/architecture.mmd
+SOURCE SHA-256: 9183490db5922064f25dd1c149efeb91357d361def0cf7f6ce2647a87498850f
+BEGIN EMBEDDED SOURCE F
+==============================================================================
+
+flowchart LR
+  Sources[Selected messages and media] --> Capture[Journal and source coverage]
+  Owner[Owner text or voice command] --> Intent[Scoped intent and authority]
+  Capture --> Read[Extract and retrieve context]
+  Read --> Interpret[Interpret and propose relationships]
+  Interpret --> Episode[Versioned episode membership]
+  Episode --> Admit[Validate and admit records]
+  Intent --> Admit
+  Admit --> State[(Typed records and decisions)]
+  State --> Calc[Exact calculations and critical answer fields]
+  Calc --> Report[Versioned answers and artifacts]
+  State --> Work[Assignment and acknowledged work]
+  Work --> Close[Evidence reviewed closure]
+  Capture --> Change[Correction and new evidence]
+  Change --> Impact[Affected dependencies and query scopes]
+  Impact --> Episode
+  Impact --> Work
+  Impact --> Report
+  Close --> Eval[Protected evaluation and measured effort]
+  Grants[Current grants and policy] -.-> Read
+  Grants -.-> Admit
+  Grants -.-> Work
+
+END EMBEDDED SOURCE F
+
+
+==============================================================================
+SECTION G: CURRENT OTHER-MAC SOURCE AUDIT PROMPT — EDITION 1.3
+SOURCE: https://vamsi-paltribe.github.io/supabiz-system-atlas/gofathom-1.3/audit-prompt.txt
+SOURCE SHA-256: 74f73bb7c6da53c9f1a5e0d545ebebe00ab1c805317ca761614e82cd69b63705
+BEGIN EMBEDDED SOURCE G
+==============================================================================
+
+Audit the actual GoFathom/SupaBiz implementation against the current 1.3 approach, retaining unchanged 1.1 controls. Read https://vamsi-paltribe.github.io/supabiz-system-atlas/gofathom-complete.txt through its final marker. If truncated, state what was not read. The new 1.3 delivery sequence supersedes the historical 1.2 sprint plan; old implementation claims remain unverified until source and execution evidence establish them.
+
+Start with S0: pin the current commit and working-tree status; trace the actual UI/API/worker/storage path; identify differences from diagnostic scripts. Enumerate distinct known failure classes from source evidence, including instruction time handling, numeric normalization, parent-child admission, repeated/stale approval, missing calculations, outlet/item/unit links and payment semantics. For each report fixed, reproduced, not reproduced or blocked, with code and test evidence. Do not repeat an unverified count or treat old test totals as current proof.
+
+Map enabled capabilities to 1.1 harness/contracts and the 16 requirements in 1.3. Check episode membership and correction propagation, normal intake, voice/typed commands, versioned reports, real acknowledgement routes, current permissions, reconnect/offboarding and visible processing budgets. Distinguish present-tested-at-commit, present-untested, partial, absent and not-audited. Do not implement the entire future platform to satisfy an inventory.
+
+Use synthetic fixtures until applicable grants, source exposure and parser isolation tests pass. Do not connect live sources, disclose customer data, send messages, deploy or rewrite components merely because this prompt describes future work. This request is for audit and a concrete source-informed plan. Report engineering/test effort estimates as estimates with assumptions. Retain historical failures and prepare protected fresh cases before tuning known examples.
+
+Return: current code baseline; real app-path diagram; enabled-capability audit; failure register; S0 blockers; a minimal S1 implementation proposal; evidence/uncertainties; and staffing/time/cost estimates supported by the code. Do not expose credentials or private customer material in the response.
+
+END EMBEDDED SOURCE G
 
 END OF COMPLETE GOFATHOM DOCUMENT

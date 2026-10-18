@@ -1,0 +1,11 @@
+# GoFathom 1.3
+
+- [Full current refinement](llms-full.txt)
+- [Complete baseline + audit + current approach, one document](../gofathom-complete.txt)
+- [Structured blueprint](blueprint.json)
+- [Sprint plan](sprint-plan.json)
+- [Requirements and tests](requirements.json)
+- [Architecture diagram source](architecture.mmd)
+- [Other-Mac audit prompt](audit-prompt.txt)
+
+All content is static and readable without sign-in or JavaScript. Design specifications are not implemented behavior.

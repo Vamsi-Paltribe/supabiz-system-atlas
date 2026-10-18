@@ -12,3 +12,11 @@ Architecture synthesis of 18 bounded reviews. All behavior remains proposed unle
 - [Preserved editions](versions.html)
 
 Original vendor source, SDKs and private credentials are not published in this atlas. Research/*.txt contains authored reviews with source links.
+
+## Current GoFathom approach
+
+- [GoFathom 1.3 — From Understanding to Completed Work](gofathom-1.3/)
+- [Single complete blueprint, audit and current sprint plan](gofathom-complete.txt)
+- [Full 1.3 text](gofathom-1.3/llms-full.txt)
+
+Read 1.3 as the current refinement. Earlier implementation reports remain historical and unverified until source-audited.
