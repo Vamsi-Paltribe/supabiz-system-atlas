@@ -9,3 +9,7 @@ Root and v4/ contain the current reference. Versions v1, v2, v3 and v3.1 remain 
 For any LLM: read v4/llms-full.txt or v4/architecture.json. Authored per-project reviews and finding metadata are in v4/research/. No login or JavaScript is needed to read the text or JSON. Upstream source snapshots and SDK downloads remain local.
 
 This repository contains generated static reference files, not customer credentials, raw business conversations or an operational SupaBiz backend.
+
+## Factory-map companion
+
+[Explore the isometric factory map](https://vamsi-paltribe.github.io/supabiz-system-atlas/factory/): 12 lifecycle stations, four shared foundations, 76 planning packages and 63 stage-specific comparisons across all 18 reviews. Includes restaurant/legal examples and text/JSON/SVG exports. The package count is a planning breakdown, not a count of services or an effort estimate. All versioned editions, including v4, remain unchanged.

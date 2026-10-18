@@ -1,0 +1,2425 @@
+{
+  "metadata": {
+    "title": "SupaBiz factory map",
+    "version": "1.0",
+    "date": "2026-10-18",
+    "status": "Proposed work breakdown; not implemented product inventory",
+    "basis": "Existing 18 saved reviews and v4 synthesis. No new vendor runtime audit.",
+    "interpretation": "A common lifecycle for SupaBiz. Specialist companies cover subsets, not necessarily all stations. Comparisons are documented differentiators or design interpretations; unknown vendor signup/auth internals remain unknown.",
+    "counting": "12 stations × 5 responsibility packages = 60; 4 shared foundations × 4 packages = 16; total 76 planning packages. These are not 76 services, screens, repositories or equal-size tasks. Each package has one ID; station delivery consumes shared foundations without recounting them.",
+    "sequence": "01–04 establish and maintain setup; 05–11 repeat for work; 12 improves reviewed behavior. Dependencies overlap; security/evaluation start before live execution. Not every event calls a model, needs human approval or changes a learned rule."
+  },
+  "stations": [
+    {
+      "id": "01",
+      "name": "Join & establish trust",
+      "phase": "SET UP",
+      "question": "Who owns this workspace?",
+      "purpose": "Create a customer and business boundary before granting access. Signup is required for SupaBiz; the saved reviews do not establish every vendor’s signup implementation.",
+      "parts": [
+        {
+          "id": "01.1",
+          "name": "Account & sign-in",
+          "deliverable": "Maintained identity provider, sessions and recovery.",
+          "mode": "Reuse"
+        },
+        {
+          "id": "01.2",
+          "name": "Business workspace",
+          "deliverable": "Organization, outlets or chambers, and verified ownership.",
+          "mode": "Build"
+        },
+        {
+          "id": "01.3",
+          "name": "People & roles",
+          "deliverable": "Invitations, membership, manager/staff/CA roles and removal.",
+          "mode": "Build"
+        },
+        {
+          "id": "01.4",
+          "name": "Consent & boundaries",
+          "deliverable": "Explain selected access, purposes, retention and who sees what.",
+          "mode": "Build"
+        },
+        {
+          "id": "01.5",
+          "name": "Device enrollment",
+          "deliverable": "Register a phone/browser; bind optional desktop sessions to a principal.",
+          "mode": "Adapt"
+        }
+      ],
+      "inputs": "Owner intent and verified identity.",
+      "outputs": "Workspace ID, memberships and initial access policy.",
+      "gate": "A user in Consu cannot read ForeFathers by switching an ID; removed members lose access.",
+      "loop": "Membership changes return here; account deletion has its own retention/export process.",
+      "layers": [
+        "L01",
+        "L02"
+      ],
+      "sprint": "S1",
+      "examples": {
+        "varun": "Varun creates separate Consu and ForeFathers business scopes; staff and CA receive different roles.",
+        "ramya": "Arkaj creates the chamber workspace; Ramya can coordinate matters without unrestricted access for every staff member."
+      },
+      "comparisons": [
+        {
+          "project": "YC16",
+          "approach": "Inkbox contributes stable agent identity and conversation-bound authority; that is narrower than a complete business signup system."
+        },
+        {
+          "project": "YC01",
+          "approach": "Executor separates account connections from agent use; study that boundary after identity is established."
+        },
+        {
+          "project": "YC02",
+          "approach": "Agent37 contributes a recognizable personal agent workspace and continuity across devices; hosted tenancy is not audited."
+        },
+        {
+          "project": "YC10",
+          "approach": "Glen makes shared context ownership relevant; SupaBiz must own membership and source access rules."
+        }
+      ]
+    },
+    {
+      "id": "02",
+      "name": "Connect permitted sources",
+      "phase": "SET UP",
+      "question": "What may the system access?",
+      "purpose": "Connect only the accounts and groups needed for a workflow. Reading, sending, exporting and acting are separate capabilities.",
+      "parts": [
+        {
+          "id": "02.1",
+          "name": "Connection broker",
+          "deliverable": "OAuth/session credentials stored outside model context.",
+          "mode": "Reuse"
+        },
+        {
+          "id": "02.2",
+          "name": "Source enrollment",
+          "deliverable": "Choose Gmail inboxes, WhatsApp groups and permitted app scopes.",
+          "mode": "Build"
+        },
+        {
+          "id": "02.3",
+          "name": "Capability map",
+          "deliverable": "Describe actual read/write/media/history limits per adapter.",
+          "mode": "Build"
+        },
+        {
+          "id": "02.4",
+          "name": "Connection health",
+          "deliverable": "Expiry, missing scopes, reconnect and coverage indicators.",
+          "mode": "Build"
+        },
+        {
+          "id": "02.5",
+          "name": "Revocation path",
+          "deliverable": "Disconnect credentials, stop jobs and invalidate affected context.",
+          "mode": "Build"
+        }
+      ],
+      "inputs": "Workspace identity, user consent and provider credentials.",
+      "outputs": "Scoped connection IDs and a verified capability/coverage record.",
+      "gate": "Reconnect safely; never treat a quiet disconnected source as up-to-date. Existing WhatsApp group access remains an adapter validation task.",
+      "loop": "Expired access returns here; queued actions recheck permission before dispatch.",
+      "layers": [
+        "L02",
+        "L03"
+      ],
+      "sprint": "S1",
+      "examples": {
+        "varun": "Enroll Consu’s operations group and a separate accountant group. Give the pilot read access before enabling reviewed sends.",
+        "ramya": "Connect Arkaj’s court inbox; scope which attachments and matter records staff may receive."
+      },
+      "comparisons": [
+        {
+          "project": "YC01",
+          "approach": "Executor centralizes integrations and credentials so multiple agents can use authorized connections."
+        },
+        {
+          "project": "YC16",
+          "approach": "Inkbox distinguishes quiet conversation intake, selective activation and the audience of each conversation."
+        },
+        {
+          "project": "YC03",
+          "approach": "screenpipe adds local screen/audio awareness, with capture controls; this is a later optional source, not a required connector."
+        },
+        {
+          "project": "YC02",
+          "approach": "Agent37 demonstrates environment continuity and browser handoff; that does not establish durable WhatsApp intake."
+        },
+        {
+          "project": "YC18",
+          "approach": "Definite’s read-oriented connection pattern is useful before allowing consequential writes."
+        }
+      ]
+    },
+    {
+      "id": "03",
+      "name": "Understand the business",
+      "phase": "SET UP",
+      "question": "What do these names and messages mean?",
+      "purpose": "Build an explicit, owner-reviewed business map. Context must be inspectable and corrected; it is not a hidden personality profile. Initial sync already uses stations 05–07 while this business map is being built.",
+      "parts": [
+        {
+          "id": "03.1",
+          "name": "Entity directory",
+          "deliverable": "People, outlets, suppliers, assets, clients and matters with stable IDs.",
+          "mode": "Build"
+        },
+        {
+          "id": "03.2",
+          "name": "Vocabulary & aliases",
+          "deliverable": "Map Hinglish names, supplier abbreviations, SKUs and matter-number variants.",
+          "mode": "Build"
+        },
+        {
+          "id": "03.3",
+          "name": "Audience map",
+          "deliverable": "Define which group, role or matter can see each kind of evidence.",
+          "mode": "Build"
+        },
+        {
+          "id": "03.4",
+          "name": "Source authority",
+          "deliverable": "Assign authoritative sources per field and preserve disagreements.",
+          "mode": "Build"
+        },
+        {
+          "id": "03.5",
+          "name": "Baseline review",
+          "deliverable": "Approve opening stock, active matters and known operating constraints.",
+          "mode": "Build"
+        }
+      ],
+      "inputs": "Permitted history, owner answers, source documents and existing business lists.",
+      "outputs": "Versioned business map with explicit unknowns and source provenance.",
+      "gate": "Ambiguous “the kitchen” or a repeated matter number produces clarification, not a confident wrong match.",
+      "loop": "Corrections and new entities update this map through review; revoked evidence cannot remain universal context.",
+      "layers": [
+        "L01",
+        "L05",
+        "L02"
+      ],
+      "sprint": "S1–S2",
+      "examples": {
+        "varun": "Learn which kitchen, refrigerator, supplier and unit belong to Consu. Confirm opening stock rather than inferring it from chat.",
+        "ramya": "Map court, jurisdiction, case number, parties and staff responsibility; the same number in different courts is not one matter."
+      },
+      "comparisons": [
+        {
+          "project": "YC04",
+          "approach": "Asakana demonstrates domain mapping from messy orders into structured business entries; backend training methods remain unknown."
+        },
+        {
+          "project": "YC08",
+          "approach": "Marble contributes supplier/item/unit and inventory semantics, with ordering and receiving treated separately."
+        },
+        {
+          "project": "YC05",
+          "approach": "Praxis organizes work around matters, documents and responsible people."
+        },
+        {
+          "project": "YC10",
+          "approach": "Glen contributes scoped retrieval, memory ownership and provenance, not a universal business ledger."
+        },
+        {
+          "project": "YC18",
+          "approach": "Definite stresses aligning meaning before comparing records; exact checks need comparable quantities and periods."
+        },
+        {
+          "project": "YC15",
+          "approach": "Shire adds physical locations and floor context for observation-driven work; defer camera-specific mapping."
+        }
+      ]
+    },
+    {
+      "id": "04",
+      "name": "Define success & rules",
+      "phase": "SET UP",
+      "question": "What counts as correctly completed?",
+      "purpose": "Configure one workflow pack with valid states, responsibilities, approval thresholds and measurable outcomes before letting agents act.",
+      "parts": [
+        {
+          "id": "04.1",
+          "name": "Workflow pack",
+          "deliverable": "Typed states, commands, responsibilities and allowed transitions.",
+          "mode": "Build"
+        },
+        {
+          "id": "04.2",
+          "name": "Approval policy",
+          "deliverable": "Define allow, deny, hold and human-review rules by action and scope.",
+          "mode": "Build"
+        },
+        {
+          "id": "04.3",
+          "name": "SOP & knowledge versions",
+          "deliverable": "Keep draft, tested and active guidance separate.",
+          "mode": "Build"
+        },
+        {
+          "id": "04.4",
+          "name": "Reference scenarios",
+          "deliverable": "Protected expected outcomes, forbidden effects and representative ambiguity.",
+          "mode": "Build"
+        },
+        {
+          "id": "04.5",
+          "name": "Activation & cutover",
+          "deliverable": "Owner-approved pilot scope, read-only shadowing and rollback plan.",
+          "mode": "Build"
+        }
+      ],
+      "inputs": "Reviewed business map, owner objectives and risk boundaries.",
+      "outputs": "Versioned workflow/policy pack plus a pilot acceptance suite.",
+      "gate": "A bad workflow or overly permissive rule must fail tests before it becomes active.",
+      "loop": "Station 12 proposes changes here; no silent self-modification.",
+      "layers": [
+        "L07",
+        "L10",
+        "L06"
+      ],
+      "sprint": "S0–S2",
+      "examples": {
+        "varun": "Define who can assign a maintenance issue, what proof closes it, and when a purchase needs Varun’s approval.",
+        "ramya": "Define matter routing, reviewed hearing/deadline types and who may approve changes or share documents."
+      },
+      "comparisons": [
+        {
+          "project": "YC12",
+          "approach": "GrepAI turns repeated work into procedures, with a useful distinction between drafts and tested active behavior."
+        },
+        {
+          "project": "YC06",
+          "approach": "Hue contributes repeatable cases and outcome-based release comparisons."
+        },
+        {
+          "project": "YC17",
+          "approach": "Rystic contributes stateful practice worlds, fault injection and deliberately broken controls."
+        },
+        {
+          "project": "YC11",
+          "approach": "Decawork contributes action review in business context; hard grants still belong outside a review model."
+        },
+        {
+          "project": "YC04",
+          "approach": "Asakana inspires corrections that improve later handling, but SupaBiz must design and test the learning mechanism."
+        }
+      ]
+    },
+    {
+      "id": "05",
+      "name": "Receive & remember events",
+      "phase": "RUN THE WORK",
+      "question": "Did we capture this exactly once?",
+      "purpose": "Record permitted source events durably before acknowledging them. Decide whether an event needs work without calling an LLM for every message.",
+      "parts": [
+        {
+          "id": "05.1",
+          "name": "Durable inbox",
+          "deliverable": "Persist source identity, timestamps and raw event envelope.",
+          "mode": "Build"
+        },
+        {
+          "id": "05.2",
+          "name": "Sync & backfill",
+          "deliverable": "Cursors, reconnect, initial sync and coverage gaps.",
+          "mode": "Adapt"
+        },
+        {
+          "id": "05.3",
+          "name": "Deduplication & revisions",
+          "deliverable": "Native IDs, edits, deletes, order and replay rules.",
+          "mode": "Build"
+        },
+        {
+          "id": "05.4",
+          "name": "Wake router",
+          "deliverable": "Mentions, event rules and bounded bursts select eligible work.",
+          "mode": "Build"
+        },
+        {
+          "id": "05.5",
+          "name": "Media fetch & quarantine",
+          "deliverable": "Fetch references safely; isolate untrusted or unknown sources.",
+          "mode": "Build"
+        }
+      ],
+      "inputs": "A new message, email, attachment, upload or approved device observation.",
+      "outputs": "Durable event ID and queued processing job, or a recorded no-action decision.",
+      "gate": "Duplicate, delayed, edited and replayed messages must not create duplicate work or hidden gaps.",
+      "loop": "Disconnections route to station 02; recoverable failures retry from the journal.",
+      "layers": [
+        "L03",
+        "L09"
+      ],
+      "sprint": "S1",
+      "examples": {
+        "varun": "A staff member sends “freezer leaking again” with a photo and a follow-up voice note. Capture the burst as evidence before deciding.",
+        "ramya": "A court email arrives twice and is later corrected. Preserve both source identity and revision history."
+      },
+      "comparisons": [
+        {
+          "project": "YC16",
+          "approach": "Inkbox’s quiet capture and selective wake-up are strong fits for busy WhatsApp groups."
+        },
+        {
+          "project": "YC04",
+          "approach": "Asakana accepts messy operational messages and attachments as business input."
+        },
+        {
+          "project": "YC07",
+          "approach": "Sidekick keeps frontline capture in familiar voice/photo/message interactions."
+        },
+        {
+          "project": "YC03",
+          "approach": "screenpipe is a different intake modality: selected computer activity rather than a business messaging connector."
+        },
+        {
+          "project": "YC15",
+          "approach": "Shire begins with camera observations; the same intake principles apply, but camera support is optional."
+        }
+      ]
+    },
+    {
+      "id": "06",
+      "name": "Read, hear & see evidence",
+      "phase": "RUN THE WORK",
+      "question": "What does the source actually say?",
+      "purpose": "Extract observations from text, documents, voice, photos and sampled video. Keep source evidence, coverage and uncertainty visible.",
+      "parts": [
+        {
+          "id": "06.1",
+          "name": "Evidence storage",
+          "deliverable": "Original media and derived files with independent retention.",
+          "mode": "Reuse"
+        },
+        {
+          "id": "06.2",
+          "name": "Document/OCR pipeline",
+          "deliverable": "Isolated parsing, page regions and extraction provenance.",
+          "mode": "Reuse"
+        },
+        {
+          "id": "06.3",
+          "name": "Speech & language",
+          "deliverable": "Transcription with language, translation and timestamp separation.",
+          "mode": "Reuse"
+        },
+        {
+          "id": "06.4",
+          "name": "Vision/video adapter",
+          "deliverable": "Scoped image analysis or video sampling with coverage limits.",
+          "mode": "Reuse"
+        },
+        {
+          "id": "06.5",
+          "name": "Evidence locators",
+          "deliverable": "Citations, confidence limitations and useful abstention.",
+          "mode": "Build"
+        }
+      ],
+      "inputs": "Durable event and authorized original media.",
+      "outputs": "Observations linked to page, crop, timestamp or message evidence.",
+      "gate": "Noise, missing pages or an unclear quantity yields a useful question; sampled video never becomes proof of unseen events.",
+      "loop": "Missing evidence returns to intake or asks the authorized person for clarification.",
+      "layers": [
+        "L04"
+      ],
+      "sprint": "S1–S2",
+      "examples": {
+        "varun": "Transcribe Hinglish kitchen audio and identify the visible leak. Do not infer internal freezer temperature from a photograph.",
+        "ramya": "Extract the notice’s matter identifier and date with page citations; distinguish publication date from hearing date."
+      },
+      "comparisons": [
+        {
+          "project": "YC07",
+          "approach": "Sidekick combines frontline voice and visual reports with operational context."
+        },
+        {
+          "project": "YC03",
+          "approach": "screenpipe illustrates an accessibility/text-before-OCR capture ladder and evidence-linked history."
+        },
+        {
+          "project": "YC15",
+          "approach": "Shire turns visible camera observations into operational signals; hidden conditions remain unknown."
+        },
+        {
+          "project": "YC04",
+          "approach": "Asakana turns messages and document/photos into structured candidates for review."
+        },
+        {
+          "project": "YC05",
+          "approach": "Praxis emphasizes documents as part of a matter’s readiness and work context."
+        }
+      ]
+    },
+    {
+      "id": "07",
+      "name": "Form & check business records",
+      "phase": "RUN THE WORK",
+      "question": "Which facts can enter the system?",
+      "purpose": "Separate observations from candidate records and accepted facts. Exact business checks run before admission; uncertainty is a valid result.",
+      "parts": [
+        {
+          "id": "07.1",
+          "name": "Typed records",
+          "deliverable": "Issues, stock movements, invoices, matters and tasks with schemas.",
+          "mode": "Build"
+        },
+        {
+          "id": "07.2",
+          "name": "Entity resolution",
+          "deliverable": "Match IDs, aliases and context without merging ambiguous entities.",
+          "mode": "Build"
+        },
+        {
+          "id": "07.3",
+          "name": "Deterministic checks",
+          "deliverable": "Exact units, quantities, duplicate references and rule versions.",
+          "mode": "Build"
+        },
+        {
+          "id": "07.4",
+          "name": "Record admission",
+          "deliverable": "Version-checked transaction, revision history and outbox.",
+          "mode": "Build"
+        },
+        {
+          "id": "07.5",
+          "name": "Scoped retrieval views",
+          "deliverable": "Search/memory projections with provenance and invalidation.",
+          "mode": "Adapt"
+        }
+      ],
+      "inputs": "Observations, business map, existing records and applicable rules.",
+      "outputs": "Accepted revision, rejected candidate or an unresolved check requiring evidence.",
+      "gate": "Unknown is not pass; an approval cannot rewrite a false quantity or erase contrary evidence.",
+      "loop": "Clarification returns to stations 03/06; new evidence can revise an accepted record while preserving history.",
+      "layers": [
+        "L05",
+        "L02"
+      ],
+      "sprint": "S2",
+      "examples": {
+        "varun": "Create one freezer issue linked to Consu and the asset. In receiving, only accepted quantities create stock movements.",
+        "ramya": "Match the email to the correct court and matter, or hold it for Ramya; retain both original and corrected notice."
+      },
+      "comparisons": [
+        {
+          "project": "YC18",
+          "approach": "Definite contributes a shared record model, exact checks and explicit unresolved outcomes."
+        },
+        {
+          "project": "YC08",
+          "approach": "Marble distinguishes order, receipt, invoice, credit and settlement; one generic record cannot replace them."
+        },
+        {
+          "project": "YC14",
+          "approach": "Terse contributes stable entity ownership and guarded mutations; use SQL as the baseline rather than adding a second authority."
+        },
+        {
+          "project": "YC10",
+          "approach": "Glen contributes permission-aware retrieval and memory lineage; retrieval stays derived from authoritative records."
+        },
+        {
+          "project": "YC04",
+          "approach": "Asakana makes a structured draft and targeted correction the bridge from messages to business records."
+        }
+      ]
+    },
+    {
+      "id": "08",
+      "name": "Plan & assign the work",
+      "phase": "RUN THE WORK",
+      "question": "Who does what, by when?",
+      "purpose": "The agent proposes bounded next steps. A durable workflow owns assignment, waiting and progression across devices and model calls.",
+      "parts": [
+        {
+          "id": "08.1",
+          "name": "Bounded agent loop",
+          "deliverable": "Context selection, tool schemas, budgets and checkpoints.",
+          "mode": "Adapt"
+        },
+        {
+          "id": "08.2",
+          "name": "Durable workflow owner",
+          "deliverable": "Persist states, timers and recoverable steps.",
+          "mode": "Reuse"
+        },
+        {
+          "id": "08.3",
+          "name": "Assignment & acknowledgement",
+          "deliverable": "Responsible person, acceptance and reassignments.",
+          "mode": "Build"
+        },
+        {
+          "id": "08.4",
+          "name": "Deadline & escalation",
+          "deliverable": "Durable reminders, blockers and escalation recipients.",
+          "mode": "Build"
+        },
+        {
+          "id": "08.5",
+          "name": "Role-specific work views",
+          "deliverable": "Staff task list, manager attention queue and owner summary.",
+          "mode": "Build"
+        }
+      ],
+      "inputs": "Accepted record, current grants, workflow state and SOP version.",
+      "outputs": "Proposed assignment or action with explicit intent, dependencies and owner. Internal state changes also enforce current permissions.",
+      "gate": "Sending an assignment is not acceptance; reminders survive worker restarts without duplicate tasks.",
+      "loop": "Blocked work asks for evidence or reassignment; long waits do not keep a model process running.",
+      "layers": [
+        "L06",
+        "L07",
+        "L01"
+      ],
+      "sprint": "S2",
+      "examples": {
+        "varun": "The manager gets a short issue card and assigns a responsible person; missing location prompts one focused question.",
+        "ramya": "Ramya reviews the matter and assigns the right staff member with the notice, date type and expected work product."
+      },
+      "comparisons": [
+        {
+          "project": "YC05",
+          "approach": "Praxis contributes matter-centered coordination, document readiness and clear responsibility."
+        },
+        {
+          "project": "YC07",
+          "approach": "Sidekick turns frontline reports into operational work with location and follow-up."
+        },
+        {
+          "project": "YC13",
+          "approach": "herdr’s attention inbox and durable job identity inspire a manager view, though its implementation serves engineering agents."
+        },
+        {
+          "project": "YC02",
+          "approach": "Agent37 contributes continuity across devices and visible outputs."
+        },
+        {
+          "project": "YC12",
+          "approach": "GrepAI contributes reusable guarded procedures for repeatable work."
+        },
+        {
+          "project": "YC14",
+          "approach": "Terse’s short guarded commands and committed views are useful without keeping slow model work inside mutations."
+        }
+      ]
+    },
+    {
+      "id": "09",
+      "name": "Authorize the exact action",
+      "phase": "RUN THE WORK",
+      "question": "May this action happen now?",
+      "purpose": "Every consequential action crosses a policy gate. Low-risk permitted actions may pass automatically; review is conditional, not a mandatory click for every event.",
+      "parts": [
+        {
+          "id": "09.1",
+          "name": "Current permission check",
+          "deliverable": "Principal, resource, audience and destination checked at dispatch.",
+          "mode": "Build"
+        },
+        {
+          "id": "09.2",
+          "name": "Intent & approval digest",
+          "deliverable": "Bind decision to exact action, record revision and policy version.",
+          "mode": "Build"
+        },
+        {
+          "id": "09.3",
+          "name": "Decision inbox",
+          "deliverable": "Allow/deny/hold/needs-context with evidence and changed fields.",
+          "mode": "Build"
+        },
+        {
+          "id": "09.4",
+          "name": "Budget & limit reservation",
+          "deliverable": "Reserve allowed spend/quotas before concurrent execution.",
+          "mode": "Build"
+        },
+        {
+          "id": "09.5",
+          "name": "Expiry & revocation",
+          "deliverable": "Expire stale approval and re-review changed inputs.",
+          "mode": "Build"
+        }
+      ],
+      "inputs": "Exact proposed action, current record versions, grants and limits.",
+      "outputs": "Authorized intent or denied/held proposal with a reason.",
+      "gate": "A changed destination, amount, audience or revoked role invalidates the old approval.",
+      "loop": "Held actions return to context/review; no model may override a hard deny.",
+      "layers": [
+        "L02",
+        "L08",
+        "L01"
+      ],
+      "sprint": "S2",
+      "examples": {
+        "varun": "An internal task may be allowed automatically. A supplier order needs the correct business, amount and approver.",
+        "ramya": "Sharing a notice must use the right matter audience; a revised hearing date is reviewed before changing downstream calendars."
+      },
+      "comparisons": [
+        {
+          "project": "YC11",
+          "approach": "Decawork puts action review outside the acting agent and recognizes missing-context/hold outcomes."
+        },
+        {
+          "project": "YC01",
+          "approach": "Executor provides approval/credential boundaries to study; the saved review records an approval-consumption race requiring a spike."
+        },
+        {
+          "project": "YC16",
+          "approach": "Inkbox contributes audience binding and approval tied to the actual proposal."
+        },
+        {
+          "project": "YC18",
+          "approach": "Definite separates factual checks from approval decisions; approval does not make inconsistent evidence true."
+        },
+        {
+          "project": "YC14",
+          "approach": "Terse contributes current-version guarded commands; stale state must not authorize an effect."
+        }
+      ]
+    },
+    {
+      "id": "10",
+      "name": "Execute through scoped tools",
+      "phase": "RUN THE WORK",
+      "question": "Can we do it safely and recover?",
+      "purpose": "Execute authorized intent through typed adapters. Use a scoped browser only when a supported API is insufficient and the workflow permits it.",
+      "parts": [
+        {
+          "id": "10.1",
+          "name": "Tool gateway",
+          "deliverable": "Typed input/output, adapter version and scoped credential injection.",
+          "mode": "Adapt"
+        },
+        {
+          "id": "10.2",
+          "name": "Effect ledger",
+          "deliverable": "Idempotency key, attempt identity and before/after state.",
+          "mode": "Build"
+        },
+        {
+          "id": "10.3",
+          "name": "API & browser execution",
+          "deliverable": "Restricted worker, egress, destinations and browser handoff.",
+          "mode": "Reuse"
+        },
+        {
+          "id": "10.4",
+          "name": "Retry & cancellation",
+          "deliverable": "Classify pre/post-commit errors; stop the exact worker.",
+          "mode": "Build"
+        },
+        {
+          "id": "10.5",
+          "name": "Delivery & delegation",
+          "deliverable": "Audience-safe notifications; job-scoped agent handoff later.",
+          "mode": "Adapt"
+        }
+      ],
+      "inputs": "Authorized intent with an idempotency key and short-lived execution scope.",
+      "outputs": "Provider receipt, confirmed failure or uncertain outcome requiring reconciliation.",
+      "gate": "Timeout after a provider commit must not trigger a duplicate send/order/calendar entry.",
+      "loop": "Unknown effects go to station 11; reauthorization is required if the intended action changes.",
+      "layers": [
+        "L08",
+        "L09"
+      ],
+      "sprint": "S2",
+      "examples": {
+        "varun": "Create the internal task and send the permitted notification. Store the provider receipt separately from task completion.",
+        "ramya": "Attach the reviewed notice to the assigned work; update a calendar only under the approved date and audience scope."
+      },
+      "comparisons": [
+        {
+          "project": "YC01",
+          "approach": "Executor contributes bounded tool execution and integration/credential separation; SupaBiz owns business effect semantics."
+        },
+        {
+          "project": "YC02",
+          "approach": "Agent37 illustrates browser/environment handoff; persistent hosting is a separate service decision."
+        },
+        {
+          "project": "YC09",
+          "approach": "Agent Relay provides communication transport and job-scoped rooms; delivery does not prove business completion."
+        },
+        {
+          "project": "YC16",
+          "approach": "Inkbox contributes communication adapters, cancellation and distinct receipt/delivery stages."
+        },
+        {
+          "project": "YC13",
+          "approach": "herdr contributes node/job control patterns; terminal injection is not the restaurant transaction interface."
+        }
+      ]
+    },
+    {
+      "id": "11",
+      "name": "Verify, reconcile & close",
+      "phase": "PROVE & IMPROVE",
+      "question": "Did the intended result happen?",
+      "purpose": "Check real outcomes and missing effects before reporting success. Maintain the difference between delivered, acknowledged, completed and verified.",
+      "parts": [
+        {
+          "id": "11.1",
+          "name": "Outcome observer",
+          "deliverable": "Read back provider state or collect domain-specific completion evidence.",
+          "mode": "Build"
+        },
+        {
+          "id": "11.2",
+          "name": "Reconciliation queue",
+          "deliverable": "Resolve unknown outcomes, missing receipts and contradictions.",
+          "mode": "Build"
+        },
+        {
+          "id": "11.3",
+          "name": "Business closure rules",
+          "deliverable": "Define valid proof and who can accept the completed work.",
+          "mode": "Build"
+        },
+        {
+          "id": "11.4",
+          "name": "Audit & projections",
+          "deliverable": "Append result history and refresh scoped dashboards/search.",
+          "mode": "Build"
+        },
+        {
+          "id": "11.5",
+          "name": "Owner feedback",
+          "deliverable": "Show outcome, evidence, remaining blockers and meaningful summaries.",
+          "mode": "Build"
+        }
+      ],
+      "inputs": "Attempt ledger, provider receipts, worker updates and new evidence.",
+      "outputs": "Verified completion, confirmed failure, partial completion or unresolved outcome.",
+      "gate": "A successful tool response cannot close a real-world task without its required evidence.",
+      "loop": "Failures retry only after reconciliation; changed facts return to station 07 and unresolved work to station 08.",
+      "layers": [
+        "L05",
+        "L07",
+        "L08",
+        "L01"
+      ],
+      "sprint": "S2",
+      "examples": {
+        "varun": "A follow-up photo and manager check close the visible leak task. Invoice discrepancies remain exceptions for the CA.",
+        "ramya": "Acknowledged assignment is distinct from a filed document; proof of filing is required for that task’s closure."
+      },
+      "comparisons": [
+        {
+          "project": "YC07",
+          "approach": "Sidekick contributes verified operational closure rather than stopping at report creation."
+        },
+        {
+          "project": "YC08",
+          "approach": "Marble contributes receiving/invoice/credit reconciliation before settlement."
+        },
+        {
+          "project": "YC18",
+          "approach": "Definite contributes evidence-based checks and useful unresolved states."
+        },
+        {
+          "project": "YC14",
+          "approach": "Terse distinguishes committed internal state from independently verified external effects."
+        },
+        {
+          "project": "YC09",
+          "approach": "Agent Relay highlights the distinction between communication receipts and actual work outcomes."
+        },
+        {
+          "project": "YC05",
+          "approach": "Praxis contributes work readiness, ownership and completion in the context of a matter."
+        }
+      ]
+    },
+    {
+      "id": "12",
+      "name": "Learn, evaluate & release",
+      "phase": "PROVE & IMPROVE",
+      "question": "Will the next case be better?",
+      "purpose": "Turn reviewed corrections and real incidents into scoped improvements. Evaluate off the live path; release only changes that pass protected quality and cost gates.",
+      "parts": [
+        {
+          "id": "12.1",
+          "name": "Correction capture",
+          "deliverable": "Preserve original evidence, old/new values and reason.",
+          "mode": "Build"
+        },
+        {
+          "id": "12.2",
+          "name": "Scoped proposal",
+          "deliverable": "Separate one-off fixes from reusable mapping, memory or procedure changes.",
+          "mode": "Build"
+        },
+        {
+          "id": "12.3",
+          "name": "Regression & held-out worlds",
+          "deliverable": "Versioned stateful cases, forbidden effects and protected answers.",
+          "mode": "Build"
+        },
+        {
+          "id": "12.4",
+          "name": "Release comparison",
+          "deliverable": "Quality, coverage, human effort, latency and full workflow cost.",
+          "mode": "Build"
+        },
+        {
+          "id": "12.5",
+          "name": "Versioned rollout",
+          "deliverable": "Review, activate, canary, observe and roll back a change.",
+          "mode": "Build"
+        }
+      ],
+      "inputs": "Reviewed corrections, failures, incident traces and measured outcomes.",
+      "outputs": "Approved new workflow/context version or a rejected improvement proposal.",
+      "gate": "No customer’s correction becomes a global rule by default; a lower-cost change must preserve required outcome quality.",
+      "loop": "Reviewed changes return to stations 03/04; new events continue through station 05.",
+      "layers": [
+        "L10",
+        "L06",
+        "L05"
+      ],
+      "sprint": "S0–S2, expanded S5",
+      "examples": {
+        "varun": "A corrected supplier alias becomes a Consu-scoped mapping only after tests; it does not silently affect ForeFathers.",
+        "ramya": "A matter matching error becomes a regression case across courts and similar case numbers, not an unchecked memory note."
+      },
+      "comparisons": [
+        {
+          "project": "YC04",
+          "approach": "Asakana’s correction-driven UX is the priority inspiration; the underlying training mechanism is not established by demos."
+        },
+        {
+          "project": "YC06",
+          "approach": "Hue turns production incidents into repeatable cases and release comparisons."
+        },
+        {
+          "project": "YC17",
+          "approach": "Rystic contributes stateful simulated services, fault injection and outcome/forbidden-effect grading."
+        },
+        {
+          "project": "YC12",
+          "approach": "GrepAI contributes procedure optimization with draft/tested/active boundaries."
+        },
+        {
+          "project": "YC15",
+          "approach": "Shire inspires categorized reviewed observation corrections; evaluation must include coverage and false alerts."
+        },
+        {
+          "project": "YC18",
+          "approach": "Definite supports measured model substitution; no model is trusted solely by brand or fluency."
+        }
+      ]
+    }
+  ],
+  "foundations": [
+    {
+      "id": "F1",
+      "name": "Security & data lifecycle",
+      "purpose": "Enforced at every station, including files, exports, derived context and logs.",
+      "parts": [
+        {
+          "id": "F1.1",
+          "name": "Tenant isolation & policy enforcement",
+          "mode": "Build",
+          "deliverable": "Runtime-role tests and audience-scoped data access."
+        },
+        {
+          "id": "F1.2",
+          "name": "Secrets & cryptographic primitives",
+          "mode": "Reuse",
+          "deliverable": "Maintained secrets/encryption services with scoped access."
+        },
+        {
+          "id": "F1.3",
+          "name": "Retention, deletion & export",
+          "mode": "Build",
+          "deliverable": "Artifact-specific lifecycle and invalidation, not just a UI delete."
+        },
+        {
+          "id": "F1.4",
+          "name": "Audit & incident response",
+          "mode": "Build",
+          "deliverable": "Protected decision/effect history and an operational response plan."
+        }
+      ],
+      "projects": [
+        "YC01",
+        "YC03",
+        "YC10",
+        "YC11",
+        "YC16",
+        "YC18"
+      ],
+      "layers": [
+        "L02",
+        "L09"
+      ]
+    },
+    {
+      "id": "F2",
+      "name": "Cloud & operational continuity",
+      "purpose": "The business keeps its place while workers sleep, crash or change devices.",
+      "parts": [
+        {
+          "id": "F2.1",
+          "name": "Database & object storage",
+          "mode": "Reuse",
+          "deliverable": "Managed persistence, capacity limits and recovery."
+        },
+        {
+          "id": "F2.2",
+          "name": "Worker leases & queues",
+          "mode": "Adapt",
+          "deliverable": "Bounded concurrency, cancellation and retry ownership."
+        },
+        {
+          "id": "F2.3",
+          "name": "Health, quotas & cost telemetry",
+          "mode": "Build",
+          "deliverable": "Per-business source health, resource limits and cost attribution."
+        },
+        {
+          "id": "F2.4",
+          "name": "Backup & restore drills",
+          "mode": "Adapt",
+          "deliverable": "Demonstrated restore and reconciliation procedures."
+        }
+      ],
+      "projects": [
+        "YC02",
+        "YC13",
+        "YC14"
+      ],
+      "layers": [
+        "L09"
+      ]
+    },
+    {
+      "id": "F3",
+      "name": "Evaluation & observability",
+      "purpose": "A shared testing and measurement facility, not a second agent with production authority.",
+      "parts": [
+        {
+          "id": "F3.1",
+          "name": "Portable evaluation runner contract",
+          "mode": "Build",
+          "deliverable": "One harness contract; optional Hue/Rystic adapters."
+        },
+        {
+          "id": "F3.2",
+          "name": "Isolated worlds & protected oracle",
+          "mode": "Build",
+          "deliverable": "Independent expected state and forbidden-effect checking."
+        },
+        {
+          "id": "F3.3",
+          "name": "Tracing and evidence tooling",
+          "mode": "Reuse",
+          "deliverable": "Redacted debugging signals distinct from business audit."
+        },
+        {
+          "id": "F3.4",
+          "name": "Metrics & release gates",
+          "mode": "Build",
+          "deliverable": "Outcome, coverage, human review and total workflow cost by risk slice."
+        }
+      ],
+      "projects": [
+        "YC06",
+        "YC12",
+        "YC17"
+      ],
+      "layers": [
+        "L10"
+      ]
+    },
+    {
+      "id": "F4",
+      "name": "Engineering & change control",
+      "purpose": "Keep the architecture replaceable and changes understandable to engineers and AI collaborators.",
+      "parts": [
+        {
+          "id": "F4.1",
+          "name": "CI and test execution",
+          "mode": "Reuse",
+          "deliverable": "Established automated checks and reproducible builds."
+        },
+        {
+          "id": "F4.2",
+          "name": "Schema & migration contracts",
+          "mode": "Build",
+          "deliverable": "Versioned APIs/events/records with forward and recovery paths."
+        },
+        {
+          "id": "F4.3",
+          "name": "Dependency identity & license gates",
+          "mode": "Build",
+          "deliverable": "Pinned, attributable packages and explicit adoption experiments."
+        },
+        {
+          "id": "F4.4",
+          "name": "Release & rollback tooling",
+          "mode": "Adapt",
+          "deliverable": "Staged deployment, rollback and operator documentation."
+        }
+      ],
+      "projects": [
+        "YC01",
+        "YC06",
+        "YC09",
+        "YC12",
+        "YC13",
+        "YC14",
+        "YC17",
+        "YC18"
+      ],
+      "layers": [
+        "L11"
+      ]
+    }
+  ],
+  "projects": [
+    {
+      "id": "YC01",
+      "name": "Executor",
+      "layers": [
+        "L02",
+        "L06",
+        "L08"
+      ],
+      "decision": "Conditional code reuse",
+      "take": "Account/credential separation, selected schema discovery and bounded execution.",
+      "build": "Our grants, action ledger, exact approvals and effect reconciliation.",
+      "skip": "Full adoption as the business platform; direct consequential writes before race/recovery fixes.",
+      "gate": "MIT root in saved review; beta dependency/build footprint and approval-consumption race require a pinned spike.",
+      "first_sprint": "S2",
+      "report": "research/YC01-executor.txt",
+      "review_origin": "YC01-executor",
+      "source": "https://www.ycombinator.com/companies/executor",
+      "evidence_status": "selected_source_review_and_isolated_component_checks",
+      "findings": [
+        "SB-EX-01",
+        "SB-EX-02",
+        "SB-EX-03",
+        "SB-EX-04",
+        "SB-EX-05",
+        "SB-EX-06",
+        "SB-EX-07"
+      ],
+      "implementation_status": "Not integrated by this architecture update"
+    },
+    {
+      "id": "YC02",
+      "name": "Agent37",
+      "layers": [
+        "L01",
+        "L09"
+      ],
+      "decision": "UX now; hosting experiment later",
+      "take": "Continuity across devices, outputs panel, responsibilities and browser handoff.",
+      "build": "Durable records, source intake independent of sleeping compute, leases, quotas and cancellation.",
+      "skip": "Reselling the starter unchanged or treating its source as the hosted backend.",
+      "gate": "MIT starter/examples; private hosting, lifecycle semantics, India availability, terms and total cost unverified.",
+      "first_sprint": "S2",
+      "report": "research/YC02-agent37.txt",
+      "review_origin": "YC02-agent37",
+      "source": "https://www.ycombinator.com/companies/agent-37",
+      "evidence_status": "selected_source_api_contract_review_and_isolated_component_checks",
+      "findings": [
+        "SB-AG37-01",
+        "SB-AG37-02",
+        "SB-AG37-03",
+        "SB-AG37-04",
+        "SB-AG37-05",
+        "SB-AG37-06",
+        "SB-AG37-07",
+        "SB-AG37-08",
+        "SB-AG37-09",
+        "SB-AG37-10",
+        "SB-AG37-11",
+        "SB-AG37-12"
+      ],
+      "implementation_status": "Not integrated by this architecture update"
+    },
+    {
+      "id": "YC03",
+      "name": "screenpipe",
+      "layers": [
+        "L04",
+        "L09",
+        "L01"
+      ],
+      "decision": "Pattern reuse; capture deferred",
+      "take": "Evidence-linked work inbox, selective capture, accessibility-before-OCR ladder.",
+      "build": "Explicit release controls, device grants, consent, retention and targeted capture.",
+      "skip": "Blanket recording and code copying under an assumed permissive license.",
+      "gate": "Saved source uses a commercial license; current rights and actual device security need validation.",
+      "first_sprint": "S6",
+      "report": "research/YC03-screenpipe.txt",
+      "review_origin": "YC03-screenpipe",
+      "source": "https://www.ycombinator.com/companies/screenpipe",
+      "evidence_status": "selected_source_review_and_isolated_component_checks",
+      "findings": [
+        "SB-SP-02",
+        "SB-SP-03",
+        "SB-SP-04",
+        "SB-SP-05",
+        "SB-SP-06",
+        "SB-SP-07",
+        "SB-SP-08",
+        "SB-SP-09",
+        "SB-SP-11",
+        "SB-SP-13",
+        "SB-SP-16",
+        "SB-SP-18"
+      ],
+      "implementation_status": "Not integrated by this architecture update"
+    },
+    {
+      "id": "YC04",
+      "name": "Asakana",
+      "layers": [
+        "L01",
+        "L05",
+        "L10"
+      ],
+      "decision": "Priority product pattern",
+      "take": "Messy-message → structured draft → targeted correction → completed record.",
+      "build": "Business entity mapping, scoped knowledge and the correction-to-regression loop.",
+      "skip": "Assuming a demo establishes training methods or automatic generalization.",
+      "gate": "Public product/demo review only; no backend code or measured uplift.",
+      "first_sprint": "S2",
+      "report": "research/YC04-asakana.txt",
+      "review_origin": "YC04-asakana",
+      "source": "https://www.ycombinator.com/companies/asakana",
+      "evidence_status": "public_product_and_recorded_demo_review_no_source_audit",
+      "findings": [
+        "SB-AS-01",
+        "SB-AS-02",
+        "SB-AS-03",
+        "SB-AS-04",
+        "SB-AS-05",
+        "SB-AS-06",
+        "SB-AS-07",
+        "SB-AS-08",
+        "SB-AS-09",
+        "SB-AS-10",
+        "SB-AS-11",
+        "SB-AS-12",
+        "SB-AS-13",
+        "SB-AS-14",
+        "SB-AS-15"
+      ],
+      "implementation_status": "Not integrated by this architecture update"
+    },
+    {
+      "id": "YC05",
+      "name": "Praxis",
+      "layers": [
+        "L01",
+        "L05",
+        "L07"
+      ],
+      "decision": "Priority legal workflow pattern",
+      "take": "Matter workspace, document readiness, acknowledged assignment and blocker ownership.",
+      "build": "Indian court/matter identities, reviewed date types, grants and corrected-notice propagation.",
+      "skip": "Automatic legal interpretation, conflict clearance or client disclosure.",
+      "gate": "Public product/policy review only; no Indian court integration established.",
+      "first_sprint": "S4",
+      "report": "research/YC05-praxis.txt",
+      "review_origin": "YC05-praxis",
+      "source": "https://www.ycombinator.com/companies/praxis",
+      "evidence_status": "public_product_articles_and_policy_review_no_source_audit",
+      "findings": [
+        "SB-PR-01",
+        "SB-PR-02",
+        "SB-PR-03",
+        "SB-PR-04",
+        "SB-PR-05",
+        "SB-PR-06",
+        "SB-PR-07",
+        "SB-PR-08",
+        "SB-PR-09",
+        "SB-PR-10",
+        "SB-PR-11",
+        "SB-PR-12"
+      ],
+      "implementation_status": "Not integrated by this architecture update"
+    },
+    {
+      "id": "YC06",
+      "name": "Hue",
+      "layers": [
+        "L10"
+      ],
+      "decision": "Conditional SDK/runner adapter",
+      "take": "Incident-to-case, fixed worlds, outcome scoring, release comparison and saved-evidence rescoring.",
+      "build": "Our business oracle, protected answers, domain fixtures and one portable test contract.",
+      "skip": "Treating tracing as durable business audit or making Hue and Rystic duplicate owners.",
+      "gate": "MIT SDK; selected checks, not hosted server certification. Validate retention, adapter fit and cost.",
+      "first_sprint": "S0",
+      "report": "research/YC06-hue.txt",
+      "review_origin": "YC06-hue",
+      "source": "https://www.ycombinator.com/companies/hue",
+      "evidence_status": "selected_sdk_source_review_and_17_installed_python_component_checks",
+      "findings": [
+        "SB-HU-01",
+        "SB-HU-02",
+        "SB-HU-03",
+        "SB-HU-04",
+        "SB-HU-05",
+        "SB-HU-06",
+        "SB-HU-07",
+        "SB-HU-08",
+        "SB-HU-09",
+        "SB-HU-10",
+        "SB-HU-11",
+        "SB-HU-12",
+        "SB-HU-13",
+        "SB-HU-14"
+      ],
+      "implementation_status": "Not integrated by this architecture update"
+    },
+    {
+      "id": "YC07",
+      "name": "Sidekick",
+      "layers": [
+        "L01",
+        "L04",
+        "L07"
+      ],
+      "decision": "Priority frontline UX pattern",
+      "take": "Voice/photo capture, minimal clarification, asset location and verified closure.",
+      "build": "Outlet/asset directory, multilingual evidence, role routing and SOP review.",
+      "skip": "Video as proof of hidden conditions; predictive maintenance before telemetry.",
+      "gate": "Public product and selected demo review; no reusable backend established.",
+      "first_sprint": "S2",
+      "report": "research/YC07-sidekick.txt",
+      "review_origin": "YC07-sidekick",
+      "source": "https://www.ycombinator.com/companies/textsidekick",
+      "evidence_status": "public_product_policy_and_selected_recorded_demo_review_no_source_audit",
+      "findings": [
+        "SB-SK-01",
+        "SB-SK-02",
+        "SB-SK-03",
+        "SB-SK-04",
+        "SB-SK-05",
+        "SB-SK-06",
+        "SB-SK-07",
+        "SB-SK-08",
+        "SB-SK-09",
+        "SB-SK-10",
+        "SB-SK-11",
+        "SB-SK-12",
+        "SB-SK-13",
+        "SB-SK-14"
+      ],
+      "implementation_status": "Not integrated by this architecture update"
+    },
+    {
+      "id": "YC08",
+      "name": "Marble",
+      "layers": [
+        "L05",
+        "L07",
+        "L01"
+      ],
+      "decision": "Priority restaurant domain pattern",
+      "take": "Separate ordering, receiving, stocktake, invoice, credit and settlement objects.",
+      "build": "Accepted-quantity movements, opening count/cutover, reconciliation and CA export.",
+      "skip": "Full ERP/POS replacement, forecasting or payments in the first pilot.",
+      "gate": "Public product evidence; no Tally/Zoho/GST integration established.",
+      "first_sprint": "S3",
+      "report": "research/YC08-marble.txt",
+      "review_origin": "YC08-marble",
+      "source": "https://www.ycombinator.com/companies/joinmarble",
+      "evidence_status": "public_product_policy_case_study_caption_and_selected_promotional_frame_review_no_source_audit",
+      "findings": [
+        "SB-MB-01",
+        "SB-MB-02",
+        "SB-MB-03",
+        "SB-MB-04",
+        "SB-MB-05",
+        "SB-MB-06",
+        "SB-MB-07",
+        "SB-MB-08",
+        "SB-MB-09",
+        "SB-MB-10",
+        "SB-MB-11",
+        "SB-MB-12",
+        "SB-MB-13",
+        "SB-MB-14",
+        "SB-MB-15",
+        "SB-MB-16"
+      ],
+      "implementation_status": "Not integrated by this architecture update"
+    },
+    {
+      "id": "YC09",
+      "name": "Agent Relay",
+      "layers": [
+        "L08",
+        "L02"
+      ],
+      "decision": "Conditional later transport reuse",
+      "take": "Job-scoped rooms, typed requests, separate transport/work receipts.",
+      "build": "Relationship grants, identity, audience scope, durable idempotency and outcome verification.",
+      "skip": "An endless swarm or coding-terminal injection for operational transactions.",
+      "gate": "Apache-2.0 roots in saved review; pinned pair compatibility and server deployment must be tested.",
+      "first_sprint": "S6",
+      "report": "research/YC09-agent-relay.txt",
+      "review_origin": "YC09-agent-relay",
+      "source": "https://www.ycombinator.com/companies/agent-relay",
+      "evidence_status": "selected_source_review_and_21_isolated_component_checks",
+      "findings": [
+        "SB-AR-01",
+        "SB-AR-02",
+        "SB-AR-03",
+        "SB-AR-04",
+        "SB-AR-05",
+        "SB-AR-06",
+        "SB-AR-07",
+        "SB-AR-08",
+        "SB-AR-09",
+        "SB-AR-10",
+        "SB-AR-11",
+        "SB-AR-12",
+        "SB-AR-13",
+        "SB-AR-14",
+        "SB-AR-15",
+        "SB-AR-16"
+      ],
+      "implementation_status": "Not integrated by this architecture update"
+    },
+    {
+      "id": "YC10",
+      "name": "Glen",
+      "layers": [
+        "L05",
+        "L02"
+      ],
+      "decision": "Memory patterns now; service optional",
+      "take": "Task-scoped retrieval, visible memory owners, lineage and portable handoffs.",
+      "build": "Own evidence/record authority, source ACLs, audience filtering and invalidation.",
+      "skip": "Universal shared memory, broad transcript upload or a second record authority.",
+      "gate": "MIT client artifacts reviewed; private backend permissions/retention not audited.",
+      "first_sprint": "S2",
+      "report": "research/YC10-glen.txt",
+      "review_origin": "YC10-glen",
+      "source": "https://www.ycombinator.com/companies/glen",
+      "evidence_status": "selected_plugin_and_shipped_cli_review_REA_and_20_isolated_checks_no_server_audit",
+      "findings": [
+        "SB-GL-01",
+        "SB-GL-02",
+        "SB-GL-03",
+        "SB-GL-04",
+        "SB-GL-05",
+        "SB-GL-06",
+        "SB-GL-07",
+        "SB-GL-08",
+        "SB-GL-09",
+        "SB-GL-10",
+        "SB-GL-11",
+        "SB-GL-12",
+        "SB-GL-13",
+        "SB-GL-14",
+        "SB-GL-15",
+        "SB-GL-16",
+        "SB-GL-17",
+        "SB-GL-18"
+      ],
+      "implementation_status": "Not integrated by this architecture update"
+    },
+    {
+      "id": "YC11",
+      "name": "Decawork",
+      "layers": [
+        "L02",
+        "L08"
+      ],
+      "decision": "Policy pattern; specialized reviewer deferred",
+      "take": "Exact-action review outside acting model; deny, hold and needs-context states.",
+      "build": "Deterministic grants, approval binding, budgets and independent execution gate.",
+      "skip": "A review model overriding hard limits or unprotected browser paths.",
+      "gate": "Public product/policy review; model/security implementation unverified.",
+      "first_sprint": "S2",
+      "report": "research/YC11-decawork.txt",
+      "review_origin": "YC11-decawork",
+      "source": "https://www.ycombinator.com/companies/decawork",
+      "evidence_status": "public_product_interactive_example_launch_captions_and_policy_review_no_source_audit",
+      "findings": [
+        "SB-DW-01",
+        "SB-DW-02",
+        "SB-DW-03",
+        "SB-DW-04",
+        "SB-DW-05",
+        "SB-DW-06",
+        "SB-DW-07",
+        "SB-DW-08",
+        "SB-DW-09",
+        "SB-DW-10",
+        "SB-DW-11",
+        "SB-DW-12",
+        "SB-DW-13",
+        "SB-DW-14",
+        "SB-DW-15",
+        "SB-DW-16",
+        "SB-DW-17",
+        "SB-DW-18"
+      ],
+      "implementation_status": "Not integrated by this architecture update"
+    },
+    {
+      "id": "YC12",
+      "name": "GrepAI",
+      "layers": [
+        "L06",
+        "L10",
+        "L11"
+      ],
+      "decision": "Procedure patterns; hosted dependency deferred",
+      "take": "Turn repeated work into guarded procedures; keep draft, tested and active separate.",
+      "build": "Offline optimization, versioned packs, exception path, quality/cost comparisons.",
+      "skip": "Silent live self-modification or copying an SDK with unresolved license.",
+      "gate": "Selected skills/shipped SDK review; license/endpoint drift and private optimizer limits recorded.",
+      "first_sprint": "S5",
+      "report": "research/YC12-grepai.txt",
+      "review_origin": "YC12-grepai",
+      "source": "https://www.ycombinator.com/companies/grep-ai",
+      "evidence_status": "selected_skills_source_and_shipped_sdk_review_REA_and_30_isolated_checks_no_backend_audit",
+      "findings": [
+        "SB-GR-01",
+        "SB-GR-02",
+        "SB-GR-03",
+        "SB-GR-04",
+        "SB-GR-05",
+        "SB-GR-06",
+        "SB-GR-07",
+        "SB-GR-08",
+        "SB-GR-09",
+        "SB-GR-10",
+        "SB-GR-11",
+        "SB-GR-12",
+        "SB-GR-13",
+        "SB-GR-14",
+        "SB-GR-15",
+        "SB-GR-16",
+        "SB-GR-17",
+        "SB-GR-18",
+        "SB-GR-19",
+        "SB-GR-20"
+      ],
+      "implementation_status": "Not integrated by this architecture update"
+    },
+    {
+      "id": "YC13",
+      "name": "herdr",
+      "layers": [
+        "L01",
+        "L09",
+        "L11"
+      ],
+      "decision": "UX pattern; optional engineer tool",
+      "take": "Attention inbox, node health, durable job identity and control handoff.",
+      "build": "Business states, role views, authorized device control and effect recovery.",
+      "skip": "Custom PTY migration or unverified cloud dependency for restaurant staff.",
+      "gate": "Apache-2.0 root; selected source/hook checks, not full runtime verification.",
+      "first_sprint": "S2",
+      "report": "research/YC13-herdr.txt",
+      "review_origin": "YC13-herdr",
+      "source": "https://www.ycombinator.com/companies/herdr",
+      "evidence_status": "selected_rust_source_public_mock_and_18_isolated_hook_checks_no_full_runtime_audit",
+      "findings": [
+        "SB-HD-01",
+        "SB-HD-02",
+        "SB-HD-03",
+        "SB-HD-04",
+        "SB-HD-05",
+        "SB-HD-06",
+        "SB-HD-07",
+        "SB-HD-08",
+        "SB-HD-09",
+        "SB-HD-10",
+        "SB-HD-11",
+        "SB-HD-12",
+        "SB-HD-13",
+        "SB-HD-14",
+        "SB-HD-15",
+        "SB-HD-16",
+        "SB-HD-17",
+        "SB-HD-18",
+        "SB-HD-19",
+        "SB-HD-20"
+      ],
+      "implementation_status": "Not integrated by this architecture update"
+    },
+    {
+      "id": "YC14",
+      "name": "Terse",
+      "layers": [
+        "L05",
+        "L07",
+        "L09"
+      ],
+      "decision": "Pattern now; runtime experiment deferred",
+      "take": "Stable entity ownership, short guarded commands and committed live views.",
+      "build": "Postgres record authority and current-version checks; keep slow AI outside transactions.",
+      "skip": "Two primary stores or an actor per message without a measured need.",
+      "gate": "MIT root; selected component checks. Benchmark against SQL/jobs before runtime adoption.",
+      "first_sprint": "S5",
+      "report": "research/YC14-terse.txt",
+      "review_origin": "YC14-terse",
+      "source": "https://www.ycombinator.com/companies/useterse",
+      "evidence_status": "selected_rust_typescript_observer_source_28_component_checks_and_public_demo_read_no_cloud_audit",
+      "findings": [
+        "SB-TE-01",
+        "SB-TE-02",
+        "SB-TE-03",
+        "SB-TE-04",
+        "SB-TE-05",
+        "SB-TE-06",
+        "SB-TE-07",
+        "SB-TE-08",
+        "SB-TE-09",
+        "SB-TE-10",
+        "SB-TE-11",
+        "SB-TE-12",
+        "SB-TE-13",
+        "SB-TE-14",
+        "SB-TE-15",
+        "SB-TE-16",
+        "SB-TE-17",
+        "SB-TE-18",
+        "SB-TE-19",
+        "SB-TE-20"
+      ],
+      "implementation_status": "Not integrated by this architecture update"
+    },
+    {
+      "id": "YC15",
+      "name": "Shire Intelligence",
+      "layers": [
+        "L04",
+        "L07",
+        "L01"
+      ],
+      "decision": "Optional later observation module",
+      "take": "Observation → task and role-specific floor/attention views.",
+      "build": "Camera health, episode identity, source authority, consent and confirmation.",
+      "skip": "Continuous CCTV as prerequisite; personal ratings; claimed savings without field evidence.",
+      "gate": "Public product/selected demo frames only; no verified API/model/code.",
+      "first_sprint": "S6",
+      "report": "research/YC15-shire-intelligence.txt",
+      "review_origin": "YC15-shire-intelligence",
+      "source": "https://www.ycombinator.com/companies/shire-intelligence",
+      "evidence_status": "public_product_policy_and_selected_demo_frame_review_no_source_audit",
+      "findings": [
+        "SB-SH-01",
+        "SB-SH-02",
+        "SB-SH-03",
+        "SB-SH-04",
+        "SB-SH-05",
+        "SB-SH-06",
+        "SB-SH-07",
+        "SB-SH-08",
+        "SB-SH-09",
+        "SB-SH-10",
+        "SB-SH-11",
+        "SB-SH-12",
+        "SB-SH-13",
+        "SB-SH-14",
+        "SB-SH-15",
+        "SB-SH-16",
+        "SB-SH-17",
+        "SB-SH-18"
+      ],
+      "implementation_status": "Not integrated by this architecture update"
+    },
+    {
+      "id": "YC16",
+      "name": "Inkbox",
+      "layers": [
+        "L03",
+        "L02",
+        "L08"
+      ],
+      "decision": "Communication patterns; code reuse blocked on rights",
+      "take": "Quiet capture, selective wake-up, stable identity and conversation/audience binding.",
+      "build": "Durable journal, action authority, channel adapters and effective-permission checks.",
+      "skip": "Replying to every message, broad identity grants or copying unlicensed plugin source.",
+      "gate": "Selected plugin source reviewed; no explicit root/package reuse license found, no hosted/WhatsApp verification.",
+      "first_sprint": "S1",
+      "report": "research/YC16-inkbox.txt",
+      "review_origin": "YC16-inkbox",
+      "source": "https://www.ycombinator.com/companies/inkbox",
+      "evidence_status": "selected_hermes_plugin_source_public_docs_UI_and_20_offline_component_checks_no_backend_audit",
+      "findings": [
+        "SB-IB-01",
+        "SB-IB-02",
+        "SB-IB-03",
+        "SB-IB-04",
+        "SB-IB-05",
+        "SB-IB-06",
+        "SB-IB-07",
+        "SB-IB-08",
+        "SB-IB-09",
+        "SB-IB-10",
+        "SB-IB-11",
+        "SB-IB-12",
+        "SB-IB-13",
+        "SB-IB-14",
+        "SB-IB-15",
+        "SB-IB-16",
+        "SB-IB-17",
+        "SB-IB-18",
+        "SB-IB-19",
+        "SB-IB-20"
+      ],
+      "implementation_status": "Not integrated by this architecture update"
+    },
+    {
+      "id": "YC17",
+      "name": "Rystic",
+      "layers": [
+        "L10"
+      ],
+      "decision": "Conditional simulator procurement",
+      "take": "Stateful service substitutes, coherent worlds, fault injection and deliberate bad controls.",
+      "build": "Our WhatsApp/Gmail/domain fixtures, protected oracle and simulator fidelity matrix.",
+      "skip": "Putting simulators in production or treating examples as engine source.",
+      "gate": "MIT examples; simulator separately licensed; coverage and actual rollout unverified.",
+      "first_sprint": "S0",
+      "report": "research/YC17-rystic.txt",
+      "review_origin": "YC17-rystic",
+      "source": "https://www.ycombinator.com/companies/rystic",
+      "evidence_status": "selected_public_examples_docs_UI_and_15_offline_helper_checks_no_simulator_engine_audit",
+      "findings": [
+        "SB-RY-01",
+        "SB-RY-02",
+        "SB-RY-03",
+        "SB-RY-04",
+        "SB-RY-05",
+        "SB-RY-06",
+        "SB-RY-07",
+        "SB-RY-08",
+        "SB-RY-09",
+        "SB-RY-10",
+        "SB-RY-11",
+        "SB-RY-12",
+        "SB-RY-13",
+        "SB-RY-14",
+        "SB-RY-15",
+        "SB-RY-16",
+        "SB-RY-17",
+        "SB-RY-18",
+        "SB-RY-19",
+        "SB-RY-20"
+      ],
+      "implementation_status": "Not integrated by this architecture update"
+    },
+    {
+      "id": "YC18",
+      "name": "Definite",
+      "layers": [
+        "L05",
+        "L02",
+        "L10"
+      ],
+      "decision": "Priority architecture pattern; SDK adoption blocked",
+      "take": "Shared records, exact checks, explicit unknowns and evidence-based decisions.",
+      "build": "Domain schema, source authority, versioned checks, action gateway and reviewed correction loop.",
+      "skip": "Blind majority voting; treating signed evidence as factual truth; installing a same-name SDK.",
+      "gate": "Public docs/UI only; documented npm name resolves to unrelated insurance package; no finance SDK audit.",
+      "first_sprint": "S2",
+      "report": "research/YC18-definite.txt",
+      "review_origin": "YC18-definite",
+      "source": "https://www.ycombinator.com/companies/definite",
+      "evidence_status": "public_product_docs_illustrative_UI_and_registry_attribution_review_no_finance_source_audit",
+      "findings": [
+        "SB-DF-01",
+        "SB-DF-02",
+        "SB-DF-03",
+        "SB-DF-04",
+        "SB-DF-05",
+        "SB-DF-06",
+        "SB-DF-07",
+        "SB-DF-08",
+        "SB-DF-09",
+        "SB-DF-10",
+        "SB-DF-11",
+        "SB-DF-12",
+        "SB-DF-13",
+        "SB-DF-14",
+        "SB-DF-15",
+        "SB-DF-16",
+        "SB-DF-17",
+        "SB-DF-18",
+        "SB-DF-19",
+        "SB-DF-20"
+      ],
+      "implementation_status": "Not integrated by this architecture update"
+    }
+  ],
+  "roadmap": [
+    {
+      "id": "S0",
+      "name": "Baseline, contracts and one test world",
+      "estimate": "1 week",
+      "depends": [],
+      "owner": "Platform lead + product owner",
+      "deliver": [
+        "Locate and audit actual SupaBiz product code; reproduce the dossier’s fresh-intake failure.",
+        "Pin source, record, grant, decision, action and evaluation contracts. Inventory actual implementation versus reported behavior.",
+        "Create synthetic Consu/ForeFathers/Arkaj identities and a small stateful world; establish case manifest, clock and protected scorer."
+      ],
+      "gate": "Every observed failure has a source/run/evidence ID and responsible layer. Wrong-tenant, duplicate and wrong-record controls demonstrably fail the test oracle.",
+      "not_yet": "No framework migration, procurement or claim that prior 24/24 known cases represent general accuracy."
+    },
+    {
+      "id": "S1",
+      "name": "Reliable capture and protected evidence",
+      "estimate": "2 weeks",
+      "depends": [
+        "S0"
+      ],
+      "owner": "Integration engineer + platform lead",
+      "deliver": [
+        "Selected WhatsApp group and Gmail intake with durable journal/cursors, replay, gaps and edit/delete handling.",
+        "Authentication, business/matter grants, credential broker, runtime-role DB isolation and object access.",
+        "PDF/image/voice pipeline with bounded workers, provenance and missing-evidence states."
+      ],
+      "gate": "Crash/reconnect/expired-cursor tests preserve events; seeded cross-scope reads fail; source lag and missing coverage visible. Originals and derivatives recover coherently.",
+      "not_yet": "No autonomous external writes; no blanket desktop or microphone capture."
+    },
+    {
+      "id": "S2",
+      "name": "One complete photo-to-task workflow",
+      "estimate": "2–3 weeks",
+      "depends": [
+        "S1"
+      ],
+      "owner": "Product engineer + platform lead + restaurant manager",
+      "deliver": [
+        "Staff capture receipt, evidence drawer, manager correction, assignment, acknowledgement, reminders and verified closure.",
+        "Typed action gateway, approval binding, uncertain-send reconciliation and current-permission recheck.",
+        "Temporal-versus-existing-worker recovery spike; select one owner before live multi-day work.",
+        "Very important correction loop v1: one-off versus scoped rule, reviewed promotion and regression case."
+      ],
+      "gate": "A new unseen photo flows to a correct verified outcome through restart, correction and cancellation. No duplicate effects or unauthorized disclosures in the critical suite. Pilot starts read-only/shadow, then limited authorized actions.",
+      "not_yet": "No full ERP, generic agent marketplace, automated accounting or native messenger."
+    },
+    {
+      "id": "S3",
+      "name": "Receiving, invoices and accountant handoff",
+      "estimate": "2 weeks",
+      "depends": [
+        "S2"
+      ],
+      "owner": "Domain/integration engineer + manager/CA",
+      "deliver": [
+        "Distinct order, receipt, stocktake, movement, invoice and credit records; explicit units and source authority.",
+        "Opening-count/cutover procedure before reliable balances; split/partial receiving and duplicate allocations.",
+        "Reviewed reconciliation packet for existing accountant system; exports and remote posting are distinct."
+      ],
+      "gate": "Golden cases retain correct balances under late movements, returns, duplicate photos and corrections. Quantity/price mismatches stay visible; no unsupported GST/accounting treatment or automatic payment.",
+      "not_yet": "No demand-forecast optimization, supplier auto-pay or POS replacement."
+    },
+    {
+      "id": "S4",
+      "name": "Ramya’s existing-matter workflow in shadow mode",
+      "estimate": "2 weeks; can overlap S3 only with a separate staffed lane",
+      "depends": [
+        "S2"
+      ],
+      "owner": "Product/integration engineer + Ramya + responsible lawyer",
+      "deliver": [
+        "Reviewed matter directory and compound identity; notice/hearing/work deadline types and source locators.",
+        "Evidence-backed change packet, assignee acceptance, document readiness and controlled calendar projection.",
+        "Superseded notices invalidate stale decisions/reminders; matter grants propagate to files and replies."
+      ],
+      "gate": "Held-out notices match correct matters or abstain usefully; no unreviewed schedule-critical writes. Domain reviewer validates dates; revoked assignees cannot receive documents.",
+      "not_yet": "No legal advice, inferred filing deadlines, automatic new-matter creation or automatic client updates."
+    },
+    {
+      "id": "S5",
+      "name": "Pilot economics, hardening and measured optimization",
+      "estimate": "2 weeks per released pilot; extends if gates fail",
+      "depends": [
+        "S2"
+      ],
+      "owner": "Platform lead + QA + pilot owner",
+      "deliver": [
+        "Only evaluate workflows whose own gates passed; S3/S4 are prerequisites for inventory/legal release respectively.",
+        "Coherent restore, retention/deletion lineage, permission revocation, provider outages, quotas and unknown outcomes.",
+        "Compare model/provider and governed-procedure candidates; costs include media, review/support and idle infrastructure.",
+        "Add one API-less browser or short-video case only if it materially unblocks the pilot."
+      ],
+      "gate": "Pre-agreed quality/review/cost thresholds pass on held-out and observed pilot work, with sample sizes and failure categories. Rollback and support runbooks exercised. No measured benefit is claimed before this evidence.",
+      "not_yet": "No expanding scope to hide poor first-workflow completion."
+    },
+    {
+      "id": "S6",
+      "name": "Demand-led collaboration and device expansion",
+      "estimate": "Later; separately scoped",
+      "depends": [
+        "S5"
+      ],
+      "owner": "Product + platform",
+      "deliver": [
+        "Object-linked app chat and partner job rooms with scoped invitations and revocation.",
+        "Optional Agent Relay transport, limited desktop capture or Shire-style camera events after purpose/rights/cost validation.",
+        "Evaluate Terse or dedicated tenant environments only for a measured scaling requirement; expand connector/domain packs independently."
+      ],
+      "gate": "The added capability improves an existing workflow at acceptable total cost and passes the same authority/evidence/outcome controls.",
+      "not_yet": "No automatic agent federation or mandatory migration from WhatsApp."
+    }
+  ],
+  "packages": [
+    {
+      "owner": "01 · Join & establish trust",
+      "id": "01.1",
+      "name": "Account & sign-in",
+      "deliverable": "Maintained identity provider, sessions and recovery.",
+      "mode": "Reuse"
+    },
+    {
+      "owner": "01 · Join & establish trust",
+      "id": "01.2",
+      "name": "Business workspace",
+      "deliverable": "Organization, outlets or chambers, and verified ownership.",
+      "mode": "Build"
+    },
+    {
+      "owner": "01 · Join & establish trust",
+      "id": "01.3",
+      "name": "People & roles",
+      "deliverable": "Invitations, membership, manager/staff/CA roles and removal.",
+      "mode": "Build"
+    },
+    {
+      "owner": "01 · Join & establish trust",
+      "id": "01.4",
+      "name": "Consent & boundaries",
+      "deliverable": "Explain selected access, purposes, retention and who sees what.",
+      "mode": "Build"
+    },
+    {
+      "owner": "01 · Join & establish trust",
+      "id": "01.5",
+      "name": "Device enrollment",
+      "deliverable": "Register a phone/browser; bind optional desktop sessions to a principal.",
+      "mode": "Adapt"
+    },
+    {
+      "owner": "02 · Connect permitted sources",
+      "id": "02.1",
+      "name": "Connection broker",
+      "deliverable": "OAuth/session credentials stored outside model context.",
+      "mode": "Reuse"
+    },
+    {
+      "owner": "02 · Connect permitted sources",
+      "id": "02.2",
+      "name": "Source enrollment",
+      "deliverable": "Choose Gmail inboxes, WhatsApp groups and permitted app scopes.",
+      "mode": "Build"
+    },
+    {
+      "owner": "02 · Connect permitted sources",
+      "id": "02.3",
+      "name": "Capability map",
+      "deliverable": "Describe actual read/write/media/history limits per adapter.",
+      "mode": "Build"
+    },
+    {
+      "owner": "02 · Connect permitted sources",
+      "id": "02.4",
+      "name": "Connection health",
+      "deliverable": "Expiry, missing scopes, reconnect and coverage indicators.",
+      "mode": "Build"
+    },
+    {
+      "owner": "02 · Connect permitted sources",
+      "id": "02.5",
+      "name": "Revocation path",
+      "deliverable": "Disconnect credentials, stop jobs and invalidate affected context.",
+      "mode": "Build"
+    },
+    {
+      "owner": "03 · Understand the business",
+      "id": "03.1",
+      "name": "Entity directory",
+      "deliverable": "People, outlets, suppliers, assets, clients and matters with stable IDs.",
+      "mode": "Build"
+    },
+    {
+      "owner": "03 · Understand the business",
+      "id": "03.2",
+      "name": "Vocabulary & aliases",
+      "deliverable": "Map Hinglish names, supplier abbreviations, SKUs and matter-number variants.",
+      "mode": "Build"
+    },
+    {
+      "owner": "03 · Understand the business",
+      "id": "03.3",
+      "name": "Audience map",
+      "deliverable": "Define which group, role or matter can see each kind of evidence.",
+      "mode": "Build"
+    },
+    {
+      "owner": "03 · Understand the business",
+      "id": "03.4",
+      "name": "Source authority",
+      "deliverable": "Assign authoritative sources per field and preserve disagreements.",
+      "mode": "Build"
+    },
+    {
+      "owner": "03 · Understand the business",
+      "id": "03.5",
+      "name": "Baseline review",
+      "deliverable": "Approve opening stock, active matters and known operating constraints.",
+      "mode": "Build"
+    },
+    {
+      "owner": "04 · Define success & rules",
+      "id": "04.1",
+      "name": "Workflow pack",
+      "deliverable": "Typed states, commands, responsibilities and allowed transitions.",
+      "mode": "Build"
+    },
+    {
+      "owner": "04 · Define success & rules",
+      "id": "04.2",
+      "name": "Approval policy",
+      "deliverable": "Define allow, deny, hold and human-review rules by action and scope.",
+      "mode": "Build"
+    },
+    {
+      "owner": "04 · Define success & rules",
+      "id": "04.3",
+      "name": "SOP & knowledge versions",
+      "deliverable": "Keep draft, tested and active guidance separate.",
+      "mode": "Build"
+    },
+    {
+      "owner": "04 · Define success & rules",
+      "id": "04.4",
+      "name": "Reference scenarios",
+      "deliverable": "Protected expected outcomes, forbidden effects and representative ambiguity.",
+      "mode": "Build"
+    },
+    {
+      "owner": "04 · Define success & rules",
+      "id": "04.5",
+      "name": "Activation & cutover",
+      "deliverable": "Owner-approved pilot scope, read-only shadowing and rollback plan.",
+      "mode": "Build"
+    },
+    {
+      "owner": "05 · Receive & remember events",
+      "id": "05.1",
+      "name": "Durable inbox",
+      "deliverable": "Persist source identity, timestamps and raw event envelope.",
+      "mode": "Build"
+    },
+    {
+      "owner": "05 · Receive & remember events",
+      "id": "05.2",
+      "name": "Sync & backfill",
+      "deliverable": "Cursors, reconnect, initial sync and coverage gaps.",
+      "mode": "Adapt"
+    },
+    {
+      "owner": "05 · Receive & remember events",
+      "id": "05.3",
+      "name": "Deduplication & revisions",
+      "deliverable": "Native IDs, edits, deletes, order and replay rules.",
+      "mode": "Build"
+    },
+    {
+      "owner": "05 · Receive & remember events",
+      "id": "05.4",
+      "name": "Wake router",
+      "deliverable": "Mentions, event rules and bounded bursts select eligible work.",
+      "mode": "Build"
+    },
+    {
+      "owner": "05 · Receive & remember events",
+      "id": "05.5",
+      "name": "Media fetch & quarantine",
+      "deliverable": "Fetch references safely; isolate untrusted or unknown sources.",
+      "mode": "Build"
+    },
+    {
+      "owner": "06 · Read, hear & see evidence",
+      "id": "06.1",
+      "name": "Evidence storage",
+      "deliverable": "Original media and derived files with independent retention.",
+      "mode": "Reuse"
+    },
+    {
+      "owner": "06 · Read, hear & see evidence",
+      "id": "06.2",
+      "name": "Document/OCR pipeline",
+      "deliverable": "Isolated parsing, page regions and extraction provenance.",
+      "mode": "Reuse"
+    },
+    {
+      "owner": "06 · Read, hear & see evidence",
+      "id": "06.3",
+      "name": "Speech & language",
+      "deliverable": "Transcription with language, translation and timestamp separation.",
+      "mode": "Reuse"
+    },
+    {
+      "owner": "06 · Read, hear & see evidence",
+      "id": "06.4",
+      "name": "Vision/video adapter",
+      "deliverable": "Scoped image analysis or video sampling with coverage limits.",
+      "mode": "Reuse"
+    },
+    {
+      "owner": "06 · Read, hear & see evidence",
+      "id": "06.5",
+      "name": "Evidence locators",
+      "deliverable": "Citations, confidence limitations and useful abstention.",
+      "mode": "Build"
+    },
+    {
+      "owner": "07 · Form & check business records",
+      "id": "07.1",
+      "name": "Typed records",
+      "deliverable": "Issues, stock movements, invoices, matters and tasks with schemas.",
+      "mode": "Build"
+    },
+    {
+      "owner": "07 · Form & check business records",
+      "id": "07.2",
+      "name": "Entity resolution",
+      "deliverable": "Match IDs, aliases and context without merging ambiguous entities.",
+      "mode": "Build"
+    },
+    {
+      "owner": "07 · Form & check business records",
+      "id": "07.3",
+      "name": "Deterministic checks",
+      "deliverable": "Exact units, quantities, duplicate references and rule versions.",
+      "mode": "Build"
+    },
+    {
+      "owner": "07 · Form & check business records",
+      "id": "07.4",
+      "name": "Record admission",
+      "deliverable": "Version-checked transaction, revision history and outbox.",
+      "mode": "Build"
+    },
+    {
+      "owner": "07 · Form & check business records",
+      "id": "07.5",
+      "name": "Scoped retrieval views",
+      "deliverable": "Search/memory projections with provenance and invalidation.",
+      "mode": "Adapt"
+    },
+    {
+      "owner": "08 · Plan & assign the work",
+      "id": "08.1",
+      "name": "Bounded agent loop",
+      "deliverable": "Context selection, tool schemas, budgets and checkpoints.",
+      "mode": "Adapt"
+    },
+    {
+      "owner": "08 · Plan & assign the work",
+      "id": "08.2",
+      "name": "Durable workflow owner",
+      "deliverable": "Persist states, timers and recoverable steps.",
+      "mode": "Reuse"
+    },
+    {
+      "owner": "08 · Plan & assign the work",
+      "id": "08.3",
+      "name": "Assignment & acknowledgement",
+      "deliverable": "Responsible person, acceptance and reassignments.",
+      "mode": "Build"
+    },
+    {
+      "owner": "08 · Plan & assign the work",
+      "id": "08.4",
+      "name": "Deadline & escalation",
+      "deliverable": "Durable reminders, blockers and escalation recipients.",
+      "mode": "Build"
+    },
+    {
+      "owner": "08 · Plan & assign the work",
+      "id": "08.5",
+      "name": "Role-specific work views",
+      "deliverable": "Staff task list, manager attention queue and owner summary.",
+      "mode": "Build"
+    },
+    {
+      "owner": "09 · Authorize the exact action",
+      "id": "09.1",
+      "name": "Current permission check",
+      "deliverable": "Principal, resource, audience and destination checked at dispatch.",
+      "mode": "Build"
+    },
+    {
+      "owner": "09 · Authorize the exact action",
+      "id": "09.2",
+      "name": "Intent & approval digest",
+      "deliverable": "Bind decision to exact action, record revision and policy version.",
+      "mode": "Build"
+    },
+    {
+      "owner": "09 · Authorize the exact action",
+      "id": "09.3",
+      "name": "Decision inbox",
+      "deliverable": "Allow/deny/hold/needs-context with evidence and changed fields.",
+      "mode": "Build"
+    },
+    {
+      "owner": "09 · Authorize the exact action",
+      "id": "09.4",
+      "name": "Budget & limit reservation",
+      "deliverable": "Reserve allowed spend/quotas before concurrent execution.",
+      "mode": "Build"
+    },
+    {
+      "owner": "09 · Authorize the exact action",
+      "id": "09.5",
+      "name": "Expiry & revocation",
+      "deliverable": "Expire stale approval and re-review changed inputs.",
+      "mode": "Build"
+    },
+    {
+      "owner": "10 · Execute through scoped tools",
+      "id": "10.1",
+      "name": "Tool gateway",
+      "deliverable": "Typed input/output, adapter version and scoped credential injection.",
+      "mode": "Adapt"
+    },
+    {
+      "owner": "10 · Execute through scoped tools",
+      "id": "10.2",
+      "name": "Effect ledger",
+      "deliverable": "Idempotency key, attempt identity and before/after state.",
+      "mode": "Build"
+    },
+    {
+      "owner": "10 · Execute through scoped tools",
+      "id": "10.3",
+      "name": "API & browser execution",
+      "deliverable": "Restricted worker, egress, destinations and browser handoff.",
+      "mode": "Reuse"
+    },
+    {
+      "owner": "10 · Execute through scoped tools",
+      "id": "10.4",
+      "name": "Retry & cancellation",
+      "deliverable": "Classify pre/post-commit errors; stop the exact worker.",
+      "mode": "Build"
+    },
+    {
+      "owner": "10 · Execute through scoped tools",
+      "id": "10.5",
+      "name": "Delivery & delegation",
+      "deliverable": "Audience-safe notifications; job-scoped agent handoff later.",
+      "mode": "Adapt"
+    },
+    {
+      "owner": "11 · Verify, reconcile & close",
+      "id": "11.1",
+      "name": "Outcome observer",
+      "deliverable": "Read back provider state or collect domain-specific completion evidence.",
+      "mode": "Build"
+    },
+    {
+      "owner": "11 · Verify, reconcile & close",
+      "id": "11.2",
+      "name": "Reconciliation queue",
+      "deliverable": "Resolve unknown outcomes, missing receipts and contradictions.",
+      "mode": "Build"
+    },
+    {
+      "owner": "11 · Verify, reconcile & close",
+      "id": "11.3",
+      "name": "Business closure rules",
+      "deliverable": "Define valid proof and who can accept the completed work.",
+      "mode": "Build"
+    },
+    {
+      "owner": "11 · Verify, reconcile & close",
+      "id": "11.4",
+      "name": "Audit & projections",
+      "deliverable": "Append result history and refresh scoped dashboards/search.",
+      "mode": "Build"
+    },
+    {
+      "owner": "11 · Verify, reconcile & close",
+      "id": "11.5",
+      "name": "Owner feedback",
+      "deliverable": "Show outcome, evidence, remaining blockers and meaningful summaries.",
+      "mode": "Build"
+    },
+    {
+      "owner": "12 · Learn, evaluate & release",
+      "id": "12.1",
+      "name": "Correction capture",
+      "deliverable": "Preserve original evidence, old/new values and reason.",
+      "mode": "Build"
+    },
+    {
+      "owner": "12 · Learn, evaluate & release",
+      "id": "12.2",
+      "name": "Scoped proposal",
+      "deliverable": "Separate one-off fixes from reusable mapping, memory or procedure changes.",
+      "mode": "Build"
+    },
+    {
+      "owner": "12 · Learn, evaluate & release",
+      "id": "12.3",
+      "name": "Regression & held-out worlds",
+      "deliverable": "Versioned stateful cases, forbidden effects and protected answers.",
+      "mode": "Build"
+    },
+    {
+      "owner": "12 · Learn, evaluate & release",
+      "id": "12.4",
+      "name": "Release comparison",
+      "deliverable": "Quality, coverage, human effort, latency and full workflow cost.",
+      "mode": "Build"
+    },
+    {
+      "owner": "12 · Learn, evaluate & release",
+      "id": "12.5",
+      "name": "Versioned rollout",
+      "deliverable": "Review, activate, canary, observe and roll back a change.",
+      "mode": "Build"
+    },
+    {
+      "owner": "F1 · Security & data lifecycle",
+      "id": "F1.1",
+      "name": "Tenant isolation & policy enforcement",
+      "mode": "Build",
+      "deliverable": "Runtime-role tests and audience-scoped data access."
+    },
+    {
+      "owner": "F1 · Security & data lifecycle",
+      "id": "F1.2",
+      "name": "Secrets & cryptographic primitives",
+      "mode": "Reuse",
+      "deliverable": "Maintained secrets/encryption services with scoped access."
+    },
+    {
+      "owner": "F1 · Security & data lifecycle",
+      "id": "F1.3",
+      "name": "Retention, deletion & export",
+      "mode": "Build",
+      "deliverable": "Artifact-specific lifecycle and invalidation, not just a UI delete."
+    },
+    {
+      "owner": "F1 · Security & data lifecycle",
+      "id": "F1.4",
+      "name": "Audit & incident response",
+      "mode": "Build",
+      "deliverable": "Protected decision/effect history and an operational response plan."
+    },
+    {
+      "owner": "F2 · Cloud & operational continuity",
+      "id": "F2.1",
+      "name": "Database & object storage",
+      "mode": "Reuse",
+      "deliverable": "Managed persistence, capacity limits and recovery."
+    },
+    {
+      "owner": "F2 · Cloud & operational continuity",
+      "id": "F2.2",
+      "name": "Worker leases & queues",
+      "mode": "Adapt",
+      "deliverable": "Bounded concurrency, cancellation and retry ownership."
+    },
+    {
+      "owner": "F2 · Cloud & operational continuity",
+      "id": "F2.3",
+      "name": "Health, quotas & cost telemetry",
+      "mode": "Build",
+      "deliverable": "Per-business source health, resource limits and cost attribution."
+    },
+    {
+      "owner": "F2 · Cloud & operational continuity",
+      "id": "F2.4",
+      "name": "Backup & restore drills",
+      "mode": "Adapt",
+      "deliverable": "Demonstrated restore and reconciliation procedures."
+    },
+    {
+      "owner": "F3 · Evaluation & observability",
+      "id": "F3.1",
+      "name": "Portable evaluation runner contract",
+      "mode": "Build",
+      "deliverable": "One harness contract; optional Hue/Rystic adapters."
+    },
+    {
+      "owner": "F3 · Evaluation & observability",
+      "id": "F3.2",
+      "name": "Isolated worlds & protected oracle",
+      "mode": "Build",
+      "deliverable": "Independent expected state and forbidden-effect checking."
+    },
+    {
+      "owner": "F3 · Evaluation & observability",
+      "id": "F3.3",
+      "name": "Tracing and evidence tooling",
+      "mode": "Reuse",
+      "deliverable": "Redacted debugging signals distinct from business audit."
+    },
+    {
+      "owner": "F3 · Evaluation & observability",
+      "id": "F3.4",
+      "name": "Metrics & release gates",
+      "mode": "Build",
+      "deliverable": "Outcome, coverage, human review and total workflow cost by risk slice."
+    },
+    {
+      "owner": "F4 · Engineering & change control",
+      "id": "F4.1",
+      "name": "CI and test execution",
+      "mode": "Reuse",
+      "deliverable": "Established automated checks and reproducible builds."
+    },
+    {
+      "owner": "F4 · Engineering & change control",
+      "id": "F4.2",
+      "name": "Schema & migration contracts",
+      "mode": "Build",
+      "deliverable": "Versioned APIs/events/records with forward and recovery paths."
+    },
+    {
+      "owner": "F4 · Engineering & change control",
+      "id": "F4.3",
+      "name": "Dependency identity & license gates",
+      "mode": "Build",
+      "deliverable": "Pinned, attributable packages and explicit adoption experiments."
+    },
+    {
+      "owner": "F4 · Engineering & change control",
+      "id": "F4.4",
+      "name": "Release & rollback tooling",
+      "mode": "Adapt",
+      "deliverable": "Staged deployment, rollback and operator documentation."
+    }
+  ],
+  "counts": {
+    "stations": 12,
+    "foundations": 4,
+    "packages": 76,
+    "Build": 55,
+    "Reuse": 12,
+    "Adapt": 9
+  }
+}

@@ -1,0 +1,9 @@
+# SupaBiz factory map
+
+- [Human map](index.html)
+- [Complete text](llms-full.txt)
+- [Canonical JSON](factory.json)
+- [Vector diagram](factory.svg)
+- [Detailed architecture](../v4/)
+
+This is a proposed lifecycle and work breakdown, not a claim that every vendor implements all steps.
