@@ -20,3 +20,9 @@ This repository contains generated static reference files, not customer credenti
 New foundation: [Human blueprint](https://vamsi-paltribe.github.io/supabiz-system-atlas/gofathom/) · [Full AI text](gofathom/llms-full.txt) · [Canonical JSON](gofathom/blueprint.json) · [Portable review pack](gofathom/review-pack.zip).
 
 This additive foundation retains the 12-stage funnel and adds validation-led product selection, explicit instruction contracts, conditional runtime decisions and a gated roadmap. All historical version directories and the original factory remain unchanged. Decisions are proposed; no product runtime or customer improvement is certified.
+
+## GoFathom Foundation 1.1 — decision debate
+
+[Refined blueprint](https://vamsi-paltribe.github.io/supabiz-system-atlas/gofathom-1.1/) · [Decision debate](gofathom-1.1/debate.json) · [Full AI text](gofathom-1.1/llms-full.txt) · [Review pack](gofathom-1.1/review-pack.zip).
+
+A three-round Claude/Codex documentation review challenged all 12 decisions. This edition adds eight enforcement mechanisms, field-authority and authorized-reliance contracts, an unfilled pinned-code audit, declarative failure cases and separate vendor/customer/combined cost views. The 12-stage funnel and Foundation 1.0 remain intact. AI agreement does not establish runtime correctness or customer outcomes.

@@ -1,0 +1,24 @@
+SUPABIZ CROSS-PROJECT SYNTHESIS — YC07–YC14
+17 October 2026 | Derived from the saved reviews, not a new vendor audit
+
+The eight projects are Sidekick, Marble, Agent Relay, Glen, Decawork, GrepAI, herdr and Terse. Their central objects differ: frontline report, operational transaction, inter-agent message, organizational knowledge, proposed action, reusable procedure, running session and persistent shared object respectively. These are complementary responsibilities; they are not eight interchangeable agent frameworks or eight mandatory dependencies.
+
+1. Conversation is an entry point; structured, accountable work is the intended destination. A report should become a record, an owner and a verified outcome. Sidekick informs capture and follow-up, Marble supplies domain transactions, and GrepAI organizes repeatable work.
+
+2. Separate knowledge, authoritative business records, execution state and external outcomes. Glen, herdr and Terse address different forms of continuity. Calling all of them memory hides permission, durability and truth boundaries. A phone reconnect must recover the current run and business state rather than repeat an instruction.
+
+3. Separate receipt, delivery, observation, approval and verified completion. A Relay delivery acknowledgement cannot prove a supplier order exists. A recalled memory cannot establish current truth. A Decawork-style approval cannot establish successful execution. An idle terminal cannot prove completion. Saved actor state cannot establish an external provider's outcome.
+
+4. Make exceptions and decisions the manager interface. Combine simple staff capture, role-specific work queues, clear reason/evidence cards and a change history. Reading a card must not approve it or resolve its underlying work. Owners need cross-business scope labels and a trustworthy next action.
+
+5. Improvement is several mechanisms: reviewed knowledge, better instructions, model selection and evaluated executable procedures. It is not automatically model retraining. Promote a scoped candidate only after tests and authorization; preserve version and rollback. Business facts must still be retrieved and permissions rechecked on every run.
+
+6. Borrow responsibilities before adopting platforms. Begin with identity, evidence, authoritative records, durable jobs and controlled effects. Place useful patterns behind small contracts. Add specialist runtime infrastructure only when equal-correctness experiments show a worthwhile operational or performance advantage.
+
+EVIDENCE CAUTION
+Some repetition reflects our consistent SupaBiz questions and recommendations, not independently observed convergence in vendor implementations. Sidekick, Marble and Decawork were public-product reviews; other reviews exposed selected clients or source paths with explicit limitations. No complete application audit was claimed. No shared performance percentage or all-vendor guarantee follows from these reviews.
+
+EXAMPLE
+Varun's outcome is a reconciled delivery with the correct accepted quantity and invoice exception. Ramya's outcome is a current authorized assignment with correct documents and deadline. These outcomes determine record schemas, permission checks and acceptance tests; they should not be defined by which vendor tool happens to be available.
+
+Source reports: YC07-sidekick/review.txt; YC08-marble/review.txt; YC09-agent-relay/review.txt; YC10-glen/review.txt; YC11-decawork/review.txt; YC12-grepai/review.txt; YC13-herdr/review.txt; YC14-terse/review.txt.

@@ -1,0 +1,20 @@
+{
+  "owner": "Unassigned — must be named before live pilot",
+  "supported": [
+    "Registered job states and legal transitions",
+    "Leases with fencing generations",
+    "Declared bounded timer types per workflow",
+    "Classified bounded retry and dead-letter/review outcome",
+    "Transactional outbox and deduplicating consumers",
+    "Scoped cancellation and dispatch fencing",
+    "Pinned supported workflow definition per in-flight job"
+  ],
+  "review_triggers": [
+    "Child orchestration or complex signal graphs",
+    "In-flight definition migration needs",
+    "Generic compensation framework",
+    "Recovery/cancellation incidents or growing operational toil"
+  ],
+  "review_cadence": "At phase exits and whenever a trigger occurs; no quarterly-only delay.",
+  "boundary": "Choose the simplest implementation that passes the same recovery/cancellation/version suite. Review does not automatically select Temporal. Domain effect reconciliation remains mandatory."
+}

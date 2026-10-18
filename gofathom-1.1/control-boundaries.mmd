@@ -1,0 +1,15 @@
+flowchart TB
+ Inventory[Independent inventory with provenance] --> Coverage[Compare identity and revisions]
+ Journal[Received source journal] --> Coverage
+ Coverage --> Gap[Known delta or unknown denominator]
+ Journal --> Accounting[Processing disposition accounting]
+ Accounting --> P[Pending / excluded / quarantined / failed / assessed]
+ P --> Many[Zero or many candidates; reasons for zero]
+ P --> Age[Aged pending = processing gap]
+ Grant[Current policy / grant / cancel epoch] --> Claim[Fenced local claim]
+ Claim --> Marker[Durable transmit-start marker]
+ Stop[Scope stop] --> Grant
+ Marker --> Remote[Possible external transmission]
+ Remote --> Reconcile[Receipt or reconciliation]
+ Reconcile --> Result[Verified outcome or unknown]
+ Result --> Comp[Compensation needs a new authorization]

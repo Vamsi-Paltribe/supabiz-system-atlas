@@ -1,0 +1,144 @@
+{
+  "summary": {
+    "status": "Three completed critique/rebuttal rounds; no remaining blocking objection from Claude, with explicit Codex qualifications adopted.",
+    "reviewer_scope": "Claude read canonical JSON core sections at commit 09bd2ac, critique.txt and the repaired synthesis. It inspected the 18 project entries and 76 packages structurally, sampled stage examples/comparisons, and did not re-read all project reports, HTML, diagrams, ZIP or text/JSON parity. This is a document review, not a code audit.",
+    "rounds": [
+      {
+        "round": 1,
+        "purpose": "All twelve decisions challenged against stages/contracts/roadmap/cost."
+      },
+      {
+        "round": 2,
+        "purpose": "Codex rebutted invariants, cancellation, source scope, risk and measurement claims; Claude revised recommendations."
+      },
+      {
+        "round": 3,
+        "purpose": "Final qualifications on processing gaps, conservative transmit markers, harmful restrictive instructions, risk assurance and attested values; Claude accepted them."
+      }
+    ],
+    "qualified_or_rejected": [
+      "One event → one candidate: replaced with revision accounting and many-to-many evidence.",
+      "After claim means too late: replaced with fenced before-send marker, conservative unknown outcomes and verified cancellation.",
+      "Restrictive instructions are safe: rejected; delay, urgency and consequence remain part of risk.",
+      "Canaries alone establish rare-event recall: rejected; known-path tests and natural observations are reported separately.",
+      "Natural data alone is mandatory/sufficient for reliance: replaced with an authorized, risk-specific assurance case.",
+      "Rank or specificity silently overrides a hold: rejected; explicit override capability/target required.",
+      "Opening evidence proves review quality: rejected; use outcome-oriented review exercises and spot checks.",
+      "Every linked session has identical scope, or Gmail label selection is provider-enforced: unverified assumptions; inspect each adapter.",
+      "No electronic API means no usable evidence: qualified; dated authorized scans/counts/attestations can support limited checks.",
+      "A paid commitment must precede discovery: rejected; keep bounded discovery separate from demand and reliance gates."
+    ],
+    "next_evidence": "Actual code audit, permitted source access and real workflow observation. Another AI review cannot substitute for these.",
+    "version_applied": "Foundation 1.1 incorporates the Codex qualifications and final mechanism additions. Foundation 1.0 stays unchanged."
+  },
+  "decisions": [
+    {
+      "id": "GF-D01",
+      "delivery_gate": "Pilot / G1",
+      "disposition": "Amend",
+      "claude_objection": "Router-declined messages can disappear from every board lane.",
+      "codex_response": "Accept complete intake accounting; reject one message → one candidate and terminal-only counts.",
+      "accepted_change": "Account for each source revision and workflow evaluation as pending, excluded with reason, quarantined, failed or assessed. Assessed events link to zero or more candidates; candidate matching and work status remain separate. Audit exclusions and replay changed rules.",
+      "acceptance_or_revisit_test": "Reconcile a fixed journal window including pending/failed items. One message creates several candidates; several messages support one candidate; an excluded critical item is found by independent review."
+    },
+    {
+      "id": "GF-D02",
+      "delivery_gate": "Pilot / G1–G2",
+      "disposition": "Amend",
+      "claude_objection": "The authority system is named in prose, but external edits can invalidate pending decisions.",
+      "codex_response": "Accept C17; observation is bounded by actual connector capability, not a promised universal one-sync guarantee.",
+      "accepted_change": "Bind each authoritative field to a system, source identity/version or hash, read method, observation window, write mode and cutover. Revalidate the bound revision before admission/writeback; external changes stale dependent checks.",
+      "acceptance_or_revisit_test": "Edit a source while review is pending; require re-review. After cutover, conflicting edits to the former authority raise a dual-write exception."
+    },
+    {
+      "id": "GF-D03",
+      "delivery_gate": "Before processing untrusted assets",
+      "disposition": "Retain with precise boundaries",
+      "claude_objection": "An isolated parser may still hold broad database credentials and unrestricted egress.",
+      "codex_response": "Accept worker profiles; differentiate untrusted parsers from trusted ingestion/effect services. Ordinary environment access is not itself a security failure.",
+      "accepted_change": "Untrusted parser gets only the scoped asset, no production secrets or direct database access, restricted filesystem/egress, resource limits and a validated derivative-output API. Trusted workers receive separate least-privilege profiles.",
+      "acceptance_or_revisit_test": "Deny forbidden socket/filesystem/credential access; bound resource exhaustion; allow legitimate derivative submission and inspect quarantined failures."
+    },
+    {
+      "id": "GF-D04",
+      "delivery_gate": "Discovery / G0",
+      "disposition": "Amend",
+      "claude_objection": "A module name can be mistaken for tested implementation; evidence labels are templated.",
+      "codex_response": "Accept commit-pinned audit rows and divergent entrypoints. Historical par/CC-224 cases are reproduction targets, not asserted fail/pass results.",
+      "accepted_change": "Audit every H/C responsibility with commit, code path or explicit absence, entrypoints, known divergent paths and test artifacts. Distinguish not audited, absent, partial, present-untested and tested-at-commit.",
+      "acceptance_or_revisit_test": "Locate code and permitted fixtures; reproduce historical failures if available. A tested status requires pinned test evidence; the documentation template remains unfilled until then."
+    },
+    {
+      "id": "GF-D05",
+      "delivery_gate": "Pilot / G1; review before runner expansion",
+      "disposition": "Amend",
+      "claude_objection": "A simple runner can grow into an unowned workflow engine.",
+      "codex_response": "Accept a charter and owner; reject an arbitrary one-timer cap, quarterly-only review and automatic Temporal adoption.",
+      "accepted_change": "Register job states, timer types and transitions. Support leases/fences, classified retries, outbox and scoped cancellation. Complex signal graphs, child orchestration or in-flight definition migration trigger a comparative engine spike. Domain effect reconciliation remains required.",
+      "acceptance_or_revisit_test": "Test crash, stale lease, timer, cancellation and upgrade recovery. Review complexity at phase exit and on new primitives or incidents; compare engineering and operating effort."
+    },
+    {
+      "id": "GF-D06",
+      "delivery_gate": "Before any live source enrollment",
+      "disposition": "Amend",
+      "claude_objection": "Selected groups may be a filter rather than a restriction at the provider.",
+      "codex_response": "Accept source-enforced versus application-filtered distinctions; inspect the actual adapter instead of assuming all sessions or Gmail labels have identical scopes.",
+      "accepted_change": "Disclose provider-visible scope and selected processing scope separately. Minimize nonselected content before durable capture, including controllable SDK cache/log/crash paths. Assess dedicated number/host, account risk and explicit exposure limits; reject incompatible deployments.",
+      "acceptance_or_revisit_test": "Inject nonselected content in a controlled test and inspect journal, media, traces, cache and crash artifacts. State measured exclusions and unavoidable session exposure; do not promise zero traces without evidence."
+    },
+    {
+      "id": "GF-D07",
+      "delivery_gate": "Pilot / chosen connectors",
+      "disposition": "Retain with operational risk checks",
+      "claude_objection": "License checks miss protocol changes, provider terms and account restrictions.",
+      "codex_response": "Accept an owner and fallback for external-service risks. Import success does not prove continuous capture.",
+      "accepted_change": "Dependency records name provenance, rights, capabilities, provider/account constraints, failure owner and fallback mode with actual freshness limits. Only adopt what the chosen workflow needs.",
+      "acceptance_or_revisit_test": "Exercise selected connector recovery and a permitted import fallback; label manual/delayed operation and gaps rather than presenting it as live continuity."
+    },
+    {
+      "id": "GF-D08",
+      "delivery_gate": "Before first external action / G3",
+      "disposition": "Amend",
+      "claude_objection": "Revocation, cancellation and a kill switch are underspecified once a request is in flight.",
+      "codex_response": "Accept C06 policy/grant/epoch and cancellation evidence. Reject after claim = too late and atomic revocation across external systems.",
+      "accepted_change": "Serialize local claims and durable before-send transmit markers with current grant/cancel epochs. A scope stop fences later boundaries. The marker means possible transmission, not success; earlier attempts may need reconciliation. Before-send prevention requires marker/fencing invariants on every path. Compensation is a new authorized action.",
+      "acceptance_or_revisit_test": "Inject revocation/cancel before claim, between claim/send, during send, after remote commit and after lost response. UI only claims prevented/cancelled/completed when evidence warrants it; otherwise unknown."
+    },
+    {
+      "id": "GF-D09",
+      "delivery_gate": "Workflow selection / G0",
+      "disposition": "Amend",
+      "claude_objection": "A blanket text-first launch could exclude evidence needed by the chosen photo/voice workflow.",
+      "codex_response": "Accept required modalities per workflow; native-text-first is an extraction preference, not a product restriction. Video remains conditional on need.",
+      "accepted_change": "C16 records required input modalities, language/noise conditions and citation locator types. Use native structure when suitable; process required images/voice from the first selected slice.",
+      "acceptance_or_revisit_test": "Score real permitted media by risk slice, wrong extraction and abstention. Show page/region/time locators where applicable and unsupported coverage explicitly."
+    },
+    {
+      "id": "GF-D10",
+      "delivery_gate": "Pilot / G2; controls before rule activation",
+      "disposition": "Amend",
+      "claude_objection": "Instruction conflict, override, expiry and change-class authority are not explicit.",
+      "codex_response": "Accept semantic fields; reject rank-plus-specificity as a universal override rule and shadow activation as sufficient proof for every high-risk change.",
+      "accepted_change": "Use policy-defined override capabilities, explicit target/supersedes links and scope checks. Hold incompatible unresolved rules. Define timezone/boundary/condition/release authority. Confirmation policy depends on target/risk; ambiguous or consequential changes require exact review.",
+      "acceptance_or_revisit_test": "Cover owner hold versus subordinate release, ambiguous Friday, count-time thresholds, incompatible overlaps and action-in-flight supersession. Use replay/shadow plus protected future-case tests when risk requires."
+    },
+    {
+      "id": "GF-D11",
+      "delivery_gate": "Pilot / G1 and every reliance expansion",
+      "disposition": "Amend",
+      "claude_objection": "Intake cannot be the sole source of its own eligible-event denominator.",
+      "codex_response": "Accept independent inventories with provenance and known shared failure modes. Reject canaries as the only way to estimate rare-event recall or proof of natural-event recall.",
+      "accepted_change": "C10 separates source observation basis, known gaps and processing coverage. C16 identifies independent inventory/eligibility adjudication and denominator status. Report labeled real-event results, synthetic/canary results and unknown unseen coverage separately. Record risk-slice reliance in C18; combine appropriately limited evidence in an authorized assurance case rather than requiring or trusting one evidence type universally.",
+      "acceptance_or_revisit_test": "Drop an event before intake and before routing; the comparison must detect or declare the unobservable gap. Live canaries require explicit consent and isolation from consequential workflows."
+    },
+    {
+      "id": "GF-D12",
+      "delivery_gate": "Human roles when needed; automated delegation later",
+      "disposition": "Retain with clarification",
+      "claude_objection": "A CA or authorized operator may serve several businesses before agent exchange exists.",
+      "codex_response": "Accept scoped human roles now; tenant boundaries alone are insufficient and cache clearing is not an authorization mechanism.",
+      "accepted_change": "Give principals independent business/matter grants and explicit active context. Key caches by tenant, principal/grant revision and audience; recheck on reads. Cross-business disclosure is a separately authorized action, including for a common owner.",
+      "acceptance_or_revisit_test": "Switch businesses, revoke one grant and reuse a stale context/cache key; no other business evidence is disclosed. Add automated agent exchange only after a repeated authorized workflow justifies it."
+    }
+  ]
+}

@@ -1,0 +1,8 @@
+# GoFathom
+
+Start with [Full blueprint](llms-full.txt) or [Structured blueprint](blueprint.json).
+[Critique protocol](critique.txt)
+[Historical SupaBiz atlas](../v4/llms-full.txt)
+[Original 18 reviews](../research/)
+
+No product implementation or measured improvement is implied. Relative references resolve against https://vamsi-paltribe.github.io/supabiz-system-atlas/gofathom-1.1/.

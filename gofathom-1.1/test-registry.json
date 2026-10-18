@@ -1,0 +1,181 @@
+[
+  {
+    "id": "FT01",
+    "title": "Captured-event conservation",
+    "contracts": [
+      "C01",
+      "C03",
+      "C10"
+    ],
+    "gate": "G1",
+    "stimulus": "Replay one source revision twice; leave another pending; quarantine one; exclude one with a rule; let one message create three candidates and a burst support one candidate.",
+    "expected": "Captured source revisions reconcile once across pending/excluded/quarantined/failed/assessed states. Candidate links are many-to-many; no excluded event disappears from audit.",
+    "execution_status": "Not executed: declarative test specification",
+    "code_ref": null,
+    "run_evidence": null
+  },
+  {
+    "id": "FT02",
+    "title": "Independent denominator and canary limits",
+    "contracts": [
+      "C10",
+      "C13",
+      "C16"
+    ],
+    "gate": "G1",
+    "stimulus": "Remove an eligible event before journal capture and another at routing; compare a separately sourced inventory. Include shared-failure and unknown-inventory variants.",
+    "expected": "Report observed omission or unknown denominator. Labeled real-event recall and known canary detection are separate; processing reconciliation alone never proves source completeness.",
+    "execution_status": "Not executed: declarative test specification",
+    "code_ref": null,
+    "run_evidence": null
+  },
+  {
+    "id": "FT03",
+    "title": "Authority revision conflict",
+    "contracts": [
+      "C04",
+      "C11",
+      "C17"
+    ],
+    "gate": "G2",
+    "stimulus": "Change an external field after a check is proposed and before admission/writeback; edit the former authority after cutover.",
+    "expected": "Stale bound check cannot authorize overwriting the new value. Re-read/review or reconcile; dual-authority edits raise a visible exception.",
+    "execution_status": "Not executed: declarative test specification",
+    "code_ref": null,
+    "run_evidence": null
+  },
+  {
+    "id": "FT04",
+    "title": "Revoke and cancel at each boundary",
+    "contracts": [
+      "C05",
+      "C06",
+      "C08"
+    ],
+    "gate": "G3",
+    "stimulus": "Revoke before claim, after claim/before send, during send, after remote commit and after lost receipt; race two dispatchers.",
+    "expected": "No claim after committed scope stop. Earlier claims receive truthful prevented/requested/verified-cancelled/completed/unknown labels. At most one valid local claim per intent generation; provider effects reconciled.",
+    "execution_status": "Not executed: declarative test specification",
+    "code_ref": null,
+    "run_evidence": null
+  },
+  {
+    "id": "FT05",
+    "title": "Unknown effect and compensation",
+    "contracts": [
+      "C06",
+      "C11"
+    ],
+    "gate": "G3",
+    "stimulus": "Provider commits then times out; a retry arrives; later compensation is requested.",
+    "expected": "No blind duplicate action; reconcile first. Compensation requires its own current authorization and receipt. Unknown is never silently relabeled failed or cancelled.",
+    "execution_status": "Not executed: declarative test specification",
+    "code_ref": null,
+    "run_evidence": null
+  },
+  {
+    "id": "FT06",
+    "title": "Instruction semantics and override",
+    "contracts": [
+      "C05",
+      "C12",
+      "C15"
+    ],
+    "gate": "G2",
+    "stimulus": "Apply a supplier hold; propose narrower subordinate release; use “until Friday” without boundary; supersede after dispatch claim.",
+    "expected": "Unauthorized release and ambiguous boundary are held. Explicit authorized overrides trace their target; prospective rules do not undo an already emitted effect. A model cannot invent a preauthorized instruction policy entry; affected-work preview names its coverage limits.",
+    "execution_status": "Not executed: declarative test specification",
+    "code_ref": null,
+    "run_evidence": null
+  },
+  {
+    "id": "FT07",
+    "title": "Review backlog and exact confirmation",
+    "contracts": [
+      "C03",
+      "C07",
+      "C16"
+    ],
+    "gate": "G2",
+    "stimulus": "Exceed planned review capacity; submit two similar proposals; issue an ambiguous “OK”.",
+    "expected": "Backlog and age remain visible, escalation has an owner and nothing auto-accepts. Ambiguous confirmation binds to no proposal until clarified. Critical work is not hidden by budget caps.",
+    "execution_status": "Not executed: declarative test specification",
+    "code_ref": null,
+    "run_evidence": null
+  },
+  {
+    "id": "FT08",
+    "title": "Runner charter and upgrade",
+    "contracts": [
+      "C06",
+      "C08"
+    ],
+    "gate": "G1 / G3",
+    "stimulus": "Crash after lease claim; run a stale worker; restart a timer; deploy an unknown job definition; request a new unsupported orchestration primitive.",
+    "expected": "Fence stale worker, preserve bounded timer/retry progress, hold unsupported definitions and trigger a runner/engine review. Reconcile effect uncertainty outside retry guessing.",
+    "execution_status": "Not executed: declarative test specification",
+    "code_ref": null,
+    "run_evidence": null
+  },
+  {
+    "id": "FT09",
+    "title": "Parser boundary and source minimization",
+    "contracts": [
+      "C01",
+      "C02",
+      "C05"
+    ],
+    "gate": "Before source/media activation",
+    "stimulus": "Attempt prohibited file/network access and resource exhaustion; inject nonselected chat content into a controlled adapter fixture; inspect storage/log/cache/crash paths.",
+    "expected": "Permitted derivative still works; prohibited access is denied. Document actual prefilter exposure and measured persistence. Reject a deployment whose agreed privacy boundary cannot be met.",
+    "execution_status": "Not executed: declarative test specification",
+    "code_ref": null,
+    "run_evidence": null
+  },
+  {
+    "id": "FT10",
+    "title": "Frozen experiment and model qualification",
+    "contracts": [
+      "C09",
+      "C13",
+      "C16",
+      "C18"
+    ],
+    "gate": "G1 / each release",
+    "stimulus": "Change eligibility after results, swap model/parser, use unavailable observer and expose oracle answers to acting model.",
+    "expected": "Original results remain; amended experiment has new digest/window. Model swap reruns qualified cases; unobservable episode is ungradable; oracle leakage invalidates evaluation. A changed or expired reliance decision prevents expansion of the allowed automation scope.",
+    "execution_status": "Not executed: declarative test specification",
+    "code_ref": null,
+    "run_evidence": null
+  },
+  {
+    "id": "FT11",
+    "title": "Human multi-business isolation",
+    "contracts": [
+      "C05",
+      "C10",
+      "C14"
+    ],
+    "gate": "When role enabled",
+    "stimulus": "A CA/operator switches businesses, reuses a cached result and then loses one grant; try sharing under a common owner.",
+    "expected": "Active context and current scoped grants govern reads/exports; cache key and invalidation cannot substitute for authorization. Cross-business disclosure needs an explicit allowed purpose.",
+    "execution_status": "Not executed: declarative test specification",
+    "code_ref": null,
+    "run_evidence": null
+  },
+  {
+    "id": "FT12",
+    "title": "Required modalities and citations",
+    "contracts": [
+      "C02",
+      "C03",
+      "C16"
+    ],
+    "gate": "Chosen pilot / G1",
+    "stimulus": "Feed permitted blurred photo, noisy Hinglish audio, text-only email and sampled video as required by the chosen workflow.",
+    "expected": "Return supported cited candidates or visible uncertainty; modality coverage and wrong-extraction/abstention reported per risk slice; no unsupported hidden-condition inference.",
+    "execution_status": "Not executed: declarative test specification",
+    "code_ref": null,
+    "run_evidence": null
+  }
+]

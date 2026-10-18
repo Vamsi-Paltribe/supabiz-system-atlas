@@ -1,0 +1,75 @@
+CRITIQUE GOFATHOM FOUNDATION 1.1
+
+Read https://vamsi-paltribe.github.io/supabiz-system-atlas/gofathom-1.1/llms-full.txt
+Structured copy: https://vamsi-paltribe.github.io/supabiz-system-atlas/gofathom-1.1/blueprint.json
+
+instructions: Critique Foundation 1.1 against its preserved 1.0 predecessor and the adjudication ledger. Decisions and declarative tests remain proposals. Do not treat agreement between Codex and Claude as empirical validation.
+PROTOCOL:
+  [1]
+    Read llms-full.txt and blueprint.json; use stable GF-D, stage, layer, H and C IDs.
+
+  [2]
+    For each objection cite the exact decision, assumption and source or mark it as a hypothesis.
+
+  [3]
+    Give the strongest alternative, user benefit, new failure modes and maintenance/operational cost.
+
+  [4]
+    Specify a falsifiable test and the observation that would change the decision.
+
+  [5]
+    Distinguish blocker, pilot experiment, later optimization and unsupported preference.
+
+  [6]
+    Preserve hard grants, protected oracles and equivalent safeguards in every comparison arm.
+
+  [7]
+    Do not invent performance percentages, customer demand, completed integrations or legal conclusions.
+
+  [8]
+    Return a proposed change set with accepted/rejected/deferred recommendations and unresolved disagreements.
+
+  [9]
+    Check whether accepted refinements are propagated across stages, layers, contracts and tests.
+
+  [10]
+    Keep source gaps, processing gaps, candidate matching, admission and effect outcome as separate dimensions.
+
+  [11]
+    Read debate.json for qualified/rejected recommendations; challenge remaining assumptions with falsifiable evidence.
+RESPONSE FIELDS:
+  [1]
+    issue_id
+
+  [2]
+    target_id
+
+  [3]
+    claim
+
+  [4]
+    evidence_or_assumption
+
+  [5]
+    alternative
+
+  [6]
+    user_impact
+
+  [7]
+    failure_modes
+
+  [8]
+    test
+
+  [9]
+    decision_threshold
+
+  [10]
+    priority
+
+  [11]
+    confidence
+
+  [12]
+    recommended_change

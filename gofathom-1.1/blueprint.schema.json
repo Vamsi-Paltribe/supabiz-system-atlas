@@ -1,0 +1,557 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://vamsi-paltribe.github.io/supabiz-system-atlas/gofathom-1.1/blueprint.schema.json",
+  "title": "GoFathom Foundation 1.1 document schema",
+  "description": "Validates the published blueprint structure, not the proposed runtime record contracts.",
+  "type": "object",
+  "properties": {
+    "metadata": {
+      "type": "object",
+      "properties": {
+        "version": {
+          "const": "1.1"
+        },
+        "schema_version": {
+          "const": "1.1.0"
+        },
+        "status": {
+          "type": "string"
+        },
+        "reviewed_commit": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "version",
+        "schema_version",
+        "status",
+        "reviewed_commit"
+      ],
+      "additionalProperties": true
+    },
+    "decisions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^GF-D[0-9]{2}$"
+          },
+          "title": {
+            "type": "string"
+          },
+          "choice": {
+            "type": "string"
+          },
+          "why": {
+            "type": "string"
+          },
+          "proof": {
+            "type": "string"
+          },
+          "claude_objection": {
+            "type": "string"
+          },
+          "codex_response": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "title",
+          "choice",
+          "why",
+          "proof",
+          "claude_objection",
+          "codex_response"
+        ],
+        "additionalProperties": true
+      },
+      "minItems": 12
+    },
+    "adjudication": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "disposition": {
+            "type": "string"
+          },
+          "delivery_gate": {
+            "type": "string"
+          },
+          "claude_objection": {
+            "type": "string"
+          },
+          "codex_response": {
+            "type": "string"
+          },
+          "accepted_change": {
+            "type": "string"
+          },
+          "acceptance_or_revisit_test": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "disposition",
+          "delivery_gate",
+          "claude_objection",
+          "codex_response",
+          "accepted_change",
+          "acceptance_or_revisit_test"
+        ],
+        "additionalProperties": true
+      },
+      "minItems": 12
+    },
+    "contracts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^C[0-9]{2}$"
+          },
+          "name": {
+            "type": "string"
+          },
+          "fields": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "rule": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "fields",
+          "rule"
+        ],
+        "additionalProperties": true
+      },
+      "minItems": 18
+    },
+    "stages": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "parts": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "deliverable": {
+                  "type": "string"
+                },
+                "mode": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "id",
+                "name",
+                "deliverable",
+                "mode"
+              ],
+              "additionalProperties": true
+            },
+            "minItems": 0
+          },
+          "gofathom": {
+            "type": "object",
+            "properties": {
+              "title": {
+                "type": "string"
+              },
+              "mechanism": {
+                "type": "string"
+              },
+              "ux": {
+                "type": "string"
+              },
+              "phase": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "title",
+              "mechanism",
+              "ux",
+              "phase"
+            ],
+            "additionalProperties": true
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "parts",
+          "gofathom"
+        ],
+        "additionalProperties": true
+      },
+      "minItems": 12
+    },
+    "layers": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "gofathom": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "gofathom"
+        ],
+        "additionalProperties": true
+      },
+      "minItems": 11
+    },
+    "harness": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "build": {
+            "type": "string"
+          },
+          "gate": {
+            "type": "string"
+          },
+          "added_evidence": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "provenance_note": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "build",
+          "gate",
+          "added_evidence",
+          "provenance_note"
+        ],
+        "additionalProperties": true
+      },
+      "minItems": 9
+    },
+    "roadmap": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "owner": {
+            "type": "string"
+          },
+          "deliver": {
+            "type": "string"
+          },
+          "gate": {
+            "type": "string"
+          },
+          "time": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "owner",
+          "deliver",
+          "gate",
+          "time"
+        ],
+        "additionalProperties": true
+      },
+      "minItems": 6
+    },
+    "projects": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "report": {
+            "type": "string"
+          },
+          "evidence_status": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "report",
+          "evidence_status"
+        ],
+        "additionalProperties": true
+      },
+      "minItems": 18
+    },
+    "mechanisms": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "contracts": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "mechanism": {
+            "type": "string"
+          },
+          "boundary": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "title",
+          "contracts",
+          "mechanism",
+          "boundary"
+        ],
+        "additionalProperties": true
+      },
+      "minItems": 8
+    },
+    "code_audit_template": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "element_id": {
+            "type": "string"
+          },
+          "status": {
+            "enum": [
+              "not_audited",
+              "absent",
+              "partial",
+              "present_untested",
+              "tested_at_commit"
+            ]
+          },
+          "commit": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "code_paths": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "entrypoints": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "test_ids": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "run_evidence": {
+            "type": "array"
+          },
+          "historical_reproduction_status": {
+            "enum": [
+              "not_yet_attempted",
+              "reproduced",
+              "not_reproducible",
+              "blocked_by_rights_or_availability"
+            ]
+          }
+        },
+        "required": [
+          "element_id",
+          "status",
+          "commit",
+          "code_paths",
+          "entrypoints",
+          "test_ids",
+          "run_evidence",
+          "historical_reproduction_status"
+        ],
+        "additionalProperties": true
+      },
+      "minItems": 27
+    },
+    "test_registry": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "contracts": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "stimulus": {
+            "type": "string"
+          },
+          "expected": {
+            "type": "string"
+          },
+          "execution_status": {
+            "const": "Not executed: declarative test specification"
+          },
+          "code_ref": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "run_evidence": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "required": [
+          "id",
+          "contracts",
+          "stimulus",
+          "expected",
+          "execution_status",
+          "code_ref",
+          "run_evidence"
+        ],
+        "additionalProperties": true
+      },
+      "minItems": 12
+    },
+    "cost": {
+      "type": "object",
+      "properties": {
+        "schema_version": {
+          "const": "1.1.0"
+        },
+        "status": {
+          "type": "string"
+        },
+        "formula": {
+          "type": "string"
+        },
+        "default": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "number",
+            "minimum": 0
+          }
+        },
+        "notes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "schema_version",
+        "status",
+        "formula",
+        "default",
+        "notes"
+      ],
+      "additionalProperties": true
+    },
+    "debate_summary": {
+      "type": "object"
+    },
+    "source_resolution": {
+      "type": "object"
+    },
+    "runner_charter": {
+      "type": "object"
+    }
+  },
+  "required": [
+    "metadata",
+    "decisions",
+    "adjudication",
+    "contracts",
+    "stages",
+    "layers",
+    "harness",
+    "roadmap",
+    "projects",
+    "mechanisms",
+    "code_audit_template",
+    "test_registry",
+    "cost",
+    "debate_summary",
+    "source_resolution",
+    "runner_charter"
+  ],
+  "additionalProperties": true
+}
