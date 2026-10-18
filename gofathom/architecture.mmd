@@ -1,0 +1,21 @@
+flowchart TD
+ Owner[Owner and staff: phone or desktop] --> UI[Coverage and attention board]
+ Sources[Selected WhatsApp groups / Gmail / uploads] --> Ingest[Connector journal and coverage]
+ Ingest --> Assets[Evidence assets and derivatives]
+ Assets --> Candidate[Bounded interpretation and matching]
+ Candidate --> Review[Matched / ambiguous / unmatched review]
+ Review --> Ledger[Accepted records and open commitments]
+ Ledger --> Context[Current-grant context assembly]
+ Context --> Agent[Bounded harness and model adapters]
+ Agent --> Proposal[Typed action proposal]
+ Proposal --> Policy[Current policy and exact approval]
+ UI --> Policy
+ Policy --> Intent[Durable intent and outbox]
+ Intent --> Tools[Scoped API or browser adapter]
+ Tools --> Receipt[Receipt / failure / unknown]
+ Receipt --> Verify[Readback and reconciliation]
+ Verify --> Ledger
+ Ledger --> UI
+ Review --> Change[Fix / instruction / rule / product change]
+ Change --> Eval[Protected tests and controlled activation]
+ Eval --> Context

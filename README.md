@@ -13,3 +13,10 @@ This repository contains generated static reference files, not customer credenti
 ## Factory-map companion
 
 [Explore the isometric factory map](https://vamsi-paltribe.github.io/supabiz-system-atlas/factory/): 12 lifecycle stations, four shared foundations, 76 planning packages and 63 stage-specific comparisons across all 18 reviews. Includes restaurant/legal examples and text/JSON/SVG exports. The package count is a planning breakdown, not a count of services or an effort estimate. All versioned editions, including v4, remain unchanged.
+
+
+## GoFathom — Project Approach
+
+New foundation: [Human blueprint](https://vamsi-paltribe.github.io/supabiz-system-atlas/gofathom/) · [Full AI text](gofathom/llms-full.txt) · [Canonical JSON](gofathom/blueprint.json) · [Portable review pack](gofathom/review-pack.zip).
+
+This additive foundation retains the 12-stage funnel and adds validation-led product selection, explicit instruction contracts, conditional runtime decisions and a gated roadmap. All historical version directories and the original factory remain unchanged. Decisions are proposed; no product runtime or customer improvement is certified.
