@@ -1,0 +1,72 @@
+[
+  {
+    "id": "AT01",
+    "name": "Ambiguous shared PO",
+    "setup": "Two deliveries share a PO. “Remaining came” has no decisive delivery relationship.",
+    "expect": "Proposed candidate links may inform clarification. Neither delivery quantity nor completion/closure changes until the relationship and relevant facts are admitted.",
+    "scores": "Understanding + workflow"
+  },
+  {
+    "id": "AT02",
+    "name": "Other-outlet correction",
+    "setup": "A photo/follow-up appears to resolve a delivery; later evidence says it belongs to another outlet.",
+    "expect": "Revalidate affected claims and block unsafe reliance. Retract or supersede the link when admitted; never silently transfer quantity or reuse an approval across outlets.",
+    "scores": "Understanding + workflow"
+  },
+  {
+    "id": "AT03",
+    "name": "Old credit note, new arrival",
+    "setup": "An absence check has completed. A matching credit note dated before that check is imported afterwards; an unrelated supplier also has an absence check.",
+    "expect": "Invalidate and re-evaluate the matching query based on new availability, regardless of old document date. The unrelated conclusion stays unchanged unless its actual dependencies or search scope were also affected.",
+    "scores": "Understanding"
+  },
+  {
+    "id": "AT04",
+    "name": "Attachment and extractor revision",
+    "setup": "The original message was captured but its attachment was pending or unreadable; a later extraction or parser version reveals a matching credit.",
+    "expect": "Prior result discloses incomplete processing. New extraction re-evaluates the relevant query; source time does not masquerade as a processing watermark.",
+    "scores": "Understanding + workflow"
+  },
+  {
+    "id": "AT05",
+    "name": "Coverage expansion and revocation",
+    "setup": "Add a permitted source with matching historical evidence, then revoke a user’s access to one supporting source.",
+    "expect": "Expanded coverage triggers scoped re-evaluation. Revocation updates retrieval and audience-specific derived output without leaking restricted material through cached answers.",
+    "scores": "Understanding + workflow"
+  },
+  {
+    "id": "AT06",
+    "name": "Credit without replacement",
+    "setup": "A shortage exists; a valid matching credit is accepted but no replacement receipt is present.",
+    "expect": "Billing task may close under its predicate. Physical shortage/replenishment remains open; stock does not increase.",
+    "scores": "Understanding + workflow"
+  },
+  {
+    "id": "AT07",
+    "name": "Replacement, partial resolution and loss",
+    "setup": "Partial replacement arrives, then an authorized person accepts the remaining loss. A separate billing question remains.",
+    "expect": "Reduce only the supported physical quantity; classify remainder as accepted loss. Do not claim all goods arrived or billing settled. A non-authorized reporter cannot approve the loss.",
+    "scores": "Understanding + workflow"
+  },
+  {
+    "id": "AT08",
+    "name": "One result, multiple surfaces",
+    "setup": "Render chat, report and voice readback from the same state; then admit a quantity correction.",
+    "expect": "Critical fields agree at the same version. Current views update; earlier report is marked stale/superseded. Narrative or audio contradictions fail presentation checks.",
+    "scores": "Understanding + output validity"
+  },
+  {
+    "id": "AT09",
+    "name": "Semantic answer versus invalid write",
+    "setup": "A model provides an assessable correct answer in malformed structured output, plus a separate unrelated valid question.",
+    "expect": "Record semantic credit separately. Reject the invalid write and log format failure; do not erase semantic evidence or block the unrelated question.",
+    "scores": "Understanding + workflow + format/write validation"
+  },
+  {
+    "id": "AT10",
+    "name": "Fresh families and availability cutoff",
+    "setup": "Run confusing near-duplicates and unseen episode families across raw retrieval, summary plus exact lookup and governed processing.",
+    "expect": "Use the same model/version and evidence-availability timeline, comparable tools and permissions. Include preparation/retry costs. A backdated document is unavailable until its simulated arrival/processing event.",
+    "scores": "Understanding + workflow + economics"
+  }
+]

@@ -1,0 +1,11 @@
+# GoFathom 1.4
+
+- [Full clarification and S0 handoff](llms-full.txt)
+- [Single complete reference](../gofathom-complete.txt)
+- [Structured clarifications](clarifications.json)
+- [Acceptance tests](acceptance-tests.json)
+- [S0 plan](s0-plan.json)
+- [Team reply](team-reply.txt)
+- [Preserved 1.3 sprint plan](../gofathom-1.3/sprint-plan.json)
+
+1.4 clarifies semantics; 1.3 remains the delivery plan. No login or JavaScript is needed to read these exports.

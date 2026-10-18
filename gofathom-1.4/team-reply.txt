@@ -1,0 +1,24 @@
+Please begin the bounded S0 source audit. We accept your direction with the clarifications now published in GoFathom 1.4 — Clear State, Explicit Outcomes.
+
+Single complete reference:
+https://vamsi-paltribe.github.io/supabiz-system-atlas/gofathom-complete.txt
+
+Read Section H first for the 1.4 semantics and Section I for this handoff. Section E retains the 1.3 S0–S4 plan; unchanged 1.1 controls remain applicable. The 1.2 audit is historical reported evidence, not current code verification. If the document is truncated, state which sections were actually read.
+
+Agreed acceptance semantics:
+1. Proposed links may support retrieval, clarification and visibly uncertain suggestions. They cannot change authoritative quantities, completion or closure until admitted under policy or an authorized decision. Contradictory evidence may mark existing conclusions for revalidation and pause affected reliance without becoming an admitted fact.
+2. Absence claims depend on authorized query/source scope and ingestion, processing, extraction and interpretation revisions—not source timestamps alone. Backfill, newly processed attachments, extractor changes and coverage/grant changes trigger scoped re-evaluation.
+3. Separate replacement received, credit accepted, loss accepted, finding corrected and unresolved/partial outcomes. Close each task only against its own evidence and authority predicate. A credit does not replenish stock; a write-off does not mean goods arrived or an accounting entry was posted.
+4. Reuse one version-bound calculation/critical-state output across answers, reports and voice. S0 identifies the existing components; do not add separate prose patches in S1.
+5. Use one runner with understanding and workflow scorecards; record output-format and product-write validity separately. Compare raw retrieval, summary plus exact lookup and governed processing using the same model/version, availability cutoff and comparable tools. Include preparation/retry costs. Synthetic effort counts are proxies; observed trials establish time saved.
+
+S0 deliverables:
+- Pinned commit and working-tree state, plus the actual UI/API/worker/storage/output trace and differences from diagnostic scripts.
+- Source-backed capability and known-failure register, with code paths, reproduction results and explicit unknowns.
+- Mapping of existing components to the 1.4 semantics and tests; retain verified code and propose only necessary extensions.
+- One development scenario: normal receipt, shortage, ambiguous follow-up, correction, report revision, acknowledgement and explicitly classified resolution. Keep fresh episode families and confusing near-duplicates separate for evaluation.
+- A minimal S1 implementation proposal, blockers and estimates with assumptions. Preserve historical failures and distinguish source inspection from executed test evidence.
+
+Pilot manager and business reviewer are not yet confirmed. Varun is the proposed sponsor, not a confirmed pilot appointment. This does not block local source analysis and synthetic testing. Flag participant names, business authority and consent as prerequisites for real-user trials and business decisions.
+
+Use an isolated local test environment and synthetic fixtures unless existing data authorization and applicable safeguards are established. Audit-only fixtures or instrumentation may be added if needed and must be recorded separately. Do not activate live connectors, send external messages, deploy, change production data or perform a broad implementation/refactor as part of this audit. Return the S0 evidence packet and proposed S1 changes; no additional architecture-review round is required to start S0.

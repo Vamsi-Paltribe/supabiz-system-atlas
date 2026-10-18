@@ -1,0 +1,514 @@
+GOFATHOM 1.4 — CLEAR STATE, EXPLICIT OUTCOMES
+
+metadata:
+  title:
+    GoFathom 1.4 — Clear State, Explicit Outcomes
+  date:
+    2026-10-19
+  version:
+    1.4
+  status:
+    Acceptance clarification and source-audit handoff; not a runtime release
+  runtime_verified:
+    False
+  precedence:
+    1.4 clarifies acceptance semantics and the S0 handoff. It does not replace the 1.3 S0–S4 delivery sequence or weaken unchanged 1.1 controls. The 1.2 audit remains historical evidence. Where earlier wording implies blanket closure, timestamp-only completeness or unrestricted proposed-link effects, use 1.4.
+why:
+  The implementation team accepted 1.3 and requested precise semantics for proposed links, late evidence and closure. These clarifications remove implementation ambiguity without expanding the framework. The next verification is the real code audit, not another LLM agreement round.
+changes:
+  id:
+    CL01
+  title:
+    Define what an unconfirmed relationship may change
+  why:
+    An ambiguous follow-up must not silently resolve a delivery or change accepted quantities.
+  decision:
+    Proposed links may support retrieval, clarification and visibly uncertain suggestions. Only admission under business policy or an authorized decision permits dependent business-state transitions. Admission is not necessarily owner approval.
+  qualification:
+    New contradictory evidence can invalidate reliance on an existing conclusion and pause affected dependent actions without admitting the new interpretation as truth. Preserve the prior decision and mark it for revalidation.
+  test:
+    AT01 / AT02
+
+  id:
+    CL02
+  title:
+    Make absence claims aware of processing and backfill
+  why:
+    A document dated before an old watermark can arrive or become readable later. Source timestamps cannot establish processing completeness.
+  decision:
+    Bind a persisted absence result to its query scope, authorized source scope, observed revisions, processing/extraction state and relevant interpretation version. Re-evaluate affected results on backfill, attachment completion, extractor change or source/grant change.
+  qualification:
+    Do not promise complete business awareness. Disclose pending/failed extraction and unknown coverage. Broad processing changes may invalidate a broad set; uncertain matches widen the candidate review scope instead of silently excluding evidence.
+  test:
+    AT03 / AT04 / AT05
+
+  id:
+    CL03
+  title:
+    Separate physical, billing and accepted-loss outcomes
+  why:
+    A credit note can settle billing without restoring stock; a replacement can restore stock without settling billing.
+  decision:
+    Use scoped resolution records and explicit task predicates on the existing discrepancy/task model. Record which obligation is resolved and which remains open.
+  qualification:
+    A write-off is an authorized acceptance of loss, not a receipt. An operational decision is not an accounting posting in an external system. Partial evidence resolves only the supported quantity or amount.
+  test:
+    AT06 / AT07
+
+  id:
+    CL04
+  title:
+    Share version-bound critical outputs across every surface
+  why:
+    Separate prose patches in chat, reports and voice would recreate inconsistent business logic.
+  decision:
+    S0 locates existing calculation/state components. S1 repairs or exposes one canonical critical-result interface; S2 uses it for answers, reports and voice readbacks.
+  qualification:
+    The same facts need not have identical wording. Narrative explanation is still evaluated. Historical outputs stay immutable and are marked stale or superseded rather than silently rewritten.
+  test:
+    AT08
+
+  id:
+    CL05
+  title:
+    One evaluation runner, separate understanding and workflow scores
+  why:
+    Semantic quality, effect validity and actual human effort are different measurements.
+  decision:
+    Run shared cases with two primary scorecards: understanding and workflow. Record output-format validity and product-write validation separately. Compare raw retrieval, summary plus exact lookup and governed processing with equivalent evidence availability, model version and comparable tools.
+  qualification:
+    Malformed output can retain semantic credit if meaning is assessable; it cannot earn successful write credit. Synthetic effort counts are proxies. Actual time saved requires observed trials. Preserve unseen episode families and confusing near-duplicates.
+  test:
+    AT09 / AT10
+
+  id:
+    CL06
+  title:
+    Start S0 without another architecture review
+  why:
+    The remaining uncertainty is in the actual code, app path and user operation. More model agreement cannot establish runtime behavior.
+  decision:
+    Perform a bounded source audit and prepare one integrated development scenario. Keep unseen variants separate. Retain verified components and plan only the smallest necessary S1 repairs.
+  qualification:
+    Pilot manager and business reviewer are not confirmed. Their names do not block local source analysis or synthetic tests; real-user trials and business approvals require named authorized participants.
+  test:
+    S0 exit packet
+relationship_permissions:
+  Proposed
+
+  Retrieve context; clarify; show an explicitly uncertain suggestion
+
+  Authoritative quantity updates, completion or closure based only on the proposal
+
+  Admitted under policy
+
+  Support validated calculations and permitted state transitions within scope
+
+  Automatic permission expansion or universal owner-independent authority
+
+  Needs revalidation
+
+  Show new conflict, stale assumptions or changed source/grant state; pause relevant reliance as required
+
+  Treating the contradictory proposal as an admitted fact
+
+  Retracted / superseded
+
+  Preserve history; invalidate/recompute affected derivations; revalidate tasks and approvals
+
+  Silently moving quantities, deleting evidence or transferring approvals between episodes
+absence_claims:
+  fields:
+    Business query
+
+    Tenant/business, supplier or matter, document/relationship type, relevant period and predicate
+
+    Authorized corpus
+
+    Source identities, enrollment/coverage revision, principal/audience and current grant revision
+
+    Observation boundary
+
+    Ingestion revision or journal cursor; source/event time stored separately from availability time
+
+    Processing boundary
+
+    Relevant attachments/revisions processed, pending, failed or excluded; extraction generation/version
+
+    Meaning and result
+
+    Relevant interpretation/rule version, evaluated-at time, matched IDs or absence result, limitations and freshness
+  triggers:
+    Old evidence imported later
+
+    Re-evaluate matching queries based on ingestion availability, even if the document date precedes the earlier check.
+
+    Attachment becomes readable
+
+    Re-evaluate queries whose candidate scope includes its contents; do not equate message capture with attachment understanding.
+
+    Extractor or interpretation changes
+
+    Mark affected results for revalidation; reprocess relevant evidence and rebuild results against the new version.
+
+    Source coverage expands
+
+    Search newly available evidence before presenting an old absence claim as current.
+
+    Source access is revoked or reduced
+
+    Recheck current audience permissions for retrieval and derived outputs; do not expose restricted evidence through cached summaries. Preserve appropriate audit history under policy.
+  wording:
+    No matching credit note found in the available, processed sources as of this check.
+  limit:
+    An absence result is scoped to observed and processed evidence. It is not proof that the business event or document does not exist.
+  implementation:
+    Prefer a small query-result record with scope and version dependencies, backed by the existing journal and record store. S0 determines exact fields and indexes from current code; no new memory platform is required.
+resolution_outcomes:
+  id:
+    O01
+  name:
+    Replacement received
+  evidence:
+    Admitted receiving evidence for the correct delivery, outlet, item, quantity and unit; identify the original shortage it addresses.
+  authority:
+    Receiving admission policy or authorized reviewer.
+  physical:
+    Reduce the supported outstanding physical quantity; partial replacements leave a remainder.
+  billing:
+    No automatic settlement of a price, invoice or credit dispute.
+  closure:
+    Close only the physical-replacement obligation when its required quantity is supported.
+
+  id:
+    O02
+  name:
+    Credit accepted
+  evidence:
+    Matching credit evidence, scope and amount, validated and accepted under the business policy.
+  authority:
+    Authorized billing reviewer or approved admission policy.
+  physical:
+    No stock increase or claim that goods arrived.
+  billing:
+    Resolve only the covered billing difference; retain any uncovered amount or other billing issue.
+  closure:
+    Close the credit/billing task when its acceptance conditions hold; physical replenishment may remain open.
+
+  id:
+    O03
+  name:
+    Loss accepted / written off
+  evidence:
+    Explicit decision recording the unresolved quantity/value, reason, scope and referenced evidence.
+  authority:
+    Person or policy specifically authorized to accept that loss; not merely the original reporter.
+  physical:
+    Goods remain missing; record accepted loss separately from receipt.
+  billing:
+    Accounting treatment remains subject to the authoritative system and its posting approval.
+  closure:
+    Close the loss-disposition task if authorized; do not label replacement received or credit issued.
+
+  id:
+    O04
+  name:
+    Finding corrected
+  evidence:
+    Admitted correction invalidating the original discrepancy, with corrected source relationships and calculations.
+  authority:
+    Correction admission policy or authorized reviewer.
+  physical:
+    Recompute the supported physical result; do not invent a compensating receipt.
+  billing:
+    Recompute only affected billing checks.
+  closure:
+    Close the invalidated finding as corrected; revalidate dependent tasks and preserve the previous history.
+
+  id:
+    O05
+  name:
+    Still unresolved / partially resolved
+  evidence:
+    Missing evidence, unresolved identity, partial replacement/credit or unconfirmed authority.
+  authority:
+    No closure authority is inferred from uncertainty.
+  physical:
+    Outstanding physical obligations remain visible.
+  billing:
+    Outstanding financial obligations remain visible.
+  closure:
+    Keep the affected tasks open or explicitly blocked; do not collapse partial resolution into a blanket closed flag.
+canonical_critical_output:
+  purpose:
+    One source of critical values and statuses for answers, reports, dashboards and voice.
+  minimum_fields:
+    Business scope and queried record IDs
+
+    Relevant source/record/decision versions
+
+    Calculation identifier, operands and exact result where applicable
+
+    Quantity, unit, currency and field meaning
+
+    Physical outcome, billing outcome and task-specific status
+
+    Evidence references, applicable authority and current freshness/limitations
+  sequence:
+    S0: identify existing exact-arithmetic, state-query and presentation components; record divergence between app and diagnostic paths.
+
+    S1: repair or expose the shared critical-result interface for the chosen workflow; avoid temporary prose rules that duplicate logic.
+
+    S2: consume the same result in typed answers, PDF/report generation and voice readbacks; validate presentation meaning and artifact version links.
+  limits:
+    A typed schema alone does not establish correct evidence or complete answers.
+
+    Explanatory prose and speech can still contradict correct fields; evaluate them.
+
+    Historical reports or delivered answers cannot be silently changed; preserve versions and mark stale/superseded.
+evaluation:
+  runner:
+    One case set and runner with two primary scorecards, plus separate format/effect-validity checks.
+  understanding:
+    Identity and business scope
+
+    Quantities, units and field meaning
+
+    Relationship accuracy and ambiguity
+
+    Correction propagation and late evidence
+
+    Supporting evidence and calibrated uncertainty
+  workflow:
+    False alerts
+
+    Clarification requests and repeated questions
+
+    Owner/reviewer interventions
+
+    Incorrect or premature closure
+
+    Assignment acknowledgement and durable follow-through
+  validity:
+    Record output-format validity and product-write validation separately from semantic quality. Invalid writes cannot pass as successful effects. If meaning is not assessable, record that explicitly rather than awarding semantic credit.
+  comparison:
+    Compare raw retrieval, summary plus exact lookup and the governed approach with the same model/version, evidence-availability cutoff and comparable generic tools, permissions and task instructions. Disclose any remaining tool or budget differences. Include preprocessing, extraction, indexing, summarization, retrieval, answering, retries and human review.
+  holdout:
+    Keep one development scenario separate from unseen variants and episode families. Near-duplicates should test real identity/time/relationship confusion. Do not repeatedly tune against protected results and continue calling them untouched holdouts.
+  effort:
+    Synthetic counts are proxies. Actual time savings, adoption and the second-inbox effect require observed user trials with named participants. Do not invent percentage improvements.
+acceptance_tests:
+  id:
+    AT01
+  name:
+    Ambiguous shared PO
+  setup:
+    Two deliveries share a PO. “Remaining came” has no decisive delivery relationship.
+  expect:
+    Proposed candidate links may inform clarification. Neither delivery quantity nor completion/closure changes until the relationship and relevant facts are admitted.
+  scores:
+    Understanding + workflow
+
+  id:
+    AT02
+  name:
+    Other-outlet correction
+  setup:
+    A photo/follow-up appears to resolve a delivery; later evidence says it belongs to another outlet.
+  expect:
+    Revalidate affected claims and block unsafe reliance. Retract or supersede the link when admitted; never silently transfer quantity or reuse an approval across outlets.
+  scores:
+    Understanding + workflow
+
+  id:
+    AT03
+  name:
+    Old credit note, new arrival
+  setup:
+    An absence check has completed. A matching credit note dated before that check is imported afterwards; an unrelated supplier also has an absence check.
+  expect:
+    Invalidate and re-evaluate the matching query based on new availability, regardless of old document date. The unrelated conclusion stays unchanged unless its actual dependencies or search scope were also affected.
+  scores:
+    Understanding
+
+  id:
+    AT04
+  name:
+    Attachment and extractor revision
+  setup:
+    The original message was captured but its attachment was pending or unreadable; a later extraction or parser version reveals a matching credit.
+  expect:
+    Prior result discloses incomplete processing. New extraction re-evaluates the relevant query; source time does not masquerade as a processing watermark.
+  scores:
+    Understanding + workflow
+
+  id:
+    AT05
+  name:
+    Coverage expansion and revocation
+  setup:
+    Add a permitted source with matching historical evidence, then revoke a user’s access to one supporting source.
+  expect:
+    Expanded coverage triggers scoped re-evaluation. Revocation updates retrieval and audience-specific derived output without leaking restricted material through cached answers.
+  scores:
+    Understanding + workflow
+
+  id:
+    AT06
+  name:
+    Credit without replacement
+  setup:
+    A shortage exists; a valid matching credit is accepted but no replacement receipt is present.
+  expect:
+    Billing task may close under its predicate. Physical shortage/replenishment remains open; stock does not increase.
+  scores:
+    Understanding + workflow
+
+  id:
+    AT07
+  name:
+    Replacement, partial resolution and loss
+  setup:
+    Partial replacement arrives, then an authorized person accepts the remaining loss. A separate billing question remains.
+  expect:
+    Reduce only the supported physical quantity; classify remainder as accepted loss. Do not claim all goods arrived or billing settled. A non-authorized reporter cannot approve the loss.
+  scores:
+    Understanding + workflow
+
+  id:
+    AT08
+  name:
+    One result, multiple surfaces
+  setup:
+    Render chat, report and voice readback from the same state; then admit a quantity correction.
+  expect:
+    Critical fields agree at the same version. Current views update; earlier report is marked stale/superseded. Narrative or audio contradictions fail presentation checks.
+  scores:
+    Understanding + output validity
+
+  id:
+    AT09
+  name:
+    Semantic answer versus invalid write
+  setup:
+    A model provides an assessable correct answer in malformed structured output, plus a separate unrelated valid question.
+  expect:
+    Record semantic credit separately. Reject the invalid write and log format failure; do not erase semantic evidence or block the unrelated question.
+  scores:
+    Understanding + workflow + format/write validation
+
+  id:
+    AT10
+  name:
+    Fresh families and availability cutoff
+  setup:
+    Run confusing near-duplicates and unseen episode families across raw retrieval, summary plus exact lookup and governed processing.
+  expect:
+    Use the same model/version and evidence-availability timeline, comparable tools and permissions. Include preparation/retry costs. A backdated document is unavailable until its simulated arrival/processing event.
+  scores:
+    Understanding + workflow + economics
+s0_deliverables:
+  id:
+    A01
+  title:
+    Pin the actual implementation
+  deliver:
+    Commit, working-tree state, relevant environment/dependency versions, app entrypoints and limits on what was inspected. Keep credentials and customer material out of the handoff.
+
+  id:
+    A02
+  title:
+    Trace the real app path
+  deliver:
+    One trace from UI request or intake through API, worker, interpretation, record admission, calculations and rendered output. Document diagnostic-only paths and actual divergence.
+
+  id:
+    A03
+  title:
+    Register known defects
+  deliver:
+    Enumerate distinct failure classes from evidence: instruction time handling, number normalization, parent/child admission, stale/repeated approval, missing comparisons, outlet/item/unit links and gross/net/payable/payment semantics. For each record reproduced, not reproduced, fixed with evidence, or blocked—not an assumed count.
+
+  id:
+    A04
+  title:
+    Map reusable components
+  deliver:
+    Locate existing exact calculations, permission checks, relationship/state records, invalidation, reports and task mechanisms. Mark present-tested-at-commit, present-untested, partial, absent or not-audited.
+
+  id:
+    A05
+  title:
+    Check the 1.4 semantics
+  deliver:
+    Map CL01–CL05 and AT01–AT10 to existing code or a specific gap. Propose minimal extensions to existing records; do not introduce a general accounting/workflow engine.
+
+  id:
+    A06
+  title:
+    Prepare the bounded development case
+  deliver:
+    Normal receipt → shortage → ambiguous follow-up → correction → report revision → manager acknowledgement → evidence-backed resolution with separate physical/billing/loss outcomes. This is the development scenario; reserve unseen variants separately.
+
+  id:
+    A07
+  title:
+    Establish data and evaluation boundaries
+  deliver:
+    Use synthetic fixtures until applicable grants, source filtering and isolation checks pass. Prepare the two scorecards, format/write checks and fair baseline arms. Schedule the low-fidelity acknowledgement trial with the future named manager.
+
+  id:
+    A08
+  title:
+    Return a concrete S1 proposal
+  deliver:
+    Produce code paths, reproduction commands/results, reusable components, blocking gaps, residual uncertainties, smallest S1 repair tasks and estimates with assumptions. Identify the shared critical-output interface and any local audit fixture/instrumentation changes.
+staffing:
+  pilot_manager:
+    Unconfirmed
+  business_reviewer:
+    Unconfirmed
+  sponsor:
+    Varun proposed, not a confirmed appointment
+  audit_can_begin:
+    Local source inspection and isolated synthetic testing do not require pilot staffing.
+  trial_gate:
+    Real-user trials and business approvals require named authorized participants and applicable consent/source controls.
+sprint_alignment:
+  S0 maps the real implementation to these semantics and returns the evidence packet.
+
+  S1 repairs the relevant record/calculation/relationship boundaries through the real app; one shared critical-output interface.
+
+  S2 proves late corrections, version-bound answers, commands and reports.
+
+  S3 completes acknowledged work, explicit resolution outcomes and recovery.
+
+  S4 tests generalization, safety, economics and observed user effort before bounded reliance.
+handoff:
+  Please begin the bounded S0 source audit. We accept your direction with the clarifications now published in GoFathom 1.4 — Clear State, Explicit Outcomes.
+
+Single complete reference:
+https://vamsi-paltribe.github.io/supabiz-system-atlas/gofathom-complete.txt
+
+Read Section H first for the 1.4 semantics and Section I for this handoff. Section E retains the 1.3 S0–S4 plan; unchanged 1.1 controls remain applicable. The 1.2 audit is historical reported evidence, not current code verification. If the document is truncated, state which sections were actually read.
+
+Agreed acceptance semantics:
+1. Proposed links may support retrieval, clarification and visibly uncertain suggestions. They cannot change authoritative quantities, completion or closure until admitted under policy or an authorized decision. Contradictory evidence may mark existing conclusions for revalidation and pause affected reliance without becoming an admitted fact.
+2. Absence claims depend on authorized query/source scope and ingestion, processing, extraction and interpretation revisions—not source timestamps alone. Backfill, newly processed attachments, extractor changes and coverage/grant changes trigger scoped re-evaluation.
+3. Separate replacement received, credit accepted, loss accepted, finding corrected and unresolved/partial outcomes. Close each task only against its own evidence and authority predicate. A credit does not replenish stock; a write-off does not mean goods arrived or an accounting entry was posted.
+4. Reuse one version-bound calculation/critical-state output across answers, reports and voice. S0 identifies the existing components; do not add separate prose patches in S1.
+5. Use one runner with understanding and workflow scorecards; record output-format and product-write validity separately. Compare raw retrieval, summary plus exact lookup and governed processing using the same model/version, availability cutoff and comparable tools. Include preparation/retry costs. Synthetic effort counts are proxies; observed trials establish time saved.
+
+S0 deliverables:
+- Pinned commit and working-tree state, plus the actual UI/API/worker/storage/output trace and differences from diagnostic scripts.
+- Source-backed capability and known-failure register, with code paths, reproduction results and explicit unknowns.
+- Mapping of existing components to the 1.4 semantics and tests; retain verified code and propose only necessary extensions.
+- One development scenario: normal receipt, shortage, ambiguous follow-up, correction, report revision, acknowledgement and explicitly classified resolution. Keep fresh episode families and confusing near-duplicates separate for evaluation.
+- A minimal S1 implementation proposal, blockers and estimates with assumptions. Preserve historical failures and distinguish source inspection from executed test evidence.
+
+Pilot manager and business reviewer are not yet confirmed. Varun is the proposed sponsor, not a confirmed pilot appointment. This does not block local source analysis and synthetic testing. Flag participant names, business authority and consent as prerequisites for real-user trials and business decisions.
+
+Use an isolated local test environment and synthetic fixtures unless existing data authorization and applicable safeguards are established. Audit-only fixtures or instrumentation may be added if needed and must be recorded separately. Do not activate live connectors, send external messages, deploy, change production data or perform a broad implementation/refactor as part of this audit. Return the S0 evidence packet and proposed S1 changes; no additional architecture-review round is required to start S0.
+
+evidence_boundary:
+  This edition responds to user-supplied team feedback and the prior design debate. No new Claude review was performed for 1.4. Neither this page nor model agreement verifies current source or runtime behavior on the other MacBook. Prior edition directories are preserved.

@@ -1,0 +1,42 @@
+[
+  {
+    "id": "A01",
+    "title": "Pin the actual implementation",
+    "deliver": "Commit, working-tree state, relevant environment/dependency versions, app entrypoints and limits on what was inspected. Keep credentials and customer material out of the handoff."
+  },
+  {
+    "id": "A02",
+    "title": "Trace the real app path",
+    "deliver": "One trace from UI request or intake through API, worker, interpretation, record admission, calculations and rendered output. Document diagnostic-only paths and actual divergence."
+  },
+  {
+    "id": "A03",
+    "title": "Register known defects",
+    "deliver": "Enumerate distinct failure classes from evidence: instruction time handling, number normalization, parent/child admission, stale/repeated approval, missing comparisons, outlet/item/unit links and gross/net/payable/payment semantics. For each record reproduced, not reproduced, fixed with evidence, or blocked—not an assumed count."
+  },
+  {
+    "id": "A04",
+    "title": "Map reusable components",
+    "deliver": "Locate existing exact calculations, permission checks, relationship/state records, invalidation, reports and task mechanisms. Mark present-tested-at-commit, present-untested, partial, absent or not-audited."
+  },
+  {
+    "id": "A05",
+    "title": "Check the 1.4 semantics",
+    "deliver": "Map CL01–CL05 and AT01–AT10 to existing code or a specific gap. Propose minimal extensions to existing records; do not introduce a general accounting/workflow engine."
+  },
+  {
+    "id": "A06",
+    "title": "Prepare the bounded development case",
+    "deliver": "Normal receipt → shortage → ambiguous follow-up → correction → report revision → manager acknowledgement → evidence-backed resolution with separate physical/billing/loss outcomes. This is the development scenario; reserve unseen variants separately."
+  },
+  {
+    "id": "A07",
+    "title": "Establish data and evaluation boundaries",
+    "deliver": "Use synthetic fixtures until applicable grants, source filtering and isolation checks pass. Prepare the two scorecards, format/write checks and fair baseline arms. Schedule the low-fidelity acknowledgement trial with the future named manager."
+  },
+  {
+    "id": "A08",
+    "title": "Return a concrete S1 proposal",
+    "deliver": "Produce code paths, reproduction commands/results, reusable components, blocking gaps, residual uncertainties, smallest S1 repair tasks and estimates with assumptions. Identify the shared critical-output interface and any local audit fixture/instrumentation changes."
+  }
+]
