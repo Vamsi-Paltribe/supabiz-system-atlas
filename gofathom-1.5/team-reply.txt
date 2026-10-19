@@ -1,0 +1,20 @@
+Please start or continue the bounded S0 source audit. GoFathom 1.5 — Build Plan consolidates the existing architecture; it does not reset S0 or authorize a broad rebuild.
+
+Single full reference: https://vamsi-paltribe.github.io/supabiz-system-atlas/gofathom-complete.txt
+Visual build plan: https://vamsi-paltribe.github.io/supabiz-system-atlas/gofathom-1.5/
+Read Section J for the current factory stages, maintained-understanding lifecycle and traceability; Section K is this handoff. Section H retains the 1.4 acceptance semantics; Section E retains the 1.3 S0–S4 sequence. Unchanged 1.1 controls apply. Section D is historical audit evidence. State any truncation or unread sections.
+
+Keep the 1.4 requirements: proposed relationships cannot change authoritative business state before admission; late evidence/processing/coverage changes invalidate scoped absence claims; physical replacement, billing credit and accepted loss are distinct; answers, reports and voice share version-bound critical values; one case runner has understanding and workflow scorecards with separate format/write validity.
+
+The added focus is maintained business understanding. We already researched this through Glen and Asakana, and specified several foundations. Audit what persists and is reused across episodes: entity maps, source-linked summaries, decisions, preferences/procedures, relationships, freshness, correction dependencies and permission-aware retrieval. Do not assume it is absent or implemented. Map KB01–KB06 to existing code and identify the smallest source-linked supplier brief over existing stores. The brief is a derived view, not a new ledger; no mandatory wiki, vector database, graph database or vendor switch.
+
+Return:
+1. Pinned repository/commit and working-tree state, plus the real UI/API/worker/storage/output path and differences from diagnostic scripts.
+2. TR01–TR18 completed with path/symbol, evidence, reproduced test/result and status: present-tested-at-commit, present-untested, partial, absent or not-audited. Record audit fixture/instrumentation changes separately. Do not substitute design agreement for runtime evidence.
+3. Known-failure register and the unchanged 1.4 A01–A08 audit deliverables; map CL01–CL05 and AT01–AT10.
+4. One development scenario: connect/scope → inspect initial business context → normal receipt → shortage → ambiguous follow-up → targeted clarification → correction → report revision → acknowledgement → explicitly classified resolution → new related question using corrected accumulated understanding. Treat unavailable portions as gaps, not pressure to build them during S0. Keep fresh episode families and confusing near-duplicates reserved for evaluation. Include small Ramya matter/privacy fixtures, not a second live pilot.
+5. The smallest S1 repair proposal, shared critical-output interface, maintained-knowledge dependencies, S2 slice estimate, blockers and costs with assumptions. Prepare the A–D comparison without delaying S0 for a full benchmark or another architecture-review round.
+
+Pilot manager and business reviewer are still unconfirmed; Varun is a proposed sponsor, not an assigned participant. This does not block isolated local source inspection and synthetic tests. Real-user trials and business actions require named authorized participants and applicable consent/source controls.
+
+Use synthetic fixtures in an isolated local environment unless existing data authorization and safeguards are established. Do not activate live connectors, send external messages, deploy, alter production data or perform a broad refactor under this audit. Return the S0 evidence packet and proposed implementation tasks. Preserve earlier findings and clearly separate specification, source inspection and executed evidence.

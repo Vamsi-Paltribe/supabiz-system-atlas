@@ -1,0 +1,1388 @@
+GOFATHOM 1.5 — BUILD PLAN
+
+metadata:
+  version:
+    1.5
+  title:
+    GoFathom 1.5 — Build Plan
+  date:
+    2026-10-19
+  runtime_verified:
+    False
+  status:
+    Proposed build specification; S0 source audit pending
+  precedence:
+    1.5 consolidates maintained business understanding, product behaviour and traceability. It retains the 1.3 S0–S4 sequence, 1.4 acceptance semantics and unchanged 1.1 controls. Its S0 handoff supersedes earlier handoffs. Earlier editions are preserved; 1.2 is historical evidence, not a current code audit.
+why:
+  The research already identified shared memory, inspectable customer knowledge and reusable procedures. The blueprint carried many foundations forward, but scattered them across layers without a complete maintenance lifecycle or a research-to-code trace. This edition closes that specification gap. It does not claim a newly invented memory architecture, an implemented feature, or another Claude review.
+reading_guide:
+  Read the belt as a map of responsibilities, not a synchronous pipeline or mandatory hop sequence. Stages are this edition’s explanatory view, not a renumbering of the original 1.1 contracts. The operational lane and knowledge-maintenance lane share evidence and controls.
+stages:
+  id:
+    BP01
+  number:
+    1
+  name:
+    Enroll & scope
+  short:
+    Who may see and do what?
+  why:
+    An account, connector credential and business authority are different things. A common owner does not erase business boundaries.
+  inputs:
+    User identity, device identity, business membership, intended audience and nominated recovery owner.
+  parts:
+    Identity and session
+
+    Business / outlet / matter grants
+
+    Source sharing policy
+
+    Device and staff departure
+
+    Pilot roles and recovery owner
+  mechanism:
+    Authenticate outside the model. Establish an explicit active business and purpose. Record current grants and source-sharing scope; recheck access when reading or acting. Show what is connected and who can see derived content. Pilot staffing remains unconfirmed.
+  outputs:
+    Scoped principal and device session; enrollment and source-policy records.
+  connections:
+    Scopes BP02–BP12. Revocation invalidates affected access and derived views; pending work goes to an authorized reassignment path.
+  reuse:
+    Established identity/secret primitives; Glen audience boundaries; Executor credential-policy separation.
+  build:
+    GoFathom membership, audience mapping, recovery and revocation behaviour.
+  skip:
+    Maximum permissions as the default; credentials in prompts; owner access automatically becoming group access.
+  sprint:
+    S0 boundary audit; S1 isolation; S3 departure/recovery.
+  acceptance:
+    Switch Consu to ForeFathers, revoke a grant and reopen an old answer: no forbidden content or stale privileged action.
+  varun:
+    Varun can privately view both businesses; a Consu staff answer uses Consu-approved context.
+  ramya:
+    Ramya coordinates assigned matters; private principal notes remain restricted.
+  status:
+    Not audited in the current implementation
+  code_evidence:
+    S0 must supply repository, commit, path/symbol, actual app-path trace and reproduction evidence.
+
+  id:
+    BP02
+  number:
+    2
+  name:
+    Connect & synchronize
+  short:
+    What can we actually observe?
+  why:
+    The assistant must distinguish a healthy source from partial, stale or disconnected coverage.
+  inputs:
+    Scoped enrollment, WhatsApp session or provider access, Gmail authorization, source selection and sync policy.
+  parts:
+    Connector adapters
+
+    OAuth / session vault
+
+    Cursor and backfill
+
+    Reconnect and rate limits
+
+    Coverage and health
+  mechanism:
+    Use replaceable adapters with credentials held by the execution boundary. Register permitted sources, sync checkpoints, duplicates and gaps. Reconnect without broadening grants. The user-reported WhatsApp online-session approach is a candidate integration, not a verified reliable product connector.
+  outputs:
+    Source envelopes with external IDs, account, audience, event/receipt times, revision and coverage markers.
+  connections:
+    Feeds BP03; coverage changes notify BP06/BP07 and affected absence conclusions. Outbound communication is a separate BP09 capability.
+  reuse:
+    Executor/Nango integration patterns; Inkbox identity/inbox lessons where applicable.
+  build:
+    Actual WhatsApp and Gmail adapter lifecycle, consent, gap reporting and operator recovery.
+  skip:
+    Assuming every group API is available; treating a connected account as complete historical access.
+  sprint:
+    S0 inspect actual adapters; S1 selected intake; broader connectors later.
+  acceptance:
+    Disconnect, backfill an older message and replay a duplicate: show the gap, retain the late evidence and create no duplicate logical event.
+  varun:
+    Receiving group and accountant-only email remain separate sources.
+  ramya:
+    Court inbox coverage includes attachment processing state, not only latest email date.
+  status:
+    Not audited in the current implementation
+  code_evidence:
+    S0 must supply repository, commit, path/symbol, actual app-path trace and reproduction evidence.
+
+  id:
+    BP03
+  number:
+    3
+  name:
+    Capture evidence
+  short:
+    Keep what was actually said.
+  why:
+    Summaries cannot be the only retained record of a disputed quantity or instruction.
+  inputs:
+    Messages, replies, attachments, photos, voice notes, documents and permitted device observations.
+  parts:
+    Evidence journal
+
+    Object storage and asset hashes
+
+    Text / OCR / transcription
+
+    Source time and availability time
+
+    Untrusted-content boundary
+  mechanism:
+    Preserve source references and revisions; extract typed observations with spans or media timestamps and extractor versions. Track pending/failed assets. Treat source text as data, never as an instruction granting tool access. Voice notes arrive early; broader video/browser capture is task-scoped and later as needed.
+  outputs:
+    Evidence IDs, extraction candidates, media references, processing status and provenance.
+  connections:
+    Feeds BP04 and exact evidence lookup in BP07. Newly processed assets trigger scoped re-evaluation even if their source date is old.
+  reuse:
+    Docling-style extraction; Sidekick frontline-media UX; screenpipe selective capture lessons.
+  build:
+    Evidence envelope, parser isolation, media provenance and retry/failure visibility.
+  skip:
+    Continuous blanket capture; assuming a transcript faithfully preserves numbers or negation.
+  sprint:
+    S1 evidence path; S2 early voice; targeted video/desktop capture deferred.
+  acceptance:
+    A voice note says “not twenty, twelve”; preserve the original, flag critical ambiguity and do not post twenty automatically.
+  varun:
+    Chef voice note and receipt photo remain inspectable together.
+  ramya:
+    Court PDF revision and email envelope remain distinct evidence.
+  status:
+    Not audited in the current implementation
+  code_evidence:
+    S0 must supply repository, commit, path/symbol, actual app-path trace and reproduction evidence.
+
+  id:
+    BP04
+  number:
+    4
+  name:
+    Understand the situation
+  short:
+    Which business event does this mean?
+  why:
+    Fragmented conversation needs interpretation; matching a name or PO number is not enough.
+  inputs:
+    New observations, reply chains, scoped entity directory, relevant history and permitted knowledge from BP06.
+  parts:
+    Entity and alias resolution
+
+    Bounded historical retrieval
+
+    Episode membership
+
+    Alternative interpretations
+
+    Targeted clarification
+  mechanism:
+    Use exact keys/replies first, then bounded text, entity, time and semantic retrieval. Keep candidate relationships separate from admitted links. Consider closed episodes. Investigate first; ask the best-placed authorized person only if the uncertainty matters. Store a clarification fingerprint and relevant source versions so unchanged questions are not repeated.
+  outputs:
+    Evidence-linked interpretation, candidate links, explicit unknowns and a scoped clarification request when needed.
+  connections:
+    Proposals go to BP05. Knowledge assists interpretation but cannot establish truth by repetition. Corrections may re-open this stage from BP12.
+  reuse:
+    Asakana scoped customer understanding; Glen context; Hermes context-engine patterns.
+  build:
+    Business-specific interpretation and episode linking; question routing, dedupe, aging and changed-evidence handling.
+  skip:
+    PO equality as automatic delivery merge; every ambiguity going to the owner; confidence alone as admission.
+  sprint:
+    S1 core interpretation; S2 historical corrections and clarification behaviour.
+  acceptance:
+    Two deliveries share a PO; “remaining came” stays ambiguous, then “other outlet” must not resolve either wrongly.
+  varun:
+    Ask the receiving manager which delivery, without inventing completion.
+  ramya:
+    Distinguish similarly numbered matters across courts; do not merge clients.
+  status:
+    Not audited in the current implementation
+  code_evidence:
+    S0 must supply repository, commit, path/symbol, actual app-path trace and reproduction evidence.
+
+  id:
+    BP05
+  number:
+    5
+  name:
+    Admit & calculate
+  short:
+    What may become business state?
+  why:
+    A plausible explanation must not silently become stock, money, a deadline or completion.
+  inputs:
+    Typed proposals, authoritative source references, current policy, exact units and relevant record versions.
+  parts:
+    Schema and semantic validation
+
+    Field authority
+
+    Exact arithmetic / units
+
+    Admission policy
+
+    Record revision and outbox
+  mechanism:
+    Apply deterministic checks and scoped admission policy. Ordinary valid cases can follow a quiet path; not every admission requires the owner. Preserve disagreements. Commit the state change and downstream notification atomically where the existing store supports it. Keep external stock/accounting authority unless an explicit migration exists.
+  outputs:
+    Admitted record revision or a held/rejected proposal; shared version-bound quantities and critical statuses.
+  connections:
+    Feeds BP06, BP08, BP10 and BP11. A current record version is rechecked before consequential actions.
+  reuse:
+    Existing verified TypeScript/PostgreSQL components; Marble/Definite record discipline.
+  build:
+    Minimal domain schema and checks, shared calculation result and authority contracts.
+  skip:
+    Vector search as ledger; prose arithmetic; a general accounting engine for the first pilot.
+  sprint:
+    S0 locate existing code; S1 repair real app path.
+  acceptance:
+    Duplicate receipt does not double-count; incompatible units remain unresolved; ordinary complete delivery creates no false alert.
+  varun:
+    Accepted received quantity and invoice discrepancy stay distinct.
+  ramya:
+    An admitted notice update revises the relevant matter record; narrative alone does not change its date.
+  status:
+    Not audited in the current implementation
+  code_evidence:
+    S0 must supply repository, commit, path/symbol, actual app-path trace and reproduction evidence.
+
+  id:
+    BP06
+  number:
+    6
+  name:
+    Maintain understanding
+  short:
+    What have we learned about this business?
+  why:
+    Useful context should accumulate across episodes without becoming a competing source of truth.
+  inputs:
+    Permitted evidence, admitted records, decisions, scoped preferences/rules, corrected relationships and verified outcomes.
+  parts:
+    Entity / matter briefs
+
+    Cross-episode synthesis
+
+    Source and version dependencies
+
+    Freshness / invalidation worker
+
+    Knowledge retrieval and inspection
+  mechanism:
+    Create selective derived briefs for useful entities. Separate accepted facts, tentative interpretations, approved procedures and narrative synthesis. Invalidate on relevant source, extraction, grant or policy change. Refresh critical dependencies before reliance; batch or lazily refresh descriptive history. Keep prior versions and never count generated text as new independent evidence.
+  outputs:
+    Permission-bearing, source-linked knowledge views with coverage, freshness and open questions; proposed patterns remain labelled.
+  connections:
+    Feeds BP04 interpretation, BP07 answers and BP11 inspection. BP05 remains record authority. BP12 may propose reviewed procedural changes.
+  reuse:
+    Glen lineage and reusable knowledge; Asakana inspectable customer knowledge; Karpathy maintained synthesis pattern.
+  build:
+    One supplier brief lifecycle first, selected by use and update cost; entity/matter views over existing storage.
+  skip:
+    A second ledger, global memory, eager rewrite of every page, a mandatory graph database or new wiki vendor.
+  sprint:
+    S0 locate reusable persistence; S1 shared interfaces; S2 one bounded brief; S4 benchmark before expansion.
+  acceptance:
+    After corrected deliveries, answer a fresh related question using updated history; no stale quantity, repeated question or restricted detail.
+  varun:
+    Supplier brief connects past delivery issues and the current agreement without claiming a proposed ban is policy.
+  ramya:
+    Matter brief preserves chronology, decisions and open questions; current notice/date comes from its authoritative record.
+  status:
+    Not audited in the current implementation
+  code_evidence:
+    S0 must supply repository, commit, path/symbol, actual app-path trace and reproduction evidence.
+
+  id:
+    BP07
+  number:
+    7
+  name:
+    Assemble context
+  short:
+    What does this request need now?
+  why:
+    Accumulating knowledge is only useful if the assistant selects current, permitted, relevant context.
+  inputs:
+    User question/command, intended audience, active business, fresh records, knowledge candidates and source health.
+  parts:
+    Intent and audience
+
+    Permission-filtered retrieval
+
+    Exact current lookup
+
+    Context budget
+
+    Coverage / uncertainty
+  mechanism:
+    Choose a bounded packet from authorized records, briefs and original evidence. For consequential current facts, check the current record and dependencies. A stale brief can guide further lookup but must not support an unqualified current claim. Reveal relevant missing coverage without disclosing forbidden material.
+  outputs:
+    Context packet with selected IDs/versions, citations, limitations and budget usage.
+  connections:
+    Questions can go directly to BP11; commands go to BP08. Additional evidence can route back to BP04. No need to traverse the entire belt per query.
+  reuse:
+    Hermes context assembly; Glen scoped recall and visible context panel.
+  build:
+    Current-policy retrieval, fallback when knowledge is stale/unavailable, per-business cache keys.
+  skip:
+    Loading the entire wiki; filtering only after protected content reaches a model.
+  sprint:
+    S1 bounded context; S2 brief-assisted retrieval.
+  acceptance:
+    Answer “what remains outstanding?” with current quantities; with revoked accountant access, reconstruct the allowed answer.
+  varun:
+    Explain supplier history plus current shortage using the right outlet.
+  ramya:
+    A new assistant receives a permitted matter summary, not all principal correspondence.
+  status:
+    Not audited in the current implementation
+  code_evidence:
+    S0 must supply repository, commit, path/symbol, actual app-path trace and reproduction evidence.
+
+  id:
+    BP08
+  number:
+    8
+  name:
+    Plan & authorize
+  short:
+    Which next step is permitted?
+  why:
+    Understanding, user intent and authority must meet before a business effect occurs.
+  inputs:
+    Typed request, context packet, proposed effect, current record/policy versions and task owner.
+  parts:
+    Intent / goal and plan
+
+    Procedure applicability
+
+    Effect preview
+
+    Hard policy gate
+
+    Approval version binding
+  mechanism:
+    Select a reviewed procedure when applicable; otherwise propose bounded steps. Separate answering, drafting and executing. Bind approvals to the exact effect and relevant versions. A changed dependency causes revalidation, not approval reuse. Business policy can permit routine low-risk work without repetitive owner approval.
+  outputs:
+    Authorized effect intent, held proposal or an answer-only route; expected outcome and evidence predicate.
+  connections:
+    Dispatch authorized work to BP09; hand human-owned work to BP10; drafts go to BP11 with status.
+  reuse:
+    Decawork review separation; GrepAI procedure contracts; Executor scoped tool access.
+  build:
+    GoFathom action gateway, approval identity, pending intent and cancellation semantics.
+  skip:
+    A review LLM overriding hard denies; old approval covering a new quantity or recipient.
+  sprint:
+    S1 identify boundaries; S2 commands; S3 complete action loop.
+  acceptance:
+    Change a delivery relationship after approval: the previous approval cannot authorize the changed effect.
+  varun:
+    Draft a supplier follow-up; sending requires the authorized channel and current scope.
+  ramya:
+    Assign matter work only with appropriate evidence, assignee access and authority.
+  status:
+    Not audited in the current implementation
+  code_evidence:
+    S0 must supply repository, commit, path/symbol, actual app-path trace and reproduction evidence.
+
+  id:
+    BP09
+  number:
+    9
+  name:
+    Execute & reconcile
+  short:
+    Did the action actually happen?
+  why:
+    Tool success, network acknowledgement and business success are different events.
+  inputs:
+    Authorized effect intent with idempotency key, tool arguments, target and expected result.
+  parts:
+    API / browser adapter
+
+    Scoped execution environment
+
+    Effect ledger
+
+    Retry / reconciliation
+
+    Durable checkpoint
+  mechanism:
+    Prefer structured APIs. Use browser execution when justified, with scoped credentials and evidence of the result. Persist intent before dispatch. On ambiguous timeout, mark outcome unknown and reconcile before retrying. Keep cloud work durable when a device sleeps. Do not treat a terminal becoming idle as business completion.
+  outputs:
+    Effect receipt, verified external reference, failure or explicit unknown outcome.
+  connections:
+    Feeds BP10 verification and BP11 progress. Failures return to an authorized recovery route, not blind retries.
+  reuse:
+    Executor tool access; Agent37 environment patterns; Terse state ownership; herdr progress and recovery UX.
+  build:
+    Effect identity, reconciliation and scoped tool adapters using the existing harness where verified.
+  skip:
+    Exactly-once claims across arbitrary APIs; permanent privileged browser sessions; automatic repeated sends.
+  sprint:
+    S2 internal artifacts; S3 authorized effects/recovery; wider tooling deferred.
+  acceptance:
+    Provider accepts an action then times out: reconcile to one effect rather than create a duplicate.
+  varun:
+    Create a versioned report now; external supplier messages remain separately authorized.
+  ramya:
+    Provide permitted attachments with assignment and verify the target result.
+  status:
+    Not audited in the current implementation
+  code_evidence:
+    S0 must supply repository, commit, path/symbol, actual app-path trace and reproduction evidence.
+
+  id:
+    BP10
+  number:
+    10
+  name:
+    Follow through
+  short:
+    Who owns the unresolved work?
+  why:
+    An assistant must remember commitments and distinguish acknowledgement from completion.
+  inputs:
+    Task version, assigned person, due/next-check time, required evidence, effect outcomes and business policy.
+  parts:
+    Task and wait state
+
+    Acknowledgement
+
+    Bounded reminders / escalation
+
+    Evidence-based resolution
+
+    Reopen / reassignment
+  mechanism:
+    Keep durable waiting states, owner and next check. A view is not acknowledgement; acknowledgement is not completion. Close only the relevant obligation with evidence and authority. Separate replacement received, credit accepted, accepted loss, corrected finding and partial/unresolved states. Recovery and staff departure preserve unresolved work.
+  outputs:
+    Verified task outcome or explicitly pending obligation, with chronology and resolution evidence.
+  connections:
+    Updates BP05 records as permitted, BP06 history and BP11 attention views. Later correction can reopen affected work.
+  reuse:
+    Praxis ownership/readiness; Marble receipt/billing distinction; herdr status visibility.
+  build:
+    GoFathom discrepancy/task predicates and minimal reminder/recovery behaviour.
+  skip:
+    A generic “closed” flag; credit as replenishment; automatic reminders without configured authority.
+  sprint:
+    S1 manager acknowledgement trial; S3 full durable loop.
+  acceptance:
+    Credit resolves the matching billing issue but physical shortage stays open; departure cannot orphan the task silently.
+  varun:
+    Receiving manager confirms replacement; accountant handles credit separately.
+  ramya:
+    Acknowledged assignment remains open until its required work evidence exists.
+  status:
+    Not audited in the current implementation
+  code_evidence:
+    S0 must supply repository, commit, path/symbol, actual app-path trace and reproduction evidence.
+
+  id:
+    BP11
+  number:
+    11
+  name:
+    Explain & deliver
+  short:
+    What should a person see?
+  why:
+    The same business state should not produce conflicting chat, PDF and voice answers.
+  inputs:
+    Version-bound critical result, authorized evidence, knowledge view, task state and audience.
+  parts:
+    Ask / attention / work / knowledge views
+
+    Shared critical-output contract
+
+    PDF and report versions
+
+    Voice readback
+
+    What changed and why
+  mechanism:
+    Render the same quantities/statuses across answers, reports and voice. Show evidence, uncertainty, last refresh and pending work. Provide a change explanation linking affected knowledge, records, tasks and outputs. Keep historical reports immutable and mark tracked copies stale/superseded; downloaded copies cannot be recalled.
+  outputs:
+    Audience-appropriate answer, knowledge view, report or readback with provenance and currentness.
+  connections:
+    User corrections return to BP04/BP12. Repeated useful questions may nominate a BP06 brief; an answer never becomes independent evidence.
+  reuse:
+    Asakana knowledge inspection; Glen context panel; Sidekick low-friction staff interaction.
+  build:
+    Readable domain views and consistent rendering over the shared calculation/state output.
+  skip:
+    Separate prose patches for each modality; exposing implementation jargon to restaurant staff.
+  sprint:
+    S2 answers, commands, voice and reports; S3 progress experience.
+  acceptance:
+    Correct a receipt: chat/PDF/voice use the same new values; old report is retained and labelled superseded.
+  varun:
+    “What changed?” identifies the corrected outlet and remaining shortage.
+  ramya:
+    Ramya sees revised notice, affected assignment and unresolved questions together.
+  status:
+    Not audited in the current implementation
+  code_evidence:
+    S0 must supply repository, commit, path/symbol, actual app-path trace and reproduction evidence.
+
+  id:
+    BP12
+  number:
+    12
+  name:
+    Correct & improve
+  short:
+    Will the next interaction be better?
+  why:
+    Learning must persist at the right scope and be tested without inventing global rules.
+  inputs:
+    Corrections, reviewer decisions, verified outcomes, recurring questions and production failures when authorized.
+  parts:
+    Correction type and scope
+
+    Dependency invalidation
+
+    Pattern / procedure proposal
+
+    Protected evaluation
+
+    Version promotion / rollback
+  mechanism:
+    Distinguish one-off fact correction, scoped alias/preference, operating rule and product/model change. Propagate affected state through existing controls. Suggest stable reusable knowledge or procedures, but promote consequential rules through review and tests. Keep evaluation families separate and record full cost and human effort.
+  outputs:
+    Corrected record/brief or a reviewed candidate rule/procedure; regression fixture and release evidence.
+  connections:
+    Feedback routes to BP04/BP05/BP06 and approved procedures in BP08. BP01 permissions remain in force.
+  reuse:
+    Asakana scoped correction; GrepAI reusable procedures; Hue incident-to-test learning; Rystic stateful test environments.
+  build:
+    Traceable learning lifecycle, versioned changes, evaluation and rollback—not automatic weight training.
+  skip:
+    Treating one success as policy; tuning on held-out cases; cross-tenant learning without authorization.
+  sprint:
+    S1 capture corrections; S2 scoped propagation; S4 generalization and economics.
+  acceptance:
+    “This delivery only” changes one case; “Consu rule from now” needs scoped admission and cannot alter ForeFathers.
+  varun:
+    Next supplier question benefits from corrected history without repeating a settled clarification.
+  ramya:
+    New staff inherit approved matter context while departed staff lose access.
+  status:
+    Not audited in the current implementation
+  code_evidence:
+    S0 must supply repository, commit, path/symbol, actual app-path trace and reproduction evidence.
+knowledge_lifecycle:
+  id:
+    KB01
+  name:
+    Nominate
+  rule:
+    Create a brief only for an active workflow, repeated question or useful entity; retain an explicit reason. Do not summarize every message into every entity.
+  fields:
+    Entity ID, business/matter scope, audience class, intended use, source references and creation reason.
+  test:
+    An unrelated new supplier message does not rewrite every outlet brief.
+
+  id:
+    KB02
+  name:
+    Compile
+  rule:
+    Synthesize across eligible episodes. Label accepted fact, tentative interpretation, scoped preference, approved procedure and narrative separately. Critical quantities/statuses come from the shared version-bound result.
+  fields:
+    Brief ID/version, claim or section dependencies, source spans/timestamps, record revisions, model/extractor version, coverage and unresolved questions.
+  test:
+    Two repeated summaries of one complaint still represent one underlying observation.
+
+  id:
+    KB03
+  name:
+    Invalidate
+  rule:
+    A matching correction, backfill, processed attachment, extractor/policy change or grant change marks affected claims for revalidation. Use reverse dependencies plus scoped selectors for absence claims. A source timestamp alone is insufficient.
+  fields:
+    Changed dependency, invalidation reason, affected claims/views, queued refresh and historical version.
+  test:
+    A late credit note invalidates the matching no-credit conclusion; unrelated supplier briefs remain valid.
+
+  id:
+    KB04
+  name:
+    Refresh
+  rule:
+    Revalidate operationally critical values before reliance. Batch or lazily refresh descriptive synthesis with explicit freshness. Under budget pressure, retain originals and show pending coverage; never silently present old synthesis as current.
+  fields:
+    Last successful refresh, evaluated source/processing revisions, refresh mode, pending/failed status, budget and retry state.
+  test:
+    Correction arrives during refresh: version check prevents publishing a superseded brief as current.
+
+  id:
+    KB05
+  name:
+    Use & inspect
+  rule:
+    Retrieve only currently allowed content. Use fresh records for current quantities, dates and state; briefs explain history and select further evidence. Show what the assistant knows, why, uncertainty and what changed. A user can flag irrelevant context without deleting evidence.
+  fields:
+    Requester, purpose, destination audience, policy revision, selected brief/record versions and source citations.
+  test:
+    Revoke an accountant source: its content cannot leak through the cached supplier brief or its title.
+
+  id:
+    KB06
+  name:
+    Retire & evaluate
+  rule:
+    Supersede historical briefs, apply retention/deletion to derivatives and indexes, and promote useful knowledge/procedures only at the appropriate scope. Preserve correction history under policy; generated answers never become fresh independent evidence.
+  fields:
+    Supersession, retention policy, approved scope/owner, evaluation version and rollback reference.
+  test:
+    New related question improves with corrected history; one-off exception does not become a standing rule.
+harness:
+  Context builder
+
+  BP04 / BP07
+
+  Select permitted evidence, records and knowledge within token limits; record what was used.
+
+  Model and modality adapter
+
+  BP03 / BP04 / BP11
+
+  Swap approved providers without losing schema, policy, tool or data-processing requirements; handle voice/photo inputs.
+
+  Tool registry and schemas
+
+  BP08 / BP09
+
+  Expose narrow capabilities with typed inputs/results; validate boundaries outside the model.
+
+  Run state and checkpoints
+
+  BP08–BP10
+
+  Persist request, step, wait, cancellation and recovery state across phone/desktop sessions.
+
+  Validators and policy gateway
+
+  BP05 / BP08 / BP09
+
+  Code owns exact arithmetic, critical transitions, authorization and current-version checks.
+
+  Budgets and scheduling
+
+  All processing stages
+
+  Bound context, retries and background work; expose queues and overload without silently dropping accepted work.
+
+  Trace and evaluator
+
+  All stages / BP12
+
+  Capture redacted provenance and outcomes; run replay cases without mistaking a trace for proof of correctness.
+cross_cutting_rails:
+  Data & identity
+
+  PostgreSQL for transactional records and references; object storage for media; indexes and briefs are derived. Current grants apply to source and derivative reads.
+
+  Execution & recovery
+
+  A small existing app/worker path first. Durable work records, leases, reconciliation and restore checks. Choose another runtime only for a demonstrated gap.
+
+  Trust & observation
+
+  Tenant isolation, secrets, untrusted input, revisions, audit provenance, connector health, processing completeness and retention cross every stage.
+
+  Experience & cost
+
+  Quiet normal work, targeted questions, visible pending states and per-tenant budgets. Measure completed useful work and human effort, not only tokens or tool calls.
+project_mapping:
+  YC01
+
+  Executor
+
+  BP01, BP02, BP08, BP09
+
+  Reuse integration/credential-policy patterns; inspect compatibility and license before adopting code.
+
+  executor
+
+  YC02
+
+  Agent37
+
+  BP09
+
+  Study persistent environment UX; do not assume hosted isolation or choose a per-customer VM without workload evidence.
+
+  agent37
+
+  YC03
+
+  screenpipe
+
+  BP03
+
+  Reuse selective capture and provenance lessons; defer ambient recording and verify licensing.
+
+  screenpipe
+
+  YC04
+
+  Asakana
+
+  BP04, BP06, BP11, BP12
+
+  Adopt inspectable customer knowledge, scoped correction and reviewed ordinary-work flows.
+
+  asakana
+
+  YC05
+
+  Praxis
+
+  BP04, BP10, BP11
+
+  Adopt matter readiness, ownership and work context; implement Indian source specifics separately.
+
+  praxis
+
+  YC06
+
+  Hue
+
+  BP12
+
+  Adopt failures-to-tests and repeatable evaluation patterns; do not assume access to its private harness.
+
+  hue
+
+  YC07
+
+  Sidekick
+
+  BP03, BP11
+
+  Adopt frontline voice/photo interaction and concise operational outputs.
+
+  sidekick
+
+  YC08
+
+  Marble
+
+  BP05, BP10
+
+  Adopt receiving/procurement reconciliation and explicit physical versus billing outcomes.
+
+  marble
+
+  YC09
+
+  Agent Relay
+
+  BP09 / later collaboration
+
+  Study communication contracts; defer agent-to-agent infrastructure until an authorized repeated workflow requires it.
+
+  agent-relay
+
+  YC10
+
+  Glen
+
+  BP06, BP07, BP11
+
+  Adopt governed organizational memory, lineage, current-source checks and context inspection; backend properties remain unverified.
+
+  glen
+
+  YC11
+
+  Decawork
+
+  BP08
+
+  Adopt review separate from acting; hard permission enforcement remains outside the reviewing model.
+
+  decawork
+
+  YC12
+
+  GrepAI
+
+  BP08, BP12
+
+  Adopt reviewed versioned procedures and applicability checks; do not silently promote inferred habits.
+
+  grepai
+
+  YC13
+
+  herdr
+
+  BP09–BP11
+
+  Adopt visible run/attention state and stale-device recovery; status signals do not prove business outcomes.
+
+  herdr
+
+  YC14
+
+  Terse
+
+  BP05, BP09, BP10
+
+  Study state ownership and versioned updates; avoid a second authority or unnecessary runtime replacement.
+
+  terse
+
+  YC15
+
+  Shire Intelligence
+
+  BP03 / later observation
+
+  Adopt observation-versus-fact discipline; defer cameras from the first receiving workflow.
+
+  shire-intelligence
+
+  YC16
+
+  Inkbox
+
+  BP02, BP08
+
+  Study scoped communication identity and inbox patterns; actual provider integration needs separate verification.
+
+  inkbox
+
+  YC17
+
+  Rystic
+
+  BP12 / evaluation
+
+  Adopt stateful business worlds, protected outcome scoring and controlled failures; keep simulation separate from the production harness.
+
+  rystic
+
+  YC18
+
+  Definite
+
+  BP05, BP11
+
+  Adopt evidence, proposals, checks, review and durable outputs; do not assume an available SDK or add a finance platform dependency.
+
+  definite
+traceability:
+  id:
+    TR01
+  user_need:
+    Connect without exposing other businesses
+  research:
+    Executor; Glen; 1.1 grants
+  stages:
+    BP01, BP02
+  chosen_mechanism:
+    Explicit business/audience grants; credential vault; source-sharing policy
+  acceptance:
+    Revocation and business switch block forbidden derived context.
+  sprint:
+    S0–S3
+  change:
+    Retained; end-to-end proof required
+  code_location:
+    Unknown — S0 must provide path/symbol at pinned commit
+  status:
+    Not audited
+  evidence_required:
+    Commit + path/symbol + actual app trace + reproducible command/result; distinguish inspection from execution.
+
+  id:
+    TR02
+  user_need:
+    Know what the assistant has and has not seen
+  research:
+    Connector research; 1.4 CL02
+  stages:
+    BP02, BP03
+  chosen_mechanism:
+    Sync/processing revisions, coverage and retry state
+  acceptance:
+    Backfill and newly processed attachment invalidate only matching absence claims.
+  sprint:
+    S0–S2
+  change:
+    Retained; knowledge dependencies connected
+  code_location:
+    Unknown — S0 must provide path/symbol at pinned commit
+  status:
+    Not audited
+  evidence_required:
+    Commit + path/symbol + actual app trace + reproducible command/result; distinguish inspection from execution.
+
+  id:
+    TR03
+  user_need:
+    Understand the business at setup
+  research:
+    Asakana AS-03; Glen; 1.1 stage 03
+  stages:
+    BP01, BP04, BP06
+  chosen_mechanism:
+    Inspectable entity map with aliases, authoritative sources and open questions
+  acceptance:
+    Initial permitted history yields a correctable map; ambiguous identity remains unknown.
+  sprint:
+    S0–S2
+  change:
+    Consolidated product acceptance
+  code_location:
+    Unknown — S0 must provide path/symbol at pinned commit
+  status:
+    Not audited
+  evidence_required:
+    Commit + path/symbol + actual app trace + reproducible command/result; distinguish inspection from execution.
+
+  id:
+    TR04
+  user_need:
+    Use voice/photos naturally
+  research:
+    Sidekick; Hermes; 1.3 D03
+  stages:
+    BP03, BP04, BP11
+  chosen_mechanism:
+    Evidence-linked extraction and critical-number checks
+  acceptance:
+    Voice correction and photo yield consistent typed observations without invented certainty.
+  sprint:
+    S2
+  change:
+    Retained; no voice postponement
+  code_location:
+    Unknown — S0 must provide path/symbol at pinned commit
+  status:
+    Not audited
+  evidence_required:
+    Commit + path/symbol + actual app trace + reproducible command/result; distinguish inspection from execution.
+
+  id:
+    TR05
+  user_need:
+    Understand fragmented conversations
+  research:
+    Asakana; 1.3 D01; 1.4 CL01
+  stages:
+    BP04, BP05
+  chosen_mechanism:
+    Versioned episode membership and alternative links
+  acceptance:
+    Shared PO plus “other outlet” never falsely closes a delivery.
+  sprint:
+    S1–S2
+  change:
+    Retained
+  code_location:
+    Unknown — S0 must provide path/symbol at pinned commit
+  status:
+    Not audited
+  evidence_required:
+    Commit + path/symbol + actual app trace + reproducible command/result; distinguish inspection from execution.
+
+  id:
+    TR06
+  user_need:
+    Process normal work quietly
+  research:
+    Asakana; Marble; 1.3 D02
+  stages:
+    BP05, BP11
+  chosen_mechanism:
+    Policy-qualified admission and shared calculations
+  acceptance:
+    Ordinary complete receipt produces no false alert or needless question.
+  sprint:
+    S1
+  change:
+    Retained
+  code_location:
+    Unknown — S0 must provide path/symbol at pinned commit
+  status:
+    Not audited
+  evidence_required:
+    Commit + path/symbol + actual app trace + reproducible command/result; distinguish inspection from execution.
+
+  id:
+    TR07
+  user_need:
+    Remember useful history across situations
+  research:
+    Glen; Asakana AS-03; Karpathy pattern
+  stages:
+    BP06, BP07
+  chosen_mechanism:
+    Selective derived briefs with explicit fact/interpretation/procedure classes
+  acceptance:
+    Fresh related question uses corrected cross-episode context and original citations.
+  sprint:
+    S0 inventory; S2 thin slice; S4 comparison
+  change:
+    Explicit maintained-understanding contract
+  code_location:
+    Unknown — S0 must provide path/symbol at pinned commit
+  status:
+    Not audited
+  evidence_required:
+    Commit + path/symbol + actual app trace + reproducible command/result; distinguish inspection from execution.
+
+  id:
+    TR08
+  user_need:
+    Avoid stale or leaked knowledge
+  research:
+    Glen lineage; 1.3 D08; 1.4 CL02
+  stages:
+    BP06, BP07
+  chosen_mechanism:
+    Dependency invalidation, scoped absence selectors and current-policy retrieval
+  acceptance:
+    Late credit, grant revocation and refresh race do not publish stale/forbidden claims.
+  sprint:
+    S1 interfaces; S2 lifecycle
+  change:
+    Existing controls applied to briefs
+  code_location:
+    Unknown — S0 must provide path/symbol at pinned commit
+  status:
+    Not audited
+  evidence_required:
+    Commit + path/symbol + actual app trace + reproducible command/result; distinguish inspection from execution.
+
+  id:
+    TR09
+  user_need:
+    Do not repeatedly explain or answer the same question
+  research:
+    Glen context; 1.3 owner experience
+  stages:
+    BP04, BP10
+  chosen_mechanism:
+    Investigate first; clarification identity, owner, state and relevant versions
+  acceptance:
+    Settled clarification is not repeated unless material evidence changes; overdue uncertainty stays visible.
+  sprint:
+    S1/S2
+  change:
+    Concrete interaction contract
+  code_location:
+    Unknown — S0 must provide path/symbol at pinned commit
+  status:
+    Not audited
+  evidence_required:
+    Commit + path/symbol + actual app trace + reproducible command/result; distinguish inspection from execution.
+
+  id:
+    TR10
+  user_need:
+    Turn requests into authorized work
+  research:
+    Executor; Decawork; 1.3 D03
+  stages:
+    BP07–BP09
+  chosen_mechanism:
+    Typed request, current-policy effect preview and durable effect identity
+  acceptance:
+    Repeated submission produces one logical request; changed effect needs revalidation.
+  sprint:
+    S2–S3
+  change:
+    Retained
+  code_location:
+    Unknown — S0 must provide path/symbol at pinned commit
+  status:
+    Not audited
+  evidence_required:
+    Commit + path/symbol + actual app trace + reproducible command/result; distinguish inspection from execution.
+
+  id:
+    TR11
+  user_need:
+    Continue on phone and desktop
+  research:
+    Agent37; herdr; Terse; 1.3 D07
+  stages:
+    BP09–BP11
+  chosen_mechanism:
+    Durable task/request state, version checks and visible connectivity
+  acceptance:
+    Device switch resumes work; old offline device cannot perform revoked action.
+  sprint:
+    S2–S3
+  change:
+    Consolidated continuity proof
+  code_location:
+    Unknown — S0 must provide path/symbol at pinned commit
+  status:
+    Not audited
+  evidence_required:
+    Commit + path/symbol + actual app trace + reproducible command/result; distinguish inspection from execution.
+
+  id:
+    TR12
+  user_need:
+    Know who is doing what until it is resolved
+  research:
+    Praxis; Marble; 1.4 CL03
+  stages:
+    BP10
+  chosen_mechanism:
+    Owner, next check, acknowledgement and task-specific evidence predicate
+  acceptance:
+    Credit resolves billing only; unresolved physical obligation remains assigned.
+  sprint:
+    S1 trial; S3 full loop
+  change:
+    Retained
+  code_location:
+    Unknown — S0 must provide path/symbol at pinned commit
+  status:
+    Not audited
+  evidence_required:
+    Commit + path/symbol + actual app trace + reproducible command/result; distinguish inspection from execution.
+
+  id:
+    TR13
+  user_need:
+    Trust the same numbers in chat/PDF/voice
+  research:
+    Definite; 1.4 CL04
+  stages:
+    BP05, BP11
+  chosen_mechanism:
+    One version-bound critical-output result and artifact lineage
+  acceptance:
+    All surfaces agree after a correction; historical PDF remains superseded.
+  sprint:
+    S1 interface; S2 outputs
+  change:
+    Retained
+  code_location:
+    Unknown — S0 must provide path/symbol at pinned commit
+  status:
+    Not audited
+  evidence_required:
+    Commit + path/symbol + actual app trace + reproducible command/result; distinguish inspection from execution.
+
+  id:
+    TR14
+  user_need:
+    See what changed and why
+  research:
+    Glen; Terse; 1.3 D04/D08
+  stages:
+    BP06, BP10, BP11
+  chosen_mechanism:
+    Affected-object explanation with source/record/report revisions
+  acceptance:
+    Show corrected outlet, changed brief, reopened task and stale report without unrelated changes.
+  sprint:
+    S2–S3
+  change:
+    Connected change explanation
+  code_location:
+    Unknown — S0 must provide path/symbol at pinned commit
+  status:
+    Not audited
+  evidence_required:
+    Commit + path/symbol + actual app trace + reproducible command/result; distinguish inspection from execution.
+
+  id:
+    TR15
+  user_need:
+    Learn one-off versus standing instructions correctly
+  research:
+    Asakana; GrepAI; 1.1 learning
+  stages:
+    BP06, BP08, BP12
+  chosen_mechanism:
+    Scoped exception/preference/rule/procedure lifecycle
+  acceptance:
+    One-off case does not become policy; approved Consu rule does not affect ForeFathers.
+  sprint:
+    S1 capture; S2 propagation; S4 test
+  change:
+    Retained and joined to knowledge lifecycle
+  code_location:
+    Unknown — S0 must provide path/symbol at pinned commit
+  status:
+    Not audited
+  evidence_required:
+    Commit + path/symbol + actual app trace + reproducible command/result; distinguish inspection from execution.
+
+  id:
+    TR16
+  user_need:
+    Stay useful when sources or budgets fail
+  research:
+    herdr; Terse; 1.3 D06/D09
+  stages:
+    BP02, BP06, BP09, BP10
+  chosen_mechanism:
+    Pending/stale/unknown states, bounded retries and authorized recovery
+  acceptance:
+    Budget exhaustion retains work; source outage never supports a false absence claim.
+  sprint:
+    S1 visibility; S3 recovery; S4 load
+  change:
+    Retained
+  code_location:
+    Unknown — S0 must provide path/symbol at pinned commit
+  status:
+    Not audited
+  evidence_required:
+    Commit + path/symbol + actual app trace + reproducible command/result; distinguish inspection from execution.
+
+  id:
+    TR17
+  user_need:
+    Prove improvement rather than add another inbox
+  research:
+    Hue; Rystic; 1.4 CL05
+  stages:
+    BP12 / all stages
+  chosen_mechanism:
+    Shared runner, understanding/workflow scorecards, separate write validity
+  acceptance:
+    Compare fixed model/evidence arms including maintenance cost and user effort.
+  sprint:
+    S0 fixtures; S4 trial
+  change:
+    Adds bounded maintained-knowledge comparison
+  code_location:
+    Unknown — S0 must provide path/symbol at pinned commit
+  status:
+    Not audited
+  evidence_required:
+    Commit + path/symbol + actual app trace + reproducible command/result; distinguish inspection from execution.
+
+  id:
+    TR18
+  user_need:
+    Preserve law-firm fit while piloting restaurants
+  research:
+    Praxis; Glen; 1.3 D11
+  stages:
+    BP01, BP04, BP06, BP10
+  chosen_mechanism:
+    Matter identity/privacy and notice-revision foundation fixtures
+  acceptance:
+    Same case number across courts remains distinct; inaccessible principal notes never enter staff brief.
+  sprint:
+    S0 fixtures; restaurant implementation first
+  change:
+    Retained; no second live pilot
+  code_location:
+    Unknown — S0 must provide path/symbol at pinned commit
+  status:
+    Not audited
+  evidence_required:
+    Commit + path/symbol + actual app trace + reproducible command/result; distinguish inspection from execution.
+benchmark:
+  arms:
+    A: raw retrieval plus exact current-record lookup
+
+    B: summary plus exact lookup (existing 1.4 baseline)
+
+    C: governed workflow without maintained cross-episode briefs
+
+    D: the same governed workflow plus one maintained supplier brief
+  fairness:
+    Hold model/version, eligible evidence timeline, permission boundaries, tools and task instructions comparable. Specify how B summarizes and refreshes so D is not compared with an artificially weak baseline. Report budgets and any unmatched capabilities.
+  cases:
+    One development episode family; reserve fresh supplier/outlet/wording families for evaluation. Include repeated questions, rare questions, high update rates, near-duplicates, late assets, ambiguous links, revocation and a correction during brief refresh.
+  scorecards:
+    Understanding: identity, quantities, relationships, correction handling, uncertainty, source support and useful cross-episode synthesis. Workflow: false alerts, repeated/necessary clarifications, owner interventions, incorrect closure and unresolved work. Track format and effect validity separately.
+  cost:
+    Total = intake + extraction + indexing + initial compilation + refresh/invalidation + retrieval + answering + retries + human review. Report storage/media/index growth, queue age, p50/p95 latency, correction-to-safe-read delay and model/provider charges separately.
+  decision:
+    Keep the brief only if it improves useful answers or repeated-work effort at an acceptable measured maintenance cost without weakening correctness or access controls. Thresholds depend on pilot workload and must be agreed before evaluating protected cases. No claimed percentage improvement.
+  complexity:
+    With N stored objects, E dependency edges and B retained source bytes, base storage is O(B + N + E) before media/index/vector overhead. Invalidating D affected descendants through E_D relevant reverse edges is O(D + E_D); selector lookup for absence claims adds work. Broad rule changes can touch most objects. Retrieval depends on indexes, selectivity and permissions; no constant-time promise. Model compilation cost depends on input/output tokens and update fan-out.
+  breakeven:
+    For a period, maintained knowledge is cheaper only when Q × (baseline per-query cost − brief-assisted per-query cost) exceeds initial compilation plus all update/maintenance costs. This is an analytical condition, not a measured result; quality, privacy and human effort must also pass.
+sprints:
+  S0
+
+  Audit, do not rebuild
+
+  Pin code; trace one real path; locate persistent context, summaries, relationships, invalidation and task state. Populate TR01–TR18 with evidence or explicit unknowns. Inventory KB01–KB06 support and estimate a minimal supplier-brief slice.
+
+  Source-backed matrix, known failures, smallest S1 proposal, untouched holdout plan. Existing 1.4 A01–A08 remain required.
+
+  S1
+
+  Repair the operating foundation
+
+  Reuse verified implementation. Fix ordinary/ambiguous intake, record/calculation boundaries and shared critical output. Record learning/correction scope and clarify persistence interfaces without building a new memory platform.
+
+  Real app handles normal receipt plus ambiguous shortage; isolation and exact-state checks; low-fidelity manager acknowledgement trial once staffed.
+
+  S2
+
+  Demonstrate useful understanding
+
+  Keep early voice, commands, reports and correction propagation. Add one source-linked supplier brief if S0 shows a bounded feasible slice; implement the essential invalidation/read checks before relying on it.
+
+  Corrected history answers a new related question; shared values across surfaces; revoked/stale knowledge not used as current fact. If brief work is too large, report the concrete gap and bounded follow-on task rather than silently drop it.
+
+  S3
+
+  Complete the work loop
+
+  Durable assignment/wait/acknowledgement, explicit resolution, device/connector recovery and change explanations. Connect briefs to verified outcomes without changing authority.
+
+  Task survives device change; closure satisfies its own evidence/authority predicate; correction reopens affected work.
+
+  S4
+
+  Prove value and operating limits
+
+  Run protected fresh families, security/recovery and growth/concurrency tests. Compare A–D including preparation/maintenance cost. Observe a consented one-outlet trial with named participants.
+
+  Document bounded reliance, real effort/adoption and costs. Expand knowledge coverage only on evidence. Native capture, camera monitoring, agent-to-agent network and broad platform replacement remain deferred.
+handoff:
+  Please start or continue the bounded S0 source audit. GoFathom 1.5 — Build Plan consolidates the existing architecture; it does not reset S0 or authorize a broad rebuild.
+
+Single full reference: https://vamsi-paltribe.github.io/supabiz-system-atlas/gofathom-complete.txt
+Visual build plan: https://vamsi-paltribe.github.io/supabiz-system-atlas/gofathom-1.5/
+Read Section J for the current factory stages, maintained-understanding lifecycle and traceability; Section K is this handoff. Section H retains the 1.4 acceptance semantics; Section E retains the 1.3 S0–S4 sequence. Unchanged 1.1 controls apply. Section D is historical audit evidence. State any truncation or unread sections.
+
+Keep the 1.4 requirements: proposed relationships cannot change authoritative business state before admission; late evidence/processing/coverage changes invalidate scoped absence claims; physical replacement, billing credit and accepted loss are distinct; answers, reports and voice share version-bound critical values; one case runner has understanding and workflow scorecards with separate format/write validity.
+
+The added focus is maintained business understanding. We already researched this through Glen and Asakana, and specified several foundations. Audit what persists and is reused across episodes: entity maps, source-linked summaries, decisions, preferences/procedures, relationships, freshness, correction dependencies and permission-aware retrieval. Do not assume it is absent or implemented. Map KB01–KB06 to existing code and identify the smallest source-linked supplier brief over existing stores. The brief is a derived view, not a new ledger; no mandatory wiki, vector database, graph database or vendor switch.
+
+Return:
+1. Pinned repository/commit and working-tree state, plus the real UI/API/worker/storage/output path and differences from diagnostic scripts.
+2. TR01–TR18 completed with path/symbol, evidence, reproduced test/result and status: present-tested-at-commit, present-untested, partial, absent or not-audited. Record audit fixture/instrumentation changes separately. Do not substitute design agreement for runtime evidence.
+3. Known-failure register and the unchanged 1.4 A01–A08 audit deliverables; map CL01–CL05 and AT01–AT10.
+4. One development scenario: connect/scope → inspect initial business context → normal receipt → shortage → ambiguous follow-up → targeted clarification → correction → report revision → acknowledgement → explicitly classified resolution → new related question using corrected accumulated understanding. Treat unavailable portions as gaps, not pressure to build them during S0. Keep fresh episode families and confusing near-duplicates reserved for evaluation. Include small Ramya matter/privacy fixtures, not a second live pilot.
+5. The smallest S1 repair proposal, shared critical-output interface, maintained-knowledge dependencies, S2 slice estimate, blockers and costs with assumptions. Prepare the A–D comparison without delaying S0 for a full benchmark or another architecture-review round.
+
+Pilot manager and business reviewer are still unconfirmed; Varun is a proposed sponsor, not an assigned participant. This does not block isolated local source inspection and synthetic tests. Real-user trials and business actions require named authorized participants and applicable consent/source controls.
+
+Use synthetic fixtures in an isolated local environment unless existing data authorization and safeguards are established. Do not activate live connectors, send external messages, deploy, alter production data or perform a broad refactor under this audit. Return the S0 evidence packet and proposed implementation tasks. Preserve earlier findings and clearly separate specification, source inspection and executed evidence.
+
+
+END OF GOFATHOM 1.5 BUILD PLAN

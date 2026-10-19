@@ -1,0 +1,44 @@
+[
+  {
+    "id": "KB01",
+    "name": "Nominate",
+    "rule": "Create a brief only for an active workflow, repeated question or useful entity; retain an explicit reason. Do not summarize every message into every entity.",
+    "fields": "Entity ID, business/matter scope, audience class, intended use, source references and creation reason.",
+    "test": "An unrelated new supplier message does not rewrite every outlet brief."
+  },
+  {
+    "id": "KB02",
+    "name": "Compile",
+    "rule": "Synthesize across eligible episodes. Label accepted fact, tentative interpretation, scoped preference, approved procedure and narrative separately. Critical quantities/statuses come from the shared version-bound result.",
+    "fields": "Brief ID/version, claim or section dependencies, source spans/timestamps, record revisions, model/extractor version, coverage and unresolved questions.",
+    "test": "Two repeated summaries of one complaint still represent one underlying observation."
+  },
+  {
+    "id": "KB03",
+    "name": "Invalidate",
+    "rule": "A matching correction, backfill, processed attachment, extractor/policy change or grant change marks affected claims for revalidation. Use reverse dependencies plus scoped selectors for absence claims. A source timestamp alone is insufficient.",
+    "fields": "Changed dependency, invalidation reason, affected claims/views, queued refresh and historical version.",
+    "test": "A late credit note invalidates the matching no-credit conclusion; unrelated supplier briefs remain valid."
+  },
+  {
+    "id": "KB04",
+    "name": "Refresh",
+    "rule": "Revalidate operationally critical values before reliance. Batch or lazily refresh descriptive synthesis with explicit freshness. Under budget pressure, retain originals and show pending coverage; never silently present old synthesis as current.",
+    "fields": "Last successful refresh, evaluated source/processing revisions, refresh mode, pending/failed status, budget and retry state.",
+    "test": "Correction arrives during refresh: version check prevents publishing a superseded brief as current."
+  },
+  {
+    "id": "KB05",
+    "name": "Use & inspect",
+    "rule": "Retrieve only currently allowed content. Use fresh records for current quantities, dates and state; briefs explain history and select further evidence. Show what the assistant knows, why, uncertainty and what changed. A user can flag irrelevant context without deleting evidence.",
+    "fields": "Requester, purpose, destination audience, policy revision, selected brief/record versions and source citations.",
+    "test": "Revoke an accountant source: its content cannot leak through the cached supplier brief or its title."
+  },
+  {
+    "id": "KB06",
+    "name": "Retire & evaluate",
+    "rule": "Supersede historical briefs, apply retention/deletion to derivatives and indexes, and promote useful knowledge/procedures only at the appropriate scope. Preserve correction history under policy; generated answers never become fresh independent evidence.",
+    "fields": "Supersession, retention policy, approved scope/owner, evaluation version and rollback reference.",
+    "test": "New related question improves with corrected history; one-off exception does not become a standing rule."
+  }
+]

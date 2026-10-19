@@ -15,9 +15,10 @@ Original vendor source, SDKs and private credentials are not published in this a
 
 ## Current GoFathom approach
 
-- [GoFathom 1.4 — Clear State, Explicit Outcomes](gofathom-1.4/)
-- [Single complete blueprint, audit, delivery plan and clarifications](gofathom-complete.txt)
-- [Full 1.4 text](gofathom-1.4/llms-full.txt)
-- [S0 team handoff](gofathom-1.4/team-reply.txt)
+- [GoFathom 1.5 — Build Plan](gofathom-1.5/)
+- [Single complete reference](gofathom-complete.txt)
+- [Full build plan text](gofathom-1.5/llms-full.txt)
+- [Traceability](gofathom-1.5/traceability.json)
+- [S0 handoff](gofathom-1.5/team-reply.txt)
 
-Read 1.4 for current acceptance semantics and S0 instructions; 1.3 retains the delivery sequence. Earlier implementation reports are historical evidence, not current source verification.
+Read 1.5 for current build traceability, 1.4 for acceptance semantics and 1.3 for retained delivery sequence. Actual source/runtime audit remains pending.

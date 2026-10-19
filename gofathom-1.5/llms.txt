@@ -1,0 +1,12 @@
+# GoFathom 1.5 — Build Plan
+
+- [Full build plan](llms-full.txt)
+- [Canonical JSON](build-plan.json)
+- [Traceability JSON](traceability.json)
+- [Traceability CSV](traceability.csv)
+- [Stage contracts](stage-contracts.json)
+- [Knowledge lifecycle](knowledge-lifecycle.json)
+- [S0 handoff](team-reply.txt)
+- [Single complete reference](../gofathom-complete.txt)
+
+Design only. Real source/runtime audit pending. Original 1.4 semantics and 1.3 sprint sequence retained.
