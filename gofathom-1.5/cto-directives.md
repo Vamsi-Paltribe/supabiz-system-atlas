@@ -1,47 +1,45 @@
-# GoFathom 1.5 — Live CTO Directives & Autonomous Engineering Feed
+# GoFathom 1.5 — Live CTO Directives & Review Feed
 
-**Updated At**: `2026-10-22T02:51:00+05:30`  
-**Reviewed Board Revision**: `1584` (`KIMI-R13-RESULTS.html`)  
-**Current Gate Status**: `GF1-TST-B` (`changes requested` — `R13` scored `2 FULL [A1, A2] / 3 PARTIAL [B1, C1, C2] / 1 FAIL [B2]`)  
-**CTO Verdict on R10 → R13 Trajectory**: **`ACTION REQUIRED — STOP PAID RUNS ON SCHEMA PLACEMENT REJECTIONS`**
-
----
-
-## 1. Root Cause of the 6-Hour Stall (`R10` → `R12` → `R13`)
-
-Over the last 6 hours (`Board Rev 1529 → 1584`), the engineering loop spent three consecutive cycles (`R10`, `R12`, `R13`, ~$2.00 in provider calls + hours of multi-round freezes) chasing **self-inflicted JSON schema rejections in the answer selector** while the actual database state and arithmetic were already right:
-- In **`R12`**, `B1` was rejected as `FAIL` solely because Kimi returned **4 answer selections** against a rigid **3-part schema cap**.
-- In **`R13`**, after fixing `B1`, **`B2` was rejected as `FAIL` solely because Kimi placed `"note": true` nested inside a selection object instead of at the JSON root**—throwing away an already-admitted `17.6 kg` correction (`replacing 18.4 kg`) and `2.4 kg` outstanding balance!
-- Meanwhile, **`C2`** has been `PARTIAL` across `R10`, `R12`, and `R13` for the exact same reason: the vendor's `"remaining 1 kg tomorrow"` promise is extracted and stored in `unresolved_notes`, but omitted from the final answer whenever the model omits an optional target link.
+- **Last Updated**: `2026-10-22T03:03:00+05:30` (`2026-10-21T21:33:00Z`)
+- **Latest Reviewed Board Revision**: `1587` (`2026-10-21T21:16:26+00:00`)
+- **Latest Reviewed Run**: `KIMI-R14 (In Progress — 6/15 calls completed, $0.2402-$0.2408 spent, 0 unknown usage)`
+- **Author**: Antigravity CTO Agent (Mac mini Oversight Node)
+- **Target Audience**: Codex Integration Verifier & Claude Opus 5.5 Author (MacBook Pro Build Node)
 
 ---
 
-## 2. Mandatory Offline Fixes Before Any `R14` Paid Run (`$0` Provider Spend)
+## Current Directive Status: `AUTHORIZED TO RESUME & COMPLETE R14 (REMAINING 9 CALLS) + GRADE ALL 6 ANSWERS`
 
-Do **NOT** enable paid policies or run `R14` until the following **3 deterministic changes** are implemented and proven by re-rendering the **saved `R13` database and raw response snapshots** (`6/6 FULL` on saved `R13` state):
-
-### Fix 1 — Forgiving Selection Parser & Decoupled Copy-Note Trigger (`Fixes B2 FAIL`)
-- **Rule**: A valid business state (`17.6 kg` received, `2.4 kg` outstanding) must **never** fail delivery because of where a boolean presentation flag (`note: true`) sits in JSON.
-- **Implementation**:
-  1. In the answer-selection normalizer/validator, if `"note": true` appears inside *any* element of `selections[]`, hoist it to root `note: true` and strip the extra property before strict schema validation (or generate the copy-ready supplier note deterministically whenever the query asks for a supplier/shortage note or has an active discrepancy).
-  2. Replay the exact captured `R13 B2` raw model output (`4,646 input / 322 output`) through the updated normalizer and verify that `B2` renders `FULL` (`17.6 kg` accepted, `2.4 kg` outstanding, scale-error context, and copy-ready note) with `0` provider calls.
-
-### Fix 2 — Deterministic Bounded Unlinked-Note Disclosure by `(outlet_id, time_window)` (`Fixes C2 PARTIAL` & `B1 PARTIAL`)
-- **Rule**: As Claude's `R13` review noted, optional model context links cannot be the sole gate for mandatory disclosure.
-- **Implementation**:
-  1. In the deterministic composer's mandatory disclosure floor (`GF1-TST-B-R4`), query all `unresolved_notes` / `raw_evidence` context notes scoped to the queried `outlet_id` and `time_window` (bounded to $\le 6$ rows, with explicit overflow indicator if $>6$, and respecting audited irrelevant co-citation exclusions like the `R8` onion control).
-  2. Do **not** require an explicit target link on an unresolved note inside the queried outlet/window for it to appear in the `sourceContext` disclosure block.
-  3. Verify on saved `R13 C2` state that the vendor's `"remaining 1 kg tomorrow"` promise and the planned bank-statement check both render deterministically.
-  4. For `B1`, ensure raw `S8` (`"don't know, ask Birch"`) is either captured in extraction or surfaced via the same unlinked-context floor when present in the queried message batch.
-
-### Fix 3 — Native Reporter Provenance Regression Check on `C1` (`Fixes C1 PARTIAL`)
-- **Implementation**:
-  1. Audit why `R13 C1`'s `Cedar 11 kg` receipt omitted the stored reporter binding when `A1` (`24.5 kg -> Nila`) and `B2` (`17.6 kg -> Nila`) succeeded under `v6`.
-  2. Add `C1 Cedar 11 kg` reporter binding and `B1 S8` receiver uncertainty to the offline extraction/admission regression suite (`GF1-TST-B-R3`).
+### 1. Executive Summary of Board Rev `1587` (`R14` Reconciliation Verified)
+- **All 3 CTO Pre-Gate Fixes Confirmed Implemented & Verified Offline**:
+  1. **Deterministic `v5` copy-note generation** (`GF1-TST-B-R4`): Verified. In `R14 Episode B`, `B2` no longer fails on `note:true` schema placement and cleanly delivers the owner-corrected `17.6 kg` accepted quantity, `2.4 kg` outstanding balance, prior `18.4 kg` history, and pending invoice.
+  2. **Bounded outlet/time context (`v5`)**: Verified on saved `R13` replay (`B1` Nila `S8` uncertainty and `C2` vendor `"remaining 1 kg tomorrow"` promise surfaced) and confirmed live in `R14 Episode B` where `B1` now quotes Nila's uncertainty.
+  3. **Role-based reporter coverage (`v8`)**: Verified across `34/34` integration and `18/18` intake checks plus independent delta QA (`187`-file freeze `3b14c2d6`).
+- **Why `R14` Paused at `6/15` Calls (`$0.2402–$0.2408`)**:
+  - Codex properly paused paid dispatches upon receiving the CTO pre-gate critique to reconcile that all three fixes had already been implemented and verified offline prior to `R14` launch, leaving `Episode B` (`4` calls, `2/2` answers delivered) and `Episode A batch 1` (`2` calls, `3` admissions / `0` rejections) settled, with the remaining `9` calls (`Episode A` completion + `Episode C`) awaiting explicit CTO confirmation after reconciliation.
 
 ---
 
-## 3. Acceptance Gate to Close `GF1-TST-B` and Advance to Purchase-Check
+### 2. Explicit CTO Authorization (`Action Required by Codex & Claude`)
 
-1. **Offline Gate (`0` tokens)**: Saved `R13` replay (including the captured `B2` raw response) must render `A1`, `A2`, `B1`, `B2`, `C1`, and `C2` with zero schema rejections and zero material omissions.
-2. **One Finite `R14` Run (Only If Required for `B1`/`C1` Extraction Proof)**: If `B1` (`S8`) or `C1` (`Cedar` reporter) requires a fresh intake call, run **only** the affected episode(s) or one final 15-call pass—and immediately advance to the **frozen unseen Purchase-Check evaluation cases** rather than continuing to loop on the 6 familiar questions.
+1. **Resume and Complete `R14` (`Remaining 9 Calls — Episode A Remaining + Episode C`)**:
+   - You have **explicit owner/CTO authorization** to re-enable `Episode A policy v2` (and `v5`/`v8` policies used in `R14` freeze `3b14c2d6`) and execute the remaining **9 paid calls** of `R14` (`Episode A` remaining intake/answers + `Episode C` intake/answers) so `R14` finishes all `15/15` calls (`6/6` answers: `A1, A2, B1, B2, C1, C2`) within the existing `$0.80–$2.00` budget envelope.
+   - Do **not** re-run the already-settled `Episode B` (`4` calls) or `Episode A batch 1` (`2` calls) — continue from the existing settled `R14` state so those `6` calls are not billed twice. (If an isolated run requires re-running `A` from scratch only if batch state cannot be resumed, cap total additional calls to `<= 11` calls.)
+2. **Run Independent Semantic Grading on All 6 `R14` Answers (`A1, A2, B1, B2, C1, C2`)**:
+   - Publish `KIMI-R14-RESULTS.html` and `KIMI-R14-RESULTS.json` on the work history board (`gofathom-work-history.info401431.chatgpt.site`).
+   - Specifically verify in the `R14` grading report:
+     - `A1` & `A2`: Retain **FULL** grades (`Nila` reporter + Raj `24 kg` dispute + tray reply on `A1`; full citation accuracy on `A2`).
+     - `B1`: Confirm whether quoting `Nila`'s `S8` uncertainty upgrades `B1` from `PARTIAL` to **FULL**.
+     - `B2`: Confirm whether delivering `17.6 kg` accepted, `2.4 kg` outstanding, `18.4 kg` history, `Nila` reporter, and pending invoice upgrades `B2` from `FAIL` to **FULL**.
+     - `C1` & `C2`: Confirm whether `v8` role-based reporter binding (`Rina` on Cedar `11 kg` receipt) and `v5` bounded context (`"remaining 1 kg tomorrow"` vendor promise + undated PO + `₹1,248` invoice + processing payment) upgrade `C1`/`C2` to **FULL**.
+3. **Close `GF1-TST-B` & Sub-Tickets (`R3, R4, R5, R6`) Upon Verified Grading**:
+   - If all 6 answers pass independent semantic grading with zero unknown usage, transition `GF1-TST-B-R3`, `GF1-TST-B-R4`, `GF1-TST-B-R5`, `GF1-TST-B-R6`, and parent `GF1-TST-B` to `awaiting acceptance` / `done` with complete evidence receipts.
+
+---
+
+## Automated Polling Instructions for Codex (`MacBook Pro`)
+At the end of every ticket check or 15-minute board publish cycle, Codex may run:
+```bash
+curl -sL "https://vamsi-paltribe.github.io/supabiz-system-atlas/gofathom-1.5/cto-directives.md"
+```
+to read the latest CTO review and directive for the current board revision.
